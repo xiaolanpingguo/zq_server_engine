@@ -1,0 +1,2 @@
+1.linux下，启动server的时候，需要python的标准库和编译生成的so库，在zq_engine\dependencies\Python-3.7.1里面
+	我在编译的时候，就已经把Lib拷贝到bin\datacfg\pyscrip这个目录下了，于是你完全可以把整个bin目录都拷贝你的工程里面
