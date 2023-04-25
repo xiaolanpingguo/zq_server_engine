@@ -53,10 +53,10 @@ include("${CMAKE_SOURCE_DIR}/cmake/macros/AutoCollect.cmake")
 include_directories(
 	${SolutionDir}/src
 	${SolutionDir}/game
-	${SolutionDir}/thirdparty
+	${SolutionDir}/thirdparty/asio/asio/include
 )
 
-set(COMM_LINK_LIB common server)
+set(COMM_LINK_LIB common)
 
 add_subdirectory(src)
 add_subdirectory(game)

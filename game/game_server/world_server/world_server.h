@@ -1,14 +1,15 @@
 #pragma once
 
 
-#include "server/server_base.h"
-#include "game_server/world_server/network_client_module.h"
+#include "game_common/server_base.h"
 
 
 
 namespace zq {
 
 
+class InternalNetworkClientModule;
+class InternalNetworkServerModule;
 class WorldServer : public ServerBase
 {
 public:
@@ -18,6 +19,7 @@ public:
 public:
 	bool start() override;
 	void run() override;
+	bool registerServerModules() override;
 
 private:
 
@@ -31,8 +33,9 @@ private:
 
 private:
 
-	NetworkClientModule m_networkClientModule;
+	//InternalNetworkClientModule m_internalNetworkClientModule;
 	constexpr static std::string_view s_logCategory = "WorldServer";
 };
+
 
 }

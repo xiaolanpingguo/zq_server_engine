@@ -1,4 +1,5 @@
 #include "game_server/master_server/master_server.h"
+#include "game_server/master_server/internal_network_server_module.h"
 
 
 namespace zq{
@@ -6,8 +7,7 @@ namespace zq{
 
 MasterServer::MasterServer(int argc, char* argv[])
 	:
-		ServerBase(argc,argv),
-		m_networkServerModule(m_ioContext)
+		ServerBase(argc,argv)
 {
 	m_serverId = 2001;
 }
@@ -24,10 +24,14 @@ bool MasterServer::start()
 		return false;
 	}
 
-	TcpServerConfig config{"127.0.0.1", 20001};
-	m_networkServerModule.init(config);
 
 	return true;
+}
+
+bool MasterServer::registerServerModules()
+{
+	bool r = registerModule<InternalNetworkServerModule>(this);
+	return r;
 }
 
 void MasterServer::run()

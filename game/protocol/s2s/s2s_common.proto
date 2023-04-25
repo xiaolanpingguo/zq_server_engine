@@ -1,0 +1,47 @@
+syntax = "proto3";
+
+package S2SMsg;
+
+
+enum S2S_MSG_ID
+{
+	S2S_ID_NONE = 0;
+	
+	S2S_ID_HEARTBEAT = 101;
+
+	S2S_ID_SERVER_REGSTER_REQ = 102;
+	S2S_ID_SERVER_REGSTER_RES = 103;
+}
+
+
+message S2SHeartBeat
+{
+	int32 server_type = 1; 
+	int32 server_id = 2; 
+	int32 state = 3;
+}
+
+
+message ServerInfo
+{
+	int32 server_type = 1; 
+	int32 server_id = 2; 
+	int32 port = 3; 
+	string ip = 4;
+}
+
+message S2SServerRegisterReq
+{
+	ServerInfo server_info = 1;
+}
+
+message S2SServerRegisterRes
+{
+	bool success = 1;
+	string error_msg = 2;
+}
+
+
+
+
+

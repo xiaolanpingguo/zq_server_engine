@@ -1,9 +1,7 @@
 #pragma once
 
 
-#include "server/server_base.h"
-#include "game_server/world_server/network_server_module.h"
-
+#include "game_common/server_base.h"
 
 
 namespace zq {
@@ -21,6 +19,7 @@ public:
 
 private:
 
+	bool registerServerModules() override;
 	virtual void stop();
 
 	virtual std::string_view getServername() override
@@ -31,7 +30,6 @@ private:
 
 private:
 
-	NetworkServerModule m_networkServerModule;
 	constexpr static std::string_view s_logCategory = "MasterServer";
 };
 

@@ -15,6 +15,7 @@
 #include <map>
 #include <queue>
 #include <unordered_map>
+#include <initializer_list>
 #include <functional>
 #include <algorithm>
 #include <type_traits>
