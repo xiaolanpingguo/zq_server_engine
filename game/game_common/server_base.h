@@ -12,12 +12,7 @@
 namespace zq {
 
 
-struct ServerLaunchConfig
-{
-	uint32_t serverId;
-	bool deamon;
-};
-
+#define INIT_SERVER_NAME(NAME) public: std::string_view getName() override{ constexpr std::string_view name = #NAME; return name;}
 class ServerBase
 {
 public:
@@ -26,8 +21,8 @@ public:
 
 public:
 
-	virtual bool start();
-	virtual void run();
+	bool start();
+	void run();
 
 	uint64_t addTimer(std::chrono::steady_clock::duration interval, const std::function<void(void*)>& fn, bool runOnce = false);
 	bool cancelTimer(uint64_t id);
@@ -38,41 +33,43 @@ public:
 	bool registerModule(Args&&... args)
 	{
 		IModule* m = new T(std::forward<Args>(args)...);
-		auto it = m_modules.emplace(typeid(T).name(), m);
-		ASSERT(it.second, "register {} multiple times!", typeid(T).name());
+		auto it = m_modules.emplace(T::getName(), m);
+		ASSERT(it.second, "register {} multiple times!", T::getName());
 		return it.second;
 	}
 
 	template <typename T>
 	T* getModule()
 	{
-		auto it = m_modules.find(typeid(T).name());
+		auto it = m_modules.find(T::getName());
 		if (it == m_modules.end())
 		{
-			ASSERT(false, "can't get module:{}!", typeid(T).name());
+			ASSERT(false, "can't get module:{}!", T::getName());
 			return nullptr;
 		}
 		return (T*)(it.second);
 	}
 
 protected:
-	virtual void stop();
-	virtual bool registerServerModules() = 0;
 
 private:
+
+	virtual void stop();
+	virtual bool registerServerModules() = 0;
+	virtual bool readServerConfig() = 0;
+	virtual uint16 getServerId() = 0;
+	virtual std::string_view getName() = 0;
 
 	bool initLog();
 	void registerSignal();
+	bool initModules();
+
 	void signalHandler(std::error_code ec, int signo);
-
-private:
-
-	virtual std::string_view getServername() = 0;
 
 protected:
 
-	uint32_t m_serverId;
-	std::string m_configPath;
+	std::string m_configName;
+	uint16 m_serverId;
 
 	asio::io_context m_ioContext;
 	asio::signal_set m_signals;

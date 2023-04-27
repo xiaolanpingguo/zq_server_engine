@@ -54,6 +54,7 @@ include_directories(
 	${SolutionDir}/src
 	${SolutionDir}/game
 	${SolutionDir}/thirdparty/asio/asio/include
+	${SolutionDir}/thirdparty/nlohmann-json-3.11.2
 )
 
 set(COMM_LINK_LIB common)

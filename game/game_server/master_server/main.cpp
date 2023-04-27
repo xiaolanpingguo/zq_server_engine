@@ -5,9 +5,13 @@ using namespace zq;
 int main(int argc, char* argv[])
 {
 	MasterServer server(argc, argv);
-	server.start();
-	server.run();
+	if (!server.start())
+	{
+		printf("start server failed!\n");
+		return -1;
+	}
 
+	server.run();
 	return 0;
 }
 

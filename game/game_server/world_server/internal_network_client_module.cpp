@@ -1,6 +1,7 @@
 #include "game_server/world_server/internal_network_client_module.h"
 #include "game_common/message_router.hpp"
 #include "game_server/world_server/world_server.h"
+#include <google/protobuf/util/json_util.h>
 
 
 namespace zq
@@ -20,6 +21,17 @@ InternalNetworkClientModule::~InternalNetworkClientModule()
 bool InternalNetworkClientModule::init()
 {
 	using namespace std::placeholders;
+
+	S2SMsg::S2SServerRegisterReq s2sPackage;
+	S2SMsg::ServerInfo* serverInfo = s2sPackage.mutable_server_info();
+	serverInfo->set_server_type(100);
+	serverInfo->set_server_id(101);
+	serverInfo->set_ip("1234");
+	serverInfo->set_port(88);
+	std::string out;
+	google::protobuf::util::MessageToJsonString(s2sPackage, &out);
+	LOG_INFO(s_logCategory, "json:{}", out.c_str());
+
 
 	TcpClientConfig config{ "127.0.0.1", 20001 };
 
@@ -57,6 +69,7 @@ void InternalNetworkClientModule::onConnectToServerCallback(TcpConnectionPtr con
 	serverInfo->set_server_id(101);
 	serverInfo->set_ip("1234");
 	serverInfo->set_port(88);
+
 	//MessageRouter<TcpConnection>::sendPacket(m_connection, S2SMsg::S2S_ID_SERVER_REGSTER_REQ, s2sPackage);
 }
 

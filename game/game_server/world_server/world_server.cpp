@@ -2,29 +2,23 @@
 #include "game_server/world_server/internal_network_client_module.h"
 #include "game_server/world_server/internal_network_server_module.h"
 
+#include <nlohmann-json/json.hpp>
+
+
 namespace zq{
 
+
+NLOHMANN_DEFINE_TYPE_NON_INTRUSIVE(WorldServerConfig, serverId, internalIp, internalPort)
 
 WorldServer::WorldServer(int argc, char* argv[])
 	:
 		ServerBase(argc,argv)
 {
-	m_serverId = 1001;
 }
 
 WorldServer::~WorldServer()
 {
 
-}
-
-bool WorldServer::start()
-{
-	if (!ServerBase::start())
-	{
-		return false;
-	}
-
-	return true;
 }
 
 bool WorldServer::registerServerModules()
@@ -34,14 +28,25 @@ bool WorldServer::registerServerModules()
 	return r;
 }
 
-void WorldServer::run()
+bool WorldServer::readServerConfig()
 {
-	ServerBase::run();
-}
+	// we need to read config first, the log has not created for now
+	std::ifstream f(m_configName);
+	if (!f.is_open())
+	{
+		printf("cannot find server config file:%s.\n", m_configName.c_str());
+		return false;
+	}
 
-void WorldServer::stop()
-{
-	ServerBase::stop();
+	nlohmann::json data = nlohmann::json::parse(f, nullptr, false);
+	if (data.is_discarded())
+	{
+		printf("parse server config file:%s failed.\n", m_configName.c_str());
+		return false;
+	}
+
+	data.get_to(m_serverConfg);
+	return true;
 }
 
 

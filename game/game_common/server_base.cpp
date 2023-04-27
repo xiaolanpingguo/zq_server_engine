@@ -13,18 +13,20 @@ ServerBase::ServerBase(int argc, char* argv[])
 		m_signals(m_ioContext),
 		m_serverId(0)
 {
+	std::string fileName;
 	for (int i = 1; i < argc; i++)
 	{
 		std::string arg = argv[i];
 		if (arg.find("-cfg=") != std::string::npos)
 		{
-			arg.erase(0, 4);
-			m_configPath = arg;
+			arg.erase(0, 5);
+			fileName = arg;
 			break;
 		}
 	}
 
-	//ASSERT(!m_configPath.empty(), "there are missing config file, start server with 'server -cfg=path'");
+	ASSERT(!fileName.empty(), "there are missing config file, start server with 'server -cfg=[config name]'");
+	m_configName += "assets/server_cfg/" + fileName;
 }
 
 ServerBase::~ServerBase()
@@ -34,20 +36,25 @@ ServerBase::~ServerBase()
 
 bool ServerBase::start()
 {
-	m_serverId = 1000;
+	if (!readServerConfig())
+	{
+		return false;
+	}
+
 	if (!initLog())
 	{
-		LOG_ERROR(s_logCategory, "create log failed!");
 		return false;
 	}
 
 	if (!registerServerModules())
 	{
-		LOG_ERROR(s_logCategory, "resister modules failed!");
 		return false;
 	}
 
-	registerSignal();
+	if (!initModules())
+	{
+		return false;
+	}
 
 	return true;
 }
@@ -74,10 +81,24 @@ bool ServerBase::cancelTimer(uint64_t id)
 
 bool ServerBase::initLog()
 {
-	std::string name = std::string(getServername()) + "-" + std::to_string(m_serverId);
+	std::string name = std::string(getName()) + "-" + std::to_string(getServerId());
 	if (!Log::getInstance().init("server", 4))
 	{
 		return false;
+	}
+
+	return true;
+}
+
+bool ServerBase::initModules()
+{
+	for (const auto& it : m_modules)
+	{
+		if (!it.second->init())
+		{
+			LOG_ERROR(s_logCategory, "init module failed, name:{}", it.first);
+			return false;
+		}
 	}
 
 	return true;

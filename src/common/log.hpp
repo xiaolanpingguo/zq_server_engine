@@ -214,7 +214,6 @@ private:
 		{
 			m_logQueue.waitAndPop(strLog);
 			writeFile(strLog);
-			std::this_thread::sleep_for(std::chrono::microseconds(1));
 		}
 	}
 

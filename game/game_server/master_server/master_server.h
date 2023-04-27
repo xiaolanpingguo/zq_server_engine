@@ -7,29 +7,32 @@
 namespace zq {
 
 
+struct MasterServerConfig
+{
+	int serverId = 0;
+	std::string internalIp;
+	int internalPort = 0;
+};
+
 class MasterServer : public ServerBase
 {
+	INIT_SERVER_NAME(MasterServer);
+
 public:
 	MasterServer(int argc, char* argv[]);
 	~MasterServer();
 
 public:
-	bool start() override;
-	void run() override;
+	uint16 getServerId() override { return m_serverId; }
+	const MasterServerConfig& getConfig() { return m_serverConfg; }
 
 private:
-
+	bool readServerConfig() override;
 	bool registerServerModules() override;
-	virtual void stop();
-
-	virtual std::string_view getServername() override
-	{
-		constexpr static std::string_view name = "MasterServer";
-		return name;
-	}
 
 private:
 
+	MasterServerConfig m_serverConfg;
 	constexpr static std::string_view s_logCategory = "MasterServer";
 };
 

@@ -3,37 +3,38 @@
 
 #include "game_common/server_base.h"
 
-
-
 namespace zq {
 
+
+struct WorldServerConfig
+{
+	int serverId = 0;
+	std::string internalIp;
+	int internalPort = 0;
+};
 
 class InternalNetworkClientModule;
 class InternalNetworkServerModule;
 class WorldServer : public ServerBase
 {
+	INIT_SERVER_NAME(WorldServer);
+
 public:
 	WorldServer(int argc, char* argv[]);
 	~WorldServer();
 
 public:
-	bool start() override;
-	void run() override;
+	uint16 getServerId() override { return m_serverId; }
+	const WorldServerConfig& getConfig() { return m_serverConfg; }
+
+private:
+
+	bool readServerConfig() override;
 	bool registerServerModules() override;
 
 private:
 
-	virtual void stop();
-
-	virtual std::string_view getServername() override
-	{
-		constexpr static std::string_view name = "WorldServer";
-		return name;
-	}
-
-private:
-
-	//InternalNetworkClientModule m_internalNetworkClientModule;
+	WorldServerConfig m_serverConfg;
 	constexpr static std::string_view s_logCategory = "WorldServer";
 };
 

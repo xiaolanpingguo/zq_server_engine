@@ -1,12 +1,10 @@
 #pragma once
 
 
-
-
 namespace zq {
 
 
-#define CLASS_MODULE_INIT(T)  public: static const char* getName() {return #T;}
+#define INIT_MODULE_NAME(T)  public: static const char* getName() {static const char* name = #T;return name;}
 class IModule
 {
 public:

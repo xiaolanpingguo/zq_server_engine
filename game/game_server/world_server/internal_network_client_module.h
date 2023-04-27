@@ -20,6 +20,8 @@ class MessageRouter;
 class WorldServer;
 class InternalNetworkClientModule : public IModule
 {
+	INIT_MODULE_NAME(InternalNetworkClientModule);
+
 public:
 	InternalNetworkClientModule(WorldServer* thisServer);
 	~InternalNetworkClientModule();
