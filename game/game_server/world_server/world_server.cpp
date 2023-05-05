@@ -1,5 +1,5 @@
 #include "game_server/world_server/world_server.h"
-#include "game_server/world_server/internal_network_client_module.h"
+#include "game_server/world_server/world_to_master_module.h"
 #include "game_server/world_server/internal_network_server_module.h"
 
 #include <nlohmann-json/json.hpp>
@@ -8,7 +8,7 @@
 namespace zq{
 
 
-NLOHMANN_DEFINE_TYPE_NON_INTRUSIVE(WorldServerConfig, serverId, internalIp, internalPort)
+NLOHMANN_DEFINE_TYPE_NON_INTRUSIVE(WorldServerConfig, serverId, masterServerIp, masterServerPort, externalIp, externalPort)
 
 WorldServer::WorldServer(int argc, char* argv[])
 	:
@@ -23,7 +23,7 @@ WorldServer::~WorldServer()
 
 bool WorldServer::registerServerModules()
 {
-	bool r = registerModule<InternalNetworkClientModule>(this);
+	bool r = registerModule<WorldToMasterModule>(this);
 	r &= registerModule<InternalNetworkServerModule>(this);
 	return r;
 }

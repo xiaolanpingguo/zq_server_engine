@@ -13,15 +13,6 @@ class TcpConnection;
 using TcpConnectionPtr = std::shared_ptr<TcpConnection>;
 class TcpConnection : public BaseConnection<TcpConnection>
 {
-#pragma pack(1)
-	struct Header
-	{
-		uint32_t bodyLen;
-		uint16_t msgId;
-	};
-#pragma pack()
-	static constexpr int HEAD_LENTH = sizeof(Header);
-
 public:
 
 	// use for server
@@ -122,7 +113,7 @@ protected:
 				{
 					if (ec || !m_socket.is_open())
 					{
-						LOG_INFO("read header error: ip:{}:{}, error:{}", m_ip, m_port, ec.message())
+						LOG_INFO("read header error: host:{}:{}, error:{}", m_host, m_port, ec.message())
 						close();
 						return;
 					}
@@ -130,7 +121,7 @@ protected:
 					Header* header = (Header*)(m_head);
 					if (header->bodyLen == 0 || header->bodyLen > g_maxPacketLenth)
 					{
-						LOG_INFO("read header error, body lenth exceeded limit: ip:{}:{}, m_headerLength:{}", m_ip, m_port, header->bodyLen)
+						LOG_INFO("read header error, body lenth exceeded limit: host:{}:{}, m_headerLength:{}", m_host, m_port, header->bodyLen)
 						close();
 						return;
 					}
@@ -151,7 +142,7 @@ protected:
 				{
 					if (ec || !m_socket.is_open())
 					{
-						LOG_INFO("read body error: ip:{}:{}, error:{}", m_ip, m_port, ec.message())
+						LOG_INFO("read body error: host:{}:{}, error:{}", m_host, m_port, ec.message())
 						close();
 						return;
 					}

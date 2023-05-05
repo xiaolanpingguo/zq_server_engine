@@ -18,13 +18,15 @@ public:
 	using ClientDisconnectedCallbackT = typename ConnectionT::ClientDisconnectedCallbackT;
 	using DataReceivedCallbackT = typename ConnectionT::DataReceivedCallbackT;
 
-	TcpServer(asio::io_context& ioContext, const std::string& ip, uint16_t port) 
+	TcpServer(asio::io_context& ioContext, const std::string& host, uint16_t port) 
 		:
 			m_ioContext(ioContext),
 			m_acceptor(m_ioContext),
 			m_socket(ioContext),
-			m_ip(ip),
-			m_port(port)
+			m_host(host),
+			m_port(port),
+			m_closed(true),
+			m_connectionId(0)
     {
     }
 	~TcpServer()
@@ -34,11 +36,17 @@ public:
 
 	bool start()
 	{
+		if (!m_closed)
+		{
+			return false;
+		}
+
 		if (!listen())
 		{
 			return false;
 		}
 
+		m_closed = false;
 		accept();
 		return true;
 	}
@@ -63,10 +71,10 @@ private:
 	bool listen()
 	{
 		asio::error_code errorCode;
-		asio::ip::tcp::endpoint endpoint{ asio::ip::address::from_string(m_ip, errorCode), m_port };
+		asio::ip::tcp::endpoint endpoint{ asio::ip::address::from_string(m_host, errorCode), m_port };
 		if (errorCode)
 		{
-			LOG_ERROR(s_logCategory, "listen error address::from_string, ip:{}:{}, errormsg: {}", m_ip, m_port, errorCode.message());
+			LOG_ERROR(s_logCategory, "listen error address::from_string, host:{}:{}, errormsg: {}", m_host, m_port, errorCode.message());
 			return false;
 		}
 
@@ -80,18 +88,18 @@ private:
 		m_acceptor.bind(endpoint, errorCode);
 		if (errorCode)
 		{
-			LOG_ERROR(s_logCategory, "Could not bind to ip:{}:{}, error:{}", m_ip, m_port, errorCode.message());
+			LOG_ERROR(s_logCategory, "Could not bind to host:{}:{}, error:{}", m_host, m_port, errorCode.message());
 			return false;
 		}
 
 		m_acceptor.listen(asio::socket_base::max_connections, errorCode);
 		if (errorCode)
 		{
-			LOG_ERROR(s_logCategory, "acceptor.listen error,ip:{}:{}, errormsg: {}.", m_ip, m_port, errorCode.message().c_str());
+			LOG_ERROR(s_logCategory, "acceptor.listen error,host:{}:{}, errormsg: {}.", m_host, m_port, errorCode.message().c_str());
 			return false;
 		}
 
-		LOG_INFO(s_logCategory, "start listen on: {}:{}.", m_ip, m_port);
+		LOG_INFO(s_logCategory, "start listen on: {}:{}.", m_host, m_port);
 		return true;
 	}
 
@@ -106,7 +114,7 @@ private:
 
 			if (!ec)
 			{
-				std::shared_ptr<ConnectionT> conn = std::make_shared<ConnectionT>(m_ioContext, std::move(m_socket), m_connectionId, false);
+				std::shared_ptr<ConnectionT> conn = std::make_shared<ConnectionT>(m_ioContext, std::move(m_socket), m_connectionId++, false);
 				conn->setClientConnectedCb(m_onClientConnected);
 				conn->setClientDisconnectedCb(m_onClientDisconnected);
 				conn->setDataReceivedCb(m_onDataReceived);
@@ -126,13 +134,13 @@ private:
 
 private:
 
-	std::string m_ip;
-	uint16_t m_port = 0;
-	bool m_closed = false;
+	std::string m_host;
+	uint16_t m_port;
+	bool m_closed;
 	asio::io_context& m_ioContext;
 	asio::ip::tcp::acceptor m_acceptor;
 
-	int64_t m_connectionId = 0;
+	int64_t m_connectionId;
 	asio::ip::tcp::socket m_socket;
 
 	ClientConnectedCallbackT m_onClientConnected;

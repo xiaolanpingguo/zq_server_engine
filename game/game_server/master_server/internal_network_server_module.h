@@ -15,8 +15,6 @@ struct TcpServerConfig
 	uint16_t port = 0;
 };
 
-template <typename T>
-class MessageRouter;
 
 class MasterServer;
 class InternalNetworkServerModule : public IModule
@@ -46,7 +44,6 @@ private:
 	MasterServer* m_thisServer;
 
 	std::unique_ptr<TcpServer<TcpConnection>> m_tcpServer;
-	std::unique_ptr<MessageRouter<TcpConnection>> m_messageRouter;
 
 	constexpr static std::string_view s_logCategory = "NetworkServerModule";
 };

@@ -15,9 +15,11 @@ namespace zq {
 template <typename ConnectionT>
 class MessageRouter
 {
-private:
+public:
 	using HandlerT = std::function<void(std::shared_ptr<ConnectionT>, const char*, uint32_t)>;
 	using HandlerKeyT = uint32_t;
+
+private:
 
 	struct ProtobufferProtocol
 	{
@@ -46,22 +48,6 @@ private:
 
 
 public:
-
-	static MessageRouter<ConnectionT>* getInstance()
-	{
-		static MessageRouter<ConnectionT> ins;
-		return &ins;
-	}
-
-	HandlerT getHandler(HandlerKeyT id)
-	{
-		if (auto it = m_handlers.find(id); it != m_handlers.end())
-		{
-			return it->second;
-		}
-
-		return nullptr;
-	}
 
 	template <auto Func>
 	bool registerHandler(class_type_t<decltype(Func)>* self, const HandlerKeyT& key)
@@ -103,6 +89,17 @@ public:
 	}
 
 private:
+
+	HandlerT getHandler(HandlerKeyT id)
+	{
+		if (auto it = m_handlers.find(id); it != m_handlers.end())
+		{
+			return it->second;
+		}
+
+		return nullptr;
+	}
+
 	template <auto Fun, typename Self>
 	bool registHandlerImpl(Self* self, const HandlerKeyT& key)
 	{
@@ -193,5 +190,6 @@ private:
 
 	constexpr static std::string_view s_logCategory = "MessageRouter";
 };
+
 
 }

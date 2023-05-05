@@ -6,13 +6,17 @@
 namespace zq
 {
 
-    
-enum class ConnectionType
+
+// my encode/decode policy
+#pragma pack(1)
+struct Header
 {
-	TcpConnection,
-	RpcConnection,
-	CustomConnection,
+	uint32_t bodyLen;
+	uint16_t msgId;
 };
+#pragma pack()
+static constexpr int HEAD_LENTH = sizeof(Header);
+
 
 constexpr int g_maxPacketLenth = 65535;
 

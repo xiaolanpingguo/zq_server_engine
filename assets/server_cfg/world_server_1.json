@@ -1,5 +1,7 @@
 {
 	"serverId": 2001,
-	"internalIp": "127.0.0.1",
-	"internalPort": 20001
+	"masterServerIp": "127.0.0.1",
+	"masterServerPort": 10001,
+	"externalIp": "127.0.0.1",
+	"externalPort": 20001
 }

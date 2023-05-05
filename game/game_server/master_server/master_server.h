@@ -9,9 +9,9 @@ namespace zq {
 
 struct MasterServerConfig
 {
-	int serverId = 0;
-	std::string internalIp;
-	int internalPort = 0;
+	int serverId = 101;
+	std::string internalIp = "127.0.0.1";
+	int internalPort = 10001;
 };
 
 class MasterServer : public ServerBase

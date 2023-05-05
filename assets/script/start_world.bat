@@ -1,0 +1,1 @@
+world_server.exe -cfg=world_server_1.json

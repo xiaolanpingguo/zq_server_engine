@@ -43,7 +43,7 @@ public:
 		try
 		{
 			const auto& endpoint = asio::ip::tcp::endpoint(m_socket.remote_endpoint());
-			m_ip = endpoint.address().to_string();
+			m_host = endpoint.address().to_string();
 			m_port = endpoint.port();
 			m_socket.non_blocking(true);
 			m_socket.set_option(asio::ip::tcp::no_delay(true));
@@ -98,7 +98,7 @@ public:
 	}
 
 	uint64_t getConnectionId() { return m_connectionId; }
-	const std::string& getIp() { return m_ip; }
+	const std::string& getHost() { return m_host; }
 	int getPort() { return m_port; }
 
 protected:
@@ -164,7 +164,7 @@ protected:
 
 	asio::io_context& m_ioContext;
 	asio::ip::tcp::socket m_socket;
-	std::string m_ip;
+	std::string m_host;
 	uint16_t m_port;
 	uint64_t m_connectionId;
 

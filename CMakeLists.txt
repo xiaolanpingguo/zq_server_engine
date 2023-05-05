@@ -54,7 +54,9 @@ include_directories(
 	${SolutionDir}/src
 	${SolutionDir}/game
 	${SolutionDir}/thirdparty/asio/asio/include
+	${SolutionDir}/thirdparty/cinatra-0.8.0/include
 	${SolutionDir}/thirdparty/nlohmann-json-3.11.2
+	${SolutionDir}/thirdparty/async_simple-1.1
 )
 
 set(COMM_LINK_LIB common)
@@ -62,6 +64,12 @@ set(COMM_LINK_LIB common)
 add_subdirectory(src)
 add_subdirectory(game)
 
+
+install(DIRECTORY  ${SolutionDir}/assets DESTINATION ${InstallDir})
+install(FILES  
+${SolutionDir}/assets/script/start_master.bat 
+${SolutionDir}/assets/script/start_world.bat
+DESTINATION ${InstallDir})
 
 
 

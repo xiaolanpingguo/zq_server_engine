@@ -8,12 +8,14 @@ namespace zq {
 
 struct WorldServerConfig
 {
-	int serverId = 0;
-	std::string internalIp;
-	int internalPort = 0;
+	int serverId = 1001;
+	std::string masterServerIp = "127.0.0.1";
+	int masterServerPort = 10001;
+	std::string externalIp = "127.0.0.1";
+	int externalPort = 20001;
 };
 
-class InternalNetworkClientModule;
+class WorldToMasterModule;
 class InternalNetworkServerModule;
 class WorldServer : public ServerBase
 {
