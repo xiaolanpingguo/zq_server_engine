@@ -48,8 +48,6 @@ public:
 				continue;
 			}
 
-			std::cout << "New client coming.\n";
-
 			auto conn = std::make_shared<CoroutineConnection>(std::move(socket), m_connectionId++, false);
 			conn->start().via(&m_executor).detach();
 		}

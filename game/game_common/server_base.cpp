@@ -1,4 +1,5 @@
 #include "game_common/server_base.h"
+#include "common/timer.h"
 #include "network/tcp_server.hpp"
 #include "network/tcp_client.hpp"
 
@@ -9,6 +10,7 @@ namespace zq{
 ServerBase::ServerBase(int argc, char* argv[])
 	:
 		m_ioContext(),
+		m_work(m_ioContext),
 		m_timer(std::make_unique<Timer>(m_ioContext)),
 		m_signals(m_ioContext),
 		m_serverId(0)
@@ -82,7 +84,7 @@ bool ServerBase::cancelTimer(uint64_t id)
 bool ServerBase::initLog()
 {
 	std::string name = std::string(getName()) + "-" + std::to_string(getServerId());
-	if (!Log::getInstance().init("server", 4))
+	if (!Log::getInstance().init(name, 4))
 	{
 		return false;
 	}

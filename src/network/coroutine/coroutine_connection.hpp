@@ -73,7 +73,11 @@ public:
 					{
 						if (ec)
 						{
-							m_onConnectToServer(nullptr, false, ec.message());
+							LOG_INFO(s_logCategory, "connect {}:{} failed!", m_host, m_port);
+							if (m_onConnectToServer)
+							{
+								m_onConnectToServer(nullptr, false, ec.message());
+							}
 							return;
 						}
 

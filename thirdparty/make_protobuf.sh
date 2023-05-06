@@ -1,7 +1,7 @@
 echo '-----begin make protobuf------------'
 
 cd protobuf-22.1
-rm build -force -recurse
+rm -rf build
 mkdir build
 cd build
 cmake .. -G "Visual Studio 17 2022" -DCMAKE_INSTALL_PREFIX=..\install

@@ -2,6 +2,8 @@
 #include "game_common/message_helper.hpp"
 #include "game_server/world_server/world_server.h"
 #include "network/coroutine/coroutine_connection.hpp"
+#include "network/http/coro_http_client.hpp"
+#include "network/http/http_server.hpp"
 
 
 namespace zq
@@ -21,9 +23,8 @@ bool WorldToMasterModule::init()
 {
 	using namespace std::placeholders;
 
-	m_coConnection = std::make_shared<CoroutineConnection>(m_thisServer->getIoContext(), m_thisServer->getConfig().masterServerIp, m_thisServer->getConfig().masterServerPort, nullptr, nullptr);
-	m_coConnection->asyncConnect();
-
+	//m_coConnection = std::make_shared<CoroutineConnection>(m_thisServer->getIoContext(), m_thisServer->getConfig().masterServerIp, m_thisServer->getConfig().masterServerPort, nullptr, nullptr);
+	//m_coConnection->asyncConnect();
 
 	MessageHelper& messageHelper = MessageHelper::getInstance();
 	messageHelper.registerHandler<&WorldToMasterModule::onS2SServerRegisterRes>(this, S2SMsg::S2S_ID_SERVER_REGSTER_RES);
@@ -33,6 +34,20 @@ bool WorldToMasterModule::init()
 	m_tcpClient->setDisconnectFromServerCb(std::bind(&WorldToMasterModule::onDisconnectedFromServer, this, _1));
 	m_tcpClient->setDataReceivedCb(std::bind(&WorldToMasterModule::onDataReceivedFromServer, this, _1, _2, _3, _4));
 	m_tcpClient->asyncConnect();
+
+	//testFun1().start([](async_simple::Try<bool> result) {
+	//	if (result.hasError())
+	//	{
+	//		try
+	//		{
+	//			std::rethrow_exception(result.getException());
+	//		}
+	//		catch (const std::exception& e)
+	//		{
+	//			std::cerr << e.what() << std::endl;
+	//		}
+
+	//	} });
 
 	return true;
 }
@@ -72,42 +87,30 @@ void WorldToMasterModule::onDataReceivedFromServer(TcpConnectionPtr connection, 
 
 async_simple::coro::Lazy<bool> WorldToMasterModule::testFun1()
 {
-	S2SMsg::S2SServerRegisterReq s2sPackage;
-	S2SMsg::ServerInfo* serverInfo = s2sPackage.mutable_server_info();
-	serverInfo->set_server_type(3255);
-	serverInfo->set_server_id(2131);
-	serverInfo->set_ip("1234111");
-	serverInfo->set_port(7777);
+	//S2SMsg::S2SServerRegisterReq s2sPackage;
+	//S2SMsg::ServerInfo* serverInfo = s2sPackage.mutable_server_info();
+	//serverInfo->set_server_type(3255);
+	//serverInfo->set_server_id(2131);
+	//serverInfo->set_ip("1234111");
+	//serverInfo->set_port(7777);
 
-	std::string strData;
-	if (!s2sPackage.SerializeToString(&strData))
-	{
-	}
+	//std::string strData;
+	//if (!s2sPackage.SerializeToString(&strData))
+	//{
+	//}
 
-	S2SMsg::S2SServerRegisterRes res;
-	bool b = co_await m_coConnection->send(S2SMsg::S2S_ID_SERVER_REGSTER_REQ, strData.data(), (uint32_t)strData.size(), res);
-	LOG_INFO(s_logCategory, "testFun1, success:{}, error:{}", res.success(), res.error_msg());
-	co_return b;
+	//S2SMsg::S2SServerRegisterRes res;
+	//bool b = co_await m_coConnection->send(S2SMsg::S2S_ID_SERVER_REGSTER_REQ, strData.data(), (uint32_t)strData.size(), res);
+	//LOG_INFO(s_logCategory, "testFun1, success:{}, error:{}", res.success(), res.error_msg());
+	//co_return b;
+
+	co_return true;
 }
 
 
 void WorldToMasterModule::onS2SServerRegisterRes(TcpConnectionPtr connection, const S2SMsg::S2SServerRegisterRes& res)
 {
 	LOG_INFO(s_logCategory, "onS2SServerRegisterRes, success:{}, error:{}", res.success(), res.error_msg());
-	testFun1().start([](async_simple::Try<bool> result) {
-		if (result.hasError())
-		{
-			try
-			{
-				std::rethrow_exception(result.getException());
-			}
-			catch (const std::exception& e)
-			{
-				std::cerr << e.what() << std::endl;
-			}
-
-		} }
-            );
 }
 
 

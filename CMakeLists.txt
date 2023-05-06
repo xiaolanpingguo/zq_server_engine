@@ -54,7 +54,7 @@ include_directories(
 	${SolutionDir}/src
 	${SolutionDir}/game
 	${SolutionDir}/thirdparty/asio/asio/include
-	${SolutionDir}/thirdparty/cinatra-0.8.0/include
+	${SolutionDir}/thirdparty/cinatra/include
 	${SolutionDir}/thirdparty/nlohmann-json-3.11.2
 	${SolutionDir}/thirdparty/async_simple-1.1
 )

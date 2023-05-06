@@ -3,7 +3,6 @@
 
 #include "common/common.hpp"
 #include "common/message_buffer.hpp"
-#include "common/timer.h"
 #include "game_common/i_module.hpp"
 
 #include <asio/signal_set.hpp>
@@ -13,6 +12,7 @@ namespace zq {
 
 
 #define INIT_SERVER_NAME(NAME) public: std::string_view getName() override{ constexpr std::string_view name = #NAME; return name;}
+class Timer;
 class ServerBase
 {
 public:
@@ -72,6 +72,7 @@ protected:
 	uint16 m_serverId;
 
 	asio::io_context m_ioContext;
+	asio::io_context::work m_work;
 	asio::signal_set m_signals;
 
 	std::unique_ptr<Timer> m_timer;
