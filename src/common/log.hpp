@@ -270,6 +270,7 @@ private:
 	std::string m_name;
 };
 
+#define LOG_DEBUG(category, fmt, ...) Log::getInstance().logfmt(category, LogLevel::Debug, __FILE__, __LINE__, __func__, fmt, ##__VA_ARGS__);
 #define LOG_INFO(category, fmt, ...) Log::getInstance().logfmt(category, LogLevel::Info, __FILE__, __LINE__, __func__, fmt, ##__VA_ARGS__);
 #define LOG_WARN(category, fmt, ...) Log::getInstance().logfmt(category, LogLevel::Warn, __FILE__, __LINE__, __func__, fmt, ##__VA_ARGS__);
 #define LOG_ERROR(category, fmt, ...) Log::getInstance().logfmt(category, LogLevel::Error, __FILE__, __LINE__, __func__, fmt, ##__VA_ARGS__);

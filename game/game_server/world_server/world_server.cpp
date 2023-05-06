@@ -1,6 +1,7 @@
 #include "game_server/world_server/world_server.h"
 #include "game_server/world_server/world_to_master_module.h"
-#include "game_server/world_server/internal_network_server_module.h"
+#include "game_server/world_server/internal_server_module.h"
+#include "game_server/world_server/player_manager_module.h"
 
 #include <nlohmann-json/json.hpp>
 
@@ -24,7 +25,8 @@ WorldServer::~WorldServer()
 bool WorldServer::registerServerModules()
 {
 	bool r = registerModule<WorldToMasterModule>(this);
-	r &= registerModule<InternalNetworkServerModule>(this);
+	r &= registerModule<InternalServerModule>(this);
+	r &= registerModule<PlayerManagerModule>(this);
 	return r;
 }
 

@@ -69,6 +69,19 @@ void ServerBase::run()
 void ServerBase::stop()
 {
 	m_ioContext.stop();
+
+	for (auto& it : m_modules)
+	{
+		if (!it.second->finalize())
+		{
+			LOG_ERROR(s_logCategory, "module:{} finalize failed, name:{}", it.first);
+		}
+
+		delete it.second;
+		it.second = nullptr;
+	}
+
+	m_modules.clear();
 }
 
 uint64_t ServerBase::addTimer(std::chrono::steady_clock::duration interval, const std::function<void(void*)>& fn, bool runOnce)

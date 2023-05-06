@@ -1,0 +1,35 @@
+syntax = "proto3";
+
+package C2SMsg;
+
+
+enum C2S_MSG_ID
+{
+	C2S_ID_NONE = 0;
+	
+	C2S_ID_HEARTBEAT = 10001;
+
+	C2S_ID_LOGIN_REQ = 10002;
+	C2S_ID_LOGIN_RES = 10003;
+}
+
+
+message C2SHeartBeat
+{
+	int32 state = 1;
+}
+
+message C2SLoginReq
+{
+	string token = 1;
+}
+
+message C2SLoginRes
+{
+	int32 error_code = 1;
+}
+
+
+
+
+

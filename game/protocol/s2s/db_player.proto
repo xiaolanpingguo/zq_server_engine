@@ -1,0 +1,24 @@
+syntax = "proto3";
+
+package DB;
+
+
+
+message DBPlayer
+{
+	DBPlayerBaseInfo player_base_info = 1;
+}
+
+message DBPlayerBaseInfo
+{
+	int64 uid = 1; 
+	int64 openid = 2; 
+	string nickname = 3; 
+	string ip = 4;
+}
+
+
+
+
+
+

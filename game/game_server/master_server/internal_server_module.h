@@ -9,21 +9,14 @@
 namespace zq {
 
 
-struct TcpServerConfig
-{
-	std::string ip;
-	uint16_t port = 0;
-};
-
-
 class MasterServer;
-class InternalNetworkServerModule : public IModule
+class InternalServerModule : public IModule
 {
-	INIT_MODULE_NAME(InternalNetworkServerModule);
+	INIT_MODULE_NAME(InternalServerModule);
 
 public:
-	InternalNetworkServerModule(MasterServer* thisServer);
-	~InternalNetworkServerModule();
+	InternalServerModule(MasterServer* thisServer);
+	~InternalServerModule();
 
 public:
 	bool init() override;

@@ -1,0 +1,31 @@
+#include "game_server/world_server/player/player_operator_module.h"
+#include "game_server/world_server/player/player_baseinfo_module.h"
+#include "game_server/world_server/player/player.h"
+
+
+namespace zq{
+
+
+PlayerOperatorModule::PlayerOperatorModule(Player& player) :
+	m_player(player)
+{
+}
+
+PlayerOperatorModule::~PlayerOperatorModule()
+{
+}
+
+bool PlayerOperatorModule::loadFromDB(const DB::DBPlayer& playerDBData)
+{
+	PlayerBaseInfoModule* m = m_player.getModule<PlayerBaseInfoModule>();
+
+	return true;
+}
+
+bool PlayerOperatorModule::saveToDB(DB::DBPlayer& playerDBData)
+{
+
+	return true;
+}
+
+} //namespace zq

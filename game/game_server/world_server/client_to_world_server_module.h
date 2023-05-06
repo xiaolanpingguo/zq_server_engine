@@ -3,29 +3,19 @@
 
 #include "game_common/i_module.hpp"
 #include "network/tcp_server.hpp"
-#include "protocol/s2s/s2s_common.pb.h"
 
 
 namespace zq {
 
 
-struct TcpServerConfig
-{
-	std::string ip;
-	uint16_t port = 0;
-};
-
-template <typename T>
-class MessageRouter;
-
 class WorldServer;
-class InternalNetworkServerModule : public IModule
+class ClientToServerModule : public IModule
 {
-	INIT_MODULE_NAME(InternalNetworkServerModule);
+	INIT_MODULE_NAME(ClientToServerModule);
 
 public:
-	InternalNetworkServerModule(WorldServer* thisServer);
-	~InternalNetworkServerModule();
+	ClientToServerModule(WorldServer* thisServer);
+	~ClientToServerModule();
 
 public:
 	bool init() override;
@@ -41,7 +31,6 @@ private:
 
 	WorldServer* m_thisServer;
 	std::unique_ptr<TcpServer<TcpConnection>> m_tcpServer;
-	MessageRouter<TcpConnection>* m_messageRouter;
 
 	constexpr static std::string_view s_logCategory = "NetworkServerModule";
 };

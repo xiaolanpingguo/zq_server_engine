@@ -33,7 +33,7 @@ public:
 	bool registerModule(Args&&... args)
 	{
 		IModule* m = new T(std::forward<Args>(args)...);
-		auto it = m_modules.emplace(T::getName(), m);
+		auto it = m_modules.emplace(std::string(T::getName()), m);
 		ASSERT(it.second, "register {} multiple times!", T::getName());
 		return it.second;
 	}
@@ -41,13 +41,13 @@ public:
 	template <typename T>
 	T* getModule()
 	{
-		auto it = m_modules.find(T::getName());
+		auto it = m_modules.find(std::string(T::getName()));
 		if (it == m_modules.end())
 		{
 			ASSERT(false, "can't get module:{}!", T::getName());
 			return nullptr;
 		}
-		return (T*)(it.second);
+		return (T*)(it->second);
 	}
 
 protected:
