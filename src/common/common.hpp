@@ -2,7 +2,6 @@
 
 
 #include "common/platform.hpp"
-#include "common/typedefs.hpp"
 #include "common/log.hpp"
 
 #include <iostream>
@@ -34,6 +33,7 @@
 #include <ctype.h>
 #include <charconv>
 #include <stdarg.h>
+#include <bitset>
 
 
 namespace zq{

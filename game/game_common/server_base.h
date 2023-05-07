@@ -4,6 +4,7 @@
 #include "common/common.hpp"
 #include "common/message_buffer.hpp"
 #include "game_common/i_module.hpp"
+#include "game_common/appid.h"
 
 #include <asio/signal_set.hpp>
 
@@ -57,9 +58,11 @@ private:
 	virtual void stop();
 	virtual bool registerServerModules() = 0;
 	virtual bool readServerConfig() = 0;
-	virtual uint16 getServerId() = 0;
+	virtual const std::string& getStrAppId() = 0;
 	virtual std::string_view getName() = 0;
 
+	bool checkAppid();
+	bool initGid();
 	bool initLog();
 	void registerSignal();
 	bool initModules();
@@ -69,7 +72,7 @@ private:
 protected:
 
 	std::string m_configName;
-	uint16 m_serverId;
+	AppId m_appId;
 
 	asio::io_context m_ioContext;
 	asio::io_context::work m_work;

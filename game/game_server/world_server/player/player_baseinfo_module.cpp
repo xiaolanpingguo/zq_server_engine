@@ -17,8 +17,8 @@ PlayerBaseInfoModule::~PlayerBaseInfoModule()
 bool PlayerBaseInfoModule::loadFromDB(const DB::DBPlayer& playerDBData)
 {
 	const DB::DBPlayerBaseInfo& baseInfo = playerDBData.player_base_info();
-	uint64 uid = baseInfo.uid();
-	uint64 openid = baseInfo.openid();
+	uint64_t uid = baseInfo.uid();
+	uint64_t openid = baseInfo.openid();
 	std::string nickname = baseInfo.nickname();
 	std::string ip = baseInfo.ip();
 

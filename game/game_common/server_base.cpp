@@ -2,6 +2,7 @@
 #include "common/timer.h"
 #include "network/tcp_server.hpp"
 #include "network/tcp_client.hpp"
+#include "game_common/gid.h"
 
 
 namespace zq{
@@ -12,8 +13,7 @@ ServerBase::ServerBase(int argc, char* argv[])
 		m_ioContext(),
 		m_work(m_ioContext),
 		m_timer(std::make_unique<Timer>(m_ioContext)),
-		m_signals(m_ioContext),
-		m_serverId(0)
+		m_signals(m_ioContext)
 {
 	std::string fileName;
 	for (int i = 1; i < argc; i++)
@@ -39,6 +39,16 @@ ServerBase::~ServerBase()
 bool ServerBase::start()
 {
 	if (!readServerConfig())
+	{
+		return false;
+	}
+
+	if (!checkAppid())
+	{
+		return false;
+	}
+
+	if (!initGid())
 	{
 		return false;
 	}
@@ -96,9 +106,31 @@ bool ServerBase::cancelTimer(uint64_t id)
 
 bool ServerBase::initLog()
 {
-	std::string name = std::string(getName()) + "-" + std::to_string(getServerId());
+	std::string name = std::string(getName()) + "-" + getStrAppId();
 	if (!Log::getInstance().init(name, 4))
 	{
+		return false;
+	}
+
+	return true;
+}
+
+bool ServerBase::checkAppid()
+{
+	if (!m_appId.init(getStrAppId()))
+	{
+		printf("Appid failed:%s, please check your appid!\n", getStrAppId().c_str());
+		return false;
+	}
+
+	return true;
+}
+
+bool ServerBase::initGid()
+{
+	if (!Gid::initialize(m_appId))
+	{
+		printf("initialize Gid failed:%s, please check your appid!\n", getStrAppId().c_str());
 		return false;
 	}
 
@@ -142,6 +174,7 @@ void ServerBase::signalHandler(std::error_code ec, int signo)
 	m_signals.add(SIGQUIT);
 #endif
 }
+
 
 
 }

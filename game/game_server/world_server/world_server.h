@@ -8,7 +8,7 @@ namespace zq {
 
 struct WorldServerConfig
 {
-	int serverId = 1001;
+	std::string appId;
 	std::string masterServerIp = "127.0.0.1";
 	int masterServerPort = 10001;
 	std::string externalIp = "127.0.0.1";
@@ -26,7 +26,7 @@ public:
 	~WorldServer();
 
 public:
-	uint16 getServerId() override { return m_serverId; }
+	const std::string& getStrAppId() override { return m_serverConfg.appId; }
 	const WorldServerConfig& getConfig() { return m_serverConfg; }
 
 private:

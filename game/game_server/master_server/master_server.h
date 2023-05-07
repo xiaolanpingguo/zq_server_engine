@@ -9,7 +9,7 @@ namespace zq {
 
 struct MasterServerConfig
 {
-	int serverId = 101;
+	std::string appId;
 	std::string internalIp = "127.0.0.1";
 	int internalPort = 10001;
 };
@@ -23,7 +23,7 @@ public:
 	~MasterServer();
 
 public:
-	uint16 getServerId() override { return m_serverId; }
+	const std::string& getStrAppId() override { return m_serverConfg.appId; }
 	const MasterServerConfig& getConfig() { return m_serverConfg; }
 
 private:

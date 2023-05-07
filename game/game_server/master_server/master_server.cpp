@@ -5,7 +5,7 @@
 
 namespace zq{
 
-NLOHMANN_DEFINE_TYPE_NON_INTRUSIVE(MasterServerConfig, serverId, internalIp, internalPort)
+NLOHMANN_DEFINE_TYPE_NON_INTRUSIVE(MasterServerConfig, appId, internalIp, internalPort)
 
 MasterServer::MasterServer(int argc, char* argv[])
 	:

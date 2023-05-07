@@ -9,7 +9,7 @@
 namespace zq{
 
 
-NLOHMANN_DEFINE_TYPE_NON_INTRUSIVE(WorldServerConfig, serverId, masterServerIp, masterServerPort, externalIp, externalPort)
+NLOHMANN_DEFINE_TYPE_NON_INTRUSIVE(WorldServerConfig, appId, masterServerIp, masterServerPort, externalIp, externalPort)
 
 WorldServer::WorldServer(int argc, char* argv[])
 	:
