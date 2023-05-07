@@ -1,6 +1,6 @@
-build
-bin
-thirdparty/protobuf-22.1/install
-thirdparty/protobuf-22.1/build
-thirdparty/mongo-c-driver-1.23.3/install
-thirdparty/mongo-c-driver-1.23.3/cmake-build
+build/
+bin/
+thirdparty/protobuf-22.1/install/
+thirdparty/protobuf-22.1/build/
+thirdparty/mongo-c-driver-1.23.3/install/
+thirdparty/mongo-c-driver-1.23.3/cmake-build/
