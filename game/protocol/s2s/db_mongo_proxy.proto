@@ -1,0 +1,185 @@
+syntax = "proto3";
+
+package DB;
+
+
+enum MongoMsgType
+{
+	MONGO_MSG_NULL = 0;
+	MONGO_MSG_INSERT_REQ = 1;
+	MONGO_MSG_INSERT_RES = 2;
+	MONGO_MSG_REMOVE_REQ = 3;
+	MONGO_MSG_REMOVE_RES = 4;
+	MONGO_MSG_SAVE_REQ = 5;
+	MONGO_MSG_SAVE_RES = 6;
+	MONGO_MSG_UPDATE_REQ = 7;
+	MONGO_MSG_UPDATE_RES = 8;
+	MONGO_MSG_FIND_REQ = 9;
+	MONGO_MSG_FIND_RES = 10;
+	MONGO_MSG_BATCH_FIND_REQ = 11;
+	MONGO_MSG_BATCH_FIND_RES = 12;
+}
+
+
+message ProtoBsonData
+{
+	string key = 1; //key
+	int32 data_type = 2; //datatype
+	int32 var_int32 = 3;
+    int64 var_int64 = 4;
+	double var_double = 5;
+	bool var_bool = 6;
+	string var_string = 7;
+	bytes var_bin = 8;
+}
+
+
+message ProtoBsonObj
+{
+	repeated ProtoBsonData bson_data_list = 1;
+}
+
+message MongoUserData
+{
+	int32 type = 1;
+	uint64 trans_gid = 2;
+	uint64 session_gid = 3;
+	string account_id = 4;
+	uint64 player_gid = 5;
+	uint64 other_player_gid = 6;
+	uint64 offline_msg_gid = 7;
+	string sdk_user_id = 8;
+	int32 svr_id = 9;
+	int32 int_var1 = 10;
+	int32 int_var2 = 11;
+	int32 int_var3 = 12;
+	string str_var1 = 13;
+	string str_var2 = 14;
+}
+
+message MongoInsertReq
+{
+	string db_name = 1; //dbname
+	string col_name = 2; //colname
+	ProtoBsonObj doc = 3; //doc
+	MongoUserData user_data = 4; //user_data
+}
+
+message MongoInsertRes
+{
+	bool succeed = 1;
+	MongoUserData user_data = 2;
+}
+
+message MongoRemoveReq
+{
+	string db_name = 1; //dbname
+	string col_name = 2; //colname
+	ProtoBsonObj selector = 3; //selector
+	MongoUserData user_data = 4; //user_data
+}
+
+message MongoRemoveRes
+{
+	bool succeed = 1;
+	MongoUserData user_data = 2;
+}
+
+message MongoSaveReq
+{
+	string db_name = 1; //dbname
+	string col_name = 2; //colname
+	ProtoBsonObj doc = 3; //doc
+	MongoUserData user_data = 4; //user_data
+}
+
+message MongoSaveRes
+{
+	bool succeed = 1;
+	MongoUserData user_data = 2;
+}
+
+message MongoUpdateReq
+{
+	string db_name = 1; //dbname
+	string col_name = 2; //colname
+	ProtoBsonObj selector = 3; //selector
+	ProtoBsonObj updator = 4; //updator
+	MongoUserData user_data = 5; //userdata
+}
+
+message MongoUpdateRes
+{
+	bool succeed = 1;
+	MongoUserData user_data = 2;
+}
+
+message MongoFindReq
+{
+	string db_name = 1; //dbname
+	string col_name = 2; //colname
+	ProtoBsonObj query = 3; //query
+	ProtoBsonObj fields = 4; //fields
+	int32 logic_batch_num = 5;
+	int32 skip = 6;
+	int32 limit = 7;
+	int32 batch_size = 8;
+	MongoUserData user_data = 9;
+}
+
+message MongoFindRes
+{
+	bool succeed = 1;
+	bool has_more = 2;
+	repeated ProtoBsonObj data_list = 3;
+	MongoUserData user_data = 4;
+}
+
+
+message ProtoBsonBatchFindData
+{
+	string key = 1; //key
+	int32 data_type = 2; //datatype
+	repeated int32 int32_var_list = 3;
+	repeated int64 int64_var_list = 4;
+	repeated string string_var_list = 5;	
+}
+
+
+message MongoBatchFindReq
+{
+	string db_name = 1; //dbname
+	string col_name = 2; //colname
+	ProtoBsonBatchFindData query = 3; //query
+	ProtoBsonObj fields = 4; //fields
+	int32 logic_batch_num = 5;
+	int32 skip = 6;
+	int32 limit = 7; 
+	int32 batch_size = 8;
+	MongoUserData user_data = 9;
+}
+
+message MongoBatchFindRes
+{
+	bool succeed = 1;
+	bool has_more = 2;
+	repeated ProtoBsonObj data_list = 3;
+	MongoUserData user_data = 4;
+}
+
+message MongoDBMsg
+{
+	int32 cmd_type = 1;
+	MongoInsertReq insert_req = 2;
+	MongoInsertRes insert_res = 3;
+	MongoRemoveReq remove_req = 4;
+	MongoRemoveRes remove_res = 5;
+	MongoSaveReq save_req = 6;
+	MongoSaveRes save_res = 7;
+	MongoUpdateReq update_req = 8;
+	MongoUpdateRes update_res = 9;
+	MongoFindReq find_req = 10;
+	MongoFindRes find_res = 11;
+	MongoBatchFindReq batch_find_req = 12;
+	MongoBatchFindRes batch_find_res = 13;
+}

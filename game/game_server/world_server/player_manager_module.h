@@ -18,10 +18,13 @@ public:
 	PlayerManagerModule(WorldServer* thisServer);
 	~PlayerManagerModule();
 
+private:
+	bool saveToDB();
+
 public:
 
 	WorldServer* m_thisServer;
-	std::unordered_map<std::string, Player*> m_playerModules;
+	std::unordered_map<std::string, Player*> m_players;
 
 	constexpr static std::string_view s_logCategory = "PlayerManagerModule";
 };
