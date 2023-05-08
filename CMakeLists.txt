@@ -67,8 +67,9 @@ add_subdirectory(game)
 
 install(DIRECTORY  ${SolutionDir}/assets DESTINATION ${InstallDir})
 install(FILES  
-${SolutionDir}/assets/script/start_master.bat 
-${SolutionDir}/assets/script/start_world.bat
+${SolutionDir}/assets/script/start_master_server.bat 
+${SolutionDir}/assets/script/start_zone_server.bat
+${SolutionDir}/assets/script/start_db_server.bat
 DESTINATION ${InstallDir})
 
 

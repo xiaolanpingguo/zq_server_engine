@@ -1,0 +1,9 @@
+{
+	"appId": "0.1.0.0",
+	"masterServerIp": "127.0.0.1",
+	"masterServerPort": 20001,
+	"dbServerIp": "127.0.0.1",
+	"dbServerPort": 23001,
+	"externalIp": "127.0.0.1",
+	"externalPort": 21001
+}

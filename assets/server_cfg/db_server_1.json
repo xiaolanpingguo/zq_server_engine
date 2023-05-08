@@ -1,0 +1,9 @@
+{
+	"appId": "0.3.0.0",
+	"internalIp": "127.0.0.1",
+	"internalPort": 23001,
+	"user": "user",
+	"pwd": "pwd",
+	"dbHost": "dbHost",
+	"dbPort": 7611
+}

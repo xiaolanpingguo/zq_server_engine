@@ -1,5 +1,5 @@
 {
-	"serverId": 1001,
+	"appId": "0.0.0.0",,
 	"internalIp": "127.0.0.1",
-	"internalPort": 10001
+	"internalPort": 20001
 }

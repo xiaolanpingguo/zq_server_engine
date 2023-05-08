@@ -1,7 +1,7 @@
 #pragma once
 
 
-#include "game_server/world_server/player/i_player_module.h"
+#include "game_server/zone_server/player/i_player_module.h"
 
 
 namespace zq {
@@ -34,8 +34,8 @@ public:
 		return (T*)(it->second);
 	}
 
-	bool loadFromDB(const DB::DBPlayer& playerDBData);
-	bool saveToDB(DB::DBPlayer& playerDBData);
+	bool loadFromDB(const S2S::DBPlayer& playerDBData);
+	bool saveToDB(S2S::DBPlayer& playerDBData);
 
 public:
 

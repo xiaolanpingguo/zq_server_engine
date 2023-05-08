@@ -44,24 +44,24 @@ struct TableStruct_db_5fplayer_2eproto {
   static const uint32_t offsets[];
 };
 extern const ::PROTOBUF_NAMESPACE_ID::internal::DescriptorTable descriptor_table_db_5fplayer_2eproto;
-namespace DB {
+namespace S2S {
 class DBPlayer;
 struct DBPlayerDefaultTypeInternal;
 extern DBPlayerDefaultTypeInternal _DBPlayer_default_instance_;
 class DBPlayerBaseInfo;
 struct DBPlayerBaseInfoDefaultTypeInternal;
 extern DBPlayerBaseInfoDefaultTypeInternal _DBPlayerBaseInfo_default_instance_;
-}  // namespace DB
+}  // namespace S2S
 PROTOBUF_NAMESPACE_OPEN
-template<> ::DB::DBPlayer* Arena::CreateMaybeMessage<::DB::DBPlayer>(Arena*);
-template<> ::DB::DBPlayerBaseInfo* Arena::CreateMaybeMessage<::DB::DBPlayerBaseInfo>(Arena*);
+template<> ::S2S::DBPlayer* Arena::CreateMaybeMessage<::S2S::DBPlayer>(Arena*);
+template<> ::S2S::DBPlayerBaseInfo* Arena::CreateMaybeMessage<::S2S::DBPlayerBaseInfo>(Arena*);
 PROTOBUF_NAMESPACE_CLOSE
-namespace DB {
+namespace S2S {
 
 // ===================================================================
 
 class DBPlayer final :
-    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:DB.DBPlayer) */ {
+    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:S2S.DBPlayer) */ {
  public:
   inline DBPlayer() : DBPlayer(nullptr) {}
   ~DBPlayer() override;
@@ -164,7 +164,7 @@ class DBPlayer final :
   private:
   friend class ::PROTOBUF_NAMESPACE_ID::internal::AnyMetadata;
   static ::PROTOBUF_NAMESPACE_ID::StringPiece FullMessageName() {
-    return "DB.DBPlayer";
+    return "S2S.DBPlayer";
   }
   protected:
   explicit DBPlayer(::PROTOBUF_NAMESPACE_ID::Arena* arena,
@@ -183,25 +183,25 @@ class DBPlayer final :
   enum : int {
     kPlayerBaseInfoFieldNumber = 1,
   };
-  // .DB.DBPlayerBaseInfo player_base_info = 1;
+  // .S2S.DBPlayerBaseInfo player_base_info = 1;
   bool has_player_base_info() const;
   private:
   bool _internal_has_player_base_info() const;
   public:
   void clear_player_base_info();
-  const ::DB::DBPlayerBaseInfo& player_base_info() const;
-  PROTOBUF_NODISCARD ::DB::DBPlayerBaseInfo* release_player_base_info();
-  ::DB::DBPlayerBaseInfo* mutable_player_base_info();
-  void set_allocated_player_base_info(::DB::DBPlayerBaseInfo* player_base_info);
+  const ::S2S::DBPlayerBaseInfo& player_base_info() const;
+  PROTOBUF_NODISCARD ::S2S::DBPlayerBaseInfo* release_player_base_info();
+  ::S2S::DBPlayerBaseInfo* mutable_player_base_info();
+  void set_allocated_player_base_info(::S2S::DBPlayerBaseInfo* player_base_info);
   private:
-  const ::DB::DBPlayerBaseInfo& _internal_player_base_info() const;
-  ::DB::DBPlayerBaseInfo* _internal_mutable_player_base_info();
+  const ::S2S::DBPlayerBaseInfo& _internal_player_base_info() const;
+  ::S2S::DBPlayerBaseInfo* _internal_mutable_player_base_info();
   public:
   void unsafe_arena_set_allocated_player_base_info(
-      ::DB::DBPlayerBaseInfo* player_base_info);
-  ::DB::DBPlayerBaseInfo* unsafe_arena_release_player_base_info();
+      ::S2S::DBPlayerBaseInfo* player_base_info);
+  ::S2S::DBPlayerBaseInfo* unsafe_arena_release_player_base_info();
 
-  // @@protoc_insertion_point(class_scope:DB.DBPlayer)
+  // @@protoc_insertion_point(class_scope:S2S.DBPlayer)
  private:
   class _Internal;
 
@@ -209,7 +209,7 @@ class DBPlayer final :
   typedef void InternalArenaConstructable_;
   typedef void DestructorSkippable_;
   struct Impl_ {
-    ::DB::DBPlayerBaseInfo* player_base_info_;
+    ::S2S::DBPlayerBaseInfo* player_base_info_;
     mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
   };
   union { Impl_ _impl_; };
@@ -218,7 +218,7 @@ class DBPlayer final :
 // -------------------------------------------------------------------
 
 class DBPlayerBaseInfo final :
-    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:DB.DBPlayerBaseInfo) */ {
+    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:S2S.DBPlayerBaseInfo) */ {
  public:
   inline DBPlayerBaseInfo() : DBPlayerBaseInfo(nullptr) {}
   ~DBPlayerBaseInfo() override;
@@ -321,7 +321,7 @@ class DBPlayerBaseInfo final :
   private:
   friend class ::PROTOBUF_NAMESPACE_ID::internal::AnyMetadata;
   static ::PROTOBUF_NAMESPACE_ID::StringPiece FullMessageName() {
-    return "DB.DBPlayerBaseInfo";
+    return "S2S.DBPlayerBaseInfo";
   }
   protected:
   explicit DBPlayerBaseInfo(::PROTOBUF_NAMESPACE_ID::Arena* arena,
@@ -389,7 +389,7 @@ class DBPlayerBaseInfo final :
   void _internal_set_openid(int64_t value);
   public:
 
-  // @@protoc_insertion_point(class_scope:DB.DBPlayerBaseInfo)
+  // @@protoc_insertion_point(class_scope:S2S.DBPlayerBaseInfo)
  private:
   class _Internal;
 
@@ -417,7 +417,7 @@ class DBPlayerBaseInfo final :
 #endif  // __GNUC__
 // DBPlayer
 
-// .DB.DBPlayerBaseInfo player_base_info = 1;
+// .S2S.DBPlayerBaseInfo player_base_info = 1;
 inline bool DBPlayer::_internal_has_player_base_info() const {
   return this != internal_default_instance() && _impl_.player_base_info_ != nullptr;
 }
@@ -430,17 +430,17 @@ inline void DBPlayer::clear_player_base_info() {
   }
   _impl_.player_base_info_ = nullptr;
 }
-inline const ::DB::DBPlayerBaseInfo& DBPlayer::_internal_player_base_info() const {
-  const ::DB::DBPlayerBaseInfo* p = _impl_.player_base_info_;
-  return p != nullptr ? *p : reinterpret_cast<const ::DB::DBPlayerBaseInfo&>(
-      ::DB::_DBPlayerBaseInfo_default_instance_);
+inline const ::S2S::DBPlayerBaseInfo& DBPlayer::_internal_player_base_info() const {
+  const ::S2S::DBPlayerBaseInfo* p = _impl_.player_base_info_;
+  return p != nullptr ? *p : reinterpret_cast<const ::S2S::DBPlayerBaseInfo&>(
+      ::S2S::_DBPlayerBaseInfo_default_instance_);
 }
-inline const ::DB::DBPlayerBaseInfo& DBPlayer::player_base_info() const {
-  // @@protoc_insertion_point(field_get:DB.DBPlayer.player_base_info)
+inline const ::S2S::DBPlayerBaseInfo& DBPlayer::player_base_info() const {
+  // @@protoc_insertion_point(field_get:S2S.DBPlayer.player_base_info)
   return _internal_player_base_info();
 }
 inline void DBPlayer::unsafe_arena_set_allocated_player_base_info(
-    ::DB::DBPlayerBaseInfo* player_base_info) {
+    ::S2S::DBPlayerBaseInfo* player_base_info) {
   if (GetArenaForAllocation() == nullptr) {
     delete reinterpret_cast<::PROTOBUF_NAMESPACE_ID::MessageLite*>(_impl_.player_base_info_);
   }
@@ -450,11 +450,11 @@ inline void DBPlayer::unsafe_arena_set_allocated_player_base_info(
   } else {
     
   }
-  // @@protoc_insertion_point(field_unsafe_arena_set_allocated:DB.DBPlayer.player_base_info)
+  // @@protoc_insertion_point(field_unsafe_arena_set_allocated:S2S.DBPlayer.player_base_info)
 }
-inline ::DB::DBPlayerBaseInfo* DBPlayer::release_player_base_info() {
+inline ::S2S::DBPlayerBaseInfo* DBPlayer::release_player_base_info() {
   
-  ::DB::DBPlayerBaseInfo* temp = _impl_.player_base_info_;
+  ::S2S::DBPlayerBaseInfo* temp = _impl_.player_base_info_;
   _impl_.player_base_info_ = nullptr;
 #ifdef PROTOBUF_FORCE_COPY_IN_RELEASE
   auto* old =  reinterpret_cast<::PROTOBUF_NAMESPACE_ID::MessageLite*>(temp);
@@ -467,27 +467,27 @@ inline ::DB::DBPlayerBaseInfo* DBPlayer::release_player_base_info() {
 #endif  // !PROTOBUF_FORCE_COPY_IN_RELEASE
   return temp;
 }
-inline ::DB::DBPlayerBaseInfo* DBPlayer::unsafe_arena_release_player_base_info() {
-  // @@protoc_insertion_point(field_release:DB.DBPlayer.player_base_info)
+inline ::S2S::DBPlayerBaseInfo* DBPlayer::unsafe_arena_release_player_base_info() {
+  // @@protoc_insertion_point(field_release:S2S.DBPlayer.player_base_info)
   
-  ::DB::DBPlayerBaseInfo* temp = _impl_.player_base_info_;
+  ::S2S::DBPlayerBaseInfo* temp = _impl_.player_base_info_;
   _impl_.player_base_info_ = nullptr;
   return temp;
 }
-inline ::DB::DBPlayerBaseInfo* DBPlayer::_internal_mutable_player_base_info() {
+inline ::S2S::DBPlayerBaseInfo* DBPlayer::_internal_mutable_player_base_info() {
   
   if (_impl_.player_base_info_ == nullptr) {
-    auto* p = CreateMaybeMessage<::DB::DBPlayerBaseInfo>(GetArenaForAllocation());
+    auto* p = CreateMaybeMessage<::S2S::DBPlayerBaseInfo>(GetArenaForAllocation());
     _impl_.player_base_info_ = p;
   }
   return _impl_.player_base_info_;
 }
-inline ::DB::DBPlayerBaseInfo* DBPlayer::mutable_player_base_info() {
-  ::DB::DBPlayerBaseInfo* _msg = _internal_mutable_player_base_info();
-  // @@protoc_insertion_point(field_mutable:DB.DBPlayer.player_base_info)
+inline ::S2S::DBPlayerBaseInfo* DBPlayer::mutable_player_base_info() {
+  ::S2S::DBPlayerBaseInfo* _msg = _internal_mutable_player_base_info();
+  // @@protoc_insertion_point(field_mutable:S2S.DBPlayer.player_base_info)
   return _msg;
 }
-inline void DBPlayer::set_allocated_player_base_info(::DB::DBPlayerBaseInfo* player_base_info) {
+inline void DBPlayer::set_allocated_player_base_info(::S2S::DBPlayerBaseInfo* player_base_info) {
   ::PROTOBUF_NAMESPACE_ID::Arena* message_arena = GetArenaForAllocation();
   if (message_arena == nullptr) {
     delete _impl_.player_base_info_;
@@ -504,7 +504,7 @@ inline void DBPlayer::set_allocated_player_base_info(::DB::DBPlayerBaseInfo* pla
     
   }
   _impl_.player_base_info_ = player_base_info;
-  // @@protoc_insertion_point(field_set_allocated:DB.DBPlayer.player_base_info)
+  // @@protoc_insertion_point(field_set_allocated:S2S.DBPlayer.player_base_info)
 }
 
 // -------------------------------------------------------------------
@@ -519,7 +519,7 @@ inline int64_t DBPlayerBaseInfo::_internal_uid() const {
   return _impl_.uid_;
 }
 inline int64_t DBPlayerBaseInfo::uid() const {
-  // @@protoc_insertion_point(field_get:DB.DBPlayerBaseInfo.uid)
+  // @@protoc_insertion_point(field_get:S2S.DBPlayerBaseInfo.uid)
   return _internal_uid();
 }
 inline void DBPlayerBaseInfo::_internal_set_uid(int64_t value) {
@@ -528,7 +528,7 @@ inline void DBPlayerBaseInfo::_internal_set_uid(int64_t value) {
 }
 inline void DBPlayerBaseInfo::set_uid(int64_t value) {
   _internal_set_uid(value);
-  // @@protoc_insertion_point(field_set:DB.DBPlayerBaseInfo.uid)
+  // @@protoc_insertion_point(field_set:S2S.DBPlayerBaseInfo.uid)
 }
 
 // int64 openid = 2;
@@ -539,7 +539,7 @@ inline int64_t DBPlayerBaseInfo::_internal_openid() const {
   return _impl_.openid_;
 }
 inline int64_t DBPlayerBaseInfo::openid() const {
-  // @@protoc_insertion_point(field_get:DB.DBPlayerBaseInfo.openid)
+  // @@protoc_insertion_point(field_get:S2S.DBPlayerBaseInfo.openid)
   return _internal_openid();
 }
 inline void DBPlayerBaseInfo::_internal_set_openid(int64_t value) {
@@ -548,7 +548,7 @@ inline void DBPlayerBaseInfo::_internal_set_openid(int64_t value) {
 }
 inline void DBPlayerBaseInfo::set_openid(int64_t value) {
   _internal_set_openid(value);
-  // @@protoc_insertion_point(field_set:DB.DBPlayerBaseInfo.openid)
+  // @@protoc_insertion_point(field_set:S2S.DBPlayerBaseInfo.openid)
 }
 
 // string nickname = 3;
@@ -556,7 +556,7 @@ inline void DBPlayerBaseInfo::clear_nickname() {
   _impl_.nickname_.ClearToEmpty();
 }
 inline const std::string& DBPlayerBaseInfo::nickname() const {
-  // @@protoc_insertion_point(field_get:DB.DBPlayerBaseInfo.nickname)
+  // @@protoc_insertion_point(field_get:S2S.DBPlayerBaseInfo.nickname)
   return _internal_nickname();
 }
 template <typename ArgT0, typename... ArgT>
@@ -564,11 +564,11 @@ inline PROTOBUF_ALWAYS_INLINE
 void DBPlayerBaseInfo::set_nickname(ArgT0&& arg0, ArgT... args) {
  
  _impl_.nickname_.Set(static_cast<ArgT0 &&>(arg0), args..., GetArenaForAllocation());
-  // @@protoc_insertion_point(field_set:DB.DBPlayerBaseInfo.nickname)
+  // @@protoc_insertion_point(field_set:S2S.DBPlayerBaseInfo.nickname)
 }
 inline std::string* DBPlayerBaseInfo::mutable_nickname() {
   std::string* _s = _internal_mutable_nickname();
-  // @@protoc_insertion_point(field_mutable:DB.DBPlayerBaseInfo.nickname)
+  // @@protoc_insertion_point(field_mutable:S2S.DBPlayerBaseInfo.nickname)
   return _s;
 }
 inline const std::string& DBPlayerBaseInfo::_internal_nickname() const {
@@ -583,7 +583,7 @@ inline std::string* DBPlayerBaseInfo::_internal_mutable_nickname() {
   return _impl_.nickname_.Mutable(GetArenaForAllocation());
 }
 inline std::string* DBPlayerBaseInfo::release_nickname() {
-  // @@protoc_insertion_point(field_release:DB.DBPlayerBaseInfo.nickname)
+  // @@protoc_insertion_point(field_release:S2S.DBPlayerBaseInfo.nickname)
   return _impl_.nickname_.Release();
 }
 inline void DBPlayerBaseInfo::set_allocated_nickname(std::string* nickname) {
@@ -598,7 +598,7 @@ inline void DBPlayerBaseInfo::set_allocated_nickname(std::string* nickname) {
     _impl_.nickname_.Set("", GetArenaForAllocation());
   }
 #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
-  // @@protoc_insertion_point(field_set_allocated:DB.DBPlayerBaseInfo.nickname)
+  // @@protoc_insertion_point(field_set_allocated:S2S.DBPlayerBaseInfo.nickname)
 }
 
 // string ip = 4;
@@ -606,7 +606,7 @@ inline void DBPlayerBaseInfo::clear_ip() {
   _impl_.ip_.ClearToEmpty();
 }
 inline const std::string& DBPlayerBaseInfo::ip() const {
-  // @@protoc_insertion_point(field_get:DB.DBPlayerBaseInfo.ip)
+  // @@protoc_insertion_point(field_get:S2S.DBPlayerBaseInfo.ip)
   return _internal_ip();
 }
 template <typename ArgT0, typename... ArgT>
@@ -614,11 +614,11 @@ inline PROTOBUF_ALWAYS_INLINE
 void DBPlayerBaseInfo::set_ip(ArgT0&& arg0, ArgT... args) {
  
  _impl_.ip_.Set(static_cast<ArgT0 &&>(arg0), args..., GetArenaForAllocation());
-  // @@protoc_insertion_point(field_set:DB.DBPlayerBaseInfo.ip)
+  // @@protoc_insertion_point(field_set:S2S.DBPlayerBaseInfo.ip)
 }
 inline std::string* DBPlayerBaseInfo::mutable_ip() {
   std::string* _s = _internal_mutable_ip();
-  // @@protoc_insertion_point(field_mutable:DB.DBPlayerBaseInfo.ip)
+  // @@protoc_insertion_point(field_mutable:S2S.DBPlayerBaseInfo.ip)
   return _s;
 }
 inline const std::string& DBPlayerBaseInfo::_internal_ip() const {
@@ -633,7 +633,7 @@ inline std::string* DBPlayerBaseInfo::_internal_mutable_ip() {
   return _impl_.ip_.Mutable(GetArenaForAllocation());
 }
 inline std::string* DBPlayerBaseInfo::release_ip() {
-  // @@protoc_insertion_point(field_release:DB.DBPlayerBaseInfo.ip)
+  // @@protoc_insertion_point(field_release:S2S.DBPlayerBaseInfo.ip)
   return _impl_.ip_.Release();
 }
 inline void DBPlayerBaseInfo::set_allocated_ip(std::string* ip) {
@@ -648,7 +648,7 @@ inline void DBPlayerBaseInfo::set_allocated_ip(std::string* ip) {
     _impl_.ip_.Set("", GetArenaForAllocation());
   }
 #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
-  // @@protoc_insertion_point(field_set_allocated:DB.DBPlayerBaseInfo.ip)
+  // @@protoc_insertion_point(field_set_allocated:S2S.DBPlayerBaseInfo.ip)
 }
 
 #ifdef __GNUC__
@@ -659,7 +659,7 @@ inline void DBPlayerBaseInfo::set_allocated_ip(std::string* ip) {
 
 // @@protoc_insertion_point(namespace_scope)
 
-}  // namespace DB
+}  // namespace S2S
 
 // @@protoc_insertion_point(global_scope)
 

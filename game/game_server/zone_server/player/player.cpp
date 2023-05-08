@@ -1,6 +1,6 @@
-#include "game_server/world_server/player/player.h"
-#include "game_server/world_server/player/player_baseinfo_module.h"
-#include "game_server/world_server/player/player_operator_module.h"
+#include "game_server/zone_server/player/player.h"
+#include "game_server/zone_server/player/player_baseinfo_module.h"
+#include "game_server/zone_server/player/player_operator_module.h"
 
 
 namespace zq{
@@ -21,7 +21,7 @@ Player::~Player()
 	}
 }
 
-bool Player::loadFromDB(const DB::DBPlayer& playerDBData)
+bool Player::loadFromDB(const S2S::DBPlayer& playerDBData)
 {
 	for (const auto& m : m_playerModules)
 	{
@@ -34,7 +34,7 @@ bool Player::loadFromDB(const DB::DBPlayer& playerDBData)
 	return true;
 }
 
-bool Player::saveToDB(DB::DBPlayer& playerDBData)
+bool Player::saveToDB(S2S::DBPlayer& playerDBData)
 {
 	for (const auto& m : m_playerModules)
 	{

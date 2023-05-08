@@ -29,8 +29,8 @@ private:
 	void onClientDataReceived(TcpConnectionPtr connection, uint16_t msgId, const void* data, size_t len);
 
 private:
-	void onS2SHeatBeatReq(TcpConnectionPtr connection, const S2SMsg::S2SHeartBeat& msg);
-	void onS2SServerRegisterReq(TcpConnectionPtr connection, const S2SMsg::S2SServerRegisterReq& msg);
+	void onS2SHeatBeatReq(TcpConnectionPtr connection, const S2S::S2SHeartBeat& msg);
+	void onS2SServerRegisterReq(TcpConnectionPtr connection, const S2S::S2SServerRegisterReq& msg);
 
 private:
 

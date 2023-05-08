@@ -68,6 +68,7 @@ bool ServerBase::start()
 		return false;
 	}
 
+	LOG_INFO(s_logCategory, "server:{}, id:{} start success!", getName(), getStrAppId());
 	return true;
 }
 

@@ -3,7 +3,8 @@ message(STATUS "CMake: game")
 
 include_directories(
 	${SolutionDir}/thirdparty/protobuf-22.1/install/include
-	${SolutionDir}/thirdparty/mongo-c-driver-1.23.3/install/include
+	${SolutionDir}/thirdparty/mongo-c-driver-1.23.3/install/include/libbson-1.0
+	${SolutionDir}/thirdparty/mongo-c-driver-1.23.3/install/include/libmongoc-1.0
 )
 
 link_directories(

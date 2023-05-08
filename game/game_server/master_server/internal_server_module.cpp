@@ -24,8 +24,8 @@ bool InternalServerModule::init()
 	using namespace std::placeholders;
 
 	MessageHelper& messagehelper = MessageHelper::getInstance();
-	messagehelper.registerHandler<&InternalServerModule::onS2SHeatBeatReq>(this, S2SMsg::S2S_ID_HEARTBEAT);
-	messagehelper.registerHandler<&InternalServerModule::onS2SServerRegisterReq>(this, S2SMsg::S2S_ID_SERVER_REGSTER_REQ);
+	messagehelper.registerHandler<&InternalServerModule::onS2SHeatBeatReq>(this, S2S::MSG_ID_HEARTBEAT);
+	messagehelper.registerHandler<&InternalServerModule::onS2SServerRegisterReq>(this, S2S::MSG_ID_SERVER_REGSTER_REQ);
 
 	m_tcpServer = std::make_unique<TcpServer<TcpConnection>>(m_thisServer->getIoContext(), m_thisServer->getConfig().internalIp, m_thisServer->getConfig().internalPort);
 	m_tcpServer->setClientConnectedCb(std::bind(&InternalServerModule::onClientConnected, this, _1));
@@ -61,14 +61,14 @@ void InternalServerModule::onClientDataReceived(TcpConnectionPtr connection, uin
 	MessageHelper::getInstance().dispatch(connection, msgId, (const char*)data, (uint32_t)len);
 }
 
-void InternalServerModule::onS2SHeatBeatReq(TcpConnectionPtr connection, const S2SMsg::S2SHeartBeat& msg)
+void InternalServerModule::onS2SHeatBeatReq(TcpConnectionPtr connection, const S2S::S2SHeartBeat& msg)
 {
 
 }
 
-void InternalServerModule::onS2SServerRegisterReq(TcpConnectionPtr connection, const S2SMsg::S2SServerRegisterReq& msg)
+void InternalServerModule::onS2SServerRegisterReq(TcpConnectionPtr connection, const S2S::S2SServerRegisterReq& msg)
 {
-	const S2SMsg::ServerInfo& serverInfo = msg.server_info();
+	const S2S::ServerInfo& serverInfo = msg.server_info();
 	int serverType = serverInfo.server_type();
 	int serverId = serverInfo.server_id();
 	std::string ip = serverInfo.ip();
@@ -76,10 +76,10 @@ void InternalServerModule::onS2SServerRegisterReq(TcpConnectionPtr connection, c
 
 	LOG_INFO(s_logCategory, "a server has register, type:{}, id:{}, ip:{}, port:{}", serverType, serverId, ip, port);
 
-	S2SMsg::S2SServerRegisterRes s2sPackage;
+	S2S::S2SServerRegisterRes s2sPackage;
 	s2sPackage.set_success(true);
 	s2sPackage.set_error_msg("dwadawd");
-	MessageHelper::getInstance().sendPacket(connection, S2SMsg::S2S_ID_SERVER_REGSTER_RES, s2sPackage);
+	MessageHelper::getInstance().sendPacket(connection, S2S::MSG_ID_SERVER_REGSTER_RES, s2sPackage);
 }
 
 

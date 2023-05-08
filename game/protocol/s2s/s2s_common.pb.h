@@ -45,7 +45,7 @@ struct TableStruct_s2s_5fcommon_2eproto {
   static const uint32_t offsets[];
 };
 extern const ::PROTOBUF_NAMESPACE_ID::internal::DescriptorTable descriptor_table_s2s_5fcommon_2eproto;
-namespace S2SMsg {
+namespace S2S {
 class S2SHeartBeat;
 struct S2SHeartBeatDefaultTypeInternal;
 extern S2SHeartBeatDefaultTypeInternal _S2SHeartBeat_default_instance_;
@@ -58,26 +58,38 @@ extern S2SServerRegisterResDefaultTypeInternal _S2SServerRegisterRes_default_ins
 class ServerInfo;
 struct ServerInfoDefaultTypeInternal;
 extern ServerInfoDefaultTypeInternal _ServerInfo_default_instance_;
-}  // namespace S2SMsg
+}  // namespace S2S
 PROTOBUF_NAMESPACE_OPEN
-template<> ::S2SMsg::S2SHeartBeat* Arena::CreateMaybeMessage<::S2SMsg::S2SHeartBeat>(Arena*);
-template<> ::S2SMsg::S2SServerRegisterReq* Arena::CreateMaybeMessage<::S2SMsg::S2SServerRegisterReq>(Arena*);
-template<> ::S2SMsg::S2SServerRegisterRes* Arena::CreateMaybeMessage<::S2SMsg::S2SServerRegisterRes>(Arena*);
-template<> ::S2SMsg::ServerInfo* Arena::CreateMaybeMessage<::S2SMsg::ServerInfo>(Arena*);
+template<> ::S2S::S2SHeartBeat* Arena::CreateMaybeMessage<::S2S::S2SHeartBeat>(Arena*);
+template<> ::S2S::S2SServerRegisterReq* Arena::CreateMaybeMessage<::S2S::S2SServerRegisterReq>(Arena*);
+template<> ::S2S::S2SServerRegisterRes* Arena::CreateMaybeMessage<::S2S::S2SServerRegisterRes>(Arena*);
+template<> ::S2S::ServerInfo* Arena::CreateMaybeMessage<::S2S::ServerInfo>(Arena*);
 PROTOBUF_NAMESPACE_CLOSE
-namespace S2SMsg {
+namespace S2S {
 
 enum S2S_MSG_ID : int {
-  S2S_ID_NONE = 0,
-  S2S_ID_HEARTBEAT = 101,
-  S2S_ID_SERVER_REGSTER_REQ = 102,
-  S2S_ID_SERVER_REGSTER_RES = 103,
+  MSG_ID_NONE = 0,
+  MSG_ID_HEARTBEAT = 101,
+  MSG_ID_SERVER_REGSTER_REQ = 102,
+  MSG_ID_SERVER_REGSTER_RES = 103,
+  MSG_ID_DB_INSERT_REQ = 1,
+  MSG_ID_DB_INSERT_RES = 2,
+  MSG_ID_DB_REMOVE_REQ = 3,
+  MSG_ID_DB_REMOVE_RES = 4,
+  MSG_ID_DB_SAVE_REQ = 5,
+  MSG_ID_DB_SAVE_RES = 6,
+  MSG_ID_DB_UPDATE_REQ = 7,
+  MSG_ID_DB_UPDATE_RES = 8,
+  MSG_ID_DB_FIND_REQ = 9,
+  MSG_ID_DB_FIND_RES = 10,
+  MSG_ID_DB_BATCH_FIND_REQ = 11,
+  MSG_ID_DB_BATCH_FIND_RES = 12,
   S2S_MSG_ID_INT_MIN_SENTINEL_DO_NOT_USE_ = std::numeric_limits<int32_t>::min(),
   S2S_MSG_ID_INT_MAX_SENTINEL_DO_NOT_USE_ = std::numeric_limits<int32_t>::max()
 };
 bool S2S_MSG_ID_IsValid(int value);
-constexpr S2S_MSG_ID S2S_MSG_ID_MIN = S2S_ID_NONE;
-constexpr S2S_MSG_ID S2S_MSG_ID_MAX = S2S_ID_SERVER_REGSTER_RES;
+constexpr S2S_MSG_ID S2S_MSG_ID_MIN = MSG_ID_NONE;
+constexpr S2S_MSG_ID S2S_MSG_ID_MAX = MSG_ID_SERVER_REGSTER_RES;
 constexpr int S2S_MSG_ID_ARRAYSIZE = S2S_MSG_ID_MAX + 1;
 
 const ::PROTOBUF_NAMESPACE_ID::EnumDescriptor* S2S_MSG_ID_descriptor();
@@ -97,7 +109,7 @@ inline bool S2S_MSG_ID_Parse(
 // ===================================================================
 
 class S2SHeartBeat final :
-    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:S2SMsg.S2SHeartBeat) */ {
+    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:S2S.S2SHeartBeat) */ {
  public:
   inline S2SHeartBeat() : S2SHeartBeat(nullptr) {}
   ~S2SHeartBeat() override;
@@ -200,7 +212,7 @@ class S2SHeartBeat final :
   private:
   friend class ::PROTOBUF_NAMESPACE_ID::internal::AnyMetadata;
   static ::PROTOBUF_NAMESPACE_ID::StringPiece FullMessageName() {
-    return "S2SMsg.S2SHeartBeat";
+    return "S2S.S2SHeartBeat";
   }
   protected:
   explicit S2SHeartBeat(::PROTOBUF_NAMESPACE_ID::Arena* arena,
@@ -248,7 +260,7 @@ class S2SHeartBeat final :
   void _internal_set_state(int32_t value);
   public:
 
-  // @@protoc_insertion_point(class_scope:S2SMsg.S2SHeartBeat)
+  // @@protoc_insertion_point(class_scope:S2S.S2SHeartBeat)
  private:
   class _Internal;
 
@@ -267,7 +279,7 @@ class S2SHeartBeat final :
 // -------------------------------------------------------------------
 
 class ServerInfo final :
-    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:S2SMsg.ServerInfo) */ {
+    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:S2S.ServerInfo) */ {
  public:
   inline ServerInfo() : ServerInfo(nullptr) {}
   ~ServerInfo() override;
@@ -370,7 +382,7 @@ class ServerInfo final :
   private:
   friend class ::PROTOBUF_NAMESPACE_ID::internal::AnyMetadata;
   static ::PROTOBUF_NAMESPACE_ID::StringPiece FullMessageName() {
-    return "S2SMsg.ServerInfo";
+    return "S2S.ServerInfo";
   }
   protected:
   explicit ServerInfo(::PROTOBUF_NAMESPACE_ID::Arena* arena,
@@ -433,7 +445,7 @@ class ServerInfo final :
   void _internal_set_port(int32_t value);
   public:
 
-  // @@protoc_insertion_point(class_scope:S2SMsg.ServerInfo)
+  // @@protoc_insertion_point(class_scope:S2S.ServerInfo)
  private:
   class _Internal;
 
@@ -453,7 +465,7 @@ class ServerInfo final :
 // -------------------------------------------------------------------
 
 class S2SServerRegisterReq final :
-    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:S2SMsg.S2SServerRegisterReq) */ {
+    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:S2S.S2SServerRegisterReq) */ {
  public:
   inline S2SServerRegisterReq() : S2SServerRegisterReq(nullptr) {}
   ~S2SServerRegisterReq() override;
@@ -556,7 +568,7 @@ class S2SServerRegisterReq final :
   private:
   friend class ::PROTOBUF_NAMESPACE_ID::internal::AnyMetadata;
   static ::PROTOBUF_NAMESPACE_ID::StringPiece FullMessageName() {
-    return "S2SMsg.S2SServerRegisterReq";
+    return "S2S.S2SServerRegisterReq";
   }
   protected:
   explicit S2SServerRegisterReq(::PROTOBUF_NAMESPACE_ID::Arena* arena,
@@ -575,25 +587,25 @@ class S2SServerRegisterReq final :
   enum : int {
     kServerInfoFieldNumber = 1,
   };
-  // .S2SMsg.ServerInfo server_info = 1;
+  // .S2S.ServerInfo server_info = 1;
   bool has_server_info() const;
   private:
   bool _internal_has_server_info() const;
   public:
   void clear_server_info();
-  const ::S2SMsg::ServerInfo& server_info() const;
-  PROTOBUF_NODISCARD ::S2SMsg::ServerInfo* release_server_info();
-  ::S2SMsg::ServerInfo* mutable_server_info();
-  void set_allocated_server_info(::S2SMsg::ServerInfo* server_info);
+  const ::S2S::ServerInfo& server_info() const;
+  PROTOBUF_NODISCARD ::S2S::ServerInfo* release_server_info();
+  ::S2S::ServerInfo* mutable_server_info();
+  void set_allocated_server_info(::S2S::ServerInfo* server_info);
   private:
-  const ::S2SMsg::ServerInfo& _internal_server_info() const;
-  ::S2SMsg::ServerInfo* _internal_mutable_server_info();
+  const ::S2S::ServerInfo& _internal_server_info() const;
+  ::S2S::ServerInfo* _internal_mutable_server_info();
   public:
   void unsafe_arena_set_allocated_server_info(
-      ::S2SMsg::ServerInfo* server_info);
-  ::S2SMsg::ServerInfo* unsafe_arena_release_server_info();
+      ::S2S::ServerInfo* server_info);
+  ::S2S::ServerInfo* unsafe_arena_release_server_info();
 
-  // @@protoc_insertion_point(class_scope:S2SMsg.S2SServerRegisterReq)
+  // @@protoc_insertion_point(class_scope:S2S.S2SServerRegisterReq)
  private:
   class _Internal;
 
@@ -601,7 +613,7 @@ class S2SServerRegisterReq final :
   typedef void InternalArenaConstructable_;
   typedef void DestructorSkippable_;
   struct Impl_ {
-    ::S2SMsg::ServerInfo* server_info_;
+    ::S2S::ServerInfo* server_info_;
     mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
   };
   union { Impl_ _impl_; };
@@ -610,7 +622,7 @@ class S2SServerRegisterReq final :
 // -------------------------------------------------------------------
 
 class S2SServerRegisterRes final :
-    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:S2SMsg.S2SServerRegisterRes) */ {
+    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:S2S.S2SServerRegisterRes) */ {
  public:
   inline S2SServerRegisterRes() : S2SServerRegisterRes(nullptr) {}
   ~S2SServerRegisterRes() override;
@@ -713,7 +725,7 @@ class S2SServerRegisterRes final :
   private:
   friend class ::PROTOBUF_NAMESPACE_ID::internal::AnyMetadata;
   static ::PROTOBUF_NAMESPACE_ID::StringPiece FullMessageName() {
-    return "S2SMsg.S2SServerRegisterRes";
+    return "S2S.S2SServerRegisterRes";
   }
   protected:
   explicit S2SServerRegisterRes(::PROTOBUF_NAMESPACE_ID::Arena* arena,
@@ -756,7 +768,7 @@ class S2SServerRegisterRes final :
   void _internal_set_success(bool value);
   public:
 
-  // @@protoc_insertion_point(class_scope:S2SMsg.S2SServerRegisterRes)
+  // @@protoc_insertion_point(class_scope:S2S.S2SServerRegisterRes)
  private:
   class _Internal;
 
@@ -790,7 +802,7 @@ inline int32_t S2SHeartBeat::_internal_server_type() const {
   return _impl_.server_type_;
 }
 inline int32_t S2SHeartBeat::server_type() const {
-  // @@protoc_insertion_point(field_get:S2SMsg.S2SHeartBeat.server_type)
+  // @@protoc_insertion_point(field_get:S2S.S2SHeartBeat.server_type)
   return _internal_server_type();
 }
 inline void S2SHeartBeat::_internal_set_server_type(int32_t value) {
@@ -799,7 +811,7 @@ inline void S2SHeartBeat::_internal_set_server_type(int32_t value) {
 }
 inline void S2SHeartBeat::set_server_type(int32_t value) {
   _internal_set_server_type(value);
-  // @@protoc_insertion_point(field_set:S2SMsg.S2SHeartBeat.server_type)
+  // @@protoc_insertion_point(field_set:S2S.S2SHeartBeat.server_type)
 }
 
 // int32 server_id = 2;
@@ -810,7 +822,7 @@ inline int32_t S2SHeartBeat::_internal_server_id() const {
   return _impl_.server_id_;
 }
 inline int32_t S2SHeartBeat::server_id() const {
-  // @@protoc_insertion_point(field_get:S2SMsg.S2SHeartBeat.server_id)
+  // @@protoc_insertion_point(field_get:S2S.S2SHeartBeat.server_id)
   return _internal_server_id();
 }
 inline void S2SHeartBeat::_internal_set_server_id(int32_t value) {
@@ -819,7 +831,7 @@ inline void S2SHeartBeat::_internal_set_server_id(int32_t value) {
 }
 inline void S2SHeartBeat::set_server_id(int32_t value) {
   _internal_set_server_id(value);
-  // @@protoc_insertion_point(field_set:S2SMsg.S2SHeartBeat.server_id)
+  // @@protoc_insertion_point(field_set:S2S.S2SHeartBeat.server_id)
 }
 
 // int32 state = 3;
@@ -830,7 +842,7 @@ inline int32_t S2SHeartBeat::_internal_state() const {
   return _impl_.state_;
 }
 inline int32_t S2SHeartBeat::state() const {
-  // @@protoc_insertion_point(field_get:S2SMsg.S2SHeartBeat.state)
+  // @@protoc_insertion_point(field_get:S2S.S2SHeartBeat.state)
   return _internal_state();
 }
 inline void S2SHeartBeat::_internal_set_state(int32_t value) {
@@ -839,7 +851,7 @@ inline void S2SHeartBeat::_internal_set_state(int32_t value) {
 }
 inline void S2SHeartBeat::set_state(int32_t value) {
   _internal_set_state(value);
-  // @@protoc_insertion_point(field_set:S2SMsg.S2SHeartBeat.state)
+  // @@protoc_insertion_point(field_set:S2S.S2SHeartBeat.state)
 }
 
 // -------------------------------------------------------------------
@@ -854,7 +866,7 @@ inline int32_t ServerInfo::_internal_server_type() const {
   return _impl_.server_type_;
 }
 inline int32_t ServerInfo::server_type() const {
-  // @@protoc_insertion_point(field_get:S2SMsg.ServerInfo.server_type)
+  // @@protoc_insertion_point(field_get:S2S.ServerInfo.server_type)
   return _internal_server_type();
 }
 inline void ServerInfo::_internal_set_server_type(int32_t value) {
@@ -863,7 +875,7 @@ inline void ServerInfo::_internal_set_server_type(int32_t value) {
 }
 inline void ServerInfo::set_server_type(int32_t value) {
   _internal_set_server_type(value);
-  // @@protoc_insertion_point(field_set:S2SMsg.ServerInfo.server_type)
+  // @@protoc_insertion_point(field_set:S2S.ServerInfo.server_type)
 }
 
 // int32 server_id = 2;
@@ -874,7 +886,7 @@ inline int32_t ServerInfo::_internal_server_id() const {
   return _impl_.server_id_;
 }
 inline int32_t ServerInfo::server_id() const {
-  // @@protoc_insertion_point(field_get:S2SMsg.ServerInfo.server_id)
+  // @@protoc_insertion_point(field_get:S2S.ServerInfo.server_id)
   return _internal_server_id();
 }
 inline void ServerInfo::_internal_set_server_id(int32_t value) {
@@ -883,7 +895,7 @@ inline void ServerInfo::_internal_set_server_id(int32_t value) {
 }
 inline void ServerInfo::set_server_id(int32_t value) {
   _internal_set_server_id(value);
-  // @@protoc_insertion_point(field_set:S2SMsg.ServerInfo.server_id)
+  // @@protoc_insertion_point(field_set:S2S.ServerInfo.server_id)
 }
 
 // int32 port = 3;
@@ -894,7 +906,7 @@ inline int32_t ServerInfo::_internal_port() const {
   return _impl_.port_;
 }
 inline int32_t ServerInfo::port() const {
-  // @@protoc_insertion_point(field_get:S2SMsg.ServerInfo.port)
+  // @@protoc_insertion_point(field_get:S2S.ServerInfo.port)
   return _internal_port();
 }
 inline void ServerInfo::_internal_set_port(int32_t value) {
@@ -903,7 +915,7 @@ inline void ServerInfo::_internal_set_port(int32_t value) {
 }
 inline void ServerInfo::set_port(int32_t value) {
   _internal_set_port(value);
-  // @@protoc_insertion_point(field_set:S2SMsg.ServerInfo.port)
+  // @@protoc_insertion_point(field_set:S2S.ServerInfo.port)
 }
 
 // string ip = 4;
@@ -911,7 +923,7 @@ inline void ServerInfo::clear_ip() {
   _impl_.ip_.ClearToEmpty();
 }
 inline const std::string& ServerInfo::ip() const {
-  // @@protoc_insertion_point(field_get:S2SMsg.ServerInfo.ip)
+  // @@protoc_insertion_point(field_get:S2S.ServerInfo.ip)
   return _internal_ip();
 }
 template <typename ArgT0, typename... ArgT>
@@ -919,11 +931,11 @@ inline PROTOBUF_ALWAYS_INLINE
 void ServerInfo::set_ip(ArgT0&& arg0, ArgT... args) {
  
  _impl_.ip_.Set(static_cast<ArgT0 &&>(arg0), args..., GetArenaForAllocation());
-  // @@protoc_insertion_point(field_set:S2SMsg.ServerInfo.ip)
+  // @@protoc_insertion_point(field_set:S2S.ServerInfo.ip)
 }
 inline std::string* ServerInfo::mutable_ip() {
   std::string* _s = _internal_mutable_ip();
-  // @@protoc_insertion_point(field_mutable:S2SMsg.ServerInfo.ip)
+  // @@protoc_insertion_point(field_mutable:S2S.ServerInfo.ip)
   return _s;
 }
 inline const std::string& ServerInfo::_internal_ip() const {
@@ -938,7 +950,7 @@ inline std::string* ServerInfo::_internal_mutable_ip() {
   return _impl_.ip_.Mutable(GetArenaForAllocation());
 }
 inline std::string* ServerInfo::release_ip() {
-  // @@protoc_insertion_point(field_release:S2SMsg.ServerInfo.ip)
+  // @@protoc_insertion_point(field_release:S2S.ServerInfo.ip)
   return _impl_.ip_.Release();
 }
 inline void ServerInfo::set_allocated_ip(std::string* ip) {
@@ -953,14 +965,14 @@ inline void ServerInfo::set_allocated_ip(std::string* ip) {
     _impl_.ip_.Set("", GetArenaForAllocation());
   }
 #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
-  // @@protoc_insertion_point(field_set_allocated:S2SMsg.ServerInfo.ip)
+  // @@protoc_insertion_point(field_set_allocated:S2S.ServerInfo.ip)
 }
 
 // -------------------------------------------------------------------
 
 // S2SServerRegisterReq
 
-// .S2SMsg.ServerInfo server_info = 1;
+// .S2S.ServerInfo server_info = 1;
 inline bool S2SServerRegisterReq::_internal_has_server_info() const {
   return this != internal_default_instance() && _impl_.server_info_ != nullptr;
 }
@@ -973,17 +985,17 @@ inline void S2SServerRegisterReq::clear_server_info() {
   }
   _impl_.server_info_ = nullptr;
 }
-inline const ::S2SMsg::ServerInfo& S2SServerRegisterReq::_internal_server_info() const {
-  const ::S2SMsg::ServerInfo* p = _impl_.server_info_;
-  return p != nullptr ? *p : reinterpret_cast<const ::S2SMsg::ServerInfo&>(
-      ::S2SMsg::_ServerInfo_default_instance_);
+inline const ::S2S::ServerInfo& S2SServerRegisterReq::_internal_server_info() const {
+  const ::S2S::ServerInfo* p = _impl_.server_info_;
+  return p != nullptr ? *p : reinterpret_cast<const ::S2S::ServerInfo&>(
+      ::S2S::_ServerInfo_default_instance_);
 }
-inline const ::S2SMsg::ServerInfo& S2SServerRegisterReq::server_info() const {
-  // @@protoc_insertion_point(field_get:S2SMsg.S2SServerRegisterReq.server_info)
+inline const ::S2S::ServerInfo& S2SServerRegisterReq::server_info() const {
+  // @@protoc_insertion_point(field_get:S2S.S2SServerRegisterReq.server_info)
   return _internal_server_info();
 }
 inline void S2SServerRegisterReq::unsafe_arena_set_allocated_server_info(
-    ::S2SMsg::ServerInfo* server_info) {
+    ::S2S::ServerInfo* server_info) {
   if (GetArenaForAllocation() == nullptr) {
     delete reinterpret_cast<::PROTOBUF_NAMESPACE_ID::MessageLite*>(_impl_.server_info_);
   }
@@ -993,11 +1005,11 @@ inline void S2SServerRegisterReq::unsafe_arena_set_allocated_server_info(
   } else {
     
   }
-  // @@protoc_insertion_point(field_unsafe_arena_set_allocated:S2SMsg.S2SServerRegisterReq.server_info)
+  // @@protoc_insertion_point(field_unsafe_arena_set_allocated:S2S.S2SServerRegisterReq.server_info)
 }
-inline ::S2SMsg::ServerInfo* S2SServerRegisterReq::release_server_info() {
+inline ::S2S::ServerInfo* S2SServerRegisterReq::release_server_info() {
   
-  ::S2SMsg::ServerInfo* temp = _impl_.server_info_;
+  ::S2S::ServerInfo* temp = _impl_.server_info_;
   _impl_.server_info_ = nullptr;
 #ifdef PROTOBUF_FORCE_COPY_IN_RELEASE
   auto* old =  reinterpret_cast<::PROTOBUF_NAMESPACE_ID::MessageLite*>(temp);
@@ -1010,27 +1022,27 @@ inline ::S2SMsg::ServerInfo* S2SServerRegisterReq::release_server_info() {
 #endif  // !PROTOBUF_FORCE_COPY_IN_RELEASE
   return temp;
 }
-inline ::S2SMsg::ServerInfo* S2SServerRegisterReq::unsafe_arena_release_server_info() {
-  // @@protoc_insertion_point(field_release:S2SMsg.S2SServerRegisterReq.server_info)
+inline ::S2S::ServerInfo* S2SServerRegisterReq::unsafe_arena_release_server_info() {
+  // @@protoc_insertion_point(field_release:S2S.S2SServerRegisterReq.server_info)
   
-  ::S2SMsg::ServerInfo* temp = _impl_.server_info_;
+  ::S2S::ServerInfo* temp = _impl_.server_info_;
   _impl_.server_info_ = nullptr;
   return temp;
 }
-inline ::S2SMsg::ServerInfo* S2SServerRegisterReq::_internal_mutable_server_info() {
+inline ::S2S::ServerInfo* S2SServerRegisterReq::_internal_mutable_server_info() {
   
   if (_impl_.server_info_ == nullptr) {
-    auto* p = CreateMaybeMessage<::S2SMsg::ServerInfo>(GetArenaForAllocation());
+    auto* p = CreateMaybeMessage<::S2S::ServerInfo>(GetArenaForAllocation());
     _impl_.server_info_ = p;
   }
   return _impl_.server_info_;
 }
-inline ::S2SMsg::ServerInfo* S2SServerRegisterReq::mutable_server_info() {
-  ::S2SMsg::ServerInfo* _msg = _internal_mutable_server_info();
-  // @@protoc_insertion_point(field_mutable:S2SMsg.S2SServerRegisterReq.server_info)
+inline ::S2S::ServerInfo* S2SServerRegisterReq::mutable_server_info() {
+  ::S2S::ServerInfo* _msg = _internal_mutable_server_info();
+  // @@protoc_insertion_point(field_mutable:S2S.S2SServerRegisterReq.server_info)
   return _msg;
 }
-inline void S2SServerRegisterReq::set_allocated_server_info(::S2SMsg::ServerInfo* server_info) {
+inline void S2SServerRegisterReq::set_allocated_server_info(::S2S::ServerInfo* server_info) {
   ::PROTOBUF_NAMESPACE_ID::Arena* message_arena = GetArenaForAllocation();
   if (message_arena == nullptr) {
     delete _impl_.server_info_;
@@ -1047,7 +1059,7 @@ inline void S2SServerRegisterReq::set_allocated_server_info(::S2SMsg::ServerInfo
     
   }
   _impl_.server_info_ = server_info;
-  // @@protoc_insertion_point(field_set_allocated:S2SMsg.S2SServerRegisterReq.server_info)
+  // @@protoc_insertion_point(field_set_allocated:S2S.S2SServerRegisterReq.server_info)
 }
 
 // -------------------------------------------------------------------
@@ -1062,7 +1074,7 @@ inline bool S2SServerRegisterRes::_internal_success() const {
   return _impl_.success_;
 }
 inline bool S2SServerRegisterRes::success() const {
-  // @@protoc_insertion_point(field_get:S2SMsg.S2SServerRegisterRes.success)
+  // @@protoc_insertion_point(field_get:S2S.S2SServerRegisterRes.success)
   return _internal_success();
 }
 inline void S2SServerRegisterRes::_internal_set_success(bool value) {
@@ -1071,7 +1083,7 @@ inline void S2SServerRegisterRes::_internal_set_success(bool value) {
 }
 inline void S2SServerRegisterRes::set_success(bool value) {
   _internal_set_success(value);
-  // @@protoc_insertion_point(field_set:S2SMsg.S2SServerRegisterRes.success)
+  // @@protoc_insertion_point(field_set:S2S.S2SServerRegisterRes.success)
 }
 
 // string error_msg = 2;
@@ -1079,7 +1091,7 @@ inline void S2SServerRegisterRes::clear_error_msg() {
   _impl_.error_msg_.ClearToEmpty();
 }
 inline const std::string& S2SServerRegisterRes::error_msg() const {
-  // @@protoc_insertion_point(field_get:S2SMsg.S2SServerRegisterRes.error_msg)
+  // @@protoc_insertion_point(field_get:S2S.S2SServerRegisterRes.error_msg)
   return _internal_error_msg();
 }
 template <typename ArgT0, typename... ArgT>
@@ -1087,11 +1099,11 @@ inline PROTOBUF_ALWAYS_INLINE
 void S2SServerRegisterRes::set_error_msg(ArgT0&& arg0, ArgT... args) {
  
  _impl_.error_msg_.Set(static_cast<ArgT0 &&>(arg0), args..., GetArenaForAllocation());
-  // @@protoc_insertion_point(field_set:S2SMsg.S2SServerRegisterRes.error_msg)
+  // @@protoc_insertion_point(field_set:S2S.S2SServerRegisterRes.error_msg)
 }
 inline std::string* S2SServerRegisterRes::mutable_error_msg() {
   std::string* _s = _internal_mutable_error_msg();
-  // @@protoc_insertion_point(field_mutable:S2SMsg.S2SServerRegisterRes.error_msg)
+  // @@protoc_insertion_point(field_mutable:S2S.S2SServerRegisterRes.error_msg)
   return _s;
 }
 inline const std::string& S2SServerRegisterRes::_internal_error_msg() const {
@@ -1106,7 +1118,7 @@ inline std::string* S2SServerRegisterRes::_internal_mutable_error_msg() {
   return _impl_.error_msg_.Mutable(GetArenaForAllocation());
 }
 inline std::string* S2SServerRegisterRes::release_error_msg() {
-  // @@protoc_insertion_point(field_release:S2SMsg.S2SServerRegisterRes.error_msg)
+  // @@protoc_insertion_point(field_release:S2S.S2SServerRegisterRes.error_msg)
   return _impl_.error_msg_.Release();
 }
 inline void S2SServerRegisterRes::set_allocated_error_msg(std::string* error_msg) {
@@ -1121,7 +1133,7 @@ inline void S2SServerRegisterRes::set_allocated_error_msg(std::string* error_msg
     _impl_.error_msg_.Set("", GetArenaForAllocation());
   }
 #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
-  // @@protoc_insertion_point(field_set_allocated:S2SMsg.S2SServerRegisterRes.error_msg)
+  // @@protoc_insertion_point(field_set_allocated:S2S.S2SServerRegisterRes.error_msg)
 }
 
 #ifdef __GNUC__
@@ -1136,14 +1148,14 @@ inline void S2SServerRegisterRes::set_allocated_error_msg(std::string* error_msg
 
 // @@protoc_insertion_point(namespace_scope)
 
-}  // namespace S2SMsg
+}  // namespace S2S
 
 PROTOBUF_NAMESPACE_OPEN
 
-template <> struct is_proto_enum< ::S2SMsg::S2S_MSG_ID> : ::std::true_type {};
+template <> struct is_proto_enum< ::S2S::S2S_MSG_ID> : ::std::true_type {};
 template <>
-inline const EnumDescriptor* GetEnumDescriptor< ::S2SMsg::S2S_MSG_ID>() {
-  return ::S2SMsg::S2S_MSG_ID_descriptor();
+inline const EnumDescriptor* GetEnumDescriptor< ::S2S::S2S_MSG_ID>() {
+  return ::S2S::S2S_MSG_ID_descriptor();
 }
 
 PROTOBUF_NAMESPACE_CLOSE

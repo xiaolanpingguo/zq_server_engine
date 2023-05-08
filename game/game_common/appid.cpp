@@ -18,7 +18,12 @@ bool AppId::init(const std::string& appId)
 	uint8_t zoneId = result[2];
 	uint8_t instanceId = result[3];
 
-	if (funcId > 32 || funcId < 1)
+	if (funcId > 32)
+	{
+		return false;
+	}
+
+	if (zoneId > 8)
 	{
 		return false;
 	}

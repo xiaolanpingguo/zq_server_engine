@@ -1,24 +1,6 @@
 syntax = "proto3";
 
-package DB;
-
-
-enum MongoMsgType
-{
-	MONGO_MSG_NULL = 0;
-	MONGO_MSG_INSERT_REQ = 1;
-	MONGO_MSG_INSERT_RES = 2;
-	MONGO_MSG_REMOVE_REQ = 3;
-	MONGO_MSG_REMOVE_RES = 4;
-	MONGO_MSG_SAVE_REQ = 5;
-	MONGO_MSG_SAVE_RES = 6;
-	MONGO_MSG_UPDATE_REQ = 7;
-	MONGO_MSG_UPDATE_RES = 8;
-	MONGO_MSG_FIND_REQ = 9;
-	MONGO_MSG_FIND_RES = 10;
-	MONGO_MSG_BATCH_FIND_REQ = 11;
-	MONGO_MSG_BATCH_FIND_RES = 12;
-}
+package S2S;
 
 
 message ProtoBsonData
@@ -89,8 +71,9 @@ message MongoSaveReq
 {
 	string db_name = 1; //dbname
 	string col_name = 2; //colname
-	ProtoBsonObj doc = 3; //doc
-	MongoUserData user_data = 4; //user_data
+	ProtoBsonObj selector = 3; //selector
+	ProtoBsonObj replacement = 4; //replacement
+	MongoUserData user_data = 5; //user_data
 }
 
 message MongoSaveRes
@@ -169,7 +152,6 @@ message MongoBatchFindRes
 
 message MongoDBMsg
 {
-	int32 cmd_type = 1;
 	MongoInsertReq insert_req = 2;
 	MongoInsertRes insert_res = 3;
 	MongoRemoveReq remove_req = 4;

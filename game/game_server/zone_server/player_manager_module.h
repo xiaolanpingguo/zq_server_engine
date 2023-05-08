@@ -8,14 +8,14 @@
 namespace zq {
 
 
-class WorldServer;
+class ZoneServer;
 class Player;
 class PlayerManagerModule : public IModule
 {
 	INIT_MODULE_NAME(PlayerManagerModule);
 
 public:
-	PlayerManagerModule(WorldServer* thisServer);
+	PlayerManagerModule(ZoneServer* thisServer);
 	~PlayerManagerModule();
 
 private:
@@ -23,7 +23,7 @@ private:
 
 public:
 
-	WorldServer* m_thisServer;
+	ZoneServer* m_thisServer;
 	std::unordered_map<std::string, Player*> m_players;
 
 	constexpr static std::string_view s_logCategory = "PlayerManagerModule";

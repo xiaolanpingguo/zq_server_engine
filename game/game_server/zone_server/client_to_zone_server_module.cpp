@@ -1,13 +1,13 @@
-#include "game_server/world_server/client_to_world_server_module.h"
+#include "game_server/zone_server/client_to_zone_server_module.h"
 #include "game_common/message_router.hpp"
-#include "game_server/world_server/world_server.h"
+#include "game_server/zone_server/zone_server.h"
 #include "protocol/c2s/c2s_common.pb.h"
 
 
 namespace zq{
 
 
-ClientToServerModule::ClientToServerModule(WorldServer* thisServer)
+ClientToServerModule::ClientToServerModule(ZoneServer* thisServer)
 	:
 		m_thisServer(thisServer)
 {

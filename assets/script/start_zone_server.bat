@@ -1,0 +1,1 @@
+zone_server.exe -cfg=zone_server_1.json

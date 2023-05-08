@@ -1,10 +1,10 @@
-#include "game_Server/world_server/world_server.h"
+#include "game_server/zone_server/zone_server.h"
 using namespace std;
 using namespace zq;
 
 int main(int argc, char* argv[])
 {
-	WorldServer server(argc, argv);
+	ZoneServer server(argc, argv);
 	if (!server.start())
 	{
 		printf("start server failed!\n");

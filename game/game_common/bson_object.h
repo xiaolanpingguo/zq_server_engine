@@ -10,7 +10,8 @@
 #include <iostream>
 #include <sstream>
 
-#include <libbson-1.0/bson.h>
+#include "protocol/s2s/db_mongo_proxy.pb.h"
+#include <bson/bson.h>
 
 
 namespace zq {
@@ -34,30 +35,6 @@ enum BsonDataType : int
 	OID,
 };
 
-template <typename T>
-struct DataTypeIdentity
-{
-};
-
-
-#define REGISTER_TYPE(Type, Index)     inline constexpr BsonDataType dataTypeToId(DataTypeIdentity<Type>) noexcept { return Index; }
-
-REGISTER_TYPE(bool, BsonDataType::BOOL)
-REGISTER_TYPE(int8_t, BsonDataType::INT32)
-REGISTER_TYPE(uint8_t, BsonDataType::INT32)
-REGISTER_TYPE(int16_t, BsonDataType::INT32)
-REGISTER_TYPE(uint16_t, BsonDataType::INT32)
-REGISTER_TYPE(int32_t, BsonDataType::INT32)
-REGISTER_TYPE(uint32_t, BsonDataType::INT32)
-REGISTER_TYPE(int64_t, BsonDataType::INT64)
-REGISTER_TYPE(uint64_t, BsonDataType::INT64)
-REGISTER_TYPE(double, BsonDataType::DOUBLE)
-//REGISTER_TYPE(double, BsonDataType::BIN)
-//REGISTER_TYPE(double, BsonDataType::OID)
-
-inline BsonDataType dataTypeToId(DataTypeIdentity<std::string>) noexcept { return BsonDataType::STRING; }
-
-
 
 class BsonData
 {
@@ -68,121 +45,86 @@ public:
 			m_key(key), m_type(BsonDataType::UNKNOWN) {}
 	~BsonData() = default;
 
-	BsonData(const BsonData& that) :
-			m_type(that.m_type), m_key(that.m_key), m_data(that.m_data) {}
-	BsonData& operator=(BsonData const& that)
+	void setBool(bool v)
 	{
-		if (this != &that)
-		{
-			m_type = that.m_type;
-			m_key = that.m_key;
-			m_data = that.m_data;
-		}
-
-		return *this;
+		m_type = BsonDataType::BOOL;
+		m_data = v;
 	}
 
-	BsonData(BsonData&& that) :
-			m_type(that.m_type), m_key(std::move(that.m_key)), m_data(std::move(that.m_data)) {}
-	BsonData& operator=(BsonData&& that)
+	void setInt32(int32_t v)
 	{
-		if (this != &that)
-		{
-			m_type = that.m_type;
-			m_key = std::move(that.m_key);
-			m_data = std::move(that.m_data);
-		}
-
-		return *this;
+		m_type = BsonDataType::INT32;
+		m_data = v;
 	}
 
-	template<typename T>
-	void setValue(const T& v)
+	void setInt64(int64_t v)
 	{
-		using U = std::decay_t<T>;
-		if constexpr (std::is_same_v<int8_t, U> || std::is_same_v<uint8_t, U> ||
-				std::is_same_v<int16_t, U> || std::is_same_v<uint16_t, U> ||
-				std::is_same_v<int32_t, U> || std::is_same_v<uint32_t, U>)
-		{
-			m_type = dataTypeToId(dataTypeToId<U>());
-			m_data = (int32_t)v;
-		}
-		else
-		{
-			m_type = dataTypeToId(dataTypeToId<U>());
-			m_data = (U)v;
-		}
+		m_type = BsonDataType::INT64;
+		m_data = v;
 	}
 
-	void setValue(const char* v)
+	void setDouble(double v)
+	{
+		m_type = BsonDataType::DOUBLE;
+		m_data = v;
+	}
+
+	void setString(const std::string& v )
+	{
+		m_type = BsonDataType::STRING;
+		m_data = v;
+	}
+
+	void setString(const char* v)
 	{
 		m_type = BsonDataType::STRING;
 		m_data = (std::string)v;
 	}
 
-	void setValue(const char* v, size_t len)
+	void setBin(const char* v, size_t len)
 	{
 		m_type = BsonDataType::BIN;
 		m_data = std::string(v, len);
 	}
 
-	const bool& getValueBool() const
+	void setOid(const char* v)
 	{
-		if (m_type != BsonDataType::BOOL)
-		{
-			return DEFAULT_BOOL;
-		}
+		m_type = BsonDataType::OID;
+		m_data = std::string(v);
+	}
 
+	const bool& getBool() const
+	{
 		return std::get<bool>(m_data);
 	}
 
-	const int32_t& getValueInt32() const
+	const int32_t& getInt32() const
 	{
-		if (m_type != BsonDataType::INT32)
-		{
-			return DEFAULT_INT32;
-		}
-
 		return std::get<int32_t>(m_data);
 	}
 
-	const int64_t& getValueInt64()  const
+	const int64_t& getInt64()  const
 	{
-		if (m_type != BsonDataType::INT64)
-		{
-			return DEFAULT_INT64;
-		}
-
 		return std::get<int64_t>(m_data);
 	}
 
-	const double& getValueDouble() const
+	const double& getDouble() const
 	{
-		if (m_type != BsonDataType::DOUBLE)
-		{
-			return DEFAULT_DOUBLE;
-		}
-
 		return std::get<double>(m_data);
 	}
 
-	const std::string& getValueString()	const
+	const std::string& getString()	const
 	{
-		if (m_type != BsonDataType::STRING)
-		{
-			return DEFAULT_STRING;
-		}
-
 		return std::get<std::string>(m_data);
 	}
 
-	const std::string& getValueBin() const
+	const std::string& getBin() const
 	{
-		if (m_type != BsonDataType::BIN)
-		{
-			return DEFAULT_STRING;
-		}
+		return std::get<std::string>(m_data);
+	}
 
+	const std::string& getOid() const
+	{
 		return std::get<std::string>(m_data);
 	}
 
@@ -212,90 +154,6 @@ private:
 };
 
 
-class BsonBatchFindData
-{
-public:
-	BsonBatchFindData(const std::string& key = "", size_t size = 0) :
-			m_key(key) { m_data.resize(size); }
-	~BsonBatchFindData() = default;
-
-	BsonBatchFindData(const BsonBatchFindData& that) :
-			m_key(that.m_key), m_data(that.m_data) {}
-	BsonBatchFindData& operator=(BsonBatchFindData const& that)
-	{
-		if (this != &that)
-		{
-			m_key = that.m_key;
-			m_data = that.m_data;
-		}
-
-		return *this;
-	}
-
-	BsonBatchFindData(BsonBatchFindData&& that) :
-			m_key(std::move(that.m_key)), m_data(std::move(that.m_data)) {}
-	BsonBatchFindData& operator=(BsonBatchFindData&& that)
-	{
-		if (this != &that)
-		{
-			m_key = std::move(that.m_key);
-			m_data = std::move(that.m_data);
-		}
-
-		return *this;
-	}
-
-	template<typename T>
-	void appendValue(const T& v)
-	{
-		BsonData data;
-		data.setValue(v);
-		m_data.emplace_back(std::move(data));
-	}
-
-	void appendValue(const char* v)
-	{
-		BsonData data;
-		data.setValue(v);
-		m_data.emplace_back(std::move(data));
-	}
-
-	void appendValue(BsonData&& data)
-	{
-		m_data.emplace_back(std::move(data));
-	}
-
-	template<typename T>
-	void setValue(const T& v, size_t pos)
-	{
-		if (pos < 0 || pos >= m_data.size())
-		{
-			return;
-		}
-
-		m_data[pos].setValue(v);
-	}
-
-	BsonData* getValue(size_t pos)
-	{
-		if (pos < 0 || pos >= m_data.size())
-		{
-			return nullptr;
-		}
-
-		return &m_data[pos];
-	}
-
-	const std::string& getKey() const { return m_key; }
-	const std::vector<BsonData>& getData() const { return m_data; }
-
-private:
-
-	std::string m_key;
-	std::vector<BsonData> m_data;
-};
-
-
 class BsonObject;
 using BsonObjectPtr = std::shared_ptr<BsonObject>;
 class BsonObject
@@ -305,71 +163,87 @@ public:
 			m_key(key) {}
 	~BsonObject() = default;
 
-	BsonObject(const BsonObject& that) { copy(that); }
-	BsonObject& operator=(BsonObject const& that)
-	{
-		copy(that);
-		return *this;
-	}
-	BsonObject(BsonObject&& that) { move(std::move(that)); }
-	BsonObject& operator=(BsonObject&& that)
-	{
-		move(std::move(that));
-		return *this;
-	}
-
-	void copy(const BsonObject& that)
-	{
-		if (this != &that)
-		{
-			clear();
-			m_key = that.m_key;
-			m_mapBsonData = that.m_mapBsonData;
-		}
-	}
-
-	void move(BsonObject&& that)
-	{
-		if (this != &that)
-		{
-			clear();
-			m_key = std::move(that.m_key);
-			m_mapBsonData = std::move(that.m_mapBsonData);
-		}
-	}
-
-	template<typename T>
-	void appendValue(const std::string& strKey, const T& v)
+	void appendBool(const std::string& strKey, bool v)
 	{
 		if (getBsonData(strKey) == nullptr)
 		{
 			BsonData data(strKey);
-			data.setValue(v);
-			addBsonData(std::move(data));
+			data.setBool(v);
+			addBsonData(data);
 		}
 	}
 
-	void appendValue(const std::string& strKey, const char* v)
+	void appendInt32(const std::string& strKey, int32_t v)
 	{
 		if (getBsonData(strKey) == nullptr)
 		{
 			BsonData data(strKey);
-			data.setValue(v);
-			addBsonData(std::move(data));
+			data.setInt32(v);
+			addBsonData(data);
 		}
 	}
 
-	void appendValue(const std::string& strKey, const char* v, size_t len)
+	void appendInt64(const std::string& strKey, int64_t v)
 	{
 		if (getBsonData(strKey) == nullptr)
 		{
 			BsonData data(strKey);
-			data.setValue(v, len);
-			addBsonData(std::move(data));
+			data.setInt64(v);
+			addBsonData(data);
 		}
 	}
 
-	const bool& getValueBool(const std::string& key)
+	void appendDouble(const std::string& strKey, double v)
+	{
+		if (getBsonData(strKey) == nullptr)
+		{
+			BsonData data(strKey);
+			data.setDouble(v);
+			addBsonData(data);
+		}
+	}
+
+	void appendString(const std::string& strKey, const std::string& v)
+	{
+		if (getBsonData(strKey) == nullptr)
+		{
+			BsonData data(strKey);
+			data.setString(v);
+			addBsonData(data);
+		}
+	}
+
+	void appendString(const std::string& strKey, const char* v)
+	{
+		if (getBsonData(strKey) == nullptr)
+		{
+			BsonData data(strKey);
+			data.setString(v);
+			addBsonData(data);
+		}
+	}
+
+	void appendBin(const std::string& strKey, const char* v, size_t len)
+	{
+		if (getBsonData(strKey) == nullptr)
+		{
+			BsonData data(strKey);
+			data.setBin(v, len);
+			addBsonData(data);
+		}
+	}
+
+	void appendOid(const std::string& strKey, const char* v)
+	{
+		if (getBsonData(strKey) == nullptr)
+		{
+			BsonData data(strKey);
+			data.setOid(v);
+			addBsonData(data);
+		}
+	}
+
+	const bool& getBool(const std::string& key)
 	{
 		auto pData = getBsonData(key);
 		if (nullptr == pData)
@@ -377,10 +251,10 @@ public:
 			return DEFAULT_BOOL;
 		}
 
-		return pData->getValueBool();
+		return pData->getBool();
 	}
 
-	const int32_t& getValueInt32(const std::string& key)
+	const int32_t& getInt32(const std::string& key)
 	{
 		auto pData = getBsonData(key);
 		if (nullptr == pData)
@@ -388,10 +262,10 @@ public:
 			return DEFAULT_INT32;
 		}
 
-		return pData->getValueInt32();
+		return pData->getInt32();
 	}
 
-	const int64_t& getValueInt64(const std::string& key)
+	const int64_t& getInt64(const std::string& key)
 	{
 		auto pData = getBsonData(key);
 		if (nullptr == pData)
@@ -399,10 +273,10 @@ public:
 			return DEFAULT_INT64;
 		}
 
-		return pData->getValueInt64();
+		return pData->getInt64();
 	}
 
-	const double& getValueDouble(const std::string& key)
+	const double& getDouble(const std::string& key)
 	{
 		auto pData = getBsonData(key);
 		if (nullptr == pData)
@@ -410,10 +284,10 @@ public:
 			return DEFAULT_DOUBLE;
 		}
 
-		return pData->getValueDouble();
+		return pData->getDouble();
 	}
 
-	const std::string& getValueString(const std::string& key)
+	const std::string& getString(const std::string& key)
 	{
 		auto pData = getBsonData(key);
 		if (nullptr == pData)
@@ -421,7 +295,18 @@ public:
 			return DEFAULT_STRING;
 		}
 
-		return pData->getValueString();
+		return pData->getString();
+	}
+
+	const std::string& getBin(const std::string& key)
+	{
+		auto pData = getBsonData(key);
+		if (nullptr == pData)
+		{
+			return DEFAULT_STRING;
+		}
+
+		return pData->getBin();
 	}
 
 	BsonData* getBsonData(const std::string& strKey)
@@ -454,16 +339,19 @@ public:
 
 	const std::string& getKey() const { return m_key; }
 	void setKey(const std::string& strKey) { m_key = strKey; }
+	const std::unordered_map<std::string, BsonData>& getAllBsonData() const { return m_mapBsonData; }
 
-	bool convertFromRawBson(const bson_t* rawBson);
-	bool convertToRawBson(bson_t* rawBson);
+	bool convertFromRawBson(const bson_t& rawBson);
+	bool convertToRawBson(bson_t& rawBson);
+	bool convertToProtoBson(S2S::ProtoBsonObj& protoBson);
+	bool convertFromProtoBson(const S2S::ProtoBsonObj& protoBson);
 
 private:
 
-	bool addBsonData(BsonData&& prop)
+	bool addBsonData(const BsonData& data)
 	{
-		std::string key = prop.getKey();
-		return m_mapBsonData.insert(std::make_pair(key, std::move(prop))).second;
+		std::string key = data.getKey();
+		return m_mapBsonData.insert(std::make_pair(key, data)).second;
 	}
 
 private:
@@ -473,7 +361,6 @@ private:
 
 	constexpr static std::string_view s_logCategory = "BsonObject";
 };
-
 
 
 }

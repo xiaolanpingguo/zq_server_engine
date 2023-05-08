@@ -13,8 +13,8 @@ class IPlayerModule : public IModule
 {
 public:
 	virtual ~IPlayerModule(){};
-	virtual bool loadFromDB(const DB::DBPlayer& playerDBData) = 0;
-	virtual bool saveToDB(DB::DBPlayer& playerDBData) = 0;
+	virtual bool loadFromDB(const S2S::DBPlayer& playerDBData) = 0;
+	virtual bool saveToDB(S2S::DBPlayer& playerDBData) = 0;
 };
 
 

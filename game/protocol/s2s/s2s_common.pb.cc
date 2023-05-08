@@ -20,7 +20,7 @@ PROTOBUF_PRAGMA_INIT_SEG
 namespace _pb = ::PROTOBUF_NAMESPACE_ID;
 namespace _pbi = _pb::internal;
 
-namespace S2SMsg {
+namespace S2S {
 PROTOBUF_CONSTEXPR S2SHeartBeat::S2SHeartBeat(
     ::_pbi::ConstantInitialized): _impl_{
     /*decltype(_impl_.server_type_)*/0
@@ -79,77 +79,85 @@ struct S2SServerRegisterResDefaultTypeInternal {
   };
 };
 PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 S2SServerRegisterResDefaultTypeInternal _S2SServerRegisterRes_default_instance_;
-}  // namespace S2SMsg
+}  // namespace S2S
 static ::_pb::Metadata file_level_metadata_s2s_5fcommon_2eproto[4];
 static const ::_pb::EnumDescriptor* file_level_enum_descriptors_s2s_5fcommon_2eproto[1];
 static constexpr ::_pb::ServiceDescriptor const** file_level_service_descriptors_s2s_5fcommon_2eproto = nullptr;
 
 const uint32_t TableStruct_s2s_5fcommon_2eproto::offsets[] PROTOBUF_SECTION_VARIABLE(protodesc_cold) = {
   ~0u,  // no _has_bits_
-  PROTOBUF_FIELD_OFFSET(::S2SMsg::S2SHeartBeat, _internal_metadata_),
+  PROTOBUF_FIELD_OFFSET(::S2S::S2SHeartBeat, _internal_metadata_),
   ~0u,  // no _extensions_
   ~0u,  // no _oneof_case_
   ~0u,  // no _weak_field_map_
   ~0u,  // no _inlined_string_donated_
-  PROTOBUF_FIELD_OFFSET(::S2SMsg::S2SHeartBeat, _impl_.server_type_),
-  PROTOBUF_FIELD_OFFSET(::S2SMsg::S2SHeartBeat, _impl_.server_id_),
-  PROTOBUF_FIELD_OFFSET(::S2SMsg::S2SHeartBeat, _impl_.state_),
+  PROTOBUF_FIELD_OFFSET(::S2S::S2SHeartBeat, _impl_.server_type_),
+  PROTOBUF_FIELD_OFFSET(::S2S::S2SHeartBeat, _impl_.server_id_),
+  PROTOBUF_FIELD_OFFSET(::S2S::S2SHeartBeat, _impl_.state_),
   ~0u,  // no _has_bits_
-  PROTOBUF_FIELD_OFFSET(::S2SMsg::ServerInfo, _internal_metadata_),
+  PROTOBUF_FIELD_OFFSET(::S2S::ServerInfo, _internal_metadata_),
   ~0u,  // no _extensions_
   ~0u,  // no _oneof_case_
   ~0u,  // no _weak_field_map_
   ~0u,  // no _inlined_string_donated_
-  PROTOBUF_FIELD_OFFSET(::S2SMsg::ServerInfo, _impl_.server_type_),
-  PROTOBUF_FIELD_OFFSET(::S2SMsg::ServerInfo, _impl_.server_id_),
-  PROTOBUF_FIELD_OFFSET(::S2SMsg::ServerInfo, _impl_.port_),
-  PROTOBUF_FIELD_OFFSET(::S2SMsg::ServerInfo, _impl_.ip_),
+  PROTOBUF_FIELD_OFFSET(::S2S::ServerInfo, _impl_.server_type_),
+  PROTOBUF_FIELD_OFFSET(::S2S::ServerInfo, _impl_.server_id_),
+  PROTOBUF_FIELD_OFFSET(::S2S::ServerInfo, _impl_.port_),
+  PROTOBUF_FIELD_OFFSET(::S2S::ServerInfo, _impl_.ip_),
   ~0u,  // no _has_bits_
-  PROTOBUF_FIELD_OFFSET(::S2SMsg::S2SServerRegisterReq, _internal_metadata_),
+  PROTOBUF_FIELD_OFFSET(::S2S::S2SServerRegisterReq, _internal_metadata_),
   ~0u,  // no _extensions_
   ~0u,  // no _oneof_case_
   ~0u,  // no _weak_field_map_
   ~0u,  // no _inlined_string_donated_
-  PROTOBUF_FIELD_OFFSET(::S2SMsg::S2SServerRegisterReq, _impl_.server_info_),
+  PROTOBUF_FIELD_OFFSET(::S2S::S2SServerRegisterReq, _impl_.server_info_),
   ~0u,  // no _has_bits_
-  PROTOBUF_FIELD_OFFSET(::S2SMsg::S2SServerRegisterRes, _internal_metadata_),
+  PROTOBUF_FIELD_OFFSET(::S2S::S2SServerRegisterRes, _internal_metadata_),
   ~0u,  // no _extensions_
   ~0u,  // no _oneof_case_
   ~0u,  // no _weak_field_map_
   ~0u,  // no _inlined_string_donated_
-  PROTOBUF_FIELD_OFFSET(::S2SMsg::S2SServerRegisterRes, _impl_.success_),
-  PROTOBUF_FIELD_OFFSET(::S2SMsg::S2SServerRegisterRes, _impl_.error_msg_),
+  PROTOBUF_FIELD_OFFSET(::S2S::S2SServerRegisterRes, _impl_.success_),
+  PROTOBUF_FIELD_OFFSET(::S2S::S2SServerRegisterRes, _impl_.error_msg_),
 };
 static const ::_pbi::MigrationSchema schemas[] PROTOBUF_SECTION_VARIABLE(protodesc_cold) = {
-  { 0, -1, -1, sizeof(::S2SMsg::S2SHeartBeat)},
-  { 9, -1, -1, sizeof(::S2SMsg::ServerInfo)},
-  { 19, -1, -1, sizeof(::S2SMsg::S2SServerRegisterReq)},
-  { 26, -1, -1, sizeof(::S2SMsg::S2SServerRegisterRes)},
+  { 0, -1, -1, sizeof(::S2S::S2SHeartBeat)},
+  { 9, -1, -1, sizeof(::S2S::ServerInfo)},
+  { 19, -1, -1, sizeof(::S2S::S2SServerRegisterReq)},
+  { 26, -1, -1, sizeof(::S2S::S2SServerRegisterRes)},
 };
 
 static const ::_pb::Message* const file_default_instances[] = {
-  &::S2SMsg::_S2SHeartBeat_default_instance_._instance,
-  &::S2SMsg::_ServerInfo_default_instance_._instance,
-  &::S2SMsg::_S2SServerRegisterReq_default_instance_._instance,
-  &::S2SMsg::_S2SServerRegisterRes_default_instance_._instance,
+  &::S2S::_S2SHeartBeat_default_instance_._instance,
+  &::S2S::_ServerInfo_default_instance_._instance,
+  &::S2S::_S2SServerRegisterReq_default_instance_._instance,
+  &::S2S::_S2SServerRegisterRes_default_instance_._instance,
 };
 
 const char descriptor_table_protodef_s2s_5fcommon_2eproto[] PROTOBUF_SECTION_VARIABLE(protodesc_cold) =
-  "\n\020s2s_common.proto\022\006S2SMsg\"E\n\014S2SHeartBe"
-  "at\022\023\n\013server_type\030\001 \001(\005\022\021\n\tserver_id\030\002 \001"
-  "(\005\022\r\n\005state\030\003 \001(\005\"N\n\nServerInfo\022\023\n\013serve"
-  "r_type\030\001 \001(\005\022\021\n\tserver_id\030\002 \001(\005\022\014\n\004port\030"
-  "\003 \001(\005\022\n\n\002ip\030\004 \001(\t\"\?\n\024S2SServerRegisterRe"
-  "q\022\'\n\013server_info\030\001 \001(\0132\022.S2SMsg.ServerIn"
-  "fo\":\n\024S2SServerRegisterRes\022\017\n\007success\030\001 "
-  "\001(\010\022\021\n\terror_msg\030\002 \001(\t*q\n\nS2S_MSG_ID\022\017\n\013"
-  "S2S_ID_NONE\020\000\022\024\n\020S2S_ID_HEARTBEAT\020e\022\035\n\031S"
-  "2S_ID_SERVER_REGSTER_REQ\020f\022\035\n\031S2S_ID_SER"
-  "VER_REGSTER_RES\020gb\006proto3"
+  "\n\020s2s_common.proto\022\003S2S\"E\n\014S2SHeartBeat\022"
+  "\023\n\013server_type\030\001 \001(\005\022\021\n\tserver_id\030\002 \001(\005\022"
+  "\r\n\005state\030\003 \001(\005\"N\n\nServerInfo\022\023\n\013server_t"
+  "ype\030\001 \001(\005\022\021\n\tserver_id\030\002 \001(\005\022\014\n\004port\030\003 \001"
+  "(\005\022\n\n\002ip\030\004 \001(\t\"<\n\024S2SServerRegisterReq\022$"
+  "\n\013server_info\030\001 \001(\0132\017.S2S.ServerInfo\":\n\024"
+  "S2SServerRegisterRes\022\017\n\007success\030\001 \001(\010\022\021\n"
+  "\terror_msg\030\002 \001(\t*\251\003\n\nS2S_MSG_ID\022\017\n\013MSG_I"
+  "D_NONE\020\000\022\024\n\020MSG_ID_HEARTBEAT\020e\022\035\n\031MSG_ID"
+  "_SERVER_REGSTER_REQ\020f\022\035\n\031MSG_ID_SERVER_R"
+  "EGSTER_RES\020g\022\030\n\024MSG_ID_DB_INSERT_REQ\020\001\022\030"
+  "\n\024MSG_ID_DB_INSERT_RES\020\002\022\030\n\024MSG_ID_DB_RE"
+  "MOVE_REQ\020\003\022\030\n\024MSG_ID_DB_REMOVE_RES\020\004\022\026\n\022"
+  "MSG_ID_DB_SAVE_REQ\020\005\022\026\n\022MSG_ID_DB_SAVE_R"
+  "ES\020\006\022\030\n\024MSG_ID_DB_UPDATE_REQ\020\007\022\030\n\024MSG_ID"
+  "_DB_UPDATE_RES\020\010\022\026\n\022MSG_ID_DB_FIND_REQ\020\t"
+  "\022\026\n\022MSG_ID_DB_FIND_RES\020\n\022\034\n\030MSG_ID_DB_BA"
+  "TCH_FIND_REQ\020\013\022\034\n\030MSG_ID_DB_BATCH_FIND_R"
+  "ES\020\014b\006proto3"
   ;
 static ::_pbi::once_flag descriptor_table_s2s_5fcommon_2eproto_once;
 const ::_pbi::DescriptorTable descriptor_table_s2s_5fcommon_2eproto = {
-    false, false, 425, descriptor_table_protodef_s2s_5fcommon_2eproto,
+    false, false, 732, descriptor_table_protodef_s2s_5fcommon_2eproto,
     "s2s_common.proto",
     &descriptor_table_s2s_5fcommon_2eproto_once, nullptr, 0, 4,
     schemas, file_default_instances, TableStruct_s2s_5fcommon_2eproto::offsets,
@@ -162,7 +170,7 @@ PROTOBUF_ATTRIBUTE_WEAK const ::_pbi::DescriptorTable* descriptor_table_s2s_5fco
 
 // Force running AddDescriptors() at dynamic initialization time.
 PROTOBUF_ATTRIBUTE_INIT_PRIORITY2 static ::_pbi::AddDescriptorsRunner dynamic_init_dummy_s2s_5fcommon_2eproto(&descriptor_table_s2s_5fcommon_2eproto);
-namespace S2SMsg {
+namespace S2S {
 const ::PROTOBUF_NAMESPACE_ID::EnumDescriptor* S2S_MSG_ID_descriptor() {
   ::PROTOBUF_NAMESPACE_ID::internal::AssignDescriptors(&descriptor_table_s2s_5fcommon_2eproto);
   return file_level_enum_descriptors_s2s_5fcommon_2eproto[0];
@@ -170,6 +178,18 @@ const ::PROTOBUF_NAMESPACE_ID::EnumDescriptor* S2S_MSG_ID_descriptor() {
 bool S2S_MSG_ID_IsValid(int value) {
   switch (value) {
     case 0:
+    case 1:
+    case 2:
+    case 3:
+    case 4:
+    case 5:
+    case 6:
+    case 7:
+    case 8:
+    case 9:
+    case 10:
+    case 11:
+    case 12:
     case 101:
     case 102:
     case 103:
@@ -190,7 +210,7 @@ S2SHeartBeat::S2SHeartBeat(::PROTOBUF_NAMESPACE_ID::Arena* arena,
                          bool is_message_owned)
   : ::PROTOBUF_NAMESPACE_ID::Message(arena, is_message_owned) {
   SharedCtor(arena, is_message_owned);
-  // @@protoc_insertion_point(arena_constructor:S2SMsg.S2SHeartBeat)
+  // @@protoc_insertion_point(arena_constructor:S2S.S2SHeartBeat)
 }
 S2SHeartBeat::S2SHeartBeat(const S2SHeartBeat& from)
   : ::PROTOBUF_NAMESPACE_ID::Message() {
@@ -205,7 +225,7 @@ S2SHeartBeat::S2SHeartBeat(const S2SHeartBeat& from)
   ::memcpy(&_impl_.server_type_, &from._impl_.server_type_,
     static_cast<size_t>(reinterpret_cast<char*>(&_impl_.state_) -
     reinterpret_cast<char*>(&_impl_.server_type_)) + sizeof(_impl_.state_));
-  // @@protoc_insertion_point(copy_constructor:S2SMsg.S2SHeartBeat)
+  // @@protoc_insertion_point(copy_constructor:S2S.S2SHeartBeat)
 }
 
 inline void S2SHeartBeat::SharedCtor(
@@ -221,7 +241,7 @@ inline void S2SHeartBeat::SharedCtor(
 }
 
 S2SHeartBeat::~S2SHeartBeat() {
-  // @@protoc_insertion_point(destructor:S2SMsg.S2SHeartBeat)
+  // @@protoc_insertion_point(destructor:S2S.S2SHeartBeat)
   if (auto *arena = _internal_metadata_.DeleteReturnArena<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>()) {
   (void)arena;
     return;
@@ -238,7 +258,7 @@ void S2SHeartBeat::SetCachedSize(int size) const {
 }
 
 void S2SHeartBeat::Clear() {
-// @@protoc_insertion_point(message_clear_start:S2SMsg.S2SHeartBeat)
+// @@protoc_insertion_point(message_clear_start:S2S.S2SHeartBeat)
   uint32_t cached_has_bits = 0;
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
@@ -304,7 +324,7 @@ failure:
 
 uint8_t* S2SHeartBeat::_InternalSerialize(
     uint8_t* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const {
-  // @@protoc_insertion_point(serialize_to_array_start:S2SMsg.S2SHeartBeat)
+  // @@protoc_insertion_point(serialize_to_array_start:S2S.S2SHeartBeat)
   uint32_t cached_has_bits = 0;
   (void) cached_has_bits;
 
@@ -330,12 +350,12 @@ uint8_t* S2SHeartBeat::_InternalSerialize(
     target = ::_pbi::WireFormat::InternalSerializeUnknownFieldsToArray(
         _internal_metadata_.unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(::PROTOBUF_NAMESPACE_ID::UnknownFieldSet::default_instance), target, stream);
   }
-  // @@protoc_insertion_point(serialize_to_array_end:S2SMsg.S2SHeartBeat)
+  // @@protoc_insertion_point(serialize_to_array_end:S2S.S2SHeartBeat)
   return target;
 }
 
 size_t S2SHeartBeat::ByteSizeLong() const {
-// @@protoc_insertion_point(message_byte_size_start:S2SMsg.S2SHeartBeat)
+// @@protoc_insertion_point(message_byte_size_start:S2S.S2SHeartBeat)
   size_t total_size = 0;
 
   uint32_t cached_has_bits = 0;
@@ -370,7 +390,7 @@ const ::PROTOBUF_NAMESPACE_ID::Message::ClassData*S2SHeartBeat::GetClassData() c
 void S2SHeartBeat::MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const ::PROTOBUF_NAMESPACE_ID::Message& from_msg) {
   auto* const _this = static_cast<S2SHeartBeat*>(&to_msg);
   auto& from = static_cast<const S2SHeartBeat&>(from_msg);
-  // @@protoc_insertion_point(class_specific_merge_from_start:S2SMsg.S2SHeartBeat)
+  // @@protoc_insertion_point(class_specific_merge_from_start:S2S.S2SHeartBeat)
   GOOGLE_DCHECK_NE(&from, _this);
   uint32_t cached_has_bits = 0;
   (void) cached_has_bits;
@@ -388,7 +408,7 @@ void S2SHeartBeat::MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const ::P
 }
 
 void S2SHeartBeat::CopyFrom(const S2SHeartBeat& from) {
-// @@protoc_insertion_point(class_specific_copy_from_start:S2SMsg.S2SHeartBeat)
+// @@protoc_insertion_point(class_specific_copy_from_start:S2S.S2SHeartBeat)
   if (&from == this) return;
   Clear();
   MergeFrom(from);
@@ -425,7 +445,7 @@ ServerInfo::ServerInfo(::PROTOBUF_NAMESPACE_ID::Arena* arena,
                          bool is_message_owned)
   : ::PROTOBUF_NAMESPACE_ID::Message(arena, is_message_owned) {
   SharedCtor(arena, is_message_owned);
-  // @@protoc_insertion_point(arena_constructor:S2SMsg.ServerInfo)
+  // @@protoc_insertion_point(arena_constructor:S2S.ServerInfo)
 }
 ServerInfo::ServerInfo(const ServerInfo& from)
   : ::PROTOBUF_NAMESPACE_ID::Message() {
@@ -449,7 +469,7 @@ ServerInfo::ServerInfo(const ServerInfo& from)
   ::memcpy(&_impl_.server_type_, &from._impl_.server_type_,
     static_cast<size_t>(reinterpret_cast<char*>(&_impl_.port_) -
     reinterpret_cast<char*>(&_impl_.server_type_)) + sizeof(_impl_.port_));
-  // @@protoc_insertion_point(copy_constructor:S2SMsg.ServerInfo)
+  // @@protoc_insertion_point(copy_constructor:S2S.ServerInfo)
 }
 
 inline void ServerInfo::SharedCtor(
@@ -470,7 +490,7 @@ inline void ServerInfo::SharedCtor(
 }
 
 ServerInfo::~ServerInfo() {
-  // @@protoc_insertion_point(destructor:S2SMsg.ServerInfo)
+  // @@protoc_insertion_point(destructor:S2S.ServerInfo)
   if (auto *arena = _internal_metadata_.DeleteReturnArena<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>()) {
   (void)arena;
     return;
@@ -488,7 +508,7 @@ void ServerInfo::SetCachedSize(int size) const {
 }
 
 void ServerInfo::Clear() {
-// @@protoc_insertion_point(message_clear_start:S2SMsg.ServerInfo)
+// @@protoc_insertion_point(message_clear_start:S2S.ServerInfo)
   uint32_t cached_has_bits = 0;
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
@@ -536,7 +556,7 @@ const char* ServerInfo::_InternalParse(const char* ptr, ::_pbi::ParseContext* ct
           auto str = _internal_mutable_ip();
           ptr = ::_pbi::InlineGreedyStringParser(str, ptr, ctx);
           CHK_(ptr);
-          CHK_(::_pbi::VerifyUTF8(str, "S2SMsg.ServerInfo.ip"));
+          CHK_(::_pbi::VerifyUTF8(str, "S2S.ServerInfo.ip"));
         } else
           goto handle_unusual;
         continue;
@@ -565,7 +585,7 @@ failure:
 
 uint8_t* ServerInfo::_InternalSerialize(
     uint8_t* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const {
-  // @@protoc_insertion_point(serialize_to_array_start:S2SMsg.ServerInfo)
+  // @@protoc_insertion_point(serialize_to_array_start:S2S.ServerInfo)
   uint32_t cached_has_bits = 0;
   (void) cached_has_bits;
 
@@ -592,7 +612,7 @@ uint8_t* ServerInfo::_InternalSerialize(
     ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::VerifyUtf8String(
       this->_internal_ip().data(), static_cast<int>(this->_internal_ip().length()),
       ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::SERIALIZE,
-      "S2SMsg.ServerInfo.ip");
+      "S2S.ServerInfo.ip");
     target = stream->WriteStringMaybeAliased(
         4, this->_internal_ip(), target);
   }
@@ -601,12 +621,12 @@ uint8_t* ServerInfo::_InternalSerialize(
     target = ::_pbi::WireFormat::InternalSerializeUnknownFieldsToArray(
         _internal_metadata_.unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(::PROTOBUF_NAMESPACE_ID::UnknownFieldSet::default_instance), target, stream);
   }
-  // @@protoc_insertion_point(serialize_to_array_end:S2SMsg.ServerInfo)
+  // @@protoc_insertion_point(serialize_to_array_end:S2S.ServerInfo)
   return target;
 }
 
 size_t ServerInfo::ByteSizeLong() const {
-// @@protoc_insertion_point(message_byte_size_start:S2SMsg.ServerInfo)
+// @@protoc_insertion_point(message_byte_size_start:S2S.ServerInfo)
   size_t total_size = 0;
 
   uint32_t cached_has_bits = 0;
@@ -648,7 +668,7 @@ const ::PROTOBUF_NAMESPACE_ID::Message::ClassData*ServerInfo::GetClassData() con
 void ServerInfo::MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const ::PROTOBUF_NAMESPACE_ID::Message& from_msg) {
   auto* const _this = static_cast<ServerInfo*>(&to_msg);
   auto& from = static_cast<const ServerInfo&>(from_msg);
-  // @@protoc_insertion_point(class_specific_merge_from_start:S2SMsg.ServerInfo)
+  // @@protoc_insertion_point(class_specific_merge_from_start:S2S.ServerInfo)
   GOOGLE_DCHECK_NE(&from, _this);
   uint32_t cached_has_bits = 0;
   (void) cached_has_bits;
@@ -669,7 +689,7 @@ void ServerInfo::MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const ::PRO
 }
 
 void ServerInfo::CopyFrom(const ServerInfo& from) {
-// @@protoc_insertion_point(class_specific_copy_from_start:S2SMsg.ServerInfo)
+// @@protoc_insertion_point(class_specific_copy_from_start:S2S.ServerInfo)
   if (&from == this) return;
   Clear();
   MergeFrom(from);
@@ -706,10 +726,10 @@ void ServerInfo::InternalSwap(ServerInfo* other) {
 
 class S2SServerRegisterReq::_Internal {
  public:
-  static const ::S2SMsg::ServerInfo& server_info(const S2SServerRegisterReq* msg);
+  static const ::S2S::ServerInfo& server_info(const S2SServerRegisterReq* msg);
 };
 
-const ::S2SMsg::ServerInfo&
+const ::S2S::ServerInfo&
 S2SServerRegisterReq::_Internal::server_info(const S2SServerRegisterReq* msg) {
   return *msg->_impl_.server_info_;
 }
@@ -717,7 +737,7 @@ S2SServerRegisterReq::S2SServerRegisterReq(::PROTOBUF_NAMESPACE_ID::Arena* arena
                          bool is_message_owned)
   : ::PROTOBUF_NAMESPACE_ID::Message(arena, is_message_owned) {
   SharedCtor(arena, is_message_owned);
-  // @@protoc_insertion_point(arena_constructor:S2SMsg.S2SServerRegisterReq)
+  // @@protoc_insertion_point(arena_constructor:S2S.S2SServerRegisterReq)
 }
 S2SServerRegisterReq::S2SServerRegisterReq(const S2SServerRegisterReq& from)
   : ::PROTOBUF_NAMESPACE_ID::Message() {
@@ -728,9 +748,9 @@ S2SServerRegisterReq::S2SServerRegisterReq(const S2SServerRegisterReq& from)
 
   _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
   if (from._internal_has_server_info()) {
-    _this->_impl_.server_info_ = new ::S2SMsg::ServerInfo(*from._impl_.server_info_);
+    _this->_impl_.server_info_ = new ::S2S::ServerInfo(*from._impl_.server_info_);
   }
-  // @@protoc_insertion_point(copy_constructor:S2SMsg.S2SServerRegisterReq)
+  // @@protoc_insertion_point(copy_constructor:S2S.S2SServerRegisterReq)
 }
 
 inline void S2SServerRegisterReq::SharedCtor(
@@ -744,7 +764,7 @@ inline void S2SServerRegisterReq::SharedCtor(
 }
 
 S2SServerRegisterReq::~S2SServerRegisterReq() {
-  // @@protoc_insertion_point(destructor:S2SMsg.S2SServerRegisterReq)
+  // @@protoc_insertion_point(destructor:S2S.S2SServerRegisterReq)
   if (auto *arena = _internal_metadata_.DeleteReturnArena<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>()) {
   (void)arena;
     return;
@@ -762,7 +782,7 @@ void S2SServerRegisterReq::SetCachedSize(int size) const {
 }
 
 void S2SServerRegisterReq::Clear() {
-// @@protoc_insertion_point(message_clear_start:S2SMsg.S2SServerRegisterReq)
+// @@protoc_insertion_point(message_clear_start:S2S.S2SServerRegisterReq)
   uint32_t cached_has_bits = 0;
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
@@ -780,7 +800,7 @@ const char* S2SServerRegisterReq::_InternalParse(const char* ptr, ::_pbi::ParseC
     uint32_t tag;
     ptr = ::_pbi::ReadTag(ptr, &tag);
     switch (tag >> 3) {
-      // .S2SMsg.ServerInfo server_info = 1;
+      // .S2S.ServerInfo server_info = 1;
       case 1:
         if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 10)) {
           ptr = ctx->ParseMessage(_internal_mutable_server_info(), ptr);
@@ -813,11 +833,11 @@ failure:
 
 uint8_t* S2SServerRegisterReq::_InternalSerialize(
     uint8_t* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const {
-  // @@protoc_insertion_point(serialize_to_array_start:S2SMsg.S2SServerRegisterReq)
+  // @@protoc_insertion_point(serialize_to_array_start:S2S.S2SServerRegisterReq)
   uint32_t cached_has_bits = 0;
   (void) cached_has_bits;
 
-  // .S2SMsg.ServerInfo server_info = 1;
+  // .S2S.ServerInfo server_info = 1;
   if (this->_internal_has_server_info()) {
     target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::
       InternalWriteMessage(1, _Internal::server_info(this),
@@ -828,19 +848,19 @@ uint8_t* S2SServerRegisterReq::_InternalSerialize(
     target = ::_pbi::WireFormat::InternalSerializeUnknownFieldsToArray(
         _internal_metadata_.unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(::PROTOBUF_NAMESPACE_ID::UnknownFieldSet::default_instance), target, stream);
   }
-  // @@protoc_insertion_point(serialize_to_array_end:S2SMsg.S2SServerRegisterReq)
+  // @@protoc_insertion_point(serialize_to_array_end:S2S.S2SServerRegisterReq)
   return target;
 }
 
 size_t S2SServerRegisterReq::ByteSizeLong() const {
-// @@protoc_insertion_point(message_byte_size_start:S2SMsg.S2SServerRegisterReq)
+// @@protoc_insertion_point(message_byte_size_start:S2S.S2SServerRegisterReq)
   size_t total_size = 0;
 
   uint32_t cached_has_bits = 0;
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
 
-  // .S2SMsg.ServerInfo server_info = 1;
+  // .S2S.ServerInfo server_info = 1;
   if (this->_internal_has_server_info()) {
     total_size += 1 +
       ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::MessageSize(
@@ -860,20 +880,20 @@ const ::PROTOBUF_NAMESPACE_ID::Message::ClassData*S2SServerRegisterReq::GetClass
 void S2SServerRegisterReq::MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const ::PROTOBUF_NAMESPACE_ID::Message& from_msg) {
   auto* const _this = static_cast<S2SServerRegisterReq*>(&to_msg);
   auto& from = static_cast<const S2SServerRegisterReq&>(from_msg);
-  // @@protoc_insertion_point(class_specific_merge_from_start:S2SMsg.S2SServerRegisterReq)
+  // @@protoc_insertion_point(class_specific_merge_from_start:S2S.S2SServerRegisterReq)
   GOOGLE_DCHECK_NE(&from, _this);
   uint32_t cached_has_bits = 0;
   (void) cached_has_bits;
 
   if (from._internal_has_server_info()) {
-    _this->_internal_mutable_server_info()->::S2SMsg::ServerInfo::MergeFrom(
+    _this->_internal_mutable_server_info()->::S2S::ServerInfo::MergeFrom(
         from._internal_server_info());
   }
   _this->_internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
 }
 
 void S2SServerRegisterReq::CopyFrom(const S2SServerRegisterReq& from) {
-// @@protoc_insertion_point(class_specific_copy_from_start:S2SMsg.S2SServerRegisterReq)
+// @@protoc_insertion_point(class_specific_copy_from_start:S2S.S2SServerRegisterReq)
   if (&from == this) return;
   Clear();
   MergeFrom(from);
@@ -905,7 +925,7 @@ S2SServerRegisterRes::S2SServerRegisterRes(::PROTOBUF_NAMESPACE_ID::Arena* arena
                          bool is_message_owned)
   : ::PROTOBUF_NAMESPACE_ID::Message(arena, is_message_owned) {
   SharedCtor(arena, is_message_owned);
-  // @@protoc_insertion_point(arena_constructor:S2SMsg.S2SServerRegisterRes)
+  // @@protoc_insertion_point(arena_constructor:S2S.S2SServerRegisterRes)
 }
 S2SServerRegisterRes::S2SServerRegisterRes(const S2SServerRegisterRes& from)
   : ::PROTOBUF_NAMESPACE_ID::Message() {
@@ -925,7 +945,7 @@ S2SServerRegisterRes::S2SServerRegisterRes(const S2SServerRegisterRes& from)
       _this->GetArenaForAllocation());
   }
   _this->_impl_.success_ = from._impl_.success_;
-  // @@protoc_insertion_point(copy_constructor:S2SMsg.S2SServerRegisterRes)
+  // @@protoc_insertion_point(copy_constructor:S2S.S2SServerRegisterRes)
 }
 
 inline void S2SServerRegisterRes::SharedCtor(
@@ -944,7 +964,7 @@ inline void S2SServerRegisterRes::SharedCtor(
 }
 
 S2SServerRegisterRes::~S2SServerRegisterRes() {
-  // @@protoc_insertion_point(destructor:S2SMsg.S2SServerRegisterRes)
+  // @@protoc_insertion_point(destructor:S2S.S2SServerRegisterRes)
   if (auto *arena = _internal_metadata_.DeleteReturnArena<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>()) {
   (void)arena;
     return;
@@ -962,7 +982,7 @@ void S2SServerRegisterRes::SetCachedSize(int size) const {
 }
 
 void S2SServerRegisterRes::Clear() {
-// @@protoc_insertion_point(message_clear_start:S2SMsg.S2SServerRegisterRes)
+// @@protoc_insertion_point(message_clear_start:S2S.S2SServerRegisterRes)
   uint32_t cached_has_bits = 0;
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
@@ -992,7 +1012,7 @@ const char* S2SServerRegisterRes::_InternalParse(const char* ptr, ::_pbi::ParseC
           auto str = _internal_mutable_error_msg();
           ptr = ::_pbi::InlineGreedyStringParser(str, ptr, ctx);
           CHK_(ptr);
-          CHK_(::_pbi::VerifyUTF8(str, "S2SMsg.S2SServerRegisterRes.error_msg"));
+          CHK_(::_pbi::VerifyUTF8(str, "S2S.S2SServerRegisterRes.error_msg"));
         } else
           goto handle_unusual;
         continue;
@@ -1021,7 +1041,7 @@ failure:
 
 uint8_t* S2SServerRegisterRes::_InternalSerialize(
     uint8_t* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const {
-  // @@protoc_insertion_point(serialize_to_array_start:S2SMsg.S2SServerRegisterRes)
+  // @@protoc_insertion_point(serialize_to_array_start:S2S.S2SServerRegisterRes)
   uint32_t cached_has_bits = 0;
   (void) cached_has_bits;
 
@@ -1036,7 +1056,7 @@ uint8_t* S2SServerRegisterRes::_InternalSerialize(
     ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::VerifyUtf8String(
       this->_internal_error_msg().data(), static_cast<int>(this->_internal_error_msg().length()),
       ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::SERIALIZE,
-      "S2SMsg.S2SServerRegisterRes.error_msg");
+      "S2S.S2SServerRegisterRes.error_msg");
     target = stream->WriteStringMaybeAliased(
         2, this->_internal_error_msg(), target);
   }
@@ -1045,12 +1065,12 @@ uint8_t* S2SServerRegisterRes::_InternalSerialize(
     target = ::_pbi::WireFormat::InternalSerializeUnknownFieldsToArray(
         _internal_metadata_.unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(::PROTOBUF_NAMESPACE_ID::UnknownFieldSet::default_instance), target, stream);
   }
-  // @@protoc_insertion_point(serialize_to_array_end:S2SMsg.S2SServerRegisterRes)
+  // @@protoc_insertion_point(serialize_to_array_end:S2S.S2SServerRegisterRes)
   return target;
 }
 
 size_t S2SServerRegisterRes::ByteSizeLong() const {
-// @@protoc_insertion_point(message_byte_size_start:S2SMsg.S2SServerRegisterRes)
+// @@protoc_insertion_point(message_byte_size_start:S2S.S2SServerRegisterRes)
   size_t total_size = 0;
 
   uint32_t cached_has_bits = 0;
@@ -1082,7 +1102,7 @@ const ::PROTOBUF_NAMESPACE_ID::Message::ClassData*S2SServerRegisterRes::GetClass
 void S2SServerRegisterRes::MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const ::PROTOBUF_NAMESPACE_ID::Message& from_msg) {
   auto* const _this = static_cast<S2SServerRegisterRes*>(&to_msg);
   auto& from = static_cast<const S2SServerRegisterRes&>(from_msg);
-  // @@protoc_insertion_point(class_specific_merge_from_start:S2SMsg.S2SServerRegisterRes)
+  // @@protoc_insertion_point(class_specific_merge_from_start:S2S.S2SServerRegisterRes)
   GOOGLE_DCHECK_NE(&from, _this);
   uint32_t cached_has_bits = 0;
   (void) cached_has_bits;
@@ -1097,7 +1117,7 @@ void S2SServerRegisterRes::MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, c
 }
 
 void S2SServerRegisterRes::CopyFrom(const S2SServerRegisterRes& from) {
-// @@protoc_insertion_point(class_specific_copy_from_start:S2SMsg.S2SServerRegisterRes)
+// @@protoc_insertion_point(class_specific_copy_from_start:S2S.S2SServerRegisterRes)
   if (&from == this) return;
   Clear();
   MergeFrom(from);
@@ -1126,23 +1146,23 @@ void S2SServerRegisterRes::InternalSwap(S2SServerRegisterRes* other) {
 }
 
 // @@protoc_insertion_point(namespace_scope)
-}  // namespace S2SMsg
+}  // namespace S2S
 PROTOBUF_NAMESPACE_OPEN
-template<> PROTOBUF_NOINLINE ::S2SMsg::S2SHeartBeat*
-Arena::CreateMaybeMessage< ::S2SMsg::S2SHeartBeat >(Arena* arena) {
-  return Arena::CreateMessageInternal< ::S2SMsg::S2SHeartBeat >(arena);
+template<> PROTOBUF_NOINLINE ::S2S::S2SHeartBeat*
+Arena::CreateMaybeMessage< ::S2S::S2SHeartBeat >(Arena* arena) {
+  return Arena::CreateMessageInternal< ::S2S::S2SHeartBeat >(arena);
 }
-template<> PROTOBUF_NOINLINE ::S2SMsg::ServerInfo*
-Arena::CreateMaybeMessage< ::S2SMsg::ServerInfo >(Arena* arena) {
-  return Arena::CreateMessageInternal< ::S2SMsg::ServerInfo >(arena);
+template<> PROTOBUF_NOINLINE ::S2S::ServerInfo*
+Arena::CreateMaybeMessage< ::S2S::ServerInfo >(Arena* arena) {
+  return Arena::CreateMessageInternal< ::S2S::ServerInfo >(arena);
 }
-template<> PROTOBUF_NOINLINE ::S2SMsg::S2SServerRegisterReq*
-Arena::CreateMaybeMessage< ::S2SMsg::S2SServerRegisterReq >(Arena* arena) {
-  return Arena::CreateMessageInternal< ::S2SMsg::S2SServerRegisterReq >(arena);
+template<> PROTOBUF_NOINLINE ::S2S::S2SServerRegisterReq*
+Arena::CreateMaybeMessage< ::S2S::S2SServerRegisterReq >(Arena* arena) {
+  return Arena::CreateMessageInternal< ::S2S::S2SServerRegisterReq >(arena);
 }
-template<> PROTOBUF_NOINLINE ::S2SMsg::S2SServerRegisterRes*
-Arena::CreateMaybeMessage< ::S2SMsg::S2SServerRegisterRes >(Arena* arena) {
-  return Arena::CreateMessageInternal< ::S2SMsg::S2SServerRegisterRes >(arena);
+template<> PROTOBUF_NOINLINE ::S2S::S2SServerRegisterRes*
+Arena::CreateMaybeMessage< ::S2S::S2SServerRegisterRes >(Arena* arena) {
+  return Arena::CreateMessageInternal< ::S2S::S2SServerRegisterRes >(arena);
 }
 PROTOBUF_NAMESPACE_CLOSE
 
