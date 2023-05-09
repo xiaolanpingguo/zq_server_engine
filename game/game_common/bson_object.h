@@ -337,6 +337,11 @@ public:
 		m_mapBsonData.clear();
 	}
 
+	bool empty()
+	{
+		return m_mapBsonData.empty();
+	}
+
 	const std::string& getKey() const { return m_key; }
 	void setKey(const std::string& strKey) { m_key = strKey; }
 	const std::unordered_map<std::string, BsonData>& getAllBsonData() const { return m_mapBsonData; }

@@ -142,22 +142,20 @@ const char descriptor_table_protodef_s2s_5fcommon_2eproto[] PROTOBUF_SECTION_VAR
   "(\005\022\n\n\002ip\030\004 \001(\t\"<\n\024S2SServerRegisterReq\022$"
   "\n\013server_info\030\001 \001(\0132\017.S2S.ServerInfo\":\n\024"
   "S2SServerRegisterRes\022\017\n\007success\030\001 \001(\010\022\021\n"
-  "\terror_msg\030\002 \001(\t*\251\003\n\nS2S_MSG_ID\022\017\n\013MSG_I"
+  "\terror_msg\030\002 \001(\t*\365\002\n\nS2S_MSG_ID\022\017\n\013MSG_I"
   "D_NONE\020\000\022\024\n\020MSG_ID_HEARTBEAT\020e\022\035\n\031MSG_ID"
   "_SERVER_REGSTER_REQ\020f\022\035\n\031MSG_ID_SERVER_R"
   "EGSTER_RES\020g\022\030\n\024MSG_ID_DB_INSERT_REQ\020\001\022\030"
   "\n\024MSG_ID_DB_INSERT_RES\020\002\022\030\n\024MSG_ID_DB_RE"
   "MOVE_REQ\020\003\022\030\n\024MSG_ID_DB_REMOVE_RES\020\004\022\026\n\022"
   "MSG_ID_DB_SAVE_REQ\020\005\022\026\n\022MSG_ID_DB_SAVE_R"
-  "ES\020\006\022\030\n\024MSG_ID_DB_UPDATE_REQ\020\007\022\030\n\024MSG_ID"
-  "_DB_UPDATE_RES\020\010\022\026\n\022MSG_ID_DB_FIND_REQ\020\t"
-  "\022\026\n\022MSG_ID_DB_FIND_RES\020\n\022\034\n\030MSG_ID_DB_BA"
-  "TCH_FIND_REQ\020\013\022\034\n\030MSG_ID_DB_BATCH_FIND_R"
-  "ES\020\014b\006proto3"
+  "ES\020\006\022\026\n\022MSG_ID_DB_FIND_REQ\020\007\022\026\n\022MSG_ID_D"
+  "B_FIND_RES\020\010\022\034\n\030MSG_ID_DB_BATCH_FIND_REQ"
+  "\020\t\022\034\n\030MSG_ID_DB_BATCH_FIND_RES\020\nb\006proto3"
   ;
 static ::_pbi::once_flag descriptor_table_s2s_5fcommon_2eproto_once;
 const ::_pbi::DescriptorTable descriptor_table_s2s_5fcommon_2eproto = {
-    false, false, 732, descriptor_table_protodef_s2s_5fcommon_2eproto,
+    false, false, 680, descriptor_table_protodef_s2s_5fcommon_2eproto,
     "s2s_common.proto",
     &descriptor_table_s2s_5fcommon_2eproto_once, nullptr, 0, 4,
     schemas, file_default_instances, TableStruct_s2s_5fcommon_2eproto::offsets,
@@ -188,8 +186,6 @@ bool S2S_MSG_ID_IsValid(int value) {
     case 8:
     case 9:
     case 10:
-    case 11:
-    case 12:
     case 101:
     case 102:
     case 103:

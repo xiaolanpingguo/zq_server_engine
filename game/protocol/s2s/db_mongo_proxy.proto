@@ -21,36 +21,16 @@ message ProtoBsonObj
 	repeated ProtoBsonData bson_data_list = 1;
 }
 
-message MongoUserData
-{
-	int32 type = 1;
-	uint64 trans_gid = 2;
-	uint64 session_gid = 3;
-	string account_id = 4;
-	uint64 player_gid = 5;
-	uint64 other_player_gid = 6;
-	uint64 offline_msg_gid = 7;
-	string sdk_user_id = 8;
-	int32 svr_id = 9;
-	int32 int_var1 = 10;
-	int32 int_var2 = 11;
-	int32 int_var3 = 12;
-	string str_var1 = 13;
-	string str_var2 = 14;
-}
-
 message MongoInsertReq
 {
 	string db_name = 1; //dbname
 	string col_name = 2; //colname
 	ProtoBsonObj doc = 3; //doc
-	MongoUserData user_data = 4; //user_data
 }
 
 message MongoInsertRes
 {
 	bool succeed = 1;
-	MongoUserData user_data = 2;
 }
 
 message MongoRemoveReq
@@ -58,13 +38,11 @@ message MongoRemoveReq
 	string db_name = 1; //dbname
 	string col_name = 2; //colname
 	ProtoBsonObj selector = 3; //selector
-	MongoUserData user_data = 4; //user_data
 }
 
 message MongoRemoveRes
 {
 	bool succeed = 1;
-	MongoUserData user_data = 2;
 }
 
 message MongoSaveReq
@@ -73,28 +51,11 @@ message MongoSaveReq
 	string col_name = 2; //colname
 	ProtoBsonObj selector = 3; //selector
 	ProtoBsonObj replacement = 4; //replacement
-	MongoUserData user_data = 5; //user_data
 }
 
 message MongoSaveRes
 {
 	bool succeed = 1;
-	MongoUserData user_data = 2;
-}
-
-message MongoUpdateReq
-{
-	string db_name = 1; //dbname
-	string col_name = 2; //colname
-	ProtoBsonObj selector = 3; //selector
-	ProtoBsonObj updator = 4; //updator
-	MongoUserData user_data = 5; //userdata
-}
-
-message MongoUpdateRes
-{
-	bool succeed = 1;
-	MongoUserData user_data = 2;
 }
 
 message MongoFindReq
@@ -107,7 +68,6 @@ message MongoFindReq
 	int32 skip = 6;
 	int32 limit = 7;
 	int32 batch_size = 8;
-	MongoUserData user_data = 9;
 }
 
 message MongoFindRes
@@ -115,7 +75,6 @@ message MongoFindRes
 	bool succeed = 1;
 	bool has_more = 2;
 	repeated ProtoBsonObj data_list = 3;
-	MongoUserData user_data = 4;
 }
 
 
@@ -139,7 +98,6 @@ message MongoBatchFindReq
 	int32 skip = 6;
 	int32 limit = 7; 
 	int32 batch_size = 8;
-	MongoUserData user_data = 9;
 }
 
 message MongoBatchFindRes
@@ -147,7 +105,6 @@ message MongoBatchFindRes
 	bool succeed = 1;
 	bool has_more = 2;
 	repeated ProtoBsonObj data_list = 3;
-	MongoUserData user_data = 4;
 }
 
 message MongoDBMsg
@@ -158,8 +115,6 @@ message MongoDBMsg
 	MongoRemoveRes remove_res = 5;
 	MongoSaveReq save_req = 6;
 	MongoSaveRes save_res = 7;
-	MongoUpdateReq update_req = 8;
-	MongoUpdateRes update_res = 9;
 	MongoFindReq find_req = 10;
 	MongoFindRes find_res = 11;
 	MongoBatchFindReq batch_find_req = 12;

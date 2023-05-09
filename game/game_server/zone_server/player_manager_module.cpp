@@ -45,12 +45,12 @@ bool PlayerManagerModule::saveToDB()
 			continue;
 		}
 
-		bsonObj.appendBin(DB_PALYER_KEY_BIN, playerBin.data(), playerBin.size());
+		bsonObj.appendBin(PALYER_KEY_BIN, playerBin.data(), playerBin.size());
 
 		S2S::MongoDBMsg dbMsg;
 		S2S::MongoSaveReq* saveReq = dbMsg.mutable_save_req();
 		saveReq->set_db_name(DB_NAME);
-		saveReq->set_col_name(DB_PLAYER);
+		saveReq->set_col_name(COL_PLAYER);
 
 		S2S::ProtoBsonObj* replacement = saveReq->mutable_replacement();
 		bsonObj.convertToProtoBson(*replacement);

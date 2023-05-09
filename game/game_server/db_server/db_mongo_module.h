@@ -28,20 +28,25 @@ public:
 
 private:
 	bool initMongo();
-	mongoc_collection_t* getCollection(std::string& dbName, std::string& collectionName);
-	bool mongoInsert(std::string& dbName, std::string& collectionName, BsonObject& bsonObject);
-	bool mongoRemove(std::string& dbName, std::string& collectionName, BsonObject& selector);
-	bool mongoSave(std::string& dbName, std::string& collectionName, BsonObject& selector, BsonObject& updateor);
-	bool mongoUpdate(std::string& dbName, std::string& collectionName, BsonObject& selector, BsonObject& updateor);
-	bool mongoFind(std::string& dbName, std::string& collectionName, BsonObject* selector, std::vector<BsonObject>& result);
-	bool mongoBatchFind(std::string& dbName, std::string& collectionName);
+	bool setupCollection(const std::string& dbName, const std::string& collectionName);
+	bool mongoInsert(const std::string& dbName, const std::string& collectionName, BsonObject& insertor);
+	bool mongoRemove(const std::string& dbName, const std::string& collectionName, BsonObject& selector);
+	bool mongoSave(const std::string& dbName, const std::string& collectionName, BsonObject& selector, BsonObject& updateor);
+	bool mongoFind(const std::string& dbName, const std::string& collectionName, BsonObject* selector, std::vector<BsonObject>& result);
+	bool mongoBatchFind(const std::string& dbName, const std::string& collectionName);
+	mongoc_collection_t* getCollection(const std::string& dbName, const std::string& collectionName);
 	static void mongoLog(mongoc_log_level_t logLevel, const char* logDomain, const char* message, void* userData);
+
+	void testInsert();
+	void testRemove();
+	void testSave();
+	void testFind();
+	void testBatchFind();
 
 private:
 	void onS2SMongoInsertReq(TcpConnectionPtr connection, const S2S::MongoDBMsg& msg);
 	void onS2SMongoRemoveReq(TcpConnectionPtr connection, const S2S::MongoDBMsg& msg);
 	void onS2SMongoSaveReq(TcpConnectionPtr connection, const S2S::MongoDBMsg& msg);
-	void onS2SMongoUpdateReq(TcpConnectionPtr connection, const S2S::MongoDBMsg& msg);
 	void onS2SMongoFindReq(TcpConnectionPtr connection, const S2S::MongoDBMsg& msg);
 	void onS2SMongoBatchFindReq(TcpConnectionPtr connection, const S2S::MongoDBMsg& msg);
 
@@ -53,6 +58,7 @@ private:
 	mongoc_uri_t* m_mongoUrl;
 	mongoc_client_t* m_mongoClient;
 
+	std::map<std::pair<std::string, std::string>, mongoc_collection_t*> m_collections;
 	constexpr static std::string_view s_logCategory = "DBMongoModule";
 };
 

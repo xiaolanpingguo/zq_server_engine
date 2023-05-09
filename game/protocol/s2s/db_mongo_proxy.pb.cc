@@ -54,38 +54,11 @@ struct ProtoBsonObjDefaultTypeInternal {
   };
 };
 PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 ProtoBsonObjDefaultTypeInternal _ProtoBsonObj_default_instance_;
-PROTOBUF_CONSTEXPR MongoUserData::MongoUserData(
-    ::_pbi::ConstantInitialized): _impl_{
-    /*decltype(_impl_.account_id_)*/{&::_pbi::fixed_address_empty_string, ::_pbi::ConstantInitialized{}}
-  , /*decltype(_impl_.sdk_user_id_)*/{&::_pbi::fixed_address_empty_string, ::_pbi::ConstantInitialized{}}
-  , /*decltype(_impl_.str_var1_)*/{&::_pbi::fixed_address_empty_string, ::_pbi::ConstantInitialized{}}
-  , /*decltype(_impl_.str_var2_)*/{&::_pbi::fixed_address_empty_string, ::_pbi::ConstantInitialized{}}
-  , /*decltype(_impl_.trans_gid_)*/uint64_t{0u}
-  , /*decltype(_impl_.session_gid_)*/uint64_t{0u}
-  , /*decltype(_impl_.player_gid_)*/uint64_t{0u}
-  , /*decltype(_impl_.type_)*/0
-  , /*decltype(_impl_.svr_id_)*/0
-  , /*decltype(_impl_.other_player_gid_)*/uint64_t{0u}
-  , /*decltype(_impl_.offline_msg_gid_)*/uint64_t{0u}
-  , /*decltype(_impl_.int_var1_)*/0
-  , /*decltype(_impl_.int_var2_)*/0
-  , /*decltype(_impl_.int_var3_)*/0
-  , /*decltype(_impl_._cached_size_)*/{}} {}
-struct MongoUserDataDefaultTypeInternal {
-  PROTOBUF_CONSTEXPR MongoUserDataDefaultTypeInternal()
-      : _instance(::_pbi::ConstantInitialized{}) {}
-  ~MongoUserDataDefaultTypeInternal() {}
-  union {
-    MongoUserData _instance;
-  };
-};
-PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 MongoUserDataDefaultTypeInternal _MongoUserData_default_instance_;
 PROTOBUF_CONSTEXPR MongoInsertReq::MongoInsertReq(
     ::_pbi::ConstantInitialized): _impl_{
     /*decltype(_impl_.db_name_)*/{&::_pbi::fixed_address_empty_string, ::_pbi::ConstantInitialized{}}
   , /*decltype(_impl_.col_name_)*/{&::_pbi::fixed_address_empty_string, ::_pbi::ConstantInitialized{}}
   , /*decltype(_impl_.doc_)*/nullptr
-  , /*decltype(_impl_.user_data_)*/nullptr
   , /*decltype(_impl_._cached_size_)*/{}} {}
 struct MongoInsertReqDefaultTypeInternal {
   PROTOBUF_CONSTEXPR MongoInsertReqDefaultTypeInternal()
@@ -98,8 +71,7 @@ struct MongoInsertReqDefaultTypeInternal {
 PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 MongoInsertReqDefaultTypeInternal _MongoInsertReq_default_instance_;
 PROTOBUF_CONSTEXPR MongoInsertRes::MongoInsertRes(
     ::_pbi::ConstantInitialized): _impl_{
-    /*decltype(_impl_.user_data_)*/nullptr
-  , /*decltype(_impl_.succeed_)*/false
+    /*decltype(_impl_.succeed_)*/false
   , /*decltype(_impl_._cached_size_)*/{}} {}
 struct MongoInsertResDefaultTypeInternal {
   PROTOBUF_CONSTEXPR MongoInsertResDefaultTypeInternal()
@@ -115,7 +87,6 @@ PROTOBUF_CONSTEXPR MongoRemoveReq::MongoRemoveReq(
     /*decltype(_impl_.db_name_)*/{&::_pbi::fixed_address_empty_string, ::_pbi::ConstantInitialized{}}
   , /*decltype(_impl_.col_name_)*/{&::_pbi::fixed_address_empty_string, ::_pbi::ConstantInitialized{}}
   , /*decltype(_impl_.selector_)*/nullptr
-  , /*decltype(_impl_.user_data_)*/nullptr
   , /*decltype(_impl_._cached_size_)*/{}} {}
 struct MongoRemoveReqDefaultTypeInternal {
   PROTOBUF_CONSTEXPR MongoRemoveReqDefaultTypeInternal()
@@ -128,8 +99,7 @@ struct MongoRemoveReqDefaultTypeInternal {
 PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 MongoRemoveReqDefaultTypeInternal _MongoRemoveReq_default_instance_;
 PROTOBUF_CONSTEXPR MongoRemoveRes::MongoRemoveRes(
     ::_pbi::ConstantInitialized): _impl_{
-    /*decltype(_impl_.user_data_)*/nullptr
-  , /*decltype(_impl_.succeed_)*/false
+    /*decltype(_impl_.succeed_)*/false
   , /*decltype(_impl_._cached_size_)*/{}} {}
 struct MongoRemoveResDefaultTypeInternal {
   PROTOBUF_CONSTEXPR MongoRemoveResDefaultTypeInternal()
@@ -146,7 +116,6 @@ PROTOBUF_CONSTEXPR MongoSaveReq::MongoSaveReq(
   , /*decltype(_impl_.col_name_)*/{&::_pbi::fixed_address_empty_string, ::_pbi::ConstantInitialized{}}
   , /*decltype(_impl_.selector_)*/nullptr
   , /*decltype(_impl_.replacement_)*/nullptr
-  , /*decltype(_impl_.user_data_)*/nullptr
   , /*decltype(_impl_._cached_size_)*/{}} {}
 struct MongoSaveReqDefaultTypeInternal {
   PROTOBUF_CONSTEXPR MongoSaveReqDefaultTypeInternal()
@@ -159,8 +128,7 @@ struct MongoSaveReqDefaultTypeInternal {
 PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 MongoSaveReqDefaultTypeInternal _MongoSaveReq_default_instance_;
 PROTOBUF_CONSTEXPR MongoSaveRes::MongoSaveRes(
     ::_pbi::ConstantInitialized): _impl_{
-    /*decltype(_impl_.user_data_)*/nullptr
-  , /*decltype(_impl_.succeed_)*/false
+    /*decltype(_impl_.succeed_)*/false
   , /*decltype(_impl_._cached_size_)*/{}} {}
 struct MongoSaveResDefaultTypeInternal {
   PROTOBUF_CONSTEXPR MongoSaveResDefaultTypeInternal()
@@ -171,44 +139,12 @@ struct MongoSaveResDefaultTypeInternal {
   };
 };
 PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 MongoSaveResDefaultTypeInternal _MongoSaveRes_default_instance_;
-PROTOBUF_CONSTEXPR MongoUpdateReq::MongoUpdateReq(
-    ::_pbi::ConstantInitialized): _impl_{
-    /*decltype(_impl_.db_name_)*/{&::_pbi::fixed_address_empty_string, ::_pbi::ConstantInitialized{}}
-  , /*decltype(_impl_.col_name_)*/{&::_pbi::fixed_address_empty_string, ::_pbi::ConstantInitialized{}}
-  , /*decltype(_impl_.selector_)*/nullptr
-  , /*decltype(_impl_.updator_)*/nullptr
-  , /*decltype(_impl_.user_data_)*/nullptr
-  , /*decltype(_impl_._cached_size_)*/{}} {}
-struct MongoUpdateReqDefaultTypeInternal {
-  PROTOBUF_CONSTEXPR MongoUpdateReqDefaultTypeInternal()
-      : _instance(::_pbi::ConstantInitialized{}) {}
-  ~MongoUpdateReqDefaultTypeInternal() {}
-  union {
-    MongoUpdateReq _instance;
-  };
-};
-PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 MongoUpdateReqDefaultTypeInternal _MongoUpdateReq_default_instance_;
-PROTOBUF_CONSTEXPR MongoUpdateRes::MongoUpdateRes(
-    ::_pbi::ConstantInitialized): _impl_{
-    /*decltype(_impl_.user_data_)*/nullptr
-  , /*decltype(_impl_.succeed_)*/false
-  , /*decltype(_impl_._cached_size_)*/{}} {}
-struct MongoUpdateResDefaultTypeInternal {
-  PROTOBUF_CONSTEXPR MongoUpdateResDefaultTypeInternal()
-      : _instance(::_pbi::ConstantInitialized{}) {}
-  ~MongoUpdateResDefaultTypeInternal() {}
-  union {
-    MongoUpdateRes _instance;
-  };
-};
-PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 MongoUpdateResDefaultTypeInternal _MongoUpdateRes_default_instance_;
 PROTOBUF_CONSTEXPR MongoFindReq::MongoFindReq(
     ::_pbi::ConstantInitialized): _impl_{
     /*decltype(_impl_.db_name_)*/{&::_pbi::fixed_address_empty_string, ::_pbi::ConstantInitialized{}}
   , /*decltype(_impl_.col_name_)*/{&::_pbi::fixed_address_empty_string, ::_pbi::ConstantInitialized{}}
   , /*decltype(_impl_.query_)*/nullptr
   , /*decltype(_impl_.fields_)*/nullptr
-  , /*decltype(_impl_.user_data_)*/nullptr
   , /*decltype(_impl_.logic_batch_num_)*/0
   , /*decltype(_impl_.skip_)*/0
   , /*decltype(_impl_.limit_)*/0
@@ -226,7 +162,6 @@ PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORIT
 PROTOBUF_CONSTEXPR MongoFindRes::MongoFindRes(
     ::_pbi::ConstantInitialized): _impl_{
     /*decltype(_impl_.data_list_)*/{}
-  , /*decltype(_impl_.user_data_)*/nullptr
   , /*decltype(_impl_.succeed_)*/false
   , /*decltype(_impl_.has_more_)*/false
   , /*decltype(_impl_._cached_size_)*/{}} {}
@@ -264,7 +199,6 @@ PROTOBUF_CONSTEXPR MongoBatchFindReq::MongoBatchFindReq(
   , /*decltype(_impl_.col_name_)*/{&::_pbi::fixed_address_empty_string, ::_pbi::ConstantInitialized{}}
   , /*decltype(_impl_.query_)*/nullptr
   , /*decltype(_impl_.fields_)*/nullptr
-  , /*decltype(_impl_.user_data_)*/nullptr
   , /*decltype(_impl_.logic_batch_num_)*/0
   , /*decltype(_impl_.skip_)*/0
   , /*decltype(_impl_.limit_)*/0
@@ -282,7 +216,6 @@ PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORIT
 PROTOBUF_CONSTEXPR MongoBatchFindRes::MongoBatchFindRes(
     ::_pbi::ConstantInitialized): _impl_{
     /*decltype(_impl_.data_list_)*/{}
-  , /*decltype(_impl_.user_data_)*/nullptr
   , /*decltype(_impl_.succeed_)*/false
   , /*decltype(_impl_.has_more_)*/false
   , /*decltype(_impl_._cached_size_)*/{}} {}
@@ -303,8 +236,6 @@ PROTOBUF_CONSTEXPR MongoDBMsg::MongoDBMsg(
   , /*decltype(_impl_.remove_res_)*/nullptr
   , /*decltype(_impl_.save_req_)*/nullptr
   , /*decltype(_impl_.save_res_)*/nullptr
-  , /*decltype(_impl_.update_req_)*/nullptr
-  , /*decltype(_impl_.update_res_)*/nullptr
   , /*decltype(_impl_.find_req_)*/nullptr
   , /*decltype(_impl_.find_res_)*/nullptr
   , /*decltype(_impl_.batch_find_req_)*/nullptr
@@ -320,7 +251,7 @@ struct MongoDBMsgDefaultTypeInternal {
 };
 PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 MongoDBMsgDefaultTypeInternal _MongoDBMsg_default_instance_;
 }  // namespace S2S
-static ::_pb::Metadata file_level_metadata_db_5fmongo_5fproxy_2eproto[17];
+static ::_pb::Metadata file_level_metadata_db_5fmongo_5fproxy_2eproto[14];
 static constexpr ::_pb::EnumDescriptor const** file_level_enum_descriptors_db_5fmongo_5fproxy_2eproto = nullptr;
 static constexpr ::_pb::ServiceDescriptor const** file_level_service_descriptors_db_5fmongo_5fproxy_2eproto = nullptr;
 
@@ -347,26 +278,6 @@ const uint32_t TableStruct_db_5fmongo_5fproxy_2eproto::offsets[] PROTOBUF_SECTIO
   ~0u,  // no _inlined_string_donated_
   PROTOBUF_FIELD_OFFSET(::S2S::ProtoBsonObj, _impl_.bson_data_list_),
   ~0u,  // no _has_bits_
-  PROTOBUF_FIELD_OFFSET(::S2S::MongoUserData, _internal_metadata_),
-  ~0u,  // no _extensions_
-  ~0u,  // no _oneof_case_
-  ~0u,  // no _weak_field_map_
-  ~0u,  // no _inlined_string_donated_
-  PROTOBUF_FIELD_OFFSET(::S2S::MongoUserData, _impl_.type_),
-  PROTOBUF_FIELD_OFFSET(::S2S::MongoUserData, _impl_.trans_gid_),
-  PROTOBUF_FIELD_OFFSET(::S2S::MongoUserData, _impl_.session_gid_),
-  PROTOBUF_FIELD_OFFSET(::S2S::MongoUserData, _impl_.account_id_),
-  PROTOBUF_FIELD_OFFSET(::S2S::MongoUserData, _impl_.player_gid_),
-  PROTOBUF_FIELD_OFFSET(::S2S::MongoUserData, _impl_.other_player_gid_),
-  PROTOBUF_FIELD_OFFSET(::S2S::MongoUserData, _impl_.offline_msg_gid_),
-  PROTOBUF_FIELD_OFFSET(::S2S::MongoUserData, _impl_.sdk_user_id_),
-  PROTOBUF_FIELD_OFFSET(::S2S::MongoUserData, _impl_.svr_id_),
-  PROTOBUF_FIELD_OFFSET(::S2S::MongoUserData, _impl_.int_var1_),
-  PROTOBUF_FIELD_OFFSET(::S2S::MongoUserData, _impl_.int_var2_),
-  PROTOBUF_FIELD_OFFSET(::S2S::MongoUserData, _impl_.int_var3_),
-  PROTOBUF_FIELD_OFFSET(::S2S::MongoUserData, _impl_.str_var1_),
-  PROTOBUF_FIELD_OFFSET(::S2S::MongoUserData, _impl_.str_var2_),
-  ~0u,  // no _has_bits_
   PROTOBUF_FIELD_OFFSET(::S2S::MongoInsertReq, _internal_metadata_),
   ~0u,  // no _extensions_
   ~0u,  // no _oneof_case_
@@ -375,7 +286,6 @@ const uint32_t TableStruct_db_5fmongo_5fproxy_2eproto::offsets[] PROTOBUF_SECTIO
   PROTOBUF_FIELD_OFFSET(::S2S::MongoInsertReq, _impl_.db_name_),
   PROTOBUF_FIELD_OFFSET(::S2S::MongoInsertReq, _impl_.col_name_),
   PROTOBUF_FIELD_OFFSET(::S2S::MongoInsertReq, _impl_.doc_),
-  PROTOBUF_FIELD_OFFSET(::S2S::MongoInsertReq, _impl_.user_data_),
   ~0u,  // no _has_bits_
   PROTOBUF_FIELD_OFFSET(::S2S::MongoInsertRes, _internal_metadata_),
   ~0u,  // no _extensions_
@@ -383,7 +293,6 @@ const uint32_t TableStruct_db_5fmongo_5fproxy_2eproto::offsets[] PROTOBUF_SECTIO
   ~0u,  // no _weak_field_map_
   ~0u,  // no _inlined_string_donated_
   PROTOBUF_FIELD_OFFSET(::S2S::MongoInsertRes, _impl_.succeed_),
-  PROTOBUF_FIELD_OFFSET(::S2S::MongoInsertRes, _impl_.user_data_),
   ~0u,  // no _has_bits_
   PROTOBUF_FIELD_OFFSET(::S2S::MongoRemoveReq, _internal_metadata_),
   ~0u,  // no _extensions_
@@ -393,7 +302,6 @@ const uint32_t TableStruct_db_5fmongo_5fproxy_2eproto::offsets[] PROTOBUF_SECTIO
   PROTOBUF_FIELD_OFFSET(::S2S::MongoRemoveReq, _impl_.db_name_),
   PROTOBUF_FIELD_OFFSET(::S2S::MongoRemoveReq, _impl_.col_name_),
   PROTOBUF_FIELD_OFFSET(::S2S::MongoRemoveReq, _impl_.selector_),
-  PROTOBUF_FIELD_OFFSET(::S2S::MongoRemoveReq, _impl_.user_data_),
   ~0u,  // no _has_bits_
   PROTOBUF_FIELD_OFFSET(::S2S::MongoRemoveRes, _internal_metadata_),
   ~0u,  // no _extensions_
@@ -401,7 +309,6 @@ const uint32_t TableStruct_db_5fmongo_5fproxy_2eproto::offsets[] PROTOBUF_SECTIO
   ~0u,  // no _weak_field_map_
   ~0u,  // no _inlined_string_donated_
   PROTOBUF_FIELD_OFFSET(::S2S::MongoRemoveRes, _impl_.succeed_),
-  PROTOBUF_FIELD_OFFSET(::S2S::MongoRemoveRes, _impl_.user_data_),
   ~0u,  // no _has_bits_
   PROTOBUF_FIELD_OFFSET(::S2S::MongoSaveReq, _internal_metadata_),
   ~0u,  // no _extensions_
@@ -412,7 +319,6 @@ const uint32_t TableStruct_db_5fmongo_5fproxy_2eproto::offsets[] PROTOBUF_SECTIO
   PROTOBUF_FIELD_OFFSET(::S2S::MongoSaveReq, _impl_.col_name_),
   PROTOBUF_FIELD_OFFSET(::S2S::MongoSaveReq, _impl_.selector_),
   PROTOBUF_FIELD_OFFSET(::S2S::MongoSaveReq, _impl_.replacement_),
-  PROTOBUF_FIELD_OFFSET(::S2S::MongoSaveReq, _impl_.user_data_),
   ~0u,  // no _has_bits_
   PROTOBUF_FIELD_OFFSET(::S2S::MongoSaveRes, _internal_metadata_),
   ~0u,  // no _extensions_
@@ -420,26 +326,6 @@ const uint32_t TableStruct_db_5fmongo_5fproxy_2eproto::offsets[] PROTOBUF_SECTIO
   ~0u,  // no _weak_field_map_
   ~0u,  // no _inlined_string_donated_
   PROTOBUF_FIELD_OFFSET(::S2S::MongoSaveRes, _impl_.succeed_),
-  PROTOBUF_FIELD_OFFSET(::S2S::MongoSaveRes, _impl_.user_data_),
-  ~0u,  // no _has_bits_
-  PROTOBUF_FIELD_OFFSET(::S2S::MongoUpdateReq, _internal_metadata_),
-  ~0u,  // no _extensions_
-  ~0u,  // no _oneof_case_
-  ~0u,  // no _weak_field_map_
-  ~0u,  // no _inlined_string_donated_
-  PROTOBUF_FIELD_OFFSET(::S2S::MongoUpdateReq, _impl_.db_name_),
-  PROTOBUF_FIELD_OFFSET(::S2S::MongoUpdateReq, _impl_.col_name_),
-  PROTOBUF_FIELD_OFFSET(::S2S::MongoUpdateReq, _impl_.selector_),
-  PROTOBUF_FIELD_OFFSET(::S2S::MongoUpdateReq, _impl_.updator_),
-  PROTOBUF_FIELD_OFFSET(::S2S::MongoUpdateReq, _impl_.user_data_),
-  ~0u,  // no _has_bits_
-  PROTOBUF_FIELD_OFFSET(::S2S::MongoUpdateRes, _internal_metadata_),
-  ~0u,  // no _extensions_
-  ~0u,  // no _oneof_case_
-  ~0u,  // no _weak_field_map_
-  ~0u,  // no _inlined_string_donated_
-  PROTOBUF_FIELD_OFFSET(::S2S::MongoUpdateRes, _impl_.succeed_),
-  PROTOBUF_FIELD_OFFSET(::S2S::MongoUpdateRes, _impl_.user_data_),
   ~0u,  // no _has_bits_
   PROTOBUF_FIELD_OFFSET(::S2S::MongoFindReq, _internal_metadata_),
   ~0u,  // no _extensions_
@@ -454,7 +340,6 @@ const uint32_t TableStruct_db_5fmongo_5fproxy_2eproto::offsets[] PROTOBUF_SECTIO
   PROTOBUF_FIELD_OFFSET(::S2S::MongoFindReq, _impl_.skip_),
   PROTOBUF_FIELD_OFFSET(::S2S::MongoFindReq, _impl_.limit_),
   PROTOBUF_FIELD_OFFSET(::S2S::MongoFindReq, _impl_.batch_size_),
-  PROTOBUF_FIELD_OFFSET(::S2S::MongoFindReq, _impl_.user_data_),
   ~0u,  // no _has_bits_
   PROTOBUF_FIELD_OFFSET(::S2S::MongoFindRes, _internal_metadata_),
   ~0u,  // no _extensions_
@@ -464,7 +349,6 @@ const uint32_t TableStruct_db_5fmongo_5fproxy_2eproto::offsets[] PROTOBUF_SECTIO
   PROTOBUF_FIELD_OFFSET(::S2S::MongoFindRes, _impl_.succeed_),
   PROTOBUF_FIELD_OFFSET(::S2S::MongoFindRes, _impl_.has_more_),
   PROTOBUF_FIELD_OFFSET(::S2S::MongoFindRes, _impl_.data_list_),
-  PROTOBUF_FIELD_OFFSET(::S2S::MongoFindRes, _impl_.user_data_),
   ~0u,  // no _has_bits_
   PROTOBUF_FIELD_OFFSET(::S2S::ProtoBsonBatchFindData, _internal_metadata_),
   ~0u,  // no _extensions_
@@ -490,7 +374,6 @@ const uint32_t TableStruct_db_5fmongo_5fproxy_2eproto::offsets[] PROTOBUF_SECTIO
   PROTOBUF_FIELD_OFFSET(::S2S::MongoBatchFindReq, _impl_.skip_),
   PROTOBUF_FIELD_OFFSET(::S2S::MongoBatchFindReq, _impl_.limit_),
   PROTOBUF_FIELD_OFFSET(::S2S::MongoBatchFindReq, _impl_.batch_size_),
-  PROTOBUF_FIELD_OFFSET(::S2S::MongoBatchFindReq, _impl_.user_data_),
   ~0u,  // no _has_bits_
   PROTOBUF_FIELD_OFFSET(::S2S::MongoBatchFindRes, _internal_metadata_),
   ~0u,  // no _extensions_
@@ -500,7 +383,6 @@ const uint32_t TableStruct_db_5fmongo_5fproxy_2eproto::offsets[] PROTOBUF_SECTIO
   PROTOBUF_FIELD_OFFSET(::S2S::MongoBatchFindRes, _impl_.succeed_),
   PROTOBUF_FIELD_OFFSET(::S2S::MongoBatchFindRes, _impl_.has_more_),
   PROTOBUF_FIELD_OFFSET(::S2S::MongoBatchFindRes, _impl_.data_list_),
-  PROTOBUF_FIELD_OFFSET(::S2S::MongoBatchFindRes, _impl_.user_data_),
   ~0u,  // no _has_bits_
   PROTOBUF_FIELD_OFFSET(::S2S::MongoDBMsg, _internal_metadata_),
   ~0u,  // no _extensions_
@@ -513,8 +395,6 @@ const uint32_t TableStruct_db_5fmongo_5fproxy_2eproto::offsets[] PROTOBUF_SECTIO
   PROTOBUF_FIELD_OFFSET(::S2S::MongoDBMsg, _impl_.remove_res_),
   PROTOBUF_FIELD_OFFSET(::S2S::MongoDBMsg, _impl_.save_req_),
   PROTOBUF_FIELD_OFFSET(::S2S::MongoDBMsg, _impl_.save_res_),
-  PROTOBUF_FIELD_OFFSET(::S2S::MongoDBMsg, _impl_.update_req_),
-  PROTOBUF_FIELD_OFFSET(::S2S::MongoDBMsg, _impl_.update_res_),
   PROTOBUF_FIELD_OFFSET(::S2S::MongoDBMsg, _impl_.find_req_),
   PROTOBUF_FIELD_OFFSET(::S2S::MongoDBMsg, _impl_.find_res_),
   PROTOBUF_FIELD_OFFSET(::S2S::MongoDBMsg, _impl_.batch_find_req_),
@@ -523,35 +403,29 @@ const uint32_t TableStruct_db_5fmongo_5fproxy_2eproto::offsets[] PROTOBUF_SECTIO
 static const ::_pbi::MigrationSchema schemas[] PROTOBUF_SECTION_VARIABLE(protodesc_cold) = {
   { 0, -1, -1, sizeof(::S2S::ProtoBsonData)},
   { 14, -1, -1, sizeof(::S2S::ProtoBsonObj)},
-  { 21, -1, -1, sizeof(::S2S::MongoUserData)},
-  { 41, -1, -1, sizeof(::S2S::MongoInsertReq)},
-  { 51, -1, -1, sizeof(::S2S::MongoInsertRes)},
-  { 59, -1, -1, sizeof(::S2S::MongoRemoveReq)},
-  { 69, -1, -1, sizeof(::S2S::MongoRemoveRes)},
-  { 77, -1, -1, sizeof(::S2S::MongoSaveReq)},
-  { 88, -1, -1, sizeof(::S2S::MongoSaveRes)},
-  { 96, -1, -1, sizeof(::S2S::MongoUpdateReq)},
-  { 107, -1, -1, sizeof(::S2S::MongoUpdateRes)},
-  { 115, -1, -1, sizeof(::S2S::MongoFindReq)},
-  { 130, -1, -1, sizeof(::S2S::MongoFindRes)},
-  { 140, -1, -1, sizeof(::S2S::ProtoBsonBatchFindData)},
-  { 151, -1, -1, sizeof(::S2S::MongoBatchFindReq)},
-  { 166, -1, -1, sizeof(::S2S::MongoBatchFindRes)},
-  { 176, -1, -1, sizeof(::S2S::MongoDBMsg)},
+  { 21, -1, -1, sizeof(::S2S::MongoInsertReq)},
+  { 30, -1, -1, sizeof(::S2S::MongoInsertRes)},
+  { 37, -1, -1, sizeof(::S2S::MongoRemoveReq)},
+  { 46, -1, -1, sizeof(::S2S::MongoRemoveRes)},
+  { 53, -1, -1, sizeof(::S2S::MongoSaveReq)},
+  { 63, -1, -1, sizeof(::S2S::MongoSaveRes)},
+  { 70, -1, -1, sizeof(::S2S::MongoFindReq)},
+  { 84, -1, -1, sizeof(::S2S::MongoFindRes)},
+  { 93, -1, -1, sizeof(::S2S::ProtoBsonBatchFindData)},
+  { 104, -1, -1, sizeof(::S2S::MongoBatchFindReq)},
+  { 118, -1, -1, sizeof(::S2S::MongoBatchFindRes)},
+  { 127, -1, -1, sizeof(::S2S::MongoDBMsg)},
 };
 
 static const ::_pb::Message* const file_default_instances[] = {
   &::S2S::_ProtoBsonData_default_instance_._instance,
   &::S2S::_ProtoBsonObj_default_instance_._instance,
-  &::S2S::_MongoUserData_default_instance_._instance,
   &::S2S::_MongoInsertReq_default_instance_._instance,
   &::S2S::_MongoInsertRes_default_instance_._instance,
   &::S2S::_MongoRemoveReq_default_instance_._instance,
   &::S2S::_MongoRemoveRes_default_instance_._instance,
   &::S2S::_MongoSaveReq_default_instance_._instance,
   &::S2S::_MongoSaveRes_default_instance_._instance,
-  &::S2S::_MongoUpdateReq_default_instance_._instance,
-  &::S2S::_MongoUpdateRes_default_instance_._instance,
   &::S2S::_MongoFindReq_default_instance_._instance,
   &::S2S::_MongoFindRes_default_instance_._instance,
   &::S2S::_ProtoBsonBatchFindData_default_instance_._instance,
@@ -567,77 +441,52 @@ const char descriptor_table_protodef_db_5fmongo_5fproxy_2eproto[] PROTOBUF_SECTI
   "ar_double\030\005 \001(\001\022\020\n\010var_bool\030\006 \001(\010\022\022\n\nvar"
   "_string\030\007 \001(\t\022\017\n\007var_bin\030\010 \001(\014\":\n\014ProtoB"
   "sonObj\022*\n\016bson_data_list\030\001 \003(\0132\022.S2S.Pro"
-  "toBsonData\"\237\002\n\rMongoUserData\022\014\n\004type\030\001 \001"
-  "(\005\022\021\n\ttrans_gid\030\002 \001(\004\022\023\n\013session_gid\030\003 \001"
-  "(\004\022\022\n\naccount_id\030\004 \001(\t\022\022\n\nplayer_gid\030\005 \001"
-  "(\004\022\030\n\020other_player_gid\030\006 \001(\004\022\027\n\017offline_"
-  "msg_gid\030\007 \001(\004\022\023\n\013sdk_user_id\030\010 \001(\t\022\016\n\006sv"
-  "r_id\030\t \001(\005\022\020\n\010int_var1\030\n \001(\005\022\020\n\010int_var2"
-  "\030\013 \001(\005\022\020\n\010int_var3\030\014 \001(\005\022\020\n\010str_var1\030\r \001"
-  "(\t\022\020\n\010str_var2\030\016 \001(\t\"z\n\016MongoInsertReq\022\017"
-  "\n\007db_name\030\001 \001(\t\022\020\n\010col_name\030\002 \001(\t\022\036\n\003doc"
-  "\030\003 \001(\0132\021.S2S.ProtoBsonObj\022%\n\tuser_data\030\004"
-  " \001(\0132\022.S2S.MongoUserData\"H\n\016MongoInsertR"
-  "es\022\017\n\007succeed\030\001 \001(\010\022%\n\tuser_data\030\002 \001(\0132\022"
-  ".S2S.MongoUserData\"\177\n\016MongoRemoveReq\022\017\n\007"
-  "db_name\030\001 \001(\t\022\020\n\010col_name\030\002 \001(\t\022#\n\010selec"
-  "tor\030\003 \001(\0132\021.S2S.ProtoBsonObj\022%\n\tuser_dat"
-  "a\030\004 \001(\0132\022.S2S.MongoUserData\"H\n\016MongoRemo"
-  "veRes\022\017\n\007succeed\030\001 \001(\010\022%\n\tuser_data\030\002 \001("
-  "\0132\022.S2S.MongoUserData\"\245\001\n\014MongoSaveReq\022\017"
-  "\n\007db_name\030\001 \001(\t\022\020\n\010col_name\030\002 \001(\t\022#\n\010sel"
-  "ector\030\003 \001(\0132\021.S2S.ProtoBsonObj\022&\n\013replac"
-  "ement\030\004 \001(\0132\021.S2S.ProtoBsonObj\022%\n\tuser_d"
-  "ata\030\005 \001(\0132\022.S2S.MongoUserData\"F\n\014MongoSa"
-  "veRes\022\017\n\007succeed\030\001 \001(\010\022%\n\tuser_data\030\002 \001("
-  "\0132\022.S2S.MongoUserData\"\243\001\n\016MongoUpdateReq"
-  "\022\017\n\007db_name\030\001 \001(\t\022\020\n\010col_name\030\002 \001(\t\022#\n\010s"
-  "elector\030\003 \001(\0132\021.S2S.ProtoBsonObj\022\"\n\007upda"
-  "tor\030\004 \001(\0132\021.S2S.ProtoBsonObj\022%\n\tuser_dat"
-  "a\030\005 \001(\0132\022.S2S.MongoUserData\"H\n\016MongoUpda"
-  "teRes\022\017\n\007succeed\030\001 \001(\010\022%\n\tuser_data\030\002 \001("
-  "\0132\022.S2S.MongoUserData\"\347\001\n\014MongoFindReq\022\017"
-  "\n\007db_name\030\001 \001(\t\022\020\n\010col_name\030\002 \001(\t\022 \n\005que"
-  "ry\030\003 \001(\0132\021.S2S.ProtoBsonObj\022!\n\006fields\030\004 "
-  "\001(\0132\021.S2S.ProtoBsonObj\022\027\n\017logic_batch_nu"
-  "m\030\005 \001(\005\022\014\n\004skip\030\006 \001(\005\022\r\n\005limit\030\007 \001(\005\022\022\n\n"
-  "batch_size\030\010 \001(\005\022%\n\tuser_data\030\t \001(\0132\022.S2"
-  "S.MongoUserData\"~\n\014MongoFindRes\022\017\n\007succe"
-  "ed\030\001 \001(\010\022\020\n\010has_more\030\002 \001(\010\022$\n\tdata_list\030"
-  "\003 \003(\0132\021.S2S.ProtoBsonObj\022%\n\tuser_data\030\004 "
-  "\001(\0132\022.S2S.MongoUserData\"\201\001\n\026ProtoBsonBat"
-  "chFindData\022\013\n\003key\030\001 \001(\t\022\021\n\tdata_type\030\002 \001"
-  "(\005\022\026\n\016int32_var_list\030\003 \003(\005\022\026\n\016int64_var_"
-  "list\030\004 \003(\003\022\027\n\017string_var_list\030\005 \003(\t\"\366\001\n\021"
-  "MongoBatchFindReq\022\017\n\007db_name\030\001 \001(\t\022\020\n\010co"
-  "l_name\030\002 \001(\t\022*\n\005query\030\003 \001(\0132\033.S2S.ProtoB"
-  "sonBatchFindData\022!\n\006fields\030\004 \001(\0132\021.S2S.P"
-  "rotoBsonObj\022\027\n\017logic_batch_num\030\005 \001(\005\022\014\n\004"
-  "skip\030\006 \001(\005\022\r\n\005limit\030\007 \001(\005\022\022\n\nbatch_size\030"
-  "\010 \001(\005\022%\n\tuser_data\030\t \001(\0132\022.S2S.MongoUser"
-  "Data\"\203\001\n\021MongoBatchFindRes\022\017\n\007succeed\030\001 "
-  "\001(\010\022\020\n\010has_more\030\002 \001(\010\022$\n\tdata_list\030\003 \003(\013"
-  "2\021.S2S.ProtoBsonObj\022%\n\tuser_data\030\004 \001(\0132\022"
-  ".S2S.MongoUserData\"\366\003\n\nMongoDBMsg\022\'\n\nins"
-  "ert_req\030\002 \001(\0132\023.S2S.MongoInsertReq\022\'\n\nin"
-  "sert_res\030\003 \001(\0132\023.S2S.MongoInsertRes\022\'\n\nr"
-  "emove_req\030\004 \001(\0132\023.S2S.MongoRemoveReq\022\'\n\n"
-  "remove_res\030\005 \001(\0132\023.S2S.MongoRemoveRes\022#\n"
-  "\010save_req\030\006 \001(\0132\021.S2S.MongoSaveReq\022#\n\010sa"
-  "ve_res\030\007 \001(\0132\021.S2S.MongoSaveRes\022\'\n\nupdat"
-  "e_req\030\010 \001(\0132\023.S2S.MongoUpdateReq\022\'\n\nupda"
-  "te_res\030\t \001(\0132\023.S2S.MongoUpdateRes\022#\n\010fin"
-  "d_req\030\n \001(\0132\021.S2S.MongoFindReq\022#\n\010find_r"
-  "es\030\013 \001(\0132\021.S2S.MongoFindRes\022.\n\016batch_fin"
-  "d_req\030\014 \001(\0132\026.S2S.MongoBatchFindReq\022.\n\016b"
-  "atch_find_res\030\r \001(\0132\026.S2S.MongoBatchFind"
-  "Resb\006proto3"
+  "toBsonData\"S\n\016MongoInsertReq\022\017\n\007db_name\030"
+  "\001 \001(\t\022\020\n\010col_name\030\002 \001(\t\022\036\n\003doc\030\003 \001(\0132\021.S"
+  "2S.ProtoBsonObj\"!\n\016MongoInsertRes\022\017\n\007suc"
+  "ceed\030\001 \001(\010\"X\n\016MongoRemoveReq\022\017\n\007db_name\030"
+  "\001 \001(\t\022\020\n\010col_name\030\002 \001(\t\022#\n\010selector\030\003 \001("
+  "\0132\021.S2S.ProtoBsonObj\"!\n\016MongoRemoveRes\022\017"
+  "\n\007succeed\030\001 \001(\010\"~\n\014MongoSaveReq\022\017\n\007db_na"
+  "me\030\001 \001(\t\022\020\n\010col_name\030\002 \001(\t\022#\n\010selector\030\003"
+  " \001(\0132\021.S2S.ProtoBsonObj\022&\n\013replacement\030\004"
+  " \001(\0132\021.S2S.ProtoBsonObj\"\037\n\014MongoSaveRes\022"
+  "\017\n\007succeed\030\001 \001(\010\"\300\001\n\014MongoFindReq\022\017\n\007db_"
+  "name\030\001 \001(\t\022\020\n\010col_name\030\002 \001(\t\022 \n\005query\030\003 "
+  "\001(\0132\021.S2S.ProtoBsonObj\022!\n\006fields\030\004 \001(\0132\021"
+  ".S2S.ProtoBsonObj\022\027\n\017logic_batch_num\030\005 \001"
+  "(\005\022\014\n\004skip\030\006 \001(\005\022\r\n\005limit\030\007 \001(\005\022\022\n\nbatch"
+  "_size\030\010 \001(\005\"W\n\014MongoFindRes\022\017\n\007succeed\030\001"
+  " \001(\010\022\020\n\010has_more\030\002 \001(\010\022$\n\tdata_list\030\003 \003("
+  "\0132\021.S2S.ProtoBsonObj\"\201\001\n\026ProtoBsonBatchF"
+  "indData\022\013\n\003key\030\001 \001(\t\022\021\n\tdata_type\030\002 \001(\005\022"
+  "\026\n\016int32_var_list\030\003 \003(\005\022\026\n\016int64_var_lis"
+  "t\030\004 \003(\003\022\027\n\017string_var_list\030\005 \003(\t\"\317\001\n\021Mon"
+  "goBatchFindReq\022\017\n\007db_name\030\001 \001(\t\022\020\n\010col_n"
+  "ame\030\002 \001(\t\022*\n\005query\030\003 \001(\0132\033.S2S.ProtoBson"
+  "BatchFindData\022!\n\006fields\030\004 \001(\0132\021.S2S.Prot"
+  "oBsonObj\022\027\n\017logic_batch_num\030\005 \001(\005\022\014\n\004ski"
+  "p\030\006 \001(\005\022\r\n\005limit\030\007 \001(\005\022\022\n\nbatch_size\030\010 \001"
+  "(\005\"\\\n\021MongoBatchFindRes\022\017\n\007succeed\030\001 \001(\010"
+  "\022\020\n\010has_more\030\002 \001(\010\022$\n\tdata_list\030\003 \003(\0132\021."
+  "S2S.ProtoBsonObj\"\244\003\n\nMongoDBMsg\022\'\n\ninser"
+  "t_req\030\002 \001(\0132\023.S2S.MongoInsertReq\022\'\n\ninse"
+  "rt_res\030\003 \001(\0132\023.S2S.MongoInsertRes\022\'\n\nrem"
+  "ove_req\030\004 \001(\0132\023.S2S.MongoRemoveReq\022\'\n\nre"
+  "move_res\030\005 \001(\0132\023.S2S.MongoRemoveRes\022#\n\010s"
+  "ave_req\030\006 \001(\0132\021.S2S.MongoSaveReq\022#\n\010save"
+  "_res\030\007 \001(\0132\021.S2S.MongoSaveRes\022#\n\010find_re"
+  "q\030\n \001(\0132\021.S2S.MongoFindReq\022#\n\010find_res\030\013"
+  " \001(\0132\021.S2S.MongoFindRes\022.\n\016batch_find_re"
+  "q\030\014 \001(\0132\026.S2S.MongoBatchFindReq\022.\n\016batch"
+  "_find_res\030\r \001(\0132\026.S2S.MongoBatchFindResb"
+  "\006proto3"
   ;
 static ::_pbi::once_flag descriptor_table_db_5fmongo_5fproxy_2eproto_once;
 const ::_pbi::DescriptorTable descriptor_table_db_5fmongo_5fproxy_2eproto = {
-    false, false, 2811, descriptor_table_protodef_db_5fmongo_5fproxy_2eproto,
+    false, false, 1807, descriptor_table_protodef_db_5fmongo_5fproxy_2eproto,
     "db_mongo_proxy.proto",
-    &descriptor_table_db_5fmongo_5fproxy_2eproto_once, nullptr, 0, 17,
+    &descriptor_table_db_5fmongo_5fproxy_2eproto_once, nullptr, 0, 14,
     schemas, file_default_instances, TableStruct_db_5fmongo_5fproxy_2eproto::offsets,
     file_level_metadata_db_5fmongo_5fproxy_2eproto, file_level_enum_descriptors_db_5fmongo_5fproxy_2eproto,
     file_level_service_descriptors_db_5fmongo_5fproxy_2eproto,
@@ -1279,624 +1128,14 @@ void ProtoBsonObj::InternalSwap(ProtoBsonObj* other) {
 
 // ===================================================================
 
-class MongoUserData::_Internal {
- public:
-};
-
-MongoUserData::MongoUserData(::PROTOBUF_NAMESPACE_ID::Arena* arena,
-                         bool is_message_owned)
-  : ::PROTOBUF_NAMESPACE_ID::Message(arena, is_message_owned) {
-  SharedCtor(arena, is_message_owned);
-  // @@protoc_insertion_point(arena_constructor:S2S.MongoUserData)
-}
-MongoUserData::MongoUserData(const MongoUserData& from)
-  : ::PROTOBUF_NAMESPACE_ID::Message() {
-  MongoUserData* const _this = this; (void)_this;
-  new (&_impl_) Impl_{
-      decltype(_impl_.account_id_){}
-    , decltype(_impl_.sdk_user_id_){}
-    , decltype(_impl_.str_var1_){}
-    , decltype(_impl_.str_var2_){}
-    , decltype(_impl_.trans_gid_){}
-    , decltype(_impl_.session_gid_){}
-    , decltype(_impl_.player_gid_){}
-    , decltype(_impl_.type_){}
-    , decltype(_impl_.svr_id_){}
-    , decltype(_impl_.other_player_gid_){}
-    , decltype(_impl_.offline_msg_gid_){}
-    , decltype(_impl_.int_var1_){}
-    , decltype(_impl_.int_var2_){}
-    , decltype(_impl_.int_var3_){}
-    , /*decltype(_impl_._cached_size_)*/{}};
-
-  _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
-  _impl_.account_id_.InitDefault();
-  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
-    _impl_.account_id_.Set("", GetArenaForAllocation());
-  #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
-  if (!from._internal_account_id().empty()) {
-    _this->_impl_.account_id_.Set(from._internal_account_id(), 
-      _this->GetArenaForAllocation());
-  }
-  _impl_.sdk_user_id_.InitDefault();
-  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
-    _impl_.sdk_user_id_.Set("", GetArenaForAllocation());
-  #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
-  if (!from._internal_sdk_user_id().empty()) {
-    _this->_impl_.sdk_user_id_.Set(from._internal_sdk_user_id(), 
-      _this->GetArenaForAllocation());
-  }
-  _impl_.str_var1_.InitDefault();
-  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
-    _impl_.str_var1_.Set("", GetArenaForAllocation());
-  #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
-  if (!from._internal_str_var1().empty()) {
-    _this->_impl_.str_var1_.Set(from._internal_str_var1(), 
-      _this->GetArenaForAllocation());
-  }
-  _impl_.str_var2_.InitDefault();
-  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
-    _impl_.str_var2_.Set("", GetArenaForAllocation());
-  #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
-  if (!from._internal_str_var2().empty()) {
-    _this->_impl_.str_var2_.Set(from._internal_str_var2(), 
-      _this->GetArenaForAllocation());
-  }
-  ::memcpy(&_impl_.trans_gid_, &from._impl_.trans_gid_,
-    static_cast<size_t>(reinterpret_cast<char*>(&_impl_.int_var3_) -
-    reinterpret_cast<char*>(&_impl_.trans_gid_)) + sizeof(_impl_.int_var3_));
-  // @@protoc_insertion_point(copy_constructor:S2S.MongoUserData)
-}
-
-inline void MongoUserData::SharedCtor(
-    ::_pb::Arena* arena, bool is_message_owned) {
-  (void)arena;
-  (void)is_message_owned;
-  new (&_impl_) Impl_{
-      decltype(_impl_.account_id_){}
-    , decltype(_impl_.sdk_user_id_){}
-    , decltype(_impl_.str_var1_){}
-    , decltype(_impl_.str_var2_){}
-    , decltype(_impl_.trans_gid_){uint64_t{0u}}
-    , decltype(_impl_.session_gid_){uint64_t{0u}}
-    , decltype(_impl_.player_gid_){uint64_t{0u}}
-    , decltype(_impl_.type_){0}
-    , decltype(_impl_.svr_id_){0}
-    , decltype(_impl_.other_player_gid_){uint64_t{0u}}
-    , decltype(_impl_.offline_msg_gid_){uint64_t{0u}}
-    , decltype(_impl_.int_var1_){0}
-    , decltype(_impl_.int_var2_){0}
-    , decltype(_impl_.int_var3_){0}
-    , /*decltype(_impl_._cached_size_)*/{}
-  };
-  _impl_.account_id_.InitDefault();
-  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
-    _impl_.account_id_.Set("", GetArenaForAllocation());
-  #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
-  _impl_.sdk_user_id_.InitDefault();
-  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
-    _impl_.sdk_user_id_.Set("", GetArenaForAllocation());
-  #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
-  _impl_.str_var1_.InitDefault();
-  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
-    _impl_.str_var1_.Set("", GetArenaForAllocation());
-  #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
-  _impl_.str_var2_.InitDefault();
-  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
-    _impl_.str_var2_.Set("", GetArenaForAllocation());
-  #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
-}
-
-MongoUserData::~MongoUserData() {
-  // @@protoc_insertion_point(destructor:S2S.MongoUserData)
-  if (auto *arena = _internal_metadata_.DeleteReturnArena<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>()) {
-  (void)arena;
-    return;
-  }
-  SharedDtor();
-}
-
-inline void MongoUserData::SharedDtor() {
-  GOOGLE_DCHECK(GetArenaForAllocation() == nullptr);
-  _impl_.account_id_.Destroy();
-  _impl_.sdk_user_id_.Destroy();
-  _impl_.str_var1_.Destroy();
-  _impl_.str_var2_.Destroy();
-}
-
-void MongoUserData::SetCachedSize(int size) const {
-  _impl_._cached_size_.Set(size);
-}
-
-void MongoUserData::Clear() {
-// @@protoc_insertion_point(message_clear_start:S2S.MongoUserData)
-  uint32_t cached_has_bits = 0;
-  // Prevent compiler warnings about cached_has_bits being unused
-  (void) cached_has_bits;
-
-  _impl_.account_id_.ClearToEmpty();
-  _impl_.sdk_user_id_.ClearToEmpty();
-  _impl_.str_var1_.ClearToEmpty();
-  _impl_.str_var2_.ClearToEmpty();
-  ::memset(&_impl_.trans_gid_, 0, static_cast<size_t>(
-      reinterpret_cast<char*>(&_impl_.int_var3_) -
-      reinterpret_cast<char*>(&_impl_.trans_gid_)) + sizeof(_impl_.int_var3_));
-  _internal_metadata_.Clear<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
-}
-
-const char* MongoUserData::_InternalParse(const char* ptr, ::_pbi::ParseContext* ctx) {
-#define CHK_(x) if (PROTOBUF_PREDICT_FALSE(!(x))) goto failure
-  while (!ctx->Done(&ptr)) {
-    uint32_t tag;
-    ptr = ::_pbi::ReadTag(ptr, &tag);
-    switch (tag >> 3) {
-      // int32 type = 1;
-      case 1:
-        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 8)) {
-          _impl_.type_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint32(&ptr);
-          CHK_(ptr);
-        } else
-          goto handle_unusual;
-        continue;
-      // uint64 trans_gid = 2;
-      case 2:
-        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 16)) {
-          _impl_.trans_gid_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint64(&ptr);
-          CHK_(ptr);
-        } else
-          goto handle_unusual;
-        continue;
-      // uint64 session_gid = 3;
-      case 3:
-        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 24)) {
-          _impl_.session_gid_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint64(&ptr);
-          CHK_(ptr);
-        } else
-          goto handle_unusual;
-        continue;
-      // string account_id = 4;
-      case 4:
-        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 34)) {
-          auto str = _internal_mutable_account_id();
-          ptr = ::_pbi::InlineGreedyStringParser(str, ptr, ctx);
-          CHK_(ptr);
-          CHK_(::_pbi::VerifyUTF8(str, "S2S.MongoUserData.account_id"));
-        } else
-          goto handle_unusual;
-        continue;
-      // uint64 player_gid = 5;
-      case 5:
-        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 40)) {
-          _impl_.player_gid_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint64(&ptr);
-          CHK_(ptr);
-        } else
-          goto handle_unusual;
-        continue;
-      // uint64 other_player_gid = 6;
-      case 6:
-        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 48)) {
-          _impl_.other_player_gid_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint64(&ptr);
-          CHK_(ptr);
-        } else
-          goto handle_unusual;
-        continue;
-      // uint64 offline_msg_gid = 7;
-      case 7:
-        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 56)) {
-          _impl_.offline_msg_gid_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint64(&ptr);
-          CHK_(ptr);
-        } else
-          goto handle_unusual;
-        continue;
-      // string sdk_user_id = 8;
-      case 8:
-        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 66)) {
-          auto str = _internal_mutable_sdk_user_id();
-          ptr = ::_pbi::InlineGreedyStringParser(str, ptr, ctx);
-          CHK_(ptr);
-          CHK_(::_pbi::VerifyUTF8(str, "S2S.MongoUserData.sdk_user_id"));
-        } else
-          goto handle_unusual;
-        continue;
-      // int32 svr_id = 9;
-      case 9:
-        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 72)) {
-          _impl_.svr_id_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint32(&ptr);
-          CHK_(ptr);
-        } else
-          goto handle_unusual;
-        continue;
-      // int32 int_var1 = 10;
-      case 10:
-        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 80)) {
-          _impl_.int_var1_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint32(&ptr);
-          CHK_(ptr);
-        } else
-          goto handle_unusual;
-        continue;
-      // int32 int_var2 = 11;
-      case 11:
-        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 88)) {
-          _impl_.int_var2_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint32(&ptr);
-          CHK_(ptr);
-        } else
-          goto handle_unusual;
-        continue;
-      // int32 int_var3 = 12;
-      case 12:
-        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 96)) {
-          _impl_.int_var3_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint32(&ptr);
-          CHK_(ptr);
-        } else
-          goto handle_unusual;
-        continue;
-      // string str_var1 = 13;
-      case 13:
-        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 106)) {
-          auto str = _internal_mutable_str_var1();
-          ptr = ::_pbi::InlineGreedyStringParser(str, ptr, ctx);
-          CHK_(ptr);
-          CHK_(::_pbi::VerifyUTF8(str, "S2S.MongoUserData.str_var1"));
-        } else
-          goto handle_unusual;
-        continue;
-      // string str_var2 = 14;
-      case 14:
-        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 114)) {
-          auto str = _internal_mutable_str_var2();
-          ptr = ::_pbi::InlineGreedyStringParser(str, ptr, ctx);
-          CHK_(ptr);
-          CHK_(::_pbi::VerifyUTF8(str, "S2S.MongoUserData.str_var2"));
-        } else
-          goto handle_unusual;
-        continue;
-      default:
-        goto handle_unusual;
-    }  // switch
-  handle_unusual:
-    if ((tag == 0) || ((tag & 7) == 4)) {
-      CHK_(ptr);
-      ctx->SetLastTag(tag);
-      goto message_done;
-    }
-    ptr = UnknownFieldParse(
-        tag,
-        _internal_metadata_.mutable_unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(),
-        ptr, ctx);
-    CHK_(ptr != nullptr);
-  }  // while
-message_done:
-  return ptr;
-failure:
-  ptr = nullptr;
-  goto message_done;
-#undef CHK_
-}
-
-uint8_t* MongoUserData::_InternalSerialize(
-    uint8_t* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const {
-  // @@protoc_insertion_point(serialize_to_array_start:S2S.MongoUserData)
-  uint32_t cached_has_bits = 0;
-  (void) cached_has_bits;
-
-  // int32 type = 1;
-  if (this->_internal_type() != 0) {
-    target = stream->EnsureSpace(target);
-    target = ::_pbi::WireFormatLite::WriteInt32ToArray(1, this->_internal_type(), target);
-  }
-
-  // uint64 trans_gid = 2;
-  if (this->_internal_trans_gid() != 0) {
-    target = stream->EnsureSpace(target);
-    target = ::_pbi::WireFormatLite::WriteUInt64ToArray(2, this->_internal_trans_gid(), target);
-  }
-
-  // uint64 session_gid = 3;
-  if (this->_internal_session_gid() != 0) {
-    target = stream->EnsureSpace(target);
-    target = ::_pbi::WireFormatLite::WriteUInt64ToArray(3, this->_internal_session_gid(), target);
-  }
-
-  // string account_id = 4;
-  if (!this->_internal_account_id().empty()) {
-    ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::VerifyUtf8String(
-      this->_internal_account_id().data(), static_cast<int>(this->_internal_account_id().length()),
-      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::SERIALIZE,
-      "S2S.MongoUserData.account_id");
-    target = stream->WriteStringMaybeAliased(
-        4, this->_internal_account_id(), target);
-  }
-
-  // uint64 player_gid = 5;
-  if (this->_internal_player_gid() != 0) {
-    target = stream->EnsureSpace(target);
-    target = ::_pbi::WireFormatLite::WriteUInt64ToArray(5, this->_internal_player_gid(), target);
-  }
-
-  // uint64 other_player_gid = 6;
-  if (this->_internal_other_player_gid() != 0) {
-    target = stream->EnsureSpace(target);
-    target = ::_pbi::WireFormatLite::WriteUInt64ToArray(6, this->_internal_other_player_gid(), target);
-  }
-
-  // uint64 offline_msg_gid = 7;
-  if (this->_internal_offline_msg_gid() != 0) {
-    target = stream->EnsureSpace(target);
-    target = ::_pbi::WireFormatLite::WriteUInt64ToArray(7, this->_internal_offline_msg_gid(), target);
-  }
-
-  // string sdk_user_id = 8;
-  if (!this->_internal_sdk_user_id().empty()) {
-    ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::VerifyUtf8String(
-      this->_internal_sdk_user_id().data(), static_cast<int>(this->_internal_sdk_user_id().length()),
-      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::SERIALIZE,
-      "S2S.MongoUserData.sdk_user_id");
-    target = stream->WriteStringMaybeAliased(
-        8, this->_internal_sdk_user_id(), target);
-  }
-
-  // int32 svr_id = 9;
-  if (this->_internal_svr_id() != 0) {
-    target = stream->EnsureSpace(target);
-    target = ::_pbi::WireFormatLite::WriteInt32ToArray(9, this->_internal_svr_id(), target);
-  }
-
-  // int32 int_var1 = 10;
-  if (this->_internal_int_var1() != 0) {
-    target = stream->EnsureSpace(target);
-    target = ::_pbi::WireFormatLite::WriteInt32ToArray(10, this->_internal_int_var1(), target);
-  }
-
-  // int32 int_var2 = 11;
-  if (this->_internal_int_var2() != 0) {
-    target = stream->EnsureSpace(target);
-    target = ::_pbi::WireFormatLite::WriteInt32ToArray(11, this->_internal_int_var2(), target);
-  }
-
-  // int32 int_var3 = 12;
-  if (this->_internal_int_var3() != 0) {
-    target = stream->EnsureSpace(target);
-    target = ::_pbi::WireFormatLite::WriteInt32ToArray(12, this->_internal_int_var3(), target);
-  }
-
-  // string str_var1 = 13;
-  if (!this->_internal_str_var1().empty()) {
-    ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::VerifyUtf8String(
-      this->_internal_str_var1().data(), static_cast<int>(this->_internal_str_var1().length()),
-      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::SERIALIZE,
-      "S2S.MongoUserData.str_var1");
-    target = stream->WriteStringMaybeAliased(
-        13, this->_internal_str_var1(), target);
-  }
-
-  // string str_var2 = 14;
-  if (!this->_internal_str_var2().empty()) {
-    ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::VerifyUtf8String(
-      this->_internal_str_var2().data(), static_cast<int>(this->_internal_str_var2().length()),
-      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::SERIALIZE,
-      "S2S.MongoUserData.str_var2");
-    target = stream->WriteStringMaybeAliased(
-        14, this->_internal_str_var2(), target);
-  }
-
-  if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
-    target = ::_pbi::WireFormat::InternalSerializeUnknownFieldsToArray(
-        _internal_metadata_.unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(::PROTOBUF_NAMESPACE_ID::UnknownFieldSet::default_instance), target, stream);
-  }
-  // @@protoc_insertion_point(serialize_to_array_end:S2S.MongoUserData)
-  return target;
-}
-
-size_t MongoUserData::ByteSizeLong() const {
-// @@protoc_insertion_point(message_byte_size_start:S2S.MongoUserData)
-  size_t total_size = 0;
-
-  uint32_t cached_has_bits = 0;
-  // Prevent compiler warnings about cached_has_bits being unused
-  (void) cached_has_bits;
-
-  // string account_id = 4;
-  if (!this->_internal_account_id().empty()) {
-    total_size += 1 +
-      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::StringSize(
-        this->_internal_account_id());
-  }
-
-  // string sdk_user_id = 8;
-  if (!this->_internal_sdk_user_id().empty()) {
-    total_size += 1 +
-      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::StringSize(
-        this->_internal_sdk_user_id());
-  }
-
-  // string str_var1 = 13;
-  if (!this->_internal_str_var1().empty()) {
-    total_size += 1 +
-      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::StringSize(
-        this->_internal_str_var1());
-  }
-
-  // string str_var2 = 14;
-  if (!this->_internal_str_var2().empty()) {
-    total_size += 1 +
-      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::StringSize(
-        this->_internal_str_var2());
-  }
-
-  // uint64 trans_gid = 2;
-  if (this->_internal_trans_gid() != 0) {
-    total_size += ::_pbi::WireFormatLite::UInt64SizePlusOne(this->_internal_trans_gid());
-  }
-
-  // uint64 session_gid = 3;
-  if (this->_internal_session_gid() != 0) {
-    total_size += ::_pbi::WireFormatLite::UInt64SizePlusOne(this->_internal_session_gid());
-  }
-
-  // uint64 player_gid = 5;
-  if (this->_internal_player_gid() != 0) {
-    total_size += ::_pbi::WireFormatLite::UInt64SizePlusOne(this->_internal_player_gid());
-  }
-
-  // int32 type = 1;
-  if (this->_internal_type() != 0) {
-    total_size += ::_pbi::WireFormatLite::Int32SizePlusOne(this->_internal_type());
-  }
-
-  // int32 svr_id = 9;
-  if (this->_internal_svr_id() != 0) {
-    total_size += ::_pbi::WireFormatLite::Int32SizePlusOne(this->_internal_svr_id());
-  }
-
-  // uint64 other_player_gid = 6;
-  if (this->_internal_other_player_gid() != 0) {
-    total_size += ::_pbi::WireFormatLite::UInt64SizePlusOne(this->_internal_other_player_gid());
-  }
-
-  // uint64 offline_msg_gid = 7;
-  if (this->_internal_offline_msg_gid() != 0) {
-    total_size += ::_pbi::WireFormatLite::UInt64SizePlusOne(this->_internal_offline_msg_gid());
-  }
-
-  // int32 int_var1 = 10;
-  if (this->_internal_int_var1() != 0) {
-    total_size += ::_pbi::WireFormatLite::Int32SizePlusOne(this->_internal_int_var1());
-  }
-
-  // int32 int_var2 = 11;
-  if (this->_internal_int_var2() != 0) {
-    total_size += ::_pbi::WireFormatLite::Int32SizePlusOne(this->_internal_int_var2());
-  }
-
-  // int32 int_var3 = 12;
-  if (this->_internal_int_var3() != 0) {
-    total_size += ::_pbi::WireFormatLite::Int32SizePlusOne(this->_internal_int_var3());
-  }
-
-  return MaybeComputeUnknownFieldsSize(total_size, &_impl_._cached_size_);
-}
-
-const ::PROTOBUF_NAMESPACE_ID::Message::ClassData MongoUserData::_class_data_ = {
-    ::PROTOBUF_NAMESPACE_ID::Message::CopyWithSourceCheck,
-    MongoUserData::MergeImpl
-};
-const ::PROTOBUF_NAMESPACE_ID::Message::ClassData*MongoUserData::GetClassData() const { return &_class_data_; }
-
-
-void MongoUserData::MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const ::PROTOBUF_NAMESPACE_ID::Message& from_msg) {
-  auto* const _this = static_cast<MongoUserData*>(&to_msg);
-  auto& from = static_cast<const MongoUserData&>(from_msg);
-  // @@protoc_insertion_point(class_specific_merge_from_start:S2S.MongoUserData)
-  GOOGLE_DCHECK_NE(&from, _this);
-  uint32_t cached_has_bits = 0;
-  (void) cached_has_bits;
-
-  if (!from._internal_account_id().empty()) {
-    _this->_internal_set_account_id(from._internal_account_id());
-  }
-  if (!from._internal_sdk_user_id().empty()) {
-    _this->_internal_set_sdk_user_id(from._internal_sdk_user_id());
-  }
-  if (!from._internal_str_var1().empty()) {
-    _this->_internal_set_str_var1(from._internal_str_var1());
-  }
-  if (!from._internal_str_var2().empty()) {
-    _this->_internal_set_str_var2(from._internal_str_var2());
-  }
-  if (from._internal_trans_gid() != 0) {
-    _this->_internal_set_trans_gid(from._internal_trans_gid());
-  }
-  if (from._internal_session_gid() != 0) {
-    _this->_internal_set_session_gid(from._internal_session_gid());
-  }
-  if (from._internal_player_gid() != 0) {
-    _this->_internal_set_player_gid(from._internal_player_gid());
-  }
-  if (from._internal_type() != 0) {
-    _this->_internal_set_type(from._internal_type());
-  }
-  if (from._internal_svr_id() != 0) {
-    _this->_internal_set_svr_id(from._internal_svr_id());
-  }
-  if (from._internal_other_player_gid() != 0) {
-    _this->_internal_set_other_player_gid(from._internal_other_player_gid());
-  }
-  if (from._internal_offline_msg_gid() != 0) {
-    _this->_internal_set_offline_msg_gid(from._internal_offline_msg_gid());
-  }
-  if (from._internal_int_var1() != 0) {
-    _this->_internal_set_int_var1(from._internal_int_var1());
-  }
-  if (from._internal_int_var2() != 0) {
-    _this->_internal_set_int_var2(from._internal_int_var2());
-  }
-  if (from._internal_int_var3() != 0) {
-    _this->_internal_set_int_var3(from._internal_int_var3());
-  }
-  _this->_internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
-}
-
-void MongoUserData::CopyFrom(const MongoUserData& from) {
-// @@protoc_insertion_point(class_specific_copy_from_start:S2S.MongoUserData)
-  if (&from == this) return;
-  Clear();
-  MergeFrom(from);
-}
-
-bool MongoUserData::IsInitialized() const {
-  return true;
-}
-
-void MongoUserData::InternalSwap(MongoUserData* other) {
-  using std::swap;
-  auto* lhs_arena = GetArenaForAllocation();
-  auto* rhs_arena = other->GetArenaForAllocation();
-  _internal_metadata_.InternalSwap(&other->_internal_metadata_);
-  ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::InternalSwap(
-      &_impl_.account_id_, lhs_arena,
-      &other->_impl_.account_id_, rhs_arena
-  );
-  ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::InternalSwap(
-      &_impl_.sdk_user_id_, lhs_arena,
-      &other->_impl_.sdk_user_id_, rhs_arena
-  );
-  ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::InternalSwap(
-      &_impl_.str_var1_, lhs_arena,
-      &other->_impl_.str_var1_, rhs_arena
-  );
-  ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::InternalSwap(
-      &_impl_.str_var2_, lhs_arena,
-      &other->_impl_.str_var2_, rhs_arena
-  );
-  ::PROTOBUF_NAMESPACE_ID::internal::memswap<
-      PROTOBUF_FIELD_OFFSET(MongoUserData, _impl_.int_var3_)
-      + sizeof(MongoUserData::_impl_.int_var3_)
-      - PROTOBUF_FIELD_OFFSET(MongoUserData, _impl_.trans_gid_)>(
-          reinterpret_cast<char*>(&_impl_.trans_gid_),
-          reinterpret_cast<char*>(&other->_impl_.trans_gid_));
-}
-
-::PROTOBUF_NAMESPACE_ID::Metadata MongoUserData::GetMetadata() const {
-  return ::_pbi::AssignDescriptors(
-      &descriptor_table_db_5fmongo_5fproxy_2eproto_getter, &descriptor_table_db_5fmongo_5fproxy_2eproto_once,
-      file_level_metadata_db_5fmongo_5fproxy_2eproto[2]);
-}
-
-// ===================================================================
-
 class MongoInsertReq::_Internal {
  public:
   static const ::S2S::ProtoBsonObj& doc(const MongoInsertReq* msg);
-  static const ::S2S::MongoUserData& user_data(const MongoInsertReq* msg);
 };
 
 const ::S2S::ProtoBsonObj&
 MongoInsertReq::_Internal::doc(const MongoInsertReq* msg) {
   return *msg->_impl_.doc_;
-}
-const ::S2S::MongoUserData&
-MongoInsertReq::_Internal::user_data(const MongoInsertReq* msg) {
-  return *msg->_impl_.user_data_;
 }
 MongoInsertReq::MongoInsertReq(::PROTOBUF_NAMESPACE_ID::Arena* arena,
                          bool is_message_owned)
@@ -1911,7 +1150,6 @@ MongoInsertReq::MongoInsertReq(const MongoInsertReq& from)
       decltype(_impl_.db_name_){}
     , decltype(_impl_.col_name_){}
     , decltype(_impl_.doc_){nullptr}
-    , decltype(_impl_.user_data_){nullptr}
     , /*decltype(_impl_._cached_size_)*/{}};
 
   _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
@@ -1934,9 +1172,6 @@ MongoInsertReq::MongoInsertReq(const MongoInsertReq& from)
   if (from._internal_has_doc()) {
     _this->_impl_.doc_ = new ::S2S::ProtoBsonObj(*from._impl_.doc_);
   }
-  if (from._internal_has_user_data()) {
-    _this->_impl_.user_data_ = new ::S2S::MongoUserData(*from._impl_.user_data_);
-  }
   // @@protoc_insertion_point(copy_constructor:S2S.MongoInsertReq)
 }
 
@@ -1948,7 +1183,6 @@ inline void MongoInsertReq::SharedCtor(
       decltype(_impl_.db_name_){}
     , decltype(_impl_.col_name_){}
     , decltype(_impl_.doc_){nullptr}
-    , decltype(_impl_.user_data_){nullptr}
     , /*decltype(_impl_._cached_size_)*/{}
   };
   _impl_.db_name_.InitDefault();
@@ -1975,7 +1209,6 @@ inline void MongoInsertReq::SharedDtor() {
   _impl_.db_name_.Destroy();
   _impl_.col_name_.Destroy();
   if (this != internal_default_instance()) delete _impl_.doc_;
-  if (this != internal_default_instance()) delete _impl_.user_data_;
 }
 
 void MongoInsertReq::SetCachedSize(int size) const {
@@ -1994,10 +1227,6 @@ void MongoInsertReq::Clear() {
     delete _impl_.doc_;
   }
   _impl_.doc_ = nullptr;
-  if (GetArenaForAllocation() == nullptr && _impl_.user_data_ != nullptr) {
-    delete _impl_.user_data_;
-  }
-  _impl_.user_data_ = nullptr;
   _internal_metadata_.Clear<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
 }
 
@@ -2031,14 +1260,6 @@ const char* MongoInsertReq::_InternalParse(const char* ptr, ::_pbi::ParseContext
       case 3:
         if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 26)) {
           ptr = ctx->ParseMessage(_internal_mutable_doc(), ptr);
-          CHK_(ptr);
-        } else
-          goto handle_unusual;
-        continue;
-      // .S2S.MongoUserData user_data = 4;
-      case 4:
-        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 34)) {
-          ptr = ctx->ParseMessage(_internal_mutable_user_data(), ptr);
           CHK_(ptr);
         } else
           goto handle_unusual;
@@ -2099,13 +1320,6 @@ uint8_t* MongoInsertReq::_InternalSerialize(
         _Internal::doc(this).GetCachedSize(), target, stream);
   }
 
-  // .S2S.MongoUserData user_data = 4;
-  if (this->_internal_has_user_data()) {
-    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::
-      InternalWriteMessage(4, _Internal::user_data(this),
-        _Internal::user_data(this).GetCachedSize(), target, stream);
-  }
-
   if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
     target = ::_pbi::WireFormat::InternalSerializeUnknownFieldsToArray(
         _internal_metadata_.unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(::PROTOBUF_NAMESPACE_ID::UnknownFieldSet::default_instance), target, stream);
@@ -2143,13 +1357,6 @@ size_t MongoInsertReq::ByteSizeLong() const {
         *_impl_.doc_);
   }
 
-  // .S2S.MongoUserData user_data = 4;
-  if (this->_internal_has_user_data()) {
-    total_size += 1 +
-      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::MessageSize(
-        *_impl_.user_data_);
-  }
-
   return MaybeComputeUnknownFieldsSize(total_size, &_impl_._cached_size_);
 }
 
@@ -2178,10 +1385,6 @@ void MongoInsertReq::MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const :
     _this->_internal_mutable_doc()->::S2S::ProtoBsonObj::MergeFrom(
         from._internal_doc());
   }
-  if (from._internal_has_user_data()) {
-    _this->_internal_mutable_user_data()->::S2S::MongoUserData::MergeFrom(
-        from._internal_user_data());
-  }
   _this->_internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
 }
 
@@ -2209,31 +1412,21 @@ void MongoInsertReq::InternalSwap(MongoInsertReq* other) {
       &_impl_.col_name_, lhs_arena,
       &other->_impl_.col_name_, rhs_arena
   );
-  ::PROTOBUF_NAMESPACE_ID::internal::memswap<
-      PROTOBUF_FIELD_OFFSET(MongoInsertReq, _impl_.user_data_)
-      + sizeof(MongoInsertReq::_impl_.user_data_)
-      - PROTOBUF_FIELD_OFFSET(MongoInsertReq, _impl_.doc_)>(
-          reinterpret_cast<char*>(&_impl_.doc_),
-          reinterpret_cast<char*>(&other->_impl_.doc_));
+  swap(_impl_.doc_, other->_impl_.doc_);
 }
 
 ::PROTOBUF_NAMESPACE_ID::Metadata MongoInsertReq::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_db_5fmongo_5fproxy_2eproto_getter, &descriptor_table_db_5fmongo_5fproxy_2eproto_once,
-      file_level_metadata_db_5fmongo_5fproxy_2eproto[3]);
+      file_level_metadata_db_5fmongo_5fproxy_2eproto[2]);
 }
 
 // ===================================================================
 
 class MongoInsertRes::_Internal {
  public:
-  static const ::S2S::MongoUserData& user_data(const MongoInsertRes* msg);
 };
 
-const ::S2S::MongoUserData&
-MongoInsertRes::_Internal::user_data(const MongoInsertRes* msg) {
-  return *msg->_impl_.user_data_;
-}
 MongoInsertRes::MongoInsertRes(::PROTOBUF_NAMESPACE_ID::Arena* arena,
                          bool is_message_owned)
   : ::PROTOBUF_NAMESPACE_ID::Message(arena, is_message_owned) {
@@ -2244,14 +1437,10 @@ MongoInsertRes::MongoInsertRes(const MongoInsertRes& from)
   : ::PROTOBUF_NAMESPACE_ID::Message() {
   MongoInsertRes* const _this = this; (void)_this;
   new (&_impl_) Impl_{
-      decltype(_impl_.user_data_){nullptr}
-    , decltype(_impl_.succeed_){}
+      decltype(_impl_.succeed_){}
     , /*decltype(_impl_._cached_size_)*/{}};
 
   _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
-  if (from._internal_has_user_data()) {
-    _this->_impl_.user_data_ = new ::S2S::MongoUserData(*from._impl_.user_data_);
-  }
   _this->_impl_.succeed_ = from._impl_.succeed_;
   // @@protoc_insertion_point(copy_constructor:S2S.MongoInsertRes)
 }
@@ -2261,8 +1450,7 @@ inline void MongoInsertRes::SharedCtor(
   (void)arena;
   (void)is_message_owned;
   new (&_impl_) Impl_{
-      decltype(_impl_.user_data_){nullptr}
-    , decltype(_impl_.succeed_){false}
+      decltype(_impl_.succeed_){false}
     , /*decltype(_impl_._cached_size_)*/{}
   };
 }
@@ -2278,7 +1466,6 @@ MongoInsertRes::~MongoInsertRes() {
 
 inline void MongoInsertRes::SharedDtor() {
   GOOGLE_DCHECK(GetArenaForAllocation() == nullptr);
-  if (this != internal_default_instance()) delete _impl_.user_data_;
 }
 
 void MongoInsertRes::SetCachedSize(int size) const {
@@ -2291,10 +1478,6 @@ void MongoInsertRes::Clear() {
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
 
-  if (GetArenaForAllocation() == nullptr && _impl_.user_data_ != nullptr) {
-    delete _impl_.user_data_;
-  }
-  _impl_.user_data_ = nullptr;
   _impl_.succeed_ = false;
   _internal_metadata_.Clear<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
 }
@@ -2309,14 +1492,6 @@ const char* MongoInsertRes::_InternalParse(const char* ptr, ::_pbi::ParseContext
       case 1:
         if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 8)) {
           _impl_.succeed_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint64(&ptr);
-          CHK_(ptr);
-        } else
-          goto handle_unusual;
-        continue;
-      // .S2S.MongoUserData user_data = 2;
-      case 2:
-        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 18)) {
-          ptr = ctx->ParseMessage(_internal_mutable_user_data(), ptr);
           CHK_(ptr);
         } else
           goto handle_unusual;
@@ -2356,13 +1531,6 @@ uint8_t* MongoInsertRes::_InternalSerialize(
     target = ::_pbi::WireFormatLite::WriteBoolToArray(1, this->_internal_succeed(), target);
   }
 
-  // .S2S.MongoUserData user_data = 2;
-  if (this->_internal_has_user_data()) {
-    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::
-      InternalWriteMessage(2, _Internal::user_data(this),
-        _Internal::user_data(this).GetCachedSize(), target, stream);
-  }
-
   if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
     target = ::_pbi::WireFormat::InternalSerializeUnknownFieldsToArray(
         _internal_metadata_.unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(::PROTOBUF_NAMESPACE_ID::UnknownFieldSet::default_instance), target, stream);
@@ -2378,13 +1546,6 @@ size_t MongoInsertRes::ByteSizeLong() const {
   uint32_t cached_has_bits = 0;
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
-
-  // .S2S.MongoUserData user_data = 2;
-  if (this->_internal_has_user_data()) {
-    total_size += 1 +
-      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::MessageSize(
-        *_impl_.user_data_);
-  }
 
   // bool succeed = 1;
   if (this->_internal_succeed() != 0) {
@@ -2409,10 +1570,6 @@ void MongoInsertRes::MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const :
   uint32_t cached_has_bits = 0;
   (void) cached_has_bits;
 
-  if (from._internal_has_user_data()) {
-    _this->_internal_mutable_user_data()->::S2S::MongoUserData::MergeFrom(
-        from._internal_user_data());
-  }
   if (from._internal_succeed() != 0) {
     _this->_internal_set_succeed(from._internal_succeed());
   }
@@ -2433,18 +1590,13 @@ bool MongoInsertRes::IsInitialized() const {
 void MongoInsertRes::InternalSwap(MongoInsertRes* other) {
   using std::swap;
   _internal_metadata_.InternalSwap(&other->_internal_metadata_);
-  ::PROTOBUF_NAMESPACE_ID::internal::memswap<
-      PROTOBUF_FIELD_OFFSET(MongoInsertRes, _impl_.succeed_)
-      + sizeof(MongoInsertRes::_impl_.succeed_)
-      - PROTOBUF_FIELD_OFFSET(MongoInsertRes, _impl_.user_data_)>(
-          reinterpret_cast<char*>(&_impl_.user_data_),
-          reinterpret_cast<char*>(&other->_impl_.user_data_));
+  swap(_impl_.succeed_, other->_impl_.succeed_);
 }
 
 ::PROTOBUF_NAMESPACE_ID::Metadata MongoInsertRes::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_db_5fmongo_5fproxy_2eproto_getter, &descriptor_table_db_5fmongo_5fproxy_2eproto_once,
-      file_level_metadata_db_5fmongo_5fproxy_2eproto[4]);
+      file_level_metadata_db_5fmongo_5fproxy_2eproto[3]);
 }
 
 // ===================================================================
@@ -2452,16 +1604,11 @@ void MongoInsertRes::InternalSwap(MongoInsertRes* other) {
 class MongoRemoveReq::_Internal {
  public:
   static const ::S2S::ProtoBsonObj& selector(const MongoRemoveReq* msg);
-  static const ::S2S::MongoUserData& user_data(const MongoRemoveReq* msg);
 };
 
 const ::S2S::ProtoBsonObj&
 MongoRemoveReq::_Internal::selector(const MongoRemoveReq* msg) {
   return *msg->_impl_.selector_;
-}
-const ::S2S::MongoUserData&
-MongoRemoveReq::_Internal::user_data(const MongoRemoveReq* msg) {
-  return *msg->_impl_.user_data_;
 }
 MongoRemoveReq::MongoRemoveReq(::PROTOBUF_NAMESPACE_ID::Arena* arena,
                          bool is_message_owned)
@@ -2476,7 +1623,6 @@ MongoRemoveReq::MongoRemoveReq(const MongoRemoveReq& from)
       decltype(_impl_.db_name_){}
     , decltype(_impl_.col_name_){}
     , decltype(_impl_.selector_){nullptr}
-    , decltype(_impl_.user_data_){nullptr}
     , /*decltype(_impl_._cached_size_)*/{}};
 
   _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
@@ -2499,9 +1645,6 @@ MongoRemoveReq::MongoRemoveReq(const MongoRemoveReq& from)
   if (from._internal_has_selector()) {
     _this->_impl_.selector_ = new ::S2S::ProtoBsonObj(*from._impl_.selector_);
   }
-  if (from._internal_has_user_data()) {
-    _this->_impl_.user_data_ = new ::S2S::MongoUserData(*from._impl_.user_data_);
-  }
   // @@protoc_insertion_point(copy_constructor:S2S.MongoRemoveReq)
 }
 
@@ -2513,7 +1656,6 @@ inline void MongoRemoveReq::SharedCtor(
       decltype(_impl_.db_name_){}
     , decltype(_impl_.col_name_){}
     , decltype(_impl_.selector_){nullptr}
-    , decltype(_impl_.user_data_){nullptr}
     , /*decltype(_impl_._cached_size_)*/{}
   };
   _impl_.db_name_.InitDefault();
@@ -2540,7 +1682,6 @@ inline void MongoRemoveReq::SharedDtor() {
   _impl_.db_name_.Destroy();
   _impl_.col_name_.Destroy();
   if (this != internal_default_instance()) delete _impl_.selector_;
-  if (this != internal_default_instance()) delete _impl_.user_data_;
 }
 
 void MongoRemoveReq::SetCachedSize(int size) const {
@@ -2559,10 +1700,6 @@ void MongoRemoveReq::Clear() {
     delete _impl_.selector_;
   }
   _impl_.selector_ = nullptr;
-  if (GetArenaForAllocation() == nullptr && _impl_.user_data_ != nullptr) {
-    delete _impl_.user_data_;
-  }
-  _impl_.user_data_ = nullptr;
   _internal_metadata_.Clear<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
 }
 
@@ -2596,14 +1733,6 @@ const char* MongoRemoveReq::_InternalParse(const char* ptr, ::_pbi::ParseContext
       case 3:
         if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 26)) {
           ptr = ctx->ParseMessage(_internal_mutable_selector(), ptr);
-          CHK_(ptr);
-        } else
-          goto handle_unusual;
-        continue;
-      // .S2S.MongoUserData user_data = 4;
-      case 4:
-        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 34)) {
-          ptr = ctx->ParseMessage(_internal_mutable_user_data(), ptr);
           CHK_(ptr);
         } else
           goto handle_unusual;
@@ -2664,13 +1793,6 @@ uint8_t* MongoRemoveReq::_InternalSerialize(
         _Internal::selector(this).GetCachedSize(), target, stream);
   }
 
-  // .S2S.MongoUserData user_data = 4;
-  if (this->_internal_has_user_data()) {
-    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::
-      InternalWriteMessage(4, _Internal::user_data(this),
-        _Internal::user_data(this).GetCachedSize(), target, stream);
-  }
-
   if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
     target = ::_pbi::WireFormat::InternalSerializeUnknownFieldsToArray(
         _internal_metadata_.unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(::PROTOBUF_NAMESPACE_ID::UnknownFieldSet::default_instance), target, stream);
@@ -2708,13 +1830,6 @@ size_t MongoRemoveReq::ByteSizeLong() const {
         *_impl_.selector_);
   }
 
-  // .S2S.MongoUserData user_data = 4;
-  if (this->_internal_has_user_data()) {
-    total_size += 1 +
-      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::MessageSize(
-        *_impl_.user_data_);
-  }
-
   return MaybeComputeUnknownFieldsSize(total_size, &_impl_._cached_size_);
 }
 
@@ -2743,10 +1858,6 @@ void MongoRemoveReq::MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const :
     _this->_internal_mutable_selector()->::S2S::ProtoBsonObj::MergeFrom(
         from._internal_selector());
   }
-  if (from._internal_has_user_data()) {
-    _this->_internal_mutable_user_data()->::S2S::MongoUserData::MergeFrom(
-        from._internal_user_data());
-  }
   _this->_internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
 }
 
@@ -2774,31 +1885,21 @@ void MongoRemoveReq::InternalSwap(MongoRemoveReq* other) {
       &_impl_.col_name_, lhs_arena,
       &other->_impl_.col_name_, rhs_arena
   );
-  ::PROTOBUF_NAMESPACE_ID::internal::memswap<
-      PROTOBUF_FIELD_OFFSET(MongoRemoveReq, _impl_.user_data_)
-      + sizeof(MongoRemoveReq::_impl_.user_data_)
-      - PROTOBUF_FIELD_OFFSET(MongoRemoveReq, _impl_.selector_)>(
-          reinterpret_cast<char*>(&_impl_.selector_),
-          reinterpret_cast<char*>(&other->_impl_.selector_));
+  swap(_impl_.selector_, other->_impl_.selector_);
 }
 
 ::PROTOBUF_NAMESPACE_ID::Metadata MongoRemoveReq::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_db_5fmongo_5fproxy_2eproto_getter, &descriptor_table_db_5fmongo_5fproxy_2eproto_once,
-      file_level_metadata_db_5fmongo_5fproxy_2eproto[5]);
+      file_level_metadata_db_5fmongo_5fproxy_2eproto[4]);
 }
 
 // ===================================================================
 
 class MongoRemoveRes::_Internal {
  public:
-  static const ::S2S::MongoUserData& user_data(const MongoRemoveRes* msg);
 };
 
-const ::S2S::MongoUserData&
-MongoRemoveRes::_Internal::user_data(const MongoRemoveRes* msg) {
-  return *msg->_impl_.user_data_;
-}
 MongoRemoveRes::MongoRemoveRes(::PROTOBUF_NAMESPACE_ID::Arena* arena,
                          bool is_message_owned)
   : ::PROTOBUF_NAMESPACE_ID::Message(arena, is_message_owned) {
@@ -2809,14 +1910,10 @@ MongoRemoveRes::MongoRemoveRes(const MongoRemoveRes& from)
   : ::PROTOBUF_NAMESPACE_ID::Message() {
   MongoRemoveRes* const _this = this; (void)_this;
   new (&_impl_) Impl_{
-      decltype(_impl_.user_data_){nullptr}
-    , decltype(_impl_.succeed_){}
+      decltype(_impl_.succeed_){}
     , /*decltype(_impl_._cached_size_)*/{}};
 
   _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
-  if (from._internal_has_user_data()) {
-    _this->_impl_.user_data_ = new ::S2S::MongoUserData(*from._impl_.user_data_);
-  }
   _this->_impl_.succeed_ = from._impl_.succeed_;
   // @@protoc_insertion_point(copy_constructor:S2S.MongoRemoveRes)
 }
@@ -2826,8 +1923,7 @@ inline void MongoRemoveRes::SharedCtor(
   (void)arena;
   (void)is_message_owned;
   new (&_impl_) Impl_{
-      decltype(_impl_.user_data_){nullptr}
-    , decltype(_impl_.succeed_){false}
+      decltype(_impl_.succeed_){false}
     , /*decltype(_impl_._cached_size_)*/{}
   };
 }
@@ -2843,7 +1939,6 @@ MongoRemoveRes::~MongoRemoveRes() {
 
 inline void MongoRemoveRes::SharedDtor() {
   GOOGLE_DCHECK(GetArenaForAllocation() == nullptr);
-  if (this != internal_default_instance()) delete _impl_.user_data_;
 }
 
 void MongoRemoveRes::SetCachedSize(int size) const {
@@ -2856,10 +1951,6 @@ void MongoRemoveRes::Clear() {
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
 
-  if (GetArenaForAllocation() == nullptr && _impl_.user_data_ != nullptr) {
-    delete _impl_.user_data_;
-  }
-  _impl_.user_data_ = nullptr;
   _impl_.succeed_ = false;
   _internal_metadata_.Clear<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
 }
@@ -2874,14 +1965,6 @@ const char* MongoRemoveRes::_InternalParse(const char* ptr, ::_pbi::ParseContext
       case 1:
         if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 8)) {
           _impl_.succeed_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint64(&ptr);
-          CHK_(ptr);
-        } else
-          goto handle_unusual;
-        continue;
-      // .S2S.MongoUserData user_data = 2;
-      case 2:
-        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 18)) {
-          ptr = ctx->ParseMessage(_internal_mutable_user_data(), ptr);
           CHK_(ptr);
         } else
           goto handle_unusual;
@@ -2921,13 +2004,6 @@ uint8_t* MongoRemoveRes::_InternalSerialize(
     target = ::_pbi::WireFormatLite::WriteBoolToArray(1, this->_internal_succeed(), target);
   }
 
-  // .S2S.MongoUserData user_data = 2;
-  if (this->_internal_has_user_data()) {
-    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::
-      InternalWriteMessage(2, _Internal::user_data(this),
-        _Internal::user_data(this).GetCachedSize(), target, stream);
-  }
-
   if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
     target = ::_pbi::WireFormat::InternalSerializeUnknownFieldsToArray(
         _internal_metadata_.unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(::PROTOBUF_NAMESPACE_ID::UnknownFieldSet::default_instance), target, stream);
@@ -2943,13 +2019,6 @@ size_t MongoRemoveRes::ByteSizeLong() const {
   uint32_t cached_has_bits = 0;
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
-
-  // .S2S.MongoUserData user_data = 2;
-  if (this->_internal_has_user_data()) {
-    total_size += 1 +
-      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::MessageSize(
-        *_impl_.user_data_);
-  }
 
   // bool succeed = 1;
   if (this->_internal_succeed() != 0) {
@@ -2974,10 +2043,6 @@ void MongoRemoveRes::MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const :
   uint32_t cached_has_bits = 0;
   (void) cached_has_bits;
 
-  if (from._internal_has_user_data()) {
-    _this->_internal_mutable_user_data()->::S2S::MongoUserData::MergeFrom(
-        from._internal_user_data());
-  }
   if (from._internal_succeed() != 0) {
     _this->_internal_set_succeed(from._internal_succeed());
   }
@@ -2998,18 +2063,13 @@ bool MongoRemoveRes::IsInitialized() const {
 void MongoRemoveRes::InternalSwap(MongoRemoveRes* other) {
   using std::swap;
   _internal_metadata_.InternalSwap(&other->_internal_metadata_);
-  ::PROTOBUF_NAMESPACE_ID::internal::memswap<
-      PROTOBUF_FIELD_OFFSET(MongoRemoveRes, _impl_.succeed_)
-      + sizeof(MongoRemoveRes::_impl_.succeed_)
-      - PROTOBUF_FIELD_OFFSET(MongoRemoveRes, _impl_.user_data_)>(
-          reinterpret_cast<char*>(&_impl_.user_data_),
-          reinterpret_cast<char*>(&other->_impl_.user_data_));
+  swap(_impl_.succeed_, other->_impl_.succeed_);
 }
 
 ::PROTOBUF_NAMESPACE_ID::Metadata MongoRemoveRes::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_db_5fmongo_5fproxy_2eproto_getter, &descriptor_table_db_5fmongo_5fproxy_2eproto_once,
-      file_level_metadata_db_5fmongo_5fproxy_2eproto[6]);
+      file_level_metadata_db_5fmongo_5fproxy_2eproto[5]);
 }
 
 // ===================================================================
@@ -3018,7 +2078,6 @@ class MongoSaveReq::_Internal {
  public:
   static const ::S2S::ProtoBsonObj& selector(const MongoSaveReq* msg);
   static const ::S2S::ProtoBsonObj& replacement(const MongoSaveReq* msg);
-  static const ::S2S::MongoUserData& user_data(const MongoSaveReq* msg);
 };
 
 const ::S2S::ProtoBsonObj&
@@ -3028,10 +2087,6 @@ MongoSaveReq::_Internal::selector(const MongoSaveReq* msg) {
 const ::S2S::ProtoBsonObj&
 MongoSaveReq::_Internal::replacement(const MongoSaveReq* msg) {
   return *msg->_impl_.replacement_;
-}
-const ::S2S::MongoUserData&
-MongoSaveReq::_Internal::user_data(const MongoSaveReq* msg) {
-  return *msg->_impl_.user_data_;
 }
 MongoSaveReq::MongoSaveReq(::PROTOBUF_NAMESPACE_ID::Arena* arena,
                          bool is_message_owned)
@@ -3047,7 +2102,6 @@ MongoSaveReq::MongoSaveReq(const MongoSaveReq& from)
     , decltype(_impl_.col_name_){}
     , decltype(_impl_.selector_){nullptr}
     , decltype(_impl_.replacement_){nullptr}
-    , decltype(_impl_.user_data_){nullptr}
     , /*decltype(_impl_._cached_size_)*/{}};
 
   _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
@@ -3073,9 +2127,6 @@ MongoSaveReq::MongoSaveReq(const MongoSaveReq& from)
   if (from._internal_has_replacement()) {
     _this->_impl_.replacement_ = new ::S2S::ProtoBsonObj(*from._impl_.replacement_);
   }
-  if (from._internal_has_user_data()) {
-    _this->_impl_.user_data_ = new ::S2S::MongoUserData(*from._impl_.user_data_);
-  }
   // @@protoc_insertion_point(copy_constructor:S2S.MongoSaveReq)
 }
 
@@ -3088,7 +2139,6 @@ inline void MongoSaveReq::SharedCtor(
     , decltype(_impl_.col_name_){}
     , decltype(_impl_.selector_){nullptr}
     , decltype(_impl_.replacement_){nullptr}
-    , decltype(_impl_.user_data_){nullptr}
     , /*decltype(_impl_._cached_size_)*/{}
   };
   _impl_.db_name_.InitDefault();
@@ -3116,7 +2166,6 @@ inline void MongoSaveReq::SharedDtor() {
   _impl_.col_name_.Destroy();
   if (this != internal_default_instance()) delete _impl_.selector_;
   if (this != internal_default_instance()) delete _impl_.replacement_;
-  if (this != internal_default_instance()) delete _impl_.user_data_;
 }
 
 void MongoSaveReq::SetCachedSize(int size) const {
@@ -3139,10 +2188,6 @@ void MongoSaveReq::Clear() {
     delete _impl_.replacement_;
   }
   _impl_.replacement_ = nullptr;
-  if (GetArenaForAllocation() == nullptr && _impl_.user_data_ != nullptr) {
-    delete _impl_.user_data_;
-  }
-  _impl_.user_data_ = nullptr;
   _internal_metadata_.Clear<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
 }
 
@@ -3184,14 +2229,6 @@ const char* MongoSaveReq::_InternalParse(const char* ptr, ::_pbi::ParseContext* 
       case 4:
         if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 34)) {
           ptr = ctx->ParseMessage(_internal_mutable_replacement(), ptr);
-          CHK_(ptr);
-        } else
-          goto handle_unusual;
-        continue;
-      // .S2S.MongoUserData user_data = 5;
-      case 5:
-        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 42)) {
-          ptr = ctx->ParseMessage(_internal_mutable_user_data(), ptr);
           CHK_(ptr);
         } else
           goto handle_unusual;
@@ -3259,13 +2296,6 @@ uint8_t* MongoSaveReq::_InternalSerialize(
         _Internal::replacement(this).GetCachedSize(), target, stream);
   }
 
-  // .S2S.MongoUserData user_data = 5;
-  if (this->_internal_has_user_data()) {
-    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::
-      InternalWriteMessage(5, _Internal::user_data(this),
-        _Internal::user_data(this).GetCachedSize(), target, stream);
-  }
-
   if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
     target = ::_pbi::WireFormat::InternalSerializeUnknownFieldsToArray(
         _internal_metadata_.unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(::PROTOBUF_NAMESPACE_ID::UnknownFieldSet::default_instance), target, stream);
@@ -3310,13 +2340,6 @@ size_t MongoSaveReq::ByteSizeLong() const {
         *_impl_.replacement_);
   }
 
-  // .S2S.MongoUserData user_data = 5;
-  if (this->_internal_has_user_data()) {
-    total_size += 1 +
-      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::MessageSize(
-        *_impl_.user_data_);
-  }
-
   return MaybeComputeUnknownFieldsSize(total_size, &_impl_._cached_size_);
 }
 
@@ -3349,10 +2372,6 @@ void MongoSaveReq::MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const ::P
     _this->_internal_mutable_replacement()->::S2S::ProtoBsonObj::MergeFrom(
         from._internal_replacement());
   }
-  if (from._internal_has_user_data()) {
-    _this->_internal_mutable_user_data()->::S2S::MongoUserData::MergeFrom(
-        from._internal_user_data());
-  }
   _this->_internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
 }
 
@@ -3381,8 +2400,8 @@ void MongoSaveReq::InternalSwap(MongoSaveReq* other) {
       &other->_impl_.col_name_, rhs_arena
   );
   ::PROTOBUF_NAMESPACE_ID::internal::memswap<
-      PROTOBUF_FIELD_OFFSET(MongoSaveReq, _impl_.user_data_)
-      + sizeof(MongoSaveReq::_impl_.user_data_)
+      PROTOBUF_FIELD_OFFSET(MongoSaveReq, _impl_.replacement_)
+      + sizeof(MongoSaveReq::_impl_.replacement_)
       - PROTOBUF_FIELD_OFFSET(MongoSaveReq, _impl_.selector_)>(
           reinterpret_cast<char*>(&_impl_.selector_),
           reinterpret_cast<char*>(&other->_impl_.selector_));
@@ -3391,20 +2410,15 @@ void MongoSaveReq::InternalSwap(MongoSaveReq* other) {
 ::PROTOBUF_NAMESPACE_ID::Metadata MongoSaveReq::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_db_5fmongo_5fproxy_2eproto_getter, &descriptor_table_db_5fmongo_5fproxy_2eproto_once,
-      file_level_metadata_db_5fmongo_5fproxy_2eproto[7]);
+      file_level_metadata_db_5fmongo_5fproxy_2eproto[6]);
 }
 
 // ===================================================================
 
 class MongoSaveRes::_Internal {
  public:
-  static const ::S2S::MongoUserData& user_data(const MongoSaveRes* msg);
 };
 
-const ::S2S::MongoUserData&
-MongoSaveRes::_Internal::user_data(const MongoSaveRes* msg) {
-  return *msg->_impl_.user_data_;
-}
 MongoSaveRes::MongoSaveRes(::PROTOBUF_NAMESPACE_ID::Arena* arena,
                          bool is_message_owned)
   : ::PROTOBUF_NAMESPACE_ID::Message(arena, is_message_owned) {
@@ -3415,14 +2429,10 @@ MongoSaveRes::MongoSaveRes(const MongoSaveRes& from)
   : ::PROTOBUF_NAMESPACE_ID::Message() {
   MongoSaveRes* const _this = this; (void)_this;
   new (&_impl_) Impl_{
-      decltype(_impl_.user_data_){nullptr}
-    , decltype(_impl_.succeed_){}
+      decltype(_impl_.succeed_){}
     , /*decltype(_impl_._cached_size_)*/{}};
 
   _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
-  if (from._internal_has_user_data()) {
-    _this->_impl_.user_data_ = new ::S2S::MongoUserData(*from._impl_.user_data_);
-  }
   _this->_impl_.succeed_ = from._impl_.succeed_;
   // @@protoc_insertion_point(copy_constructor:S2S.MongoSaveRes)
 }
@@ -3432,8 +2442,7 @@ inline void MongoSaveRes::SharedCtor(
   (void)arena;
   (void)is_message_owned;
   new (&_impl_) Impl_{
-      decltype(_impl_.user_data_){nullptr}
-    , decltype(_impl_.succeed_){false}
+      decltype(_impl_.succeed_){false}
     , /*decltype(_impl_._cached_size_)*/{}
   };
 }
@@ -3449,7 +2458,6 @@ MongoSaveRes::~MongoSaveRes() {
 
 inline void MongoSaveRes::SharedDtor() {
   GOOGLE_DCHECK(GetArenaForAllocation() == nullptr);
-  if (this != internal_default_instance()) delete _impl_.user_data_;
 }
 
 void MongoSaveRes::SetCachedSize(int size) const {
@@ -3462,10 +2470,6 @@ void MongoSaveRes::Clear() {
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
 
-  if (GetArenaForAllocation() == nullptr && _impl_.user_data_ != nullptr) {
-    delete _impl_.user_data_;
-  }
-  _impl_.user_data_ = nullptr;
   _impl_.succeed_ = false;
   _internal_metadata_.Clear<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
 }
@@ -3480,14 +2484,6 @@ const char* MongoSaveRes::_InternalParse(const char* ptr, ::_pbi::ParseContext* 
       case 1:
         if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 8)) {
           _impl_.succeed_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint64(&ptr);
-          CHK_(ptr);
-        } else
-          goto handle_unusual;
-        continue;
-      // .S2S.MongoUserData user_data = 2;
-      case 2:
-        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 18)) {
-          ptr = ctx->ParseMessage(_internal_mutable_user_data(), ptr);
           CHK_(ptr);
         } else
           goto handle_unusual;
@@ -3527,13 +2523,6 @@ uint8_t* MongoSaveRes::_InternalSerialize(
     target = ::_pbi::WireFormatLite::WriteBoolToArray(1, this->_internal_succeed(), target);
   }
 
-  // .S2S.MongoUserData user_data = 2;
-  if (this->_internal_has_user_data()) {
-    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::
-      InternalWriteMessage(2, _Internal::user_data(this),
-        _Internal::user_data(this).GetCachedSize(), target, stream);
-  }
-
   if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
     target = ::_pbi::WireFormat::InternalSerializeUnknownFieldsToArray(
         _internal_metadata_.unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(::PROTOBUF_NAMESPACE_ID::UnknownFieldSet::default_instance), target, stream);
@@ -3549,13 +2538,6 @@ size_t MongoSaveRes::ByteSizeLong() const {
   uint32_t cached_has_bits = 0;
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
-
-  // .S2S.MongoUserData user_data = 2;
-  if (this->_internal_has_user_data()) {
-    total_size += 1 +
-      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::MessageSize(
-        *_impl_.user_data_);
-  }
 
   // bool succeed = 1;
   if (this->_internal_succeed() != 0) {
@@ -3580,10 +2562,6 @@ void MongoSaveRes::MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const ::P
   uint32_t cached_has_bits = 0;
   (void) cached_has_bits;
 
-  if (from._internal_has_user_data()) {
-    _this->_internal_mutable_user_data()->::S2S::MongoUserData::MergeFrom(
-        from._internal_user_data());
-  }
   if (from._internal_succeed() != 0) {
     _this->_internal_set_succeed(from._internal_succeed());
   }
@@ -3604,624 +2582,13 @@ bool MongoSaveRes::IsInitialized() const {
 void MongoSaveRes::InternalSwap(MongoSaveRes* other) {
   using std::swap;
   _internal_metadata_.InternalSwap(&other->_internal_metadata_);
-  ::PROTOBUF_NAMESPACE_ID::internal::memswap<
-      PROTOBUF_FIELD_OFFSET(MongoSaveRes, _impl_.succeed_)
-      + sizeof(MongoSaveRes::_impl_.succeed_)
-      - PROTOBUF_FIELD_OFFSET(MongoSaveRes, _impl_.user_data_)>(
-          reinterpret_cast<char*>(&_impl_.user_data_),
-          reinterpret_cast<char*>(&other->_impl_.user_data_));
+  swap(_impl_.succeed_, other->_impl_.succeed_);
 }
 
 ::PROTOBUF_NAMESPACE_ID::Metadata MongoSaveRes::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_db_5fmongo_5fproxy_2eproto_getter, &descriptor_table_db_5fmongo_5fproxy_2eproto_once,
-      file_level_metadata_db_5fmongo_5fproxy_2eproto[8]);
-}
-
-// ===================================================================
-
-class MongoUpdateReq::_Internal {
- public:
-  static const ::S2S::ProtoBsonObj& selector(const MongoUpdateReq* msg);
-  static const ::S2S::ProtoBsonObj& updator(const MongoUpdateReq* msg);
-  static const ::S2S::MongoUserData& user_data(const MongoUpdateReq* msg);
-};
-
-const ::S2S::ProtoBsonObj&
-MongoUpdateReq::_Internal::selector(const MongoUpdateReq* msg) {
-  return *msg->_impl_.selector_;
-}
-const ::S2S::ProtoBsonObj&
-MongoUpdateReq::_Internal::updator(const MongoUpdateReq* msg) {
-  return *msg->_impl_.updator_;
-}
-const ::S2S::MongoUserData&
-MongoUpdateReq::_Internal::user_data(const MongoUpdateReq* msg) {
-  return *msg->_impl_.user_data_;
-}
-MongoUpdateReq::MongoUpdateReq(::PROTOBUF_NAMESPACE_ID::Arena* arena,
-                         bool is_message_owned)
-  : ::PROTOBUF_NAMESPACE_ID::Message(arena, is_message_owned) {
-  SharedCtor(arena, is_message_owned);
-  // @@protoc_insertion_point(arena_constructor:S2S.MongoUpdateReq)
-}
-MongoUpdateReq::MongoUpdateReq(const MongoUpdateReq& from)
-  : ::PROTOBUF_NAMESPACE_ID::Message() {
-  MongoUpdateReq* const _this = this; (void)_this;
-  new (&_impl_) Impl_{
-      decltype(_impl_.db_name_){}
-    , decltype(_impl_.col_name_){}
-    , decltype(_impl_.selector_){nullptr}
-    , decltype(_impl_.updator_){nullptr}
-    , decltype(_impl_.user_data_){nullptr}
-    , /*decltype(_impl_._cached_size_)*/{}};
-
-  _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
-  _impl_.db_name_.InitDefault();
-  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
-    _impl_.db_name_.Set("", GetArenaForAllocation());
-  #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
-  if (!from._internal_db_name().empty()) {
-    _this->_impl_.db_name_.Set(from._internal_db_name(), 
-      _this->GetArenaForAllocation());
-  }
-  _impl_.col_name_.InitDefault();
-  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
-    _impl_.col_name_.Set("", GetArenaForAllocation());
-  #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
-  if (!from._internal_col_name().empty()) {
-    _this->_impl_.col_name_.Set(from._internal_col_name(), 
-      _this->GetArenaForAllocation());
-  }
-  if (from._internal_has_selector()) {
-    _this->_impl_.selector_ = new ::S2S::ProtoBsonObj(*from._impl_.selector_);
-  }
-  if (from._internal_has_updator()) {
-    _this->_impl_.updator_ = new ::S2S::ProtoBsonObj(*from._impl_.updator_);
-  }
-  if (from._internal_has_user_data()) {
-    _this->_impl_.user_data_ = new ::S2S::MongoUserData(*from._impl_.user_data_);
-  }
-  // @@protoc_insertion_point(copy_constructor:S2S.MongoUpdateReq)
-}
-
-inline void MongoUpdateReq::SharedCtor(
-    ::_pb::Arena* arena, bool is_message_owned) {
-  (void)arena;
-  (void)is_message_owned;
-  new (&_impl_) Impl_{
-      decltype(_impl_.db_name_){}
-    , decltype(_impl_.col_name_){}
-    , decltype(_impl_.selector_){nullptr}
-    , decltype(_impl_.updator_){nullptr}
-    , decltype(_impl_.user_data_){nullptr}
-    , /*decltype(_impl_._cached_size_)*/{}
-  };
-  _impl_.db_name_.InitDefault();
-  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
-    _impl_.db_name_.Set("", GetArenaForAllocation());
-  #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
-  _impl_.col_name_.InitDefault();
-  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
-    _impl_.col_name_.Set("", GetArenaForAllocation());
-  #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
-}
-
-MongoUpdateReq::~MongoUpdateReq() {
-  // @@protoc_insertion_point(destructor:S2S.MongoUpdateReq)
-  if (auto *arena = _internal_metadata_.DeleteReturnArena<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>()) {
-  (void)arena;
-    return;
-  }
-  SharedDtor();
-}
-
-inline void MongoUpdateReq::SharedDtor() {
-  GOOGLE_DCHECK(GetArenaForAllocation() == nullptr);
-  _impl_.db_name_.Destroy();
-  _impl_.col_name_.Destroy();
-  if (this != internal_default_instance()) delete _impl_.selector_;
-  if (this != internal_default_instance()) delete _impl_.updator_;
-  if (this != internal_default_instance()) delete _impl_.user_data_;
-}
-
-void MongoUpdateReq::SetCachedSize(int size) const {
-  _impl_._cached_size_.Set(size);
-}
-
-void MongoUpdateReq::Clear() {
-// @@protoc_insertion_point(message_clear_start:S2S.MongoUpdateReq)
-  uint32_t cached_has_bits = 0;
-  // Prevent compiler warnings about cached_has_bits being unused
-  (void) cached_has_bits;
-
-  _impl_.db_name_.ClearToEmpty();
-  _impl_.col_name_.ClearToEmpty();
-  if (GetArenaForAllocation() == nullptr && _impl_.selector_ != nullptr) {
-    delete _impl_.selector_;
-  }
-  _impl_.selector_ = nullptr;
-  if (GetArenaForAllocation() == nullptr && _impl_.updator_ != nullptr) {
-    delete _impl_.updator_;
-  }
-  _impl_.updator_ = nullptr;
-  if (GetArenaForAllocation() == nullptr && _impl_.user_data_ != nullptr) {
-    delete _impl_.user_data_;
-  }
-  _impl_.user_data_ = nullptr;
-  _internal_metadata_.Clear<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
-}
-
-const char* MongoUpdateReq::_InternalParse(const char* ptr, ::_pbi::ParseContext* ctx) {
-#define CHK_(x) if (PROTOBUF_PREDICT_FALSE(!(x))) goto failure
-  while (!ctx->Done(&ptr)) {
-    uint32_t tag;
-    ptr = ::_pbi::ReadTag(ptr, &tag);
-    switch (tag >> 3) {
-      // string db_name = 1;
-      case 1:
-        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 10)) {
-          auto str = _internal_mutable_db_name();
-          ptr = ::_pbi::InlineGreedyStringParser(str, ptr, ctx);
-          CHK_(ptr);
-          CHK_(::_pbi::VerifyUTF8(str, "S2S.MongoUpdateReq.db_name"));
-        } else
-          goto handle_unusual;
-        continue;
-      // string col_name = 2;
-      case 2:
-        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 18)) {
-          auto str = _internal_mutable_col_name();
-          ptr = ::_pbi::InlineGreedyStringParser(str, ptr, ctx);
-          CHK_(ptr);
-          CHK_(::_pbi::VerifyUTF8(str, "S2S.MongoUpdateReq.col_name"));
-        } else
-          goto handle_unusual;
-        continue;
-      // .S2S.ProtoBsonObj selector = 3;
-      case 3:
-        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 26)) {
-          ptr = ctx->ParseMessage(_internal_mutable_selector(), ptr);
-          CHK_(ptr);
-        } else
-          goto handle_unusual;
-        continue;
-      // .S2S.ProtoBsonObj updator = 4;
-      case 4:
-        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 34)) {
-          ptr = ctx->ParseMessage(_internal_mutable_updator(), ptr);
-          CHK_(ptr);
-        } else
-          goto handle_unusual;
-        continue;
-      // .S2S.MongoUserData user_data = 5;
-      case 5:
-        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 42)) {
-          ptr = ctx->ParseMessage(_internal_mutable_user_data(), ptr);
-          CHK_(ptr);
-        } else
-          goto handle_unusual;
-        continue;
-      default:
-        goto handle_unusual;
-    }  // switch
-  handle_unusual:
-    if ((tag == 0) || ((tag & 7) == 4)) {
-      CHK_(ptr);
-      ctx->SetLastTag(tag);
-      goto message_done;
-    }
-    ptr = UnknownFieldParse(
-        tag,
-        _internal_metadata_.mutable_unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(),
-        ptr, ctx);
-    CHK_(ptr != nullptr);
-  }  // while
-message_done:
-  return ptr;
-failure:
-  ptr = nullptr;
-  goto message_done;
-#undef CHK_
-}
-
-uint8_t* MongoUpdateReq::_InternalSerialize(
-    uint8_t* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const {
-  // @@protoc_insertion_point(serialize_to_array_start:S2S.MongoUpdateReq)
-  uint32_t cached_has_bits = 0;
-  (void) cached_has_bits;
-
-  // string db_name = 1;
-  if (!this->_internal_db_name().empty()) {
-    ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::VerifyUtf8String(
-      this->_internal_db_name().data(), static_cast<int>(this->_internal_db_name().length()),
-      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::SERIALIZE,
-      "S2S.MongoUpdateReq.db_name");
-    target = stream->WriteStringMaybeAliased(
-        1, this->_internal_db_name(), target);
-  }
-
-  // string col_name = 2;
-  if (!this->_internal_col_name().empty()) {
-    ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::VerifyUtf8String(
-      this->_internal_col_name().data(), static_cast<int>(this->_internal_col_name().length()),
-      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::SERIALIZE,
-      "S2S.MongoUpdateReq.col_name");
-    target = stream->WriteStringMaybeAliased(
-        2, this->_internal_col_name(), target);
-  }
-
-  // .S2S.ProtoBsonObj selector = 3;
-  if (this->_internal_has_selector()) {
-    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::
-      InternalWriteMessage(3, _Internal::selector(this),
-        _Internal::selector(this).GetCachedSize(), target, stream);
-  }
-
-  // .S2S.ProtoBsonObj updator = 4;
-  if (this->_internal_has_updator()) {
-    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::
-      InternalWriteMessage(4, _Internal::updator(this),
-        _Internal::updator(this).GetCachedSize(), target, stream);
-  }
-
-  // .S2S.MongoUserData user_data = 5;
-  if (this->_internal_has_user_data()) {
-    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::
-      InternalWriteMessage(5, _Internal::user_data(this),
-        _Internal::user_data(this).GetCachedSize(), target, stream);
-  }
-
-  if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
-    target = ::_pbi::WireFormat::InternalSerializeUnknownFieldsToArray(
-        _internal_metadata_.unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(::PROTOBUF_NAMESPACE_ID::UnknownFieldSet::default_instance), target, stream);
-  }
-  // @@protoc_insertion_point(serialize_to_array_end:S2S.MongoUpdateReq)
-  return target;
-}
-
-size_t MongoUpdateReq::ByteSizeLong() const {
-// @@protoc_insertion_point(message_byte_size_start:S2S.MongoUpdateReq)
-  size_t total_size = 0;
-
-  uint32_t cached_has_bits = 0;
-  // Prevent compiler warnings about cached_has_bits being unused
-  (void) cached_has_bits;
-
-  // string db_name = 1;
-  if (!this->_internal_db_name().empty()) {
-    total_size += 1 +
-      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::StringSize(
-        this->_internal_db_name());
-  }
-
-  // string col_name = 2;
-  if (!this->_internal_col_name().empty()) {
-    total_size += 1 +
-      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::StringSize(
-        this->_internal_col_name());
-  }
-
-  // .S2S.ProtoBsonObj selector = 3;
-  if (this->_internal_has_selector()) {
-    total_size += 1 +
-      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::MessageSize(
-        *_impl_.selector_);
-  }
-
-  // .S2S.ProtoBsonObj updator = 4;
-  if (this->_internal_has_updator()) {
-    total_size += 1 +
-      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::MessageSize(
-        *_impl_.updator_);
-  }
-
-  // .S2S.MongoUserData user_data = 5;
-  if (this->_internal_has_user_data()) {
-    total_size += 1 +
-      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::MessageSize(
-        *_impl_.user_data_);
-  }
-
-  return MaybeComputeUnknownFieldsSize(total_size, &_impl_._cached_size_);
-}
-
-const ::PROTOBUF_NAMESPACE_ID::Message::ClassData MongoUpdateReq::_class_data_ = {
-    ::PROTOBUF_NAMESPACE_ID::Message::CopyWithSourceCheck,
-    MongoUpdateReq::MergeImpl
-};
-const ::PROTOBUF_NAMESPACE_ID::Message::ClassData*MongoUpdateReq::GetClassData() const { return &_class_data_; }
-
-
-void MongoUpdateReq::MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const ::PROTOBUF_NAMESPACE_ID::Message& from_msg) {
-  auto* const _this = static_cast<MongoUpdateReq*>(&to_msg);
-  auto& from = static_cast<const MongoUpdateReq&>(from_msg);
-  // @@protoc_insertion_point(class_specific_merge_from_start:S2S.MongoUpdateReq)
-  GOOGLE_DCHECK_NE(&from, _this);
-  uint32_t cached_has_bits = 0;
-  (void) cached_has_bits;
-
-  if (!from._internal_db_name().empty()) {
-    _this->_internal_set_db_name(from._internal_db_name());
-  }
-  if (!from._internal_col_name().empty()) {
-    _this->_internal_set_col_name(from._internal_col_name());
-  }
-  if (from._internal_has_selector()) {
-    _this->_internal_mutable_selector()->::S2S::ProtoBsonObj::MergeFrom(
-        from._internal_selector());
-  }
-  if (from._internal_has_updator()) {
-    _this->_internal_mutable_updator()->::S2S::ProtoBsonObj::MergeFrom(
-        from._internal_updator());
-  }
-  if (from._internal_has_user_data()) {
-    _this->_internal_mutable_user_data()->::S2S::MongoUserData::MergeFrom(
-        from._internal_user_data());
-  }
-  _this->_internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
-}
-
-void MongoUpdateReq::CopyFrom(const MongoUpdateReq& from) {
-// @@protoc_insertion_point(class_specific_copy_from_start:S2S.MongoUpdateReq)
-  if (&from == this) return;
-  Clear();
-  MergeFrom(from);
-}
-
-bool MongoUpdateReq::IsInitialized() const {
-  return true;
-}
-
-void MongoUpdateReq::InternalSwap(MongoUpdateReq* other) {
-  using std::swap;
-  auto* lhs_arena = GetArenaForAllocation();
-  auto* rhs_arena = other->GetArenaForAllocation();
-  _internal_metadata_.InternalSwap(&other->_internal_metadata_);
-  ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::InternalSwap(
-      &_impl_.db_name_, lhs_arena,
-      &other->_impl_.db_name_, rhs_arena
-  );
-  ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::InternalSwap(
-      &_impl_.col_name_, lhs_arena,
-      &other->_impl_.col_name_, rhs_arena
-  );
-  ::PROTOBUF_NAMESPACE_ID::internal::memswap<
-      PROTOBUF_FIELD_OFFSET(MongoUpdateReq, _impl_.user_data_)
-      + sizeof(MongoUpdateReq::_impl_.user_data_)
-      - PROTOBUF_FIELD_OFFSET(MongoUpdateReq, _impl_.selector_)>(
-          reinterpret_cast<char*>(&_impl_.selector_),
-          reinterpret_cast<char*>(&other->_impl_.selector_));
-}
-
-::PROTOBUF_NAMESPACE_ID::Metadata MongoUpdateReq::GetMetadata() const {
-  return ::_pbi::AssignDescriptors(
-      &descriptor_table_db_5fmongo_5fproxy_2eproto_getter, &descriptor_table_db_5fmongo_5fproxy_2eproto_once,
-      file_level_metadata_db_5fmongo_5fproxy_2eproto[9]);
-}
-
-// ===================================================================
-
-class MongoUpdateRes::_Internal {
- public:
-  static const ::S2S::MongoUserData& user_data(const MongoUpdateRes* msg);
-};
-
-const ::S2S::MongoUserData&
-MongoUpdateRes::_Internal::user_data(const MongoUpdateRes* msg) {
-  return *msg->_impl_.user_data_;
-}
-MongoUpdateRes::MongoUpdateRes(::PROTOBUF_NAMESPACE_ID::Arena* arena,
-                         bool is_message_owned)
-  : ::PROTOBUF_NAMESPACE_ID::Message(arena, is_message_owned) {
-  SharedCtor(arena, is_message_owned);
-  // @@protoc_insertion_point(arena_constructor:S2S.MongoUpdateRes)
-}
-MongoUpdateRes::MongoUpdateRes(const MongoUpdateRes& from)
-  : ::PROTOBUF_NAMESPACE_ID::Message() {
-  MongoUpdateRes* const _this = this; (void)_this;
-  new (&_impl_) Impl_{
-      decltype(_impl_.user_data_){nullptr}
-    , decltype(_impl_.succeed_){}
-    , /*decltype(_impl_._cached_size_)*/{}};
-
-  _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
-  if (from._internal_has_user_data()) {
-    _this->_impl_.user_data_ = new ::S2S::MongoUserData(*from._impl_.user_data_);
-  }
-  _this->_impl_.succeed_ = from._impl_.succeed_;
-  // @@protoc_insertion_point(copy_constructor:S2S.MongoUpdateRes)
-}
-
-inline void MongoUpdateRes::SharedCtor(
-    ::_pb::Arena* arena, bool is_message_owned) {
-  (void)arena;
-  (void)is_message_owned;
-  new (&_impl_) Impl_{
-      decltype(_impl_.user_data_){nullptr}
-    , decltype(_impl_.succeed_){false}
-    , /*decltype(_impl_._cached_size_)*/{}
-  };
-}
-
-MongoUpdateRes::~MongoUpdateRes() {
-  // @@protoc_insertion_point(destructor:S2S.MongoUpdateRes)
-  if (auto *arena = _internal_metadata_.DeleteReturnArena<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>()) {
-  (void)arena;
-    return;
-  }
-  SharedDtor();
-}
-
-inline void MongoUpdateRes::SharedDtor() {
-  GOOGLE_DCHECK(GetArenaForAllocation() == nullptr);
-  if (this != internal_default_instance()) delete _impl_.user_data_;
-}
-
-void MongoUpdateRes::SetCachedSize(int size) const {
-  _impl_._cached_size_.Set(size);
-}
-
-void MongoUpdateRes::Clear() {
-// @@protoc_insertion_point(message_clear_start:S2S.MongoUpdateRes)
-  uint32_t cached_has_bits = 0;
-  // Prevent compiler warnings about cached_has_bits being unused
-  (void) cached_has_bits;
-
-  if (GetArenaForAllocation() == nullptr && _impl_.user_data_ != nullptr) {
-    delete _impl_.user_data_;
-  }
-  _impl_.user_data_ = nullptr;
-  _impl_.succeed_ = false;
-  _internal_metadata_.Clear<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
-}
-
-const char* MongoUpdateRes::_InternalParse(const char* ptr, ::_pbi::ParseContext* ctx) {
-#define CHK_(x) if (PROTOBUF_PREDICT_FALSE(!(x))) goto failure
-  while (!ctx->Done(&ptr)) {
-    uint32_t tag;
-    ptr = ::_pbi::ReadTag(ptr, &tag);
-    switch (tag >> 3) {
-      // bool succeed = 1;
-      case 1:
-        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 8)) {
-          _impl_.succeed_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint64(&ptr);
-          CHK_(ptr);
-        } else
-          goto handle_unusual;
-        continue;
-      // .S2S.MongoUserData user_data = 2;
-      case 2:
-        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 18)) {
-          ptr = ctx->ParseMessage(_internal_mutable_user_data(), ptr);
-          CHK_(ptr);
-        } else
-          goto handle_unusual;
-        continue;
-      default:
-        goto handle_unusual;
-    }  // switch
-  handle_unusual:
-    if ((tag == 0) || ((tag & 7) == 4)) {
-      CHK_(ptr);
-      ctx->SetLastTag(tag);
-      goto message_done;
-    }
-    ptr = UnknownFieldParse(
-        tag,
-        _internal_metadata_.mutable_unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(),
-        ptr, ctx);
-    CHK_(ptr != nullptr);
-  }  // while
-message_done:
-  return ptr;
-failure:
-  ptr = nullptr;
-  goto message_done;
-#undef CHK_
-}
-
-uint8_t* MongoUpdateRes::_InternalSerialize(
-    uint8_t* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const {
-  // @@protoc_insertion_point(serialize_to_array_start:S2S.MongoUpdateRes)
-  uint32_t cached_has_bits = 0;
-  (void) cached_has_bits;
-
-  // bool succeed = 1;
-  if (this->_internal_succeed() != 0) {
-    target = stream->EnsureSpace(target);
-    target = ::_pbi::WireFormatLite::WriteBoolToArray(1, this->_internal_succeed(), target);
-  }
-
-  // .S2S.MongoUserData user_data = 2;
-  if (this->_internal_has_user_data()) {
-    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::
-      InternalWriteMessage(2, _Internal::user_data(this),
-        _Internal::user_data(this).GetCachedSize(), target, stream);
-  }
-
-  if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
-    target = ::_pbi::WireFormat::InternalSerializeUnknownFieldsToArray(
-        _internal_metadata_.unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(::PROTOBUF_NAMESPACE_ID::UnknownFieldSet::default_instance), target, stream);
-  }
-  // @@protoc_insertion_point(serialize_to_array_end:S2S.MongoUpdateRes)
-  return target;
-}
-
-size_t MongoUpdateRes::ByteSizeLong() const {
-// @@protoc_insertion_point(message_byte_size_start:S2S.MongoUpdateRes)
-  size_t total_size = 0;
-
-  uint32_t cached_has_bits = 0;
-  // Prevent compiler warnings about cached_has_bits being unused
-  (void) cached_has_bits;
-
-  // .S2S.MongoUserData user_data = 2;
-  if (this->_internal_has_user_data()) {
-    total_size += 1 +
-      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::MessageSize(
-        *_impl_.user_data_);
-  }
-
-  // bool succeed = 1;
-  if (this->_internal_succeed() != 0) {
-    total_size += 1 + 1;
-  }
-
-  return MaybeComputeUnknownFieldsSize(total_size, &_impl_._cached_size_);
-}
-
-const ::PROTOBUF_NAMESPACE_ID::Message::ClassData MongoUpdateRes::_class_data_ = {
-    ::PROTOBUF_NAMESPACE_ID::Message::CopyWithSourceCheck,
-    MongoUpdateRes::MergeImpl
-};
-const ::PROTOBUF_NAMESPACE_ID::Message::ClassData*MongoUpdateRes::GetClassData() const { return &_class_data_; }
-
-
-void MongoUpdateRes::MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const ::PROTOBUF_NAMESPACE_ID::Message& from_msg) {
-  auto* const _this = static_cast<MongoUpdateRes*>(&to_msg);
-  auto& from = static_cast<const MongoUpdateRes&>(from_msg);
-  // @@protoc_insertion_point(class_specific_merge_from_start:S2S.MongoUpdateRes)
-  GOOGLE_DCHECK_NE(&from, _this);
-  uint32_t cached_has_bits = 0;
-  (void) cached_has_bits;
-
-  if (from._internal_has_user_data()) {
-    _this->_internal_mutable_user_data()->::S2S::MongoUserData::MergeFrom(
-        from._internal_user_data());
-  }
-  if (from._internal_succeed() != 0) {
-    _this->_internal_set_succeed(from._internal_succeed());
-  }
-  _this->_internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
-}
-
-void MongoUpdateRes::CopyFrom(const MongoUpdateRes& from) {
-// @@protoc_insertion_point(class_specific_copy_from_start:S2S.MongoUpdateRes)
-  if (&from == this) return;
-  Clear();
-  MergeFrom(from);
-}
-
-bool MongoUpdateRes::IsInitialized() const {
-  return true;
-}
-
-void MongoUpdateRes::InternalSwap(MongoUpdateRes* other) {
-  using std::swap;
-  _internal_metadata_.InternalSwap(&other->_internal_metadata_);
-  ::PROTOBUF_NAMESPACE_ID::internal::memswap<
-      PROTOBUF_FIELD_OFFSET(MongoUpdateRes, _impl_.succeed_)
-      + sizeof(MongoUpdateRes::_impl_.succeed_)
-      - PROTOBUF_FIELD_OFFSET(MongoUpdateRes, _impl_.user_data_)>(
-          reinterpret_cast<char*>(&_impl_.user_data_),
-          reinterpret_cast<char*>(&other->_impl_.user_data_));
-}
-
-::PROTOBUF_NAMESPACE_ID::Metadata MongoUpdateRes::GetMetadata() const {
-  return ::_pbi::AssignDescriptors(
-      &descriptor_table_db_5fmongo_5fproxy_2eproto_getter, &descriptor_table_db_5fmongo_5fproxy_2eproto_once,
-      file_level_metadata_db_5fmongo_5fproxy_2eproto[10]);
+      file_level_metadata_db_5fmongo_5fproxy_2eproto[7]);
 }
 
 // ===================================================================
@@ -4230,7 +2597,6 @@ class MongoFindReq::_Internal {
  public:
   static const ::S2S::ProtoBsonObj& query(const MongoFindReq* msg);
   static const ::S2S::ProtoBsonObj& fields(const MongoFindReq* msg);
-  static const ::S2S::MongoUserData& user_data(const MongoFindReq* msg);
 };
 
 const ::S2S::ProtoBsonObj&
@@ -4240,10 +2606,6 @@ MongoFindReq::_Internal::query(const MongoFindReq* msg) {
 const ::S2S::ProtoBsonObj&
 MongoFindReq::_Internal::fields(const MongoFindReq* msg) {
   return *msg->_impl_.fields_;
-}
-const ::S2S::MongoUserData&
-MongoFindReq::_Internal::user_data(const MongoFindReq* msg) {
-  return *msg->_impl_.user_data_;
 }
 MongoFindReq::MongoFindReq(::PROTOBUF_NAMESPACE_ID::Arena* arena,
                          bool is_message_owned)
@@ -4259,7 +2621,6 @@ MongoFindReq::MongoFindReq(const MongoFindReq& from)
     , decltype(_impl_.col_name_){}
     , decltype(_impl_.query_){nullptr}
     , decltype(_impl_.fields_){nullptr}
-    , decltype(_impl_.user_data_){nullptr}
     , decltype(_impl_.logic_batch_num_){}
     , decltype(_impl_.skip_){}
     , decltype(_impl_.limit_){}
@@ -4289,9 +2650,6 @@ MongoFindReq::MongoFindReq(const MongoFindReq& from)
   if (from._internal_has_fields()) {
     _this->_impl_.fields_ = new ::S2S::ProtoBsonObj(*from._impl_.fields_);
   }
-  if (from._internal_has_user_data()) {
-    _this->_impl_.user_data_ = new ::S2S::MongoUserData(*from._impl_.user_data_);
-  }
   ::memcpy(&_impl_.logic_batch_num_, &from._impl_.logic_batch_num_,
     static_cast<size_t>(reinterpret_cast<char*>(&_impl_.batch_size_) -
     reinterpret_cast<char*>(&_impl_.logic_batch_num_)) + sizeof(_impl_.batch_size_));
@@ -4307,7 +2665,6 @@ inline void MongoFindReq::SharedCtor(
     , decltype(_impl_.col_name_){}
     , decltype(_impl_.query_){nullptr}
     , decltype(_impl_.fields_){nullptr}
-    , decltype(_impl_.user_data_){nullptr}
     , decltype(_impl_.logic_batch_num_){0}
     , decltype(_impl_.skip_){0}
     , decltype(_impl_.limit_){0}
@@ -4339,7 +2696,6 @@ inline void MongoFindReq::SharedDtor() {
   _impl_.col_name_.Destroy();
   if (this != internal_default_instance()) delete _impl_.query_;
   if (this != internal_default_instance()) delete _impl_.fields_;
-  if (this != internal_default_instance()) delete _impl_.user_data_;
 }
 
 void MongoFindReq::SetCachedSize(int size) const {
@@ -4362,10 +2718,6 @@ void MongoFindReq::Clear() {
     delete _impl_.fields_;
   }
   _impl_.fields_ = nullptr;
-  if (GetArenaForAllocation() == nullptr && _impl_.user_data_ != nullptr) {
-    delete _impl_.user_data_;
-  }
-  _impl_.user_data_ = nullptr;
   ::memset(&_impl_.logic_batch_num_, 0, static_cast<size_t>(
       reinterpret_cast<char*>(&_impl_.batch_size_) -
       reinterpret_cast<char*>(&_impl_.logic_batch_num_)) + sizeof(_impl_.batch_size_));
@@ -4442,14 +2794,6 @@ const char* MongoFindReq::_InternalParse(const char* ptr, ::_pbi::ParseContext* 
       case 8:
         if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 64)) {
           _impl_.batch_size_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint32(&ptr);
-          CHK_(ptr);
-        } else
-          goto handle_unusual;
-        continue;
-      // .S2S.MongoUserData user_data = 9;
-      case 9:
-        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 74)) {
-          ptr = ctx->ParseMessage(_internal_mutable_user_data(), ptr);
           CHK_(ptr);
         } else
           goto handle_unusual;
@@ -4541,13 +2885,6 @@ uint8_t* MongoFindReq::_InternalSerialize(
     target = ::_pbi::WireFormatLite::WriteInt32ToArray(8, this->_internal_batch_size(), target);
   }
 
-  // .S2S.MongoUserData user_data = 9;
-  if (this->_internal_has_user_data()) {
-    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::
-      InternalWriteMessage(9, _Internal::user_data(this),
-        _Internal::user_data(this).GetCachedSize(), target, stream);
-  }
-
   if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
     target = ::_pbi::WireFormat::InternalSerializeUnknownFieldsToArray(
         _internal_metadata_.unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(::PROTOBUF_NAMESPACE_ID::UnknownFieldSet::default_instance), target, stream);
@@ -4590,13 +2927,6 @@ size_t MongoFindReq::ByteSizeLong() const {
     total_size += 1 +
       ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::MessageSize(
         *_impl_.fields_);
-  }
-
-  // .S2S.MongoUserData user_data = 9;
-  if (this->_internal_has_user_data()) {
-    total_size += 1 +
-      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::MessageSize(
-        *_impl_.user_data_);
   }
 
   // int32 logic_batch_num = 5;
@@ -4651,10 +2981,6 @@ void MongoFindReq::MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const ::P
     _this->_internal_mutable_fields()->::S2S::ProtoBsonObj::MergeFrom(
         from._internal_fields());
   }
-  if (from._internal_has_user_data()) {
-    _this->_internal_mutable_user_data()->::S2S::MongoUserData::MergeFrom(
-        from._internal_user_data());
-  }
   if (from._internal_logic_batch_num() != 0) {
     _this->_internal_set_logic_batch_num(from._internal_logic_batch_num());
   }
@@ -4705,20 +3031,15 @@ void MongoFindReq::InternalSwap(MongoFindReq* other) {
 ::PROTOBUF_NAMESPACE_ID::Metadata MongoFindReq::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_db_5fmongo_5fproxy_2eproto_getter, &descriptor_table_db_5fmongo_5fproxy_2eproto_once,
-      file_level_metadata_db_5fmongo_5fproxy_2eproto[11]);
+      file_level_metadata_db_5fmongo_5fproxy_2eproto[8]);
 }
 
 // ===================================================================
 
 class MongoFindRes::_Internal {
  public:
-  static const ::S2S::MongoUserData& user_data(const MongoFindRes* msg);
 };
 
-const ::S2S::MongoUserData&
-MongoFindRes::_Internal::user_data(const MongoFindRes* msg) {
-  return *msg->_impl_.user_data_;
-}
 MongoFindRes::MongoFindRes(::PROTOBUF_NAMESPACE_ID::Arena* arena,
                          bool is_message_owned)
   : ::PROTOBUF_NAMESPACE_ID::Message(arena, is_message_owned) {
@@ -4730,15 +3051,11 @@ MongoFindRes::MongoFindRes(const MongoFindRes& from)
   MongoFindRes* const _this = this; (void)_this;
   new (&_impl_) Impl_{
       decltype(_impl_.data_list_){from._impl_.data_list_}
-    , decltype(_impl_.user_data_){nullptr}
     , decltype(_impl_.succeed_){}
     , decltype(_impl_.has_more_){}
     , /*decltype(_impl_._cached_size_)*/{}};
 
   _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
-  if (from._internal_has_user_data()) {
-    _this->_impl_.user_data_ = new ::S2S::MongoUserData(*from._impl_.user_data_);
-  }
   ::memcpy(&_impl_.succeed_, &from._impl_.succeed_,
     static_cast<size_t>(reinterpret_cast<char*>(&_impl_.has_more_) -
     reinterpret_cast<char*>(&_impl_.succeed_)) + sizeof(_impl_.has_more_));
@@ -4751,7 +3068,6 @@ inline void MongoFindRes::SharedCtor(
   (void)is_message_owned;
   new (&_impl_) Impl_{
       decltype(_impl_.data_list_){arena}
-    , decltype(_impl_.user_data_){nullptr}
     , decltype(_impl_.succeed_){false}
     , decltype(_impl_.has_more_){false}
     , /*decltype(_impl_._cached_size_)*/{}
@@ -4770,7 +3086,6 @@ MongoFindRes::~MongoFindRes() {
 inline void MongoFindRes::SharedDtor() {
   GOOGLE_DCHECK(GetArenaForAllocation() == nullptr);
   _impl_.data_list_.~RepeatedPtrField();
-  if (this != internal_default_instance()) delete _impl_.user_data_;
 }
 
 void MongoFindRes::SetCachedSize(int size) const {
@@ -4784,10 +3099,6 @@ void MongoFindRes::Clear() {
   (void) cached_has_bits;
 
   _impl_.data_list_.Clear();
-  if (GetArenaForAllocation() == nullptr && _impl_.user_data_ != nullptr) {
-    delete _impl_.user_data_;
-  }
-  _impl_.user_data_ = nullptr;
   ::memset(&_impl_.succeed_, 0, static_cast<size_t>(
       reinterpret_cast<char*>(&_impl_.has_more_) -
       reinterpret_cast<char*>(&_impl_.succeed_)) + sizeof(_impl_.has_more_));
@@ -4826,14 +3137,6 @@ const char* MongoFindRes::_InternalParse(const char* ptr, ::_pbi::ParseContext* 
             CHK_(ptr);
             if (!ctx->DataAvailable(ptr)) break;
           } while (::PROTOBUF_NAMESPACE_ID::internal::ExpectTag<26>(ptr));
-        } else
-          goto handle_unusual;
-        continue;
-      // .S2S.MongoUserData user_data = 4;
-      case 4:
-        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 34)) {
-          ptr = ctx->ParseMessage(_internal_mutable_user_data(), ptr);
-          CHK_(ptr);
         } else
           goto handle_unusual;
         continue;
@@ -4886,13 +3189,6 @@ uint8_t* MongoFindRes::_InternalSerialize(
         InternalWriteMessage(3, repfield, repfield.GetCachedSize(), target, stream);
   }
 
-  // .S2S.MongoUserData user_data = 4;
-  if (this->_internal_has_user_data()) {
-    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::
-      InternalWriteMessage(4, _Internal::user_data(this),
-        _Internal::user_data(this).GetCachedSize(), target, stream);
-  }
-
   if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
     target = ::_pbi::WireFormat::InternalSerializeUnknownFieldsToArray(
         _internal_metadata_.unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(::PROTOBUF_NAMESPACE_ID::UnknownFieldSet::default_instance), target, stream);
@@ -4914,13 +3210,6 @@ size_t MongoFindRes::ByteSizeLong() const {
   for (const auto& msg : this->_impl_.data_list_) {
     total_size +=
       ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::MessageSize(msg);
-  }
-
-  // .S2S.MongoUserData user_data = 4;
-  if (this->_internal_has_user_data()) {
-    total_size += 1 +
-      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::MessageSize(
-        *_impl_.user_data_);
   }
 
   // bool succeed = 1;
@@ -4952,10 +3241,6 @@ void MongoFindRes::MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const ::P
   (void) cached_has_bits;
 
   _this->_impl_.data_list_.MergeFrom(from._impl_.data_list_);
-  if (from._internal_has_user_data()) {
-    _this->_internal_mutable_user_data()->::S2S::MongoUserData::MergeFrom(
-        from._internal_user_data());
-  }
   if (from._internal_succeed() != 0) {
     _this->_internal_set_succeed(from._internal_succeed());
   }
@@ -4983,15 +3268,15 @@ void MongoFindRes::InternalSwap(MongoFindRes* other) {
   ::PROTOBUF_NAMESPACE_ID::internal::memswap<
       PROTOBUF_FIELD_OFFSET(MongoFindRes, _impl_.has_more_)
       + sizeof(MongoFindRes::_impl_.has_more_)
-      - PROTOBUF_FIELD_OFFSET(MongoFindRes, _impl_.user_data_)>(
-          reinterpret_cast<char*>(&_impl_.user_data_),
-          reinterpret_cast<char*>(&other->_impl_.user_data_));
+      - PROTOBUF_FIELD_OFFSET(MongoFindRes, _impl_.succeed_)>(
+          reinterpret_cast<char*>(&_impl_.succeed_),
+          reinterpret_cast<char*>(&other->_impl_.succeed_));
 }
 
 ::PROTOBUF_NAMESPACE_ID::Metadata MongoFindRes::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_db_5fmongo_5fproxy_2eproto_getter, &descriptor_table_db_5fmongo_5fproxy_2eproto_once,
-      file_level_metadata_db_5fmongo_5fproxy_2eproto[12]);
+      file_level_metadata_db_5fmongo_5fproxy_2eproto[9]);
 }
 
 // ===================================================================
@@ -5344,7 +3629,7 @@ void ProtoBsonBatchFindData::InternalSwap(ProtoBsonBatchFindData* other) {
 ::PROTOBUF_NAMESPACE_ID::Metadata ProtoBsonBatchFindData::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_db_5fmongo_5fproxy_2eproto_getter, &descriptor_table_db_5fmongo_5fproxy_2eproto_once,
-      file_level_metadata_db_5fmongo_5fproxy_2eproto[13]);
+      file_level_metadata_db_5fmongo_5fproxy_2eproto[10]);
 }
 
 // ===================================================================
@@ -5353,7 +3638,6 @@ class MongoBatchFindReq::_Internal {
  public:
   static const ::S2S::ProtoBsonBatchFindData& query(const MongoBatchFindReq* msg);
   static const ::S2S::ProtoBsonObj& fields(const MongoBatchFindReq* msg);
-  static const ::S2S::MongoUserData& user_data(const MongoBatchFindReq* msg);
 };
 
 const ::S2S::ProtoBsonBatchFindData&
@@ -5363,10 +3647,6 @@ MongoBatchFindReq::_Internal::query(const MongoBatchFindReq* msg) {
 const ::S2S::ProtoBsonObj&
 MongoBatchFindReq::_Internal::fields(const MongoBatchFindReq* msg) {
   return *msg->_impl_.fields_;
-}
-const ::S2S::MongoUserData&
-MongoBatchFindReq::_Internal::user_data(const MongoBatchFindReq* msg) {
-  return *msg->_impl_.user_data_;
 }
 MongoBatchFindReq::MongoBatchFindReq(::PROTOBUF_NAMESPACE_ID::Arena* arena,
                          bool is_message_owned)
@@ -5382,7 +3662,6 @@ MongoBatchFindReq::MongoBatchFindReq(const MongoBatchFindReq& from)
     , decltype(_impl_.col_name_){}
     , decltype(_impl_.query_){nullptr}
     , decltype(_impl_.fields_){nullptr}
-    , decltype(_impl_.user_data_){nullptr}
     , decltype(_impl_.logic_batch_num_){}
     , decltype(_impl_.skip_){}
     , decltype(_impl_.limit_){}
@@ -5412,9 +3691,6 @@ MongoBatchFindReq::MongoBatchFindReq(const MongoBatchFindReq& from)
   if (from._internal_has_fields()) {
     _this->_impl_.fields_ = new ::S2S::ProtoBsonObj(*from._impl_.fields_);
   }
-  if (from._internal_has_user_data()) {
-    _this->_impl_.user_data_ = new ::S2S::MongoUserData(*from._impl_.user_data_);
-  }
   ::memcpy(&_impl_.logic_batch_num_, &from._impl_.logic_batch_num_,
     static_cast<size_t>(reinterpret_cast<char*>(&_impl_.batch_size_) -
     reinterpret_cast<char*>(&_impl_.logic_batch_num_)) + sizeof(_impl_.batch_size_));
@@ -5430,7 +3706,6 @@ inline void MongoBatchFindReq::SharedCtor(
     , decltype(_impl_.col_name_){}
     , decltype(_impl_.query_){nullptr}
     , decltype(_impl_.fields_){nullptr}
-    , decltype(_impl_.user_data_){nullptr}
     , decltype(_impl_.logic_batch_num_){0}
     , decltype(_impl_.skip_){0}
     , decltype(_impl_.limit_){0}
@@ -5462,7 +3737,6 @@ inline void MongoBatchFindReq::SharedDtor() {
   _impl_.col_name_.Destroy();
   if (this != internal_default_instance()) delete _impl_.query_;
   if (this != internal_default_instance()) delete _impl_.fields_;
-  if (this != internal_default_instance()) delete _impl_.user_data_;
 }
 
 void MongoBatchFindReq::SetCachedSize(int size) const {
@@ -5485,10 +3759,6 @@ void MongoBatchFindReq::Clear() {
     delete _impl_.fields_;
   }
   _impl_.fields_ = nullptr;
-  if (GetArenaForAllocation() == nullptr && _impl_.user_data_ != nullptr) {
-    delete _impl_.user_data_;
-  }
-  _impl_.user_data_ = nullptr;
   ::memset(&_impl_.logic_batch_num_, 0, static_cast<size_t>(
       reinterpret_cast<char*>(&_impl_.batch_size_) -
       reinterpret_cast<char*>(&_impl_.logic_batch_num_)) + sizeof(_impl_.batch_size_));
@@ -5565,14 +3835,6 @@ const char* MongoBatchFindReq::_InternalParse(const char* ptr, ::_pbi::ParseCont
       case 8:
         if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 64)) {
           _impl_.batch_size_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint32(&ptr);
-          CHK_(ptr);
-        } else
-          goto handle_unusual;
-        continue;
-      // .S2S.MongoUserData user_data = 9;
-      case 9:
-        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 74)) {
-          ptr = ctx->ParseMessage(_internal_mutable_user_data(), ptr);
           CHK_(ptr);
         } else
           goto handle_unusual;
@@ -5664,13 +3926,6 @@ uint8_t* MongoBatchFindReq::_InternalSerialize(
     target = ::_pbi::WireFormatLite::WriteInt32ToArray(8, this->_internal_batch_size(), target);
   }
 
-  // .S2S.MongoUserData user_data = 9;
-  if (this->_internal_has_user_data()) {
-    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::
-      InternalWriteMessage(9, _Internal::user_data(this),
-        _Internal::user_data(this).GetCachedSize(), target, stream);
-  }
-
   if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
     target = ::_pbi::WireFormat::InternalSerializeUnknownFieldsToArray(
         _internal_metadata_.unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(::PROTOBUF_NAMESPACE_ID::UnknownFieldSet::default_instance), target, stream);
@@ -5713,13 +3968,6 @@ size_t MongoBatchFindReq::ByteSizeLong() const {
     total_size += 1 +
       ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::MessageSize(
         *_impl_.fields_);
-  }
-
-  // .S2S.MongoUserData user_data = 9;
-  if (this->_internal_has_user_data()) {
-    total_size += 1 +
-      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::MessageSize(
-        *_impl_.user_data_);
   }
 
   // int32 logic_batch_num = 5;
@@ -5774,10 +4022,6 @@ void MongoBatchFindReq::MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, cons
     _this->_internal_mutable_fields()->::S2S::ProtoBsonObj::MergeFrom(
         from._internal_fields());
   }
-  if (from._internal_has_user_data()) {
-    _this->_internal_mutable_user_data()->::S2S::MongoUserData::MergeFrom(
-        from._internal_user_data());
-  }
   if (from._internal_logic_batch_num() != 0) {
     _this->_internal_set_logic_batch_num(from._internal_logic_batch_num());
   }
@@ -5828,20 +4072,15 @@ void MongoBatchFindReq::InternalSwap(MongoBatchFindReq* other) {
 ::PROTOBUF_NAMESPACE_ID::Metadata MongoBatchFindReq::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_db_5fmongo_5fproxy_2eproto_getter, &descriptor_table_db_5fmongo_5fproxy_2eproto_once,
-      file_level_metadata_db_5fmongo_5fproxy_2eproto[14]);
+      file_level_metadata_db_5fmongo_5fproxy_2eproto[11]);
 }
 
 // ===================================================================
 
 class MongoBatchFindRes::_Internal {
  public:
-  static const ::S2S::MongoUserData& user_data(const MongoBatchFindRes* msg);
 };
 
-const ::S2S::MongoUserData&
-MongoBatchFindRes::_Internal::user_data(const MongoBatchFindRes* msg) {
-  return *msg->_impl_.user_data_;
-}
 MongoBatchFindRes::MongoBatchFindRes(::PROTOBUF_NAMESPACE_ID::Arena* arena,
                          bool is_message_owned)
   : ::PROTOBUF_NAMESPACE_ID::Message(arena, is_message_owned) {
@@ -5853,15 +4092,11 @@ MongoBatchFindRes::MongoBatchFindRes(const MongoBatchFindRes& from)
   MongoBatchFindRes* const _this = this; (void)_this;
   new (&_impl_) Impl_{
       decltype(_impl_.data_list_){from._impl_.data_list_}
-    , decltype(_impl_.user_data_){nullptr}
     , decltype(_impl_.succeed_){}
     , decltype(_impl_.has_more_){}
     , /*decltype(_impl_._cached_size_)*/{}};
 
   _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
-  if (from._internal_has_user_data()) {
-    _this->_impl_.user_data_ = new ::S2S::MongoUserData(*from._impl_.user_data_);
-  }
   ::memcpy(&_impl_.succeed_, &from._impl_.succeed_,
     static_cast<size_t>(reinterpret_cast<char*>(&_impl_.has_more_) -
     reinterpret_cast<char*>(&_impl_.succeed_)) + sizeof(_impl_.has_more_));
@@ -5874,7 +4109,6 @@ inline void MongoBatchFindRes::SharedCtor(
   (void)is_message_owned;
   new (&_impl_) Impl_{
       decltype(_impl_.data_list_){arena}
-    , decltype(_impl_.user_data_){nullptr}
     , decltype(_impl_.succeed_){false}
     , decltype(_impl_.has_more_){false}
     , /*decltype(_impl_._cached_size_)*/{}
@@ -5893,7 +4127,6 @@ MongoBatchFindRes::~MongoBatchFindRes() {
 inline void MongoBatchFindRes::SharedDtor() {
   GOOGLE_DCHECK(GetArenaForAllocation() == nullptr);
   _impl_.data_list_.~RepeatedPtrField();
-  if (this != internal_default_instance()) delete _impl_.user_data_;
 }
 
 void MongoBatchFindRes::SetCachedSize(int size) const {
@@ -5907,10 +4140,6 @@ void MongoBatchFindRes::Clear() {
   (void) cached_has_bits;
 
   _impl_.data_list_.Clear();
-  if (GetArenaForAllocation() == nullptr && _impl_.user_data_ != nullptr) {
-    delete _impl_.user_data_;
-  }
-  _impl_.user_data_ = nullptr;
   ::memset(&_impl_.succeed_, 0, static_cast<size_t>(
       reinterpret_cast<char*>(&_impl_.has_more_) -
       reinterpret_cast<char*>(&_impl_.succeed_)) + sizeof(_impl_.has_more_));
@@ -5949,14 +4178,6 @@ const char* MongoBatchFindRes::_InternalParse(const char* ptr, ::_pbi::ParseCont
             CHK_(ptr);
             if (!ctx->DataAvailable(ptr)) break;
           } while (::PROTOBUF_NAMESPACE_ID::internal::ExpectTag<26>(ptr));
-        } else
-          goto handle_unusual;
-        continue;
-      // .S2S.MongoUserData user_data = 4;
-      case 4:
-        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 34)) {
-          ptr = ctx->ParseMessage(_internal_mutable_user_data(), ptr);
-          CHK_(ptr);
         } else
           goto handle_unusual;
         continue;
@@ -6009,13 +4230,6 @@ uint8_t* MongoBatchFindRes::_InternalSerialize(
         InternalWriteMessage(3, repfield, repfield.GetCachedSize(), target, stream);
   }
 
-  // .S2S.MongoUserData user_data = 4;
-  if (this->_internal_has_user_data()) {
-    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::
-      InternalWriteMessage(4, _Internal::user_data(this),
-        _Internal::user_data(this).GetCachedSize(), target, stream);
-  }
-
   if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
     target = ::_pbi::WireFormat::InternalSerializeUnknownFieldsToArray(
         _internal_metadata_.unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(::PROTOBUF_NAMESPACE_ID::UnknownFieldSet::default_instance), target, stream);
@@ -6037,13 +4251,6 @@ size_t MongoBatchFindRes::ByteSizeLong() const {
   for (const auto& msg : this->_impl_.data_list_) {
     total_size +=
       ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::MessageSize(msg);
-  }
-
-  // .S2S.MongoUserData user_data = 4;
-  if (this->_internal_has_user_data()) {
-    total_size += 1 +
-      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::MessageSize(
-        *_impl_.user_data_);
   }
 
   // bool succeed = 1;
@@ -6075,10 +4282,6 @@ void MongoBatchFindRes::MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, cons
   (void) cached_has_bits;
 
   _this->_impl_.data_list_.MergeFrom(from._impl_.data_list_);
-  if (from._internal_has_user_data()) {
-    _this->_internal_mutable_user_data()->::S2S::MongoUserData::MergeFrom(
-        from._internal_user_data());
-  }
   if (from._internal_succeed() != 0) {
     _this->_internal_set_succeed(from._internal_succeed());
   }
@@ -6106,15 +4309,15 @@ void MongoBatchFindRes::InternalSwap(MongoBatchFindRes* other) {
   ::PROTOBUF_NAMESPACE_ID::internal::memswap<
       PROTOBUF_FIELD_OFFSET(MongoBatchFindRes, _impl_.has_more_)
       + sizeof(MongoBatchFindRes::_impl_.has_more_)
-      - PROTOBUF_FIELD_OFFSET(MongoBatchFindRes, _impl_.user_data_)>(
-          reinterpret_cast<char*>(&_impl_.user_data_),
-          reinterpret_cast<char*>(&other->_impl_.user_data_));
+      - PROTOBUF_FIELD_OFFSET(MongoBatchFindRes, _impl_.succeed_)>(
+          reinterpret_cast<char*>(&_impl_.succeed_),
+          reinterpret_cast<char*>(&other->_impl_.succeed_));
 }
 
 ::PROTOBUF_NAMESPACE_ID::Metadata MongoBatchFindRes::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_db_5fmongo_5fproxy_2eproto_getter, &descriptor_table_db_5fmongo_5fproxy_2eproto_once,
-      file_level_metadata_db_5fmongo_5fproxy_2eproto[15]);
+      file_level_metadata_db_5fmongo_5fproxy_2eproto[12]);
 }
 
 // ===================================================================
@@ -6127,8 +4330,6 @@ class MongoDBMsg::_Internal {
   static const ::S2S::MongoRemoveRes& remove_res(const MongoDBMsg* msg);
   static const ::S2S::MongoSaveReq& save_req(const MongoDBMsg* msg);
   static const ::S2S::MongoSaveRes& save_res(const MongoDBMsg* msg);
-  static const ::S2S::MongoUpdateReq& update_req(const MongoDBMsg* msg);
-  static const ::S2S::MongoUpdateRes& update_res(const MongoDBMsg* msg);
   static const ::S2S::MongoFindReq& find_req(const MongoDBMsg* msg);
   static const ::S2S::MongoFindRes& find_res(const MongoDBMsg* msg);
   static const ::S2S::MongoBatchFindReq& batch_find_req(const MongoDBMsg* msg);
@@ -6158,14 +4359,6 @@ MongoDBMsg::_Internal::save_req(const MongoDBMsg* msg) {
 const ::S2S::MongoSaveRes&
 MongoDBMsg::_Internal::save_res(const MongoDBMsg* msg) {
   return *msg->_impl_.save_res_;
-}
-const ::S2S::MongoUpdateReq&
-MongoDBMsg::_Internal::update_req(const MongoDBMsg* msg) {
-  return *msg->_impl_.update_req_;
-}
-const ::S2S::MongoUpdateRes&
-MongoDBMsg::_Internal::update_res(const MongoDBMsg* msg) {
-  return *msg->_impl_.update_res_;
 }
 const ::S2S::MongoFindReq&
 MongoDBMsg::_Internal::find_req(const MongoDBMsg* msg) {
@@ -6199,8 +4392,6 @@ MongoDBMsg::MongoDBMsg(const MongoDBMsg& from)
     , decltype(_impl_.remove_res_){nullptr}
     , decltype(_impl_.save_req_){nullptr}
     , decltype(_impl_.save_res_){nullptr}
-    , decltype(_impl_.update_req_){nullptr}
-    , decltype(_impl_.update_res_){nullptr}
     , decltype(_impl_.find_req_){nullptr}
     , decltype(_impl_.find_res_){nullptr}
     , decltype(_impl_.batch_find_req_){nullptr}
@@ -6225,12 +4416,6 @@ MongoDBMsg::MongoDBMsg(const MongoDBMsg& from)
   }
   if (from._internal_has_save_res()) {
     _this->_impl_.save_res_ = new ::S2S::MongoSaveRes(*from._impl_.save_res_);
-  }
-  if (from._internal_has_update_req()) {
-    _this->_impl_.update_req_ = new ::S2S::MongoUpdateReq(*from._impl_.update_req_);
-  }
-  if (from._internal_has_update_res()) {
-    _this->_impl_.update_res_ = new ::S2S::MongoUpdateRes(*from._impl_.update_res_);
   }
   if (from._internal_has_find_req()) {
     _this->_impl_.find_req_ = new ::S2S::MongoFindReq(*from._impl_.find_req_);
@@ -6258,8 +4443,6 @@ inline void MongoDBMsg::SharedCtor(
     , decltype(_impl_.remove_res_){nullptr}
     , decltype(_impl_.save_req_){nullptr}
     , decltype(_impl_.save_res_){nullptr}
-    , decltype(_impl_.update_req_){nullptr}
-    , decltype(_impl_.update_res_){nullptr}
     , decltype(_impl_.find_req_){nullptr}
     , decltype(_impl_.find_res_){nullptr}
     , decltype(_impl_.batch_find_req_){nullptr}
@@ -6285,8 +4468,6 @@ inline void MongoDBMsg::SharedDtor() {
   if (this != internal_default_instance()) delete _impl_.remove_res_;
   if (this != internal_default_instance()) delete _impl_.save_req_;
   if (this != internal_default_instance()) delete _impl_.save_res_;
-  if (this != internal_default_instance()) delete _impl_.update_req_;
-  if (this != internal_default_instance()) delete _impl_.update_res_;
   if (this != internal_default_instance()) delete _impl_.find_req_;
   if (this != internal_default_instance()) delete _impl_.find_res_;
   if (this != internal_default_instance()) delete _impl_.batch_find_req_;
@@ -6327,14 +4508,6 @@ void MongoDBMsg::Clear() {
     delete _impl_.save_res_;
   }
   _impl_.save_res_ = nullptr;
-  if (GetArenaForAllocation() == nullptr && _impl_.update_req_ != nullptr) {
-    delete _impl_.update_req_;
-  }
-  _impl_.update_req_ = nullptr;
-  if (GetArenaForAllocation() == nullptr && _impl_.update_res_ != nullptr) {
-    delete _impl_.update_res_;
-  }
-  _impl_.update_res_ = nullptr;
   if (GetArenaForAllocation() == nullptr && _impl_.find_req_ != nullptr) {
     delete _impl_.find_req_;
   }
@@ -6404,22 +4577,6 @@ const char* MongoDBMsg::_InternalParse(const char* ptr, ::_pbi::ParseContext* ct
       case 7:
         if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 58)) {
           ptr = ctx->ParseMessage(_internal_mutable_save_res(), ptr);
-          CHK_(ptr);
-        } else
-          goto handle_unusual;
-        continue;
-      // .S2S.MongoUpdateReq update_req = 8;
-      case 8:
-        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 66)) {
-          ptr = ctx->ParseMessage(_internal_mutable_update_req(), ptr);
-          CHK_(ptr);
-        } else
-          goto handle_unusual;
-        continue;
-      // .S2S.MongoUpdateRes update_res = 9;
-      case 9:
-        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 74)) {
-          ptr = ctx->ParseMessage(_internal_mutable_update_res(), ptr);
           CHK_(ptr);
         } else
           goto handle_unusual;
@@ -6527,20 +4684,6 @@ uint8_t* MongoDBMsg::_InternalSerialize(
         _Internal::save_res(this).GetCachedSize(), target, stream);
   }
 
-  // .S2S.MongoUpdateReq update_req = 8;
-  if (this->_internal_has_update_req()) {
-    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::
-      InternalWriteMessage(8, _Internal::update_req(this),
-        _Internal::update_req(this).GetCachedSize(), target, stream);
-  }
-
-  // .S2S.MongoUpdateRes update_res = 9;
-  if (this->_internal_has_update_res()) {
-    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::
-      InternalWriteMessage(9, _Internal::update_res(this),
-        _Internal::update_res(this).GetCachedSize(), target, stream);
-  }
-
   // .S2S.MongoFindReq find_req = 10;
   if (this->_internal_has_find_req()) {
     target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::
@@ -6627,20 +4770,6 @@ size_t MongoDBMsg::ByteSizeLong() const {
         *_impl_.save_res_);
   }
 
-  // .S2S.MongoUpdateReq update_req = 8;
-  if (this->_internal_has_update_req()) {
-    total_size += 1 +
-      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::MessageSize(
-        *_impl_.update_req_);
-  }
-
-  // .S2S.MongoUpdateRes update_res = 9;
-  if (this->_internal_has_update_res()) {
-    total_size += 1 +
-      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::MessageSize(
-        *_impl_.update_res_);
-  }
-
   // .S2S.MongoFindReq find_req = 10;
   if (this->_internal_has_find_req()) {
     total_size += 1 +
@@ -6711,14 +4840,6 @@ void MongoDBMsg::MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const ::PRO
     _this->_internal_mutable_save_res()->::S2S::MongoSaveRes::MergeFrom(
         from._internal_save_res());
   }
-  if (from._internal_has_update_req()) {
-    _this->_internal_mutable_update_req()->::S2S::MongoUpdateReq::MergeFrom(
-        from._internal_update_req());
-  }
-  if (from._internal_has_update_res()) {
-    _this->_internal_mutable_update_res()->::S2S::MongoUpdateRes::MergeFrom(
-        from._internal_update_res());
-  }
   if (from._internal_has_find_req()) {
     _this->_internal_mutable_find_req()->::S2S::MongoFindReq::MergeFrom(
         from._internal_find_req());
@@ -6763,7 +4884,7 @@ void MongoDBMsg::InternalSwap(MongoDBMsg* other) {
 ::PROTOBUF_NAMESPACE_ID::Metadata MongoDBMsg::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_db_5fmongo_5fproxy_2eproto_getter, &descriptor_table_db_5fmongo_5fproxy_2eproto_once,
-      file_level_metadata_db_5fmongo_5fproxy_2eproto[16]);
+      file_level_metadata_db_5fmongo_5fproxy_2eproto[13]);
 }
 
 // @@protoc_insertion_point(namespace_scope)
@@ -6776,10 +4897,6 @@ Arena::CreateMaybeMessage< ::S2S::ProtoBsonData >(Arena* arena) {
 template<> PROTOBUF_NOINLINE ::S2S::ProtoBsonObj*
 Arena::CreateMaybeMessage< ::S2S::ProtoBsonObj >(Arena* arena) {
   return Arena::CreateMessageInternal< ::S2S::ProtoBsonObj >(arena);
-}
-template<> PROTOBUF_NOINLINE ::S2S::MongoUserData*
-Arena::CreateMaybeMessage< ::S2S::MongoUserData >(Arena* arena) {
-  return Arena::CreateMessageInternal< ::S2S::MongoUserData >(arena);
 }
 template<> PROTOBUF_NOINLINE ::S2S::MongoInsertReq*
 Arena::CreateMaybeMessage< ::S2S::MongoInsertReq >(Arena* arena) {
@@ -6804,14 +4921,6 @@ Arena::CreateMaybeMessage< ::S2S::MongoSaveReq >(Arena* arena) {
 template<> PROTOBUF_NOINLINE ::S2S::MongoSaveRes*
 Arena::CreateMaybeMessage< ::S2S::MongoSaveRes >(Arena* arena) {
   return Arena::CreateMessageInternal< ::S2S::MongoSaveRes >(arena);
-}
-template<> PROTOBUF_NOINLINE ::S2S::MongoUpdateReq*
-Arena::CreateMaybeMessage< ::S2S::MongoUpdateReq >(Arena* arena) {
-  return Arena::CreateMessageInternal< ::S2S::MongoUpdateReq >(arena);
-}
-template<> PROTOBUF_NOINLINE ::S2S::MongoUpdateRes*
-Arena::CreateMaybeMessage< ::S2S::MongoUpdateRes >(Arena* arena) {
-  return Arena::CreateMessageInternal< ::S2S::MongoUpdateRes >(arena);
 }
 template<> PROTOBUF_NOINLINE ::S2S::MongoFindReq*
 Arena::CreateMaybeMessage< ::S2S::MongoFindReq >(Arena* arena) {
