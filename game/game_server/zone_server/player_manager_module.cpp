@@ -52,8 +52,8 @@ bool PlayerManagerModule::saveToDB()
 		saveReq->set_db_name(DB_NAME);
 		saveReq->set_col_name(COL_PLAYER);
 
-		S2S::ProtoBsonObj* replacement = saveReq->mutable_replacement();
-		bsonObj.convertToProtoBson(*replacement);
+		S2S::ProtoBsonObj* updator = saveReq->mutable_updator();
+		bsonObj.convertToProtoBson(*updator);
 
 		std::string strDBMsg;
 		if (!dbMsg.SerializeToString(&strDBMsg))

@@ -1,5 +1,7 @@
 {
 	"appId": "0.3.0.0",
+	"masterServerIp": "127.0.0.1",
+	"masterServerPort": 20001,
 	"internalIp": "127.0.0.1",
 	"internalPort": 23001,
 	"user": "null",

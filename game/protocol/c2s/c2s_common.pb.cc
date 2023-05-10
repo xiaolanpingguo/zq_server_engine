@@ -20,7 +20,7 @@ PROTOBUF_PRAGMA_INIT_SEG
 namespace _pb = ::PROTOBUF_NAMESPACE_ID;
 namespace _pbi = _pb::internal;
 
-namespace C2SMsg {
+namespace C2S {
 PROTOBUF_CONSTEXPR C2SHeartBeat::C2SHeartBeat(
     ::_pbi::ConstantInitialized): _impl_{
     /*decltype(_impl_.state_)*/0
@@ -36,7 +36,9 @@ struct C2SHeartBeatDefaultTypeInternal {
 PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 C2SHeartBeatDefaultTypeInternal _C2SHeartBeat_default_instance_;
 PROTOBUF_CONSTEXPR C2SLoginReq::C2SLoginReq(
     ::_pbi::ConstantInitialized): _impl_{
-    /*decltype(_impl_.token_)*/{&::_pbi::fixed_address_empty_string, ::_pbi::ConstantInitialized{}}
+    /*decltype(_impl_.sdk_user_id_)*/{&::_pbi::fixed_address_empty_string, ::_pbi::ConstantInitialized{}}
+  , /*decltype(_impl_.token_)*/{&::_pbi::fixed_address_empty_string, ::_pbi::ConstantInitialized{}}
+  , /*decltype(_impl_.channel_id_)*/0
   , /*decltype(_impl_._cached_size_)*/{}} {}
 struct C2SLoginReqDefaultTypeInternal {
   PROTOBUF_CONSTEXPR C2SLoginReqDefaultTypeInternal()
@@ -50,6 +52,7 @@ PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORIT
 PROTOBUF_CONSTEXPR C2SLoginRes::C2SLoginRes(
     ::_pbi::ConstantInitialized): _impl_{
     /*decltype(_impl_.error_code_)*/0
+  , /*decltype(_impl_.token_)*/0
   , /*decltype(_impl_._cached_size_)*/{}} {}
 struct C2SLoginResDefaultTypeInternal {
   PROTOBUF_CONSTEXPR C2SLoginResDefaultTypeInternal()
@@ -60,57 +63,62 @@ struct C2SLoginResDefaultTypeInternal {
   };
 };
 PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 C2SLoginResDefaultTypeInternal _C2SLoginRes_default_instance_;
-}  // namespace C2SMsg
+}  // namespace C2S
 static ::_pb::Metadata file_level_metadata_c2s_5fcommon_2eproto[3];
 static const ::_pb::EnumDescriptor* file_level_enum_descriptors_c2s_5fcommon_2eproto[1];
 static constexpr ::_pb::ServiceDescriptor const** file_level_service_descriptors_c2s_5fcommon_2eproto = nullptr;
 
 const uint32_t TableStruct_c2s_5fcommon_2eproto::offsets[] PROTOBUF_SECTION_VARIABLE(protodesc_cold) = {
   ~0u,  // no _has_bits_
-  PROTOBUF_FIELD_OFFSET(::C2SMsg::C2SHeartBeat, _internal_metadata_),
+  PROTOBUF_FIELD_OFFSET(::C2S::C2SHeartBeat, _internal_metadata_),
   ~0u,  // no _extensions_
   ~0u,  // no _oneof_case_
   ~0u,  // no _weak_field_map_
   ~0u,  // no _inlined_string_donated_
-  PROTOBUF_FIELD_OFFSET(::C2SMsg::C2SHeartBeat, _impl_.state_),
+  PROTOBUF_FIELD_OFFSET(::C2S::C2SHeartBeat, _impl_.state_),
   ~0u,  // no _has_bits_
-  PROTOBUF_FIELD_OFFSET(::C2SMsg::C2SLoginReq, _internal_metadata_),
+  PROTOBUF_FIELD_OFFSET(::C2S::C2SLoginReq, _internal_metadata_),
   ~0u,  // no _extensions_
   ~0u,  // no _oneof_case_
   ~0u,  // no _weak_field_map_
   ~0u,  // no _inlined_string_donated_
-  PROTOBUF_FIELD_OFFSET(::C2SMsg::C2SLoginReq, _impl_.token_),
+  PROTOBUF_FIELD_OFFSET(::C2S::C2SLoginReq, _impl_.sdk_user_id_),
+  PROTOBUF_FIELD_OFFSET(::C2S::C2SLoginReq, _impl_.token_),
+  PROTOBUF_FIELD_OFFSET(::C2S::C2SLoginReq, _impl_.channel_id_),
   ~0u,  // no _has_bits_
-  PROTOBUF_FIELD_OFFSET(::C2SMsg::C2SLoginRes, _internal_metadata_),
+  PROTOBUF_FIELD_OFFSET(::C2S::C2SLoginRes, _internal_metadata_),
   ~0u,  // no _extensions_
   ~0u,  // no _oneof_case_
   ~0u,  // no _weak_field_map_
   ~0u,  // no _inlined_string_donated_
-  PROTOBUF_FIELD_OFFSET(::C2SMsg::C2SLoginRes, _impl_.error_code_),
+  PROTOBUF_FIELD_OFFSET(::C2S::C2SLoginRes, _impl_.error_code_),
+  PROTOBUF_FIELD_OFFSET(::C2S::C2SLoginRes, _impl_.token_),
 };
 static const ::_pbi::MigrationSchema schemas[] PROTOBUF_SECTION_VARIABLE(protodesc_cold) = {
-  { 0, -1, -1, sizeof(::C2SMsg::C2SHeartBeat)},
-  { 7, -1, -1, sizeof(::C2SMsg::C2SLoginReq)},
-  { 14, -1, -1, sizeof(::C2SMsg::C2SLoginRes)},
+  { 0, -1, -1, sizeof(::C2S::C2SHeartBeat)},
+  { 7, -1, -1, sizeof(::C2S::C2SLoginReq)},
+  { 16, -1, -1, sizeof(::C2S::C2SLoginRes)},
 };
 
 static const ::_pb::Message* const file_default_instances[] = {
-  &::C2SMsg::_C2SHeartBeat_default_instance_._instance,
-  &::C2SMsg::_C2SLoginReq_default_instance_._instance,
-  &::C2SMsg::_C2SLoginRes_default_instance_._instance,
+  &::C2S::_C2SHeartBeat_default_instance_._instance,
+  &::C2S::_C2SLoginReq_default_instance_._instance,
+  &::C2S::_C2SLoginRes_default_instance_._instance,
 };
 
 const char descriptor_table_protodef_c2s_5fcommon_2eproto[] PROTOBUF_SECTION_VARIABLE(protodesc_cold) =
-  "\n\020c2s_common.proto\022\006C2SMsg\"\035\n\014C2SHeartBe"
-  "at\022\r\n\005state\030\001 \001(\005\"\034\n\013C2SLoginReq\022\r\n\005toke"
-  "n\030\001 \001(\t\"!\n\013C2SLoginRes\022\022\n\nerror_code\030\001 \001"
-  "(\005*b\n\nC2S_MSG_ID\022\017\n\013C2S_ID_NONE\020\000\022\025\n\020C2S"
-  "_ID_HEARTBEAT\020\221N\022\025\n\020C2S_ID_LOGIN_REQ\020\222N\022"
-  "\025\n\020C2S_ID_LOGIN_RES\020\223Nb\006proto3"
+  "\n\020c2s_common.proto\022\003C2S\"\035\n\014C2SHeartBeat\022"
+  "\r\n\005state\030\001 \001(\005\"E\n\013C2SLoginReq\022\023\n\013sdk_use"
+  "r_id\030\001 \001(\t\022\r\n\005token\030\002 \001(\t\022\022\n\nchannel_id\030"
+  "\003 \001(\005\"0\n\013C2SLoginRes\022\022\n\nerror_code\030\001 \001(\005"
+  "\022\r\n\005token\030\002 \001(\005*b\n\nC2S_MSG_ID\022\017\n\013MSG_ID_"
+  "NONE\020\000\022\025\n\020MSG_ID_HEARTBEAT\020\221N\022\025\n\020MSG_ID_"
+  "LOGIN_REQ\020\222N\022\025\n\020MSG_ID_LOGIN_RES\020\223Nb\006pro"
+  "to3"
   ;
 static ::_pbi::once_flag descriptor_table_c2s_5fcommon_2eproto_once;
 const ::_pbi::DescriptorTable descriptor_table_c2s_5fcommon_2eproto = {
-    false, false, 230, descriptor_table_protodef_c2s_5fcommon_2eproto,
+    false, false, 283, descriptor_table_protodef_c2s_5fcommon_2eproto,
     "c2s_common.proto",
     &descriptor_table_c2s_5fcommon_2eproto_once, nullptr, 0, 3,
     schemas, file_default_instances, TableStruct_c2s_5fcommon_2eproto::offsets,
@@ -123,7 +131,7 @@ PROTOBUF_ATTRIBUTE_WEAK const ::_pbi::DescriptorTable* descriptor_table_c2s_5fco
 
 // Force running AddDescriptors() at dynamic initialization time.
 PROTOBUF_ATTRIBUTE_INIT_PRIORITY2 static ::_pbi::AddDescriptorsRunner dynamic_init_dummy_c2s_5fcommon_2eproto(&descriptor_table_c2s_5fcommon_2eproto);
-namespace C2SMsg {
+namespace C2S {
 const ::PROTOBUF_NAMESPACE_ID::EnumDescriptor* C2S_MSG_ID_descriptor() {
   ::PROTOBUF_NAMESPACE_ID::internal::AssignDescriptors(&descriptor_table_c2s_5fcommon_2eproto);
   return file_level_enum_descriptors_c2s_5fcommon_2eproto[0];
@@ -151,7 +159,7 @@ C2SHeartBeat::C2SHeartBeat(::PROTOBUF_NAMESPACE_ID::Arena* arena,
                          bool is_message_owned)
   : ::PROTOBUF_NAMESPACE_ID::Message(arena, is_message_owned) {
   SharedCtor(arena, is_message_owned);
-  // @@protoc_insertion_point(arena_constructor:C2SMsg.C2SHeartBeat)
+  // @@protoc_insertion_point(arena_constructor:C2S.C2SHeartBeat)
 }
 C2SHeartBeat::C2SHeartBeat(const C2SHeartBeat& from)
   : ::PROTOBUF_NAMESPACE_ID::Message() {
@@ -162,7 +170,7 @@ C2SHeartBeat::C2SHeartBeat(const C2SHeartBeat& from)
 
   _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
   _this->_impl_.state_ = from._impl_.state_;
-  // @@protoc_insertion_point(copy_constructor:C2SMsg.C2SHeartBeat)
+  // @@protoc_insertion_point(copy_constructor:C2S.C2SHeartBeat)
 }
 
 inline void C2SHeartBeat::SharedCtor(
@@ -176,7 +184,7 @@ inline void C2SHeartBeat::SharedCtor(
 }
 
 C2SHeartBeat::~C2SHeartBeat() {
-  // @@protoc_insertion_point(destructor:C2SMsg.C2SHeartBeat)
+  // @@protoc_insertion_point(destructor:C2S.C2SHeartBeat)
   if (auto *arena = _internal_metadata_.DeleteReturnArena<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>()) {
   (void)arena;
     return;
@@ -193,7 +201,7 @@ void C2SHeartBeat::SetCachedSize(int size) const {
 }
 
 void C2SHeartBeat::Clear() {
-// @@protoc_insertion_point(message_clear_start:C2SMsg.C2SHeartBeat)
+// @@protoc_insertion_point(message_clear_start:C2S.C2SHeartBeat)
   uint32_t cached_has_bits = 0;
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
@@ -241,7 +249,7 @@ failure:
 
 uint8_t* C2SHeartBeat::_InternalSerialize(
     uint8_t* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const {
-  // @@protoc_insertion_point(serialize_to_array_start:C2SMsg.C2SHeartBeat)
+  // @@protoc_insertion_point(serialize_to_array_start:C2S.C2SHeartBeat)
   uint32_t cached_has_bits = 0;
   (void) cached_has_bits;
 
@@ -255,12 +263,12 @@ uint8_t* C2SHeartBeat::_InternalSerialize(
     target = ::_pbi::WireFormat::InternalSerializeUnknownFieldsToArray(
         _internal_metadata_.unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(::PROTOBUF_NAMESPACE_ID::UnknownFieldSet::default_instance), target, stream);
   }
-  // @@protoc_insertion_point(serialize_to_array_end:C2SMsg.C2SHeartBeat)
+  // @@protoc_insertion_point(serialize_to_array_end:C2S.C2SHeartBeat)
   return target;
 }
 
 size_t C2SHeartBeat::ByteSizeLong() const {
-// @@protoc_insertion_point(message_byte_size_start:C2SMsg.C2SHeartBeat)
+// @@protoc_insertion_point(message_byte_size_start:C2S.C2SHeartBeat)
   size_t total_size = 0;
 
   uint32_t cached_has_bits = 0;
@@ -285,7 +293,7 @@ const ::PROTOBUF_NAMESPACE_ID::Message::ClassData*C2SHeartBeat::GetClassData() c
 void C2SHeartBeat::MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const ::PROTOBUF_NAMESPACE_ID::Message& from_msg) {
   auto* const _this = static_cast<C2SHeartBeat*>(&to_msg);
   auto& from = static_cast<const C2SHeartBeat&>(from_msg);
-  // @@protoc_insertion_point(class_specific_merge_from_start:C2SMsg.C2SHeartBeat)
+  // @@protoc_insertion_point(class_specific_merge_from_start:C2S.C2SHeartBeat)
   GOOGLE_DCHECK_NE(&from, _this);
   uint32_t cached_has_bits = 0;
   (void) cached_has_bits;
@@ -297,7 +305,7 @@ void C2SHeartBeat::MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const ::P
 }
 
 void C2SHeartBeat::CopyFrom(const C2SHeartBeat& from) {
-// @@protoc_insertion_point(class_specific_copy_from_start:C2SMsg.C2SHeartBeat)
+// @@protoc_insertion_point(class_specific_copy_from_start:C2S.C2SHeartBeat)
   if (&from == this) return;
   Clear();
   MergeFrom(from);
@@ -329,16 +337,26 @@ C2SLoginReq::C2SLoginReq(::PROTOBUF_NAMESPACE_ID::Arena* arena,
                          bool is_message_owned)
   : ::PROTOBUF_NAMESPACE_ID::Message(arena, is_message_owned) {
   SharedCtor(arena, is_message_owned);
-  // @@protoc_insertion_point(arena_constructor:C2SMsg.C2SLoginReq)
+  // @@protoc_insertion_point(arena_constructor:C2S.C2SLoginReq)
 }
 C2SLoginReq::C2SLoginReq(const C2SLoginReq& from)
   : ::PROTOBUF_NAMESPACE_ID::Message() {
   C2SLoginReq* const _this = this; (void)_this;
   new (&_impl_) Impl_{
-      decltype(_impl_.token_){}
+      decltype(_impl_.sdk_user_id_){}
+    , decltype(_impl_.token_){}
+    , decltype(_impl_.channel_id_){}
     , /*decltype(_impl_._cached_size_)*/{}};
 
   _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
+  _impl_.sdk_user_id_.InitDefault();
+  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+    _impl_.sdk_user_id_.Set("", GetArenaForAllocation());
+  #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  if (!from._internal_sdk_user_id().empty()) {
+    _this->_impl_.sdk_user_id_.Set(from._internal_sdk_user_id(), 
+      _this->GetArenaForAllocation());
+  }
   _impl_.token_.InitDefault();
   #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
     _impl_.token_.Set("", GetArenaForAllocation());
@@ -347,7 +365,8 @@ C2SLoginReq::C2SLoginReq(const C2SLoginReq& from)
     _this->_impl_.token_.Set(from._internal_token(), 
       _this->GetArenaForAllocation());
   }
-  // @@protoc_insertion_point(copy_constructor:C2SMsg.C2SLoginReq)
+  _this->_impl_.channel_id_ = from._impl_.channel_id_;
+  // @@protoc_insertion_point(copy_constructor:C2S.C2SLoginReq)
 }
 
 inline void C2SLoginReq::SharedCtor(
@@ -355,9 +374,15 @@ inline void C2SLoginReq::SharedCtor(
   (void)arena;
   (void)is_message_owned;
   new (&_impl_) Impl_{
-      decltype(_impl_.token_){}
+      decltype(_impl_.sdk_user_id_){}
+    , decltype(_impl_.token_){}
+    , decltype(_impl_.channel_id_){0}
     , /*decltype(_impl_._cached_size_)*/{}
   };
+  _impl_.sdk_user_id_.InitDefault();
+  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+    _impl_.sdk_user_id_.Set("", GetArenaForAllocation());
+  #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
   _impl_.token_.InitDefault();
   #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
     _impl_.token_.Set("", GetArenaForAllocation());
@@ -365,7 +390,7 @@ inline void C2SLoginReq::SharedCtor(
 }
 
 C2SLoginReq::~C2SLoginReq() {
-  // @@protoc_insertion_point(destructor:C2SMsg.C2SLoginReq)
+  // @@protoc_insertion_point(destructor:C2S.C2SLoginReq)
   if (auto *arena = _internal_metadata_.DeleteReturnArena<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>()) {
   (void)arena;
     return;
@@ -375,6 +400,7 @@ C2SLoginReq::~C2SLoginReq() {
 
 inline void C2SLoginReq::SharedDtor() {
   GOOGLE_DCHECK(GetArenaForAllocation() == nullptr);
+  _impl_.sdk_user_id_.Destroy();
   _impl_.token_.Destroy();
 }
 
@@ -383,12 +409,14 @@ void C2SLoginReq::SetCachedSize(int size) const {
 }
 
 void C2SLoginReq::Clear() {
-// @@protoc_insertion_point(message_clear_start:C2SMsg.C2SLoginReq)
+// @@protoc_insertion_point(message_clear_start:C2S.C2SLoginReq)
   uint32_t cached_has_bits = 0;
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
 
+  _impl_.sdk_user_id_.ClearToEmpty();
   _impl_.token_.ClearToEmpty();
+  _impl_.channel_id_ = 0;
   _internal_metadata_.Clear<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
 }
 
@@ -398,13 +426,31 @@ const char* C2SLoginReq::_InternalParse(const char* ptr, ::_pbi::ParseContext* c
     uint32_t tag;
     ptr = ::_pbi::ReadTag(ptr, &tag);
     switch (tag >> 3) {
-      // string token = 1;
+      // string sdk_user_id = 1;
       case 1:
         if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 10)) {
+          auto str = _internal_mutable_sdk_user_id();
+          ptr = ::_pbi::InlineGreedyStringParser(str, ptr, ctx);
+          CHK_(ptr);
+          CHK_(::_pbi::VerifyUTF8(str, "C2S.C2SLoginReq.sdk_user_id"));
+        } else
+          goto handle_unusual;
+        continue;
+      // string token = 2;
+      case 2:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 18)) {
           auto str = _internal_mutable_token();
           ptr = ::_pbi::InlineGreedyStringParser(str, ptr, ctx);
           CHK_(ptr);
-          CHK_(::_pbi::VerifyUTF8(str, "C2SMsg.C2SLoginReq.token"));
+          CHK_(::_pbi::VerifyUTF8(str, "C2S.C2SLoginReq.token"));
+        } else
+          goto handle_unusual;
+        continue;
+      // int32 channel_id = 3;
+      case 3:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 24)) {
+          _impl_.channel_id_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint32(&ptr);
+          CHK_(ptr);
         } else
           goto handle_unusual;
         continue;
@@ -433,41 +479,69 @@ failure:
 
 uint8_t* C2SLoginReq::_InternalSerialize(
     uint8_t* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const {
-  // @@protoc_insertion_point(serialize_to_array_start:C2SMsg.C2SLoginReq)
+  // @@protoc_insertion_point(serialize_to_array_start:C2S.C2SLoginReq)
   uint32_t cached_has_bits = 0;
   (void) cached_has_bits;
 
-  // string token = 1;
+  // string sdk_user_id = 1;
+  if (!this->_internal_sdk_user_id().empty()) {
+    ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::VerifyUtf8String(
+      this->_internal_sdk_user_id().data(), static_cast<int>(this->_internal_sdk_user_id().length()),
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::SERIALIZE,
+      "C2S.C2SLoginReq.sdk_user_id");
+    target = stream->WriteStringMaybeAliased(
+        1, this->_internal_sdk_user_id(), target);
+  }
+
+  // string token = 2;
   if (!this->_internal_token().empty()) {
     ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::VerifyUtf8String(
       this->_internal_token().data(), static_cast<int>(this->_internal_token().length()),
       ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::SERIALIZE,
-      "C2SMsg.C2SLoginReq.token");
+      "C2S.C2SLoginReq.token");
     target = stream->WriteStringMaybeAliased(
-        1, this->_internal_token(), target);
+        2, this->_internal_token(), target);
+  }
+
+  // int32 channel_id = 3;
+  if (this->_internal_channel_id() != 0) {
+    target = stream->EnsureSpace(target);
+    target = ::_pbi::WireFormatLite::WriteInt32ToArray(3, this->_internal_channel_id(), target);
   }
 
   if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
     target = ::_pbi::WireFormat::InternalSerializeUnknownFieldsToArray(
         _internal_metadata_.unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(::PROTOBUF_NAMESPACE_ID::UnknownFieldSet::default_instance), target, stream);
   }
-  // @@protoc_insertion_point(serialize_to_array_end:C2SMsg.C2SLoginReq)
+  // @@protoc_insertion_point(serialize_to_array_end:C2S.C2SLoginReq)
   return target;
 }
 
 size_t C2SLoginReq::ByteSizeLong() const {
-// @@protoc_insertion_point(message_byte_size_start:C2SMsg.C2SLoginReq)
+// @@protoc_insertion_point(message_byte_size_start:C2S.C2SLoginReq)
   size_t total_size = 0;
 
   uint32_t cached_has_bits = 0;
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
 
-  // string token = 1;
+  // string sdk_user_id = 1;
+  if (!this->_internal_sdk_user_id().empty()) {
+    total_size += 1 +
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::StringSize(
+        this->_internal_sdk_user_id());
+  }
+
+  // string token = 2;
   if (!this->_internal_token().empty()) {
     total_size += 1 +
       ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::StringSize(
         this->_internal_token());
+  }
+
+  // int32 channel_id = 3;
+  if (this->_internal_channel_id() != 0) {
+    total_size += ::_pbi::WireFormatLite::Int32SizePlusOne(this->_internal_channel_id());
   }
 
   return MaybeComputeUnknownFieldsSize(total_size, &_impl_._cached_size_);
@@ -483,19 +557,25 @@ const ::PROTOBUF_NAMESPACE_ID::Message::ClassData*C2SLoginReq::GetClassData() co
 void C2SLoginReq::MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const ::PROTOBUF_NAMESPACE_ID::Message& from_msg) {
   auto* const _this = static_cast<C2SLoginReq*>(&to_msg);
   auto& from = static_cast<const C2SLoginReq&>(from_msg);
-  // @@protoc_insertion_point(class_specific_merge_from_start:C2SMsg.C2SLoginReq)
+  // @@protoc_insertion_point(class_specific_merge_from_start:C2S.C2SLoginReq)
   GOOGLE_DCHECK_NE(&from, _this);
   uint32_t cached_has_bits = 0;
   (void) cached_has_bits;
 
+  if (!from._internal_sdk_user_id().empty()) {
+    _this->_internal_set_sdk_user_id(from._internal_sdk_user_id());
+  }
   if (!from._internal_token().empty()) {
     _this->_internal_set_token(from._internal_token());
+  }
+  if (from._internal_channel_id() != 0) {
+    _this->_internal_set_channel_id(from._internal_channel_id());
   }
   _this->_internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
 }
 
 void C2SLoginReq::CopyFrom(const C2SLoginReq& from) {
-// @@protoc_insertion_point(class_specific_copy_from_start:C2SMsg.C2SLoginReq)
+// @@protoc_insertion_point(class_specific_copy_from_start:C2S.C2SLoginReq)
   if (&from == this) return;
   Clear();
   MergeFrom(from);
@@ -511,9 +591,14 @@ void C2SLoginReq::InternalSwap(C2SLoginReq* other) {
   auto* rhs_arena = other->GetArenaForAllocation();
   _internal_metadata_.InternalSwap(&other->_internal_metadata_);
   ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::InternalSwap(
+      &_impl_.sdk_user_id_, lhs_arena,
+      &other->_impl_.sdk_user_id_, rhs_arena
+  );
+  ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::InternalSwap(
       &_impl_.token_, lhs_arena,
       &other->_impl_.token_, rhs_arena
   );
+  swap(_impl_.channel_id_, other->_impl_.channel_id_);
 }
 
 ::PROTOBUF_NAMESPACE_ID::Metadata C2SLoginReq::GetMetadata() const {
@@ -532,18 +617,21 @@ C2SLoginRes::C2SLoginRes(::PROTOBUF_NAMESPACE_ID::Arena* arena,
                          bool is_message_owned)
   : ::PROTOBUF_NAMESPACE_ID::Message(arena, is_message_owned) {
   SharedCtor(arena, is_message_owned);
-  // @@protoc_insertion_point(arena_constructor:C2SMsg.C2SLoginRes)
+  // @@protoc_insertion_point(arena_constructor:C2S.C2SLoginRes)
 }
 C2SLoginRes::C2SLoginRes(const C2SLoginRes& from)
   : ::PROTOBUF_NAMESPACE_ID::Message() {
   C2SLoginRes* const _this = this; (void)_this;
   new (&_impl_) Impl_{
       decltype(_impl_.error_code_){}
+    , decltype(_impl_.token_){}
     , /*decltype(_impl_._cached_size_)*/{}};
 
   _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
-  _this->_impl_.error_code_ = from._impl_.error_code_;
-  // @@protoc_insertion_point(copy_constructor:C2SMsg.C2SLoginRes)
+  ::memcpy(&_impl_.error_code_, &from._impl_.error_code_,
+    static_cast<size_t>(reinterpret_cast<char*>(&_impl_.token_) -
+    reinterpret_cast<char*>(&_impl_.error_code_)) + sizeof(_impl_.token_));
+  // @@protoc_insertion_point(copy_constructor:C2S.C2SLoginRes)
 }
 
 inline void C2SLoginRes::SharedCtor(
@@ -552,12 +640,13 @@ inline void C2SLoginRes::SharedCtor(
   (void)is_message_owned;
   new (&_impl_) Impl_{
       decltype(_impl_.error_code_){0}
+    , decltype(_impl_.token_){0}
     , /*decltype(_impl_._cached_size_)*/{}
   };
 }
 
 C2SLoginRes::~C2SLoginRes() {
-  // @@protoc_insertion_point(destructor:C2SMsg.C2SLoginRes)
+  // @@protoc_insertion_point(destructor:C2S.C2SLoginRes)
   if (auto *arena = _internal_metadata_.DeleteReturnArena<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>()) {
   (void)arena;
     return;
@@ -574,12 +663,14 @@ void C2SLoginRes::SetCachedSize(int size) const {
 }
 
 void C2SLoginRes::Clear() {
-// @@protoc_insertion_point(message_clear_start:C2SMsg.C2SLoginRes)
+// @@protoc_insertion_point(message_clear_start:C2S.C2SLoginRes)
   uint32_t cached_has_bits = 0;
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
 
-  _impl_.error_code_ = 0;
+  ::memset(&_impl_.error_code_, 0, static_cast<size_t>(
+      reinterpret_cast<char*>(&_impl_.token_) -
+      reinterpret_cast<char*>(&_impl_.error_code_)) + sizeof(_impl_.token_));
   _internal_metadata_.Clear<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
 }
 
@@ -593,6 +684,14 @@ const char* C2SLoginRes::_InternalParse(const char* ptr, ::_pbi::ParseContext* c
       case 1:
         if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 8)) {
           _impl_.error_code_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint32(&ptr);
+          CHK_(ptr);
+        } else
+          goto handle_unusual;
+        continue;
+      // int32 token = 2;
+      case 2:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 16)) {
+          _impl_.token_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint32(&ptr);
           CHK_(ptr);
         } else
           goto handle_unusual;
@@ -622,7 +721,7 @@ failure:
 
 uint8_t* C2SLoginRes::_InternalSerialize(
     uint8_t* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const {
-  // @@protoc_insertion_point(serialize_to_array_start:C2SMsg.C2SLoginRes)
+  // @@protoc_insertion_point(serialize_to_array_start:C2S.C2SLoginRes)
   uint32_t cached_has_bits = 0;
   (void) cached_has_bits;
 
@@ -632,16 +731,22 @@ uint8_t* C2SLoginRes::_InternalSerialize(
     target = ::_pbi::WireFormatLite::WriteInt32ToArray(1, this->_internal_error_code(), target);
   }
 
+  // int32 token = 2;
+  if (this->_internal_token() != 0) {
+    target = stream->EnsureSpace(target);
+    target = ::_pbi::WireFormatLite::WriteInt32ToArray(2, this->_internal_token(), target);
+  }
+
   if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
     target = ::_pbi::WireFormat::InternalSerializeUnknownFieldsToArray(
         _internal_metadata_.unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(::PROTOBUF_NAMESPACE_ID::UnknownFieldSet::default_instance), target, stream);
   }
-  // @@protoc_insertion_point(serialize_to_array_end:C2SMsg.C2SLoginRes)
+  // @@protoc_insertion_point(serialize_to_array_end:C2S.C2SLoginRes)
   return target;
 }
 
 size_t C2SLoginRes::ByteSizeLong() const {
-// @@protoc_insertion_point(message_byte_size_start:C2SMsg.C2SLoginRes)
+// @@protoc_insertion_point(message_byte_size_start:C2S.C2SLoginRes)
   size_t total_size = 0;
 
   uint32_t cached_has_bits = 0;
@@ -651,6 +756,11 @@ size_t C2SLoginRes::ByteSizeLong() const {
   // int32 error_code = 1;
   if (this->_internal_error_code() != 0) {
     total_size += ::_pbi::WireFormatLite::Int32SizePlusOne(this->_internal_error_code());
+  }
+
+  // int32 token = 2;
+  if (this->_internal_token() != 0) {
+    total_size += ::_pbi::WireFormatLite::Int32SizePlusOne(this->_internal_token());
   }
 
   return MaybeComputeUnknownFieldsSize(total_size, &_impl_._cached_size_);
@@ -666,7 +776,7 @@ const ::PROTOBUF_NAMESPACE_ID::Message::ClassData*C2SLoginRes::GetClassData() co
 void C2SLoginRes::MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const ::PROTOBUF_NAMESPACE_ID::Message& from_msg) {
   auto* const _this = static_cast<C2SLoginRes*>(&to_msg);
   auto& from = static_cast<const C2SLoginRes&>(from_msg);
-  // @@protoc_insertion_point(class_specific_merge_from_start:C2SMsg.C2SLoginRes)
+  // @@protoc_insertion_point(class_specific_merge_from_start:C2S.C2SLoginRes)
   GOOGLE_DCHECK_NE(&from, _this);
   uint32_t cached_has_bits = 0;
   (void) cached_has_bits;
@@ -674,11 +784,14 @@ void C2SLoginRes::MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const ::PR
   if (from._internal_error_code() != 0) {
     _this->_internal_set_error_code(from._internal_error_code());
   }
+  if (from._internal_token() != 0) {
+    _this->_internal_set_token(from._internal_token());
+  }
   _this->_internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
 }
 
 void C2SLoginRes::CopyFrom(const C2SLoginRes& from) {
-// @@protoc_insertion_point(class_specific_copy_from_start:C2SMsg.C2SLoginRes)
+// @@protoc_insertion_point(class_specific_copy_from_start:C2S.C2SLoginRes)
   if (&from == this) return;
   Clear();
   MergeFrom(from);
@@ -691,7 +804,12 @@ bool C2SLoginRes::IsInitialized() const {
 void C2SLoginRes::InternalSwap(C2SLoginRes* other) {
   using std::swap;
   _internal_metadata_.InternalSwap(&other->_internal_metadata_);
-  swap(_impl_.error_code_, other->_impl_.error_code_);
+  ::PROTOBUF_NAMESPACE_ID::internal::memswap<
+      PROTOBUF_FIELD_OFFSET(C2SLoginRes, _impl_.token_)
+      + sizeof(C2SLoginRes::_impl_.token_)
+      - PROTOBUF_FIELD_OFFSET(C2SLoginRes, _impl_.error_code_)>(
+          reinterpret_cast<char*>(&_impl_.error_code_),
+          reinterpret_cast<char*>(&other->_impl_.error_code_));
 }
 
 ::PROTOBUF_NAMESPACE_ID::Metadata C2SLoginRes::GetMetadata() const {
@@ -701,19 +819,19 @@ void C2SLoginRes::InternalSwap(C2SLoginRes* other) {
 }
 
 // @@protoc_insertion_point(namespace_scope)
-}  // namespace C2SMsg
+}  // namespace C2S
 PROTOBUF_NAMESPACE_OPEN
-template<> PROTOBUF_NOINLINE ::C2SMsg::C2SHeartBeat*
-Arena::CreateMaybeMessage< ::C2SMsg::C2SHeartBeat >(Arena* arena) {
-  return Arena::CreateMessageInternal< ::C2SMsg::C2SHeartBeat >(arena);
+template<> PROTOBUF_NOINLINE ::C2S::C2SHeartBeat*
+Arena::CreateMaybeMessage< ::C2S::C2SHeartBeat >(Arena* arena) {
+  return Arena::CreateMessageInternal< ::C2S::C2SHeartBeat >(arena);
 }
-template<> PROTOBUF_NOINLINE ::C2SMsg::C2SLoginReq*
-Arena::CreateMaybeMessage< ::C2SMsg::C2SLoginReq >(Arena* arena) {
-  return Arena::CreateMessageInternal< ::C2SMsg::C2SLoginReq >(arena);
+template<> PROTOBUF_NOINLINE ::C2S::C2SLoginReq*
+Arena::CreateMaybeMessage< ::C2S::C2SLoginReq >(Arena* arena) {
+  return Arena::CreateMessageInternal< ::C2S::C2SLoginReq >(arena);
 }
-template<> PROTOBUF_NOINLINE ::C2SMsg::C2SLoginRes*
-Arena::CreateMaybeMessage< ::C2SMsg::C2SLoginRes >(Arena* arena) {
-  return Arena::CreateMessageInternal< ::C2SMsg::C2SLoginRes >(arena);
+template<> PROTOBUF_NOINLINE ::C2S::C2SLoginRes*
+Arena::CreateMaybeMessage< ::C2S::C2SLoginRes >(Arena* arena) {
+  return Arena::CreateMessageInternal< ::C2S::C2SLoginRes >(arena);
 }
 PROTOBUF_NAMESPACE_CLOSE
 

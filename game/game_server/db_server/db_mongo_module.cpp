@@ -64,7 +64,7 @@ bool DBMongoModule::init()
 		//testInsert();
 		//testRemove();
 		//testSave();
-		//testFind();
+		testFind();
 		//testBatchFind();
 	}
 
@@ -149,6 +149,7 @@ bool DBMongoModule::mongoInsert(const std::string& dbName, const std::string& co
 	}
 
 	bson_destroy(&bson);
+
 	return true;
 }
 
@@ -219,7 +220,7 @@ bool DBMongoModule::mongoSave(const std::string& dbName, const std::string& coll
 	return true;
 }
 
-bool DBMongoModule::mongoFind(const std::string& dbName, const std::string& collectionName, BsonObject* selector, std::vector<BsonObject>& result)
+bool DBMongoModule::mongoFind(const std::string& dbName, const std::string& collectionName, BsonObject& selector, BsonObject& option, std::vector<BsonObject>& result)
 {
 	mongoc_collection_t* collection = getCollection(dbName, collectionName);
 	if (nullptr == collection)
@@ -229,17 +230,18 @@ bool DBMongoModule::mongoFind(const std::string& dbName, const std::string& coll
 	}
 
 	bson_t baseQuery;
+	bson_t bsonOpt;
 	bson_init(&baseQuery);
-	if (selector)
-	{
-		selector->convertToRawBson(baseQuery);
-	}
+	bson_init(&bsonOpt);
+
+	selector.convertToRawBson(baseQuery);
+	option.convertToRawBson(bsonOpt);
 
 	int num = 0;
 	bool success = false;
 	do
 	{
-		mongoc_cursor_t* pCursor = mongoc_collection_find_with_opts(collection, &baseQuery, nullptr, nullptr);
+		mongoc_cursor_t* pCursor = mongoc_collection_find_with_opts(collection, &baseQuery, &bsonOpt, nullptr);
 		if (pCursor == nullptr)
 		{
 			break;
@@ -263,6 +265,7 @@ bool DBMongoModule::mongoFind(const std::string& dbName, const std::string& coll
 	}
 	while (0);
 
+	bson_destroy(&bsonOpt);
 	bson_destroy(&baseQuery);
 
 	if (!success)
@@ -322,7 +325,11 @@ void DBMongoModule::testSave()
 void DBMongoModule::testFind()
 {
 	std::vector<BsonObject> result;
-	mongoFind("zq", "player1", nullptr, result);
+	BsonObject selector;
+	BsonObject option;
+	option.appendInt32("limit", 3);
+	option.appendInt32("skip", 0);
+	mongoFind("zq", "player", selector, option, result);
 
 	LOG_INFO(s_logCategory, "find all, result num:{}", result.size());
 	for (auto& obj : result)
@@ -331,15 +338,17 @@ void DBMongoModule::testFind()
 	}
 
 	result.clear();
-	BsonObject selector;
+	selector.clear();
+	option.clear();
 	selector.appendString("test_save1", "123333");
-	mongoFind("zq", "player1", &selector, result);
+	mongoFind("zq", "player1", selector, option, result);
 
 	LOG_INFO(s_logCategory, "find a match, result num:{}", result.size());
 	for (auto& obj : result)
 	{
 		LOG_INFO(s_logCategory, "details:{}", obj.debugPrint());
 	}
+
 }
 
 void DBMongoModule::testBatchFind()
@@ -355,7 +364,24 @@ void DBMongoModule::onS2SMongoInsertReq(TcpConnectionPtr connection, const S2S::
 
 	BsonObject bsonObject;
 	bsonObject.convertFromProtoBson(req.doc());
-	mongoInsert(dbName, collectionName, bsonObject);
+	bool success = mongoInsert(dbName, collectionName, bsonObject);
+
+	S2S::MongoInsertRes res;
+	res.set_success(success);
+	if (msg.has_user_data())
+	{
+		S2S::MongoUserData* userData = res.mutable_user_data();
+		userData->CopyFrom(msg.user_data());
+	}
+
+	std::string strRes;
+	if (!res.SerializeToString(&strRes))
+	{
+		LOG_ERROR(s_logCategory, "serialize proto msg error:");
+		return;
+	}
+
+	connection->sendData(S2S::MSG_ID_DB_INSERT_RES, strRes.data(), (uint32_t)strRes.size());
 }
 
 void DBMongoModule::onS2SMongoRemoveReq(TcpConnectionPtr connection, const S2S::MongoDBMsg& msg)
@@ -366,7 +392,24 @@ void DBMongoModule::onS2SMongoRemoveReq(TcpConnectionPtr connection, const S2S::
 
 	BsonObject selector;
 	selector.convertFromProtoBson(req.selector());
-	mongoRemove(dbName, collectionName, selector);
+	bool success = mongoRemove(dbName, collectionName, selector);
+
+	S2S::MongoRemoveRes res;
+	res.set_success(success);
+	if (msg.has_user_data())
+	{
+		S2S::MongoUserData* userData = res.mutable_user_data();
+		userData->CopyFrom(msg.user_data());
+	}
+
+	std::string strRes;
+	if (!res.SerializeToString(&strRes))
+	{
+		LOG_ERROR(s_logCategory, "serialize proto msg error:");
+		return;
+	}
+
+	connection->sendData(S2S::MSG_ID_DB_REMOVE_RES, strRes.data(), (uint32_t)strRes.size());
 }
 
 void DBMongoModule::onS2SMongoSaveReq(TcpConnectionPtr connection, const S2S::MongoDBMsg& msg)
@@ -377,9 +420,26 @@ void DBMongoModule::onS2SMongoSaveReq(TcpConnectionPtr connection, const S2S::Mo
 
 	BsonObject selector;
 	selector.convertFromProtoBson(req.selector());
-	BsonObject replacement;
-	replacement.convertFromProtoBson(req.replacement());
-	mongoSave(dbName, collectionName, selector, replacement);
+	BsonObject updator;
+	updator.convertFromProtoBson(req.updator());
+	bool success = mongoSave(dbName, collectionName, selector, updator);
+
+	S2S::MongoSaveRes res;
+	res.set_success(success);
+	if (msg.has_user_data())
+	{
+		S2S::MongoUserData* userData = res.mutable_user_data();
+		userData->CopyFrom(msg.user_data());
+	}
+
+	std::string strRes;
+	if (!res.SerializeToString(&strRes))
+	{
+		LOG_ERROR(s_logCategory, "serialize proto msg error:");
+		return;
+	}
+
+	connection->sendData(S2S::MSG_ID_DB_SAVE_RES, strRes.data(), (uint32_t)strRes.size());
 }
 
 void DBMongoModule::onS2SMongoFindReq(TcpConnectionPtr connection, const S2S::MongoDBMsg& msg)
@@ -388,8 +448,56 @@ void DBMongoModule::onS2SMongoFindReq(TcpConnectionPtr connection, const S2S::Mo
 	std::string dbName = req.db_name();
 	std::string collectionName = req.col_name();
 
+	BsonObject selector;
+	selector.convertFromProtoBson(req.selector());
+
+	BsonObject option;
+	if (req.limit() > 0)
+	{
+		option.appendInt32("limit", req.limit());
+	}
+	else
+	{
+		option.appendInt32("limit", 0);
+	}
+
+	if (req.skip() > 0)
+	{
+		option.appendInt32("skip", req.skip());
+	}
+	else
+	{
+		option.appendInt32("skip", 0);
+	}
+
 	std::vector<BsonObject> result;
-	mongoFind(dbName, collectionName, nullptr, result);
+	bool success = mongoFind(dbName, collectionName, selector, option, result);
+
+	S2S::MongoFindRes res;
+	res.set_success(success);
+	if (msg.has_user_data())
+	{
+		S2S::MongoUserData* userData = res.mutable_user_data();
+		userData->CopyFrom(msg.user_data());
+	}
+
+	if (success)
+	{
+		for (auto& obj : result)
+		{
+			S2S::ProtoBsonObj* proto = res.add_data_list();
+			obj.convertToProtoBson(*proto);
+		}
+	}
+
+	std::string strRes;
+	if (!res.SerializeToString(&strRes))
+	{
+		LOG_ERROR(s_logCategory, "serialize proto msg error:");
+		return;
+	}
+
+	connection->sendData(S2S::MSG_ID_DB_FIND_RES, strRes.data(), (uint32_t)strRes.size());
 }
 
 void DBMongoModule::onS2SMongoBatchFindReq(TcpConnectionPtr connection, const S2S::MongoDBMsg& msg)

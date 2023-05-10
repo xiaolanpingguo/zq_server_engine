@@ -10,6 +10,8 @@ namespace zq {
 struct DBServerConfig
 {
 	std::string appId;
+	std::string masterServerIp;
+	uint16_t masterServerPort;
 	std::string internalIp;
 	int internalPort;
 

@@ -29,6 +29,12 @@ public:
 		return m_messageRouter.registerHandler<Func>(key);
 	}
 
+	template <auto Func>
+	bool registerHandler1(const MessageRouter<TcpConnection>::HandlerKeyT& key)
+	{
+		return m_messageRouter.registerHandler<Func>(key);
+	}
+
 	bool dispatch(TcpConnectionPtr connection, const MessageRouter<TcpConnection>::HandlerKeyT& key, const char* data, uint32_t len)
 	{
 		return m_messageRouter.dispatch(connection, key, data, len);

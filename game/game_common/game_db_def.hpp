@@ -9,7 +9,8 @@ namespace zq
 // account
 #define COL_ACCOUNT "account"
 #define ACCOUNT_KEY_INDEX "_id"
-#define ACCOUNT_KEY_TYPE "account_type"
+#define ACCOUNT_KEY_SDK_CHANNEL_ID "sdk_channel_id"
+#define ACCOUNT_KEY_SDK_USER_ID "sdk_user_id"
 #define ACCOUNT_KEY_BIN "bin"
 
 // player

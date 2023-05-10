@@ -1,0 +1,1 @@
+login_server.exe -cfg=login_server_1.json

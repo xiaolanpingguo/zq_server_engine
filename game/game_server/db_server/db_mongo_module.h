@@ -32,7 +32,7 @@ private:
 	bool mongoInsert(const std::string& dbName, const std::string& collectionName, BsonObject& insertor);
 	bool mongoRemove(const std::string& dbName, const std::string& collectionName, BsonObject& selector);
 	bool mongoSave(const std::string& dbName, const std::string& collectionName, BsonObject& selector, BsonObject& updateor);
-	bool mongoFind(const std::string& dbName, const std::string& collectionName, BsonObject* selector, std::vector<BsonObject>& result);
+	bool mongoFind(const std::string& dbName, const std::string& collectionName, BsonObject& selector, BsonObject& option, std::vector<BsonObject>& result);
 	bool mongoBatchFind(const std::string& dbName, const std::string& collectionName);
 	mongoc_collection_t* getCollection(const std::string& dbName, const std::string& collectionName);
 	static void mongoLog(mongoc_log_level_t logLevel, const char* logDomain, const char* message, void* userData);

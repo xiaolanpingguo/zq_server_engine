@@ -39,7 +39,7 @@ public:
 
 	void sendData(const void* data, uint32_t len)
 	{
-		if (data == nullptr || len <= 0)
+		if (data == nullptr || len <= 0 || !isOpen())
 		{
 			return;
 		}

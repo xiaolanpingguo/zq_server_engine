@@ -41,7 +41,7 @@ public:
 
 	void sendData(uint16_t msgId, const void* data, uint32_t len)
 	{
-		if (data == nullptr || len <= 0 || len > g_maxPacketLenth)
+		if (data == nullptr || len <= 0 || len > g_maxPacketLenth || !isOpen())
 		{
 			return;
 		}

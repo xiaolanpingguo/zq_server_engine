@@ -85,24 +85,28 @@ void WorldToMasterModule::onDataReceivedFromServer(TcpConnectionPtr connection, 
 	MessageHelper::getInstance().dispatch(connection, msgId, (const char*)data, (uint32_t)len);
 }
 
+void fun11(TcpConnectionPtr connection, const S2S::S2SServerRegisterRes& res)
+{
+}
+
 async_simple::coro::Lazy<bool> WorldToMasterModule::testFun1()
 {
-	//S2S::S2SServerRegisterReq s2sPackage;
-	//S2S::ServerInfo* serverInfo = s2sPackage.mutable_server_info();
-	//serverInfo->set_server_type(3255);
-	//serverInfo->set_server_id(2131);
-	//serverInfo->set_ip("1234111");
-	//serverInfo->set_port(7777);
+	S2S::S2SServerRegisterReq s2sPackage;
+	S2S::ServerInfo* serverInfo = s2sPackage.mutable_server_info();
+	serverInfo->set_server_type(3255);
+	serverInfo->set_server_id(2131);
+	serverInfo->set_ip("1234111");
+	serverInfo->set_port(7777);
 
-	//std::string strData;
-	//if (!s2sPackage.SerializeToString(&strData))
-	//{
-	//}
+	std::string strData;
+	if (!s2sPackage.SerializeToString(&strData))
+	{
+		co_return false;
+	}
 
-	//S2S::S2SServerRegisterRes res;
-	//bool b = co_await m_coConnection->send(S2S::MSG_ID_SERVER_REGSTER_REQ, strData.data(), (uint32_t)strData.size(), res);
-	//LOG_INFO(s_logCategory, "testFun1, success:{}, error:{}", res.success(), res.error_msg());
-	//co_return b;
+	S2S::S2SServerRegisterRes res;
+	bool b = co_await m_coConnection->send(S2S::MSG_ID_SERVER_REGSTER_REQ, strData.data(), (uint32_t)strData.size(), res);
+	LOG_INFO(s_logCategory, "testFun1, success:{}, error:{}", res.success(), res.error_msg());
 
 	co_return true;
 }

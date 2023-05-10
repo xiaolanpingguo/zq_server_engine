@@ -11,7 +11,7 @@ namespace zq{
 
 
 NLOHMANN_DEFINE_TYPE_NON_INTRUSIVE(ZoneServerConfig, appId, masterServerIp, masterServerPort, 
-	dbServerIp, dbServerPort, externalIp, externalPort)
+	dbServerIp, dbServerPort, internalIp, internalPort, externalIp, externalPort)
 
 ZoneServer::ZoneServer(int argc, char* argv[])
 	:

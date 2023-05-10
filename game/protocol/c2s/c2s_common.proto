@@ -1,16 +1,16 @@
 syntax = "proto3";
 
-package C2SMsg;
+package C2S;
 
 
 enum C2S_MSG_ID
 {
-	C2S_ID_NONE = 0;
+	MSG_ID_NONE = 0;
 	
-	C2S_ID_HEARTBEAT = 10001;
+	MSG_ID_HEARTBEAT = 10001;
 
-	C2S_ID_LOGIN_REQ = 10002;
-	C2S_ID_LOGIN_RES = 10003;
+	MSG_ID_LOGIN_REQ = 10002;
+	MSG_ID_LOGIN_RES = 10003;
 }
 
 
@@ -21,12 +21,15 @@ message C2SHeartBeat
 
 message C2SLoginReq
 {
-	string token = 1;
+	string sdk_user_id = 1;
+	string token = 2;
+	int32 channel_id = 3;
 }
 
 message C2SLoginRes
 {
 	int32 error_code = 1;
+	int32 token = 2;
 }
 
 

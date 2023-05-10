@@ -168,7 +168,7 @@ private:
 
 		if constexpr (std::is_void_v<Self>)
 		{
-			std::apply(Fun, connection, protoObj);
+			std::apply(Fun, std::move(args));
 		}
 		else
 		{

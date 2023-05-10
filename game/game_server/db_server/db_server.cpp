@@ -7,7 +7,7 @@
 
 namespace zq{
 
-NLOHMANN_DEFINE_TYPE_NON_INTRUSIVE(DBServerConfig, appId, internalIp, internalPort, user, pwd, dbHost, dbPort)
+NLOHMANN_DEFINE_TYPE_NON_INTRUSIVE(DBServerConfig, appId, masterServerIp, masterServerPort, internalIp, internalPort, user, pwd, dbHost, dbPort)
 
 DBServer::DBServer(int argc, char* argv[])
 	:
