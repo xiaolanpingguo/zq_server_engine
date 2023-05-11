@@ -1,7 +1,6 @@
 #include "game_server/zone_server/player_manager_module.h"
 #include "game_server/zone_server/zone_server.h"
 #include "game_server/zone_server/player/player.h"
-#include "game_server/zone_server/zone_to_db_module.h"
 #include "game_common/game_db_def.hpp"
 #include "protocol/s2s/s2s_common.pb.h"
 #include "protocol/s2s/db_mongo_proxy.pb.h"
@@ -61,8 +60,6 @@ bool PlayerManagerModule::saveToDB()
 			LOG_ERROR(s_logCategory, "serialize player bin data error:");
 			continue;
 		}
-
-		m_thisServer->getModule<WorldToDBModule>()->sendToDBServer(S2S::MSG_ID_DB_SAVE_REQ, strDBMsg.data(), (uint32_t)strDBMsg.size());
 	}
 
 	return true;

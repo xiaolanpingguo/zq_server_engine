@@ -74,6 +74,7 @@ bool ServerBase::start()
 
 void ServerBase::run()
 {
+	addTimer(std::chrono::milliseconds(1), std::bind(&ServerBase::update, this, std::placeholders::_1));
 	m_ioContext.run();
 }
 
@@ -150,6 +151,14 @@ bool ServerBase::initModules()
 	}
 
 	return true;
+}
+
+void ServerBase::update(void* userData)
+{
+	for (const auto& it : m_modules)
+	{
+		it.second->update();
+	}
 }
 
 void ServerBase::registerSignal()

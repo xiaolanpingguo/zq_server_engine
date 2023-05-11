@@ -3,7 +3,6 @@
 #include "game_server/login_server/login_server.h"
 #include "game_common/game_db_def.hpp"
 #include "game_common/bson_object.h"
-#include "game_server/login_server/login_to_db_module.h"
 #include "game_common/gid.h"
 
 
@@ -33,9 +32,9 @@ bool ClientToLoginModule::init()
 	messagehelper.registerHandler<&ClientToLoginModule::onC2SHeatBeatReq>(this, C2S::MSG_ID_HEARTBEAT);
 	messagehelper.registerHandler<&ClientToLoginModule::onC2SClientLoginReq>(this, C2S::MSG_ID_LOGIN_REQ);
 
-	LoginToDBModule* loginToDbModule = m_thisServer->getModule<LoginToDBModule>();
-	loginToDbModule->registerFindResCb(CMD_LOGIN_2_DB_FIND_ACCOUNT_REQ, std::bind(&ClientToLoginModule::onS2SFindAccountRes, this, _1, _2, _3));
-	loginToDbModule->registerInsertResCb(CMD_LOGIN_2_DB_INSERT_ACCOUNT_REQ, std::bind(&ClientToLoginModule::onS2SInsertAccountRes, this, _1, _2));
+	//LoginToDBModule* loginToDbModule = m_thisServer->getModule<LoginToDBModule>();
+	//loginToDbModule->registerFindResCb(CMD_LOGIN_2_DB_FIND_ACCOUNT_REQ, std::bind(&ClientToLoginModule::onS2SFindAccountRes, this, _1, _2, _3));
+	//loginToDbModule->registerInsertResCb(CMD_LOGIN_2_DB_INSERT_ACCOUNT_REQ, std::bind(&ClientToLoginModule::onS2SInsertAccountRes, this, _1, _2));
 
 	m_tcpServer = std::make_unique<TcpServer<TcpConnection>>(m_thisServer->getIoContext(), m_thisServer->getConfig().internalIp, m_thisServer->getConfig().internalPort);
 	m_tcpServer->setClientConnectedCb(std::bind(&ClientToLoginModule::onClientConnected, this, _1));
@@ -113,7 +112,7 @@ void ClientToLoginModule::onC2SClientLoginReq(TcpConnectionPtr connection, const
 	S2S::MongoUserData userData;
 	userData.set_int32_var1(CMD_LOGIN_2_DB_FIND_ACCOUNT_REQ);
 	userData.set_string_var1(sdkUserId);
-	m_thisServer->getModule<LoginToDBModule>()->requestFind(DB_NAME, COL_ACCOUNT, selector, &userData);
+	//m_thisServer->getModule<LoginToDBModule>()->requestFind(DB_NAME, COL_ACCOUNT, selector, &userData);
 }
 
 void ClientToLoginModule::onS2SFindAccountRes(bool success, const S2S::MongoUserData& userData, const std::vector<BsonObject>& result)
@@ -136,7 +135,7 @@ void ClientToLoginModule::onS2SFindAccountRes(bool success, const S2S::MongoUser
 		BsonObject obj;
 		obj.appendString(ACCOUNT_KEY_SDK_USER_ID, session->sdkAccountInfo.sdkUserId);
 		obj.appendInt32(ACCOUNT_KEY_SDK_CHANNEL_ID, session->sdkAccountInfo.channelId);
-		m_thisServer->getModule<LoginToDBModule>()->requestInsert(DB_NAME, COL_ACCOUNT, obj, &data);
+		//m_thisServer->getModule<LoginToDBModule>()->requestInsert(DB_NAME, COL_ACCOUNT, obj, &data);
 		return;
 	}
 

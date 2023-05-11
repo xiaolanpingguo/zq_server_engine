@@ -156,6 +156,7 @@ private:
 
 class BsonObject;
 using BsonObjectPtr = std::shared_ptr<BsonObject>;
+using BsonObjectUniquePtr = std::unique_ptr<BsonObject>;
 class BsonObject
 {
 public:

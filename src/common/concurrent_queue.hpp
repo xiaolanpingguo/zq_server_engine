@@ -14,82 +14,70 @@ class ConcurrentQueue
 public:
 
 	using DataType = T;
-	ConcurrentQueue<T>() : shutdown_(false) {}
+	ConcurrentQueue<T>() : m_shutdown(false) {}
 
 	void push(const T& value)
 	{
-		std::lock_guard<std::mutex> lock(queueLock_);
-		queue_.push(std::move(value));
-
-		condition_.notify_one();
+		std::lock_guard<std::mutex> lock(m_queueLock);
+		m_queue.push(std::move(value));
+		m_condition.notify_one();
 	}
 
 	bool empty()
 	{
-		std::lock_guard<std::mutex> lock(queueLock_);
-
-		return queue_.empty();
+		std::lock_guard<std::mutex> lock(m_queueLock);
+		return m_queue.empty();
 	}
 
 	bool pop(T& value)
 	{
-		std::lock_guard<std::mutex> lock(queueLock_);
-
-		if (queue_.empty() || shutdown_)
+		std::lock_guard<std::mutex> lock(m_queueLock);
+		if (m_queue.empty() || m_shutdown)
+		{
 			return false;
+		}
 
-		value = queue_.front();
-
-		queue_.pop();
-
+		value = m_queue.front();
+		m_queue.pop();
 		return true;
 	}
 
 	void waitAndPop(T& value)
 	{
-		std::unique_lock<std::mutex> lock(queueLock_);
+		std::unique_lock<std::mutex> lock(m_queueLock);
+		while (m_queue.empty() && !m_shutdown)
+		{
+			m_condition.wait(lock);
+		}
 
-		while (queue_.empty() && !shutdown_)
-			condition_.wait(lock);
-
-		if (queue_.empty() || shutdown_)
+		if (m_queue.empty() || m_shutdown)
+		{
 			return;
+		}
 
-		value = queue_.front();
-
-		queue_.pop();
+		value = m_queue.front();
+		m_queue.pop();
 	}
 
 	void cancel()
 	{
-		std::unique_lock<std::mutex> lock(queueLock_);
+		std::unique_lock<std::mutex> lock(m_queueLock);
 
-		while (!queue_.empty())
+		while (!m_queue.empty())
 		{
-			T& value = queue_.front();
-
-			deleteQueuedObject(value);
-
-			queue_.pop();
+			T& value = m_queue.front();
+			m_queue.pop();
 		}
 
-		shutdown_ = true;
-
-		condition_.notify_all();
+		m_shutdown = true;
+		m_condition.notify_all();
 	}
 
 private:
-	std::mutex queueLock_;
-	std::queue<T> queue_;
-	std::condition_variable condition_;
-	std::atomic<bool> shutdown_;
-
-private:
-	template<typename E = T>
-	typename std::enable_if<std::is_pointer<E>::value>::type deleteQueuedObject(E& obj) { delete obj; }
-
-	template<typename E = T>
-	typename std::enable_if<!std::is_pointer<E>::value>::type deleteQueuedObject(E const& /*packet*/) { }
+	std::mutex m_queueLock;
+	std::queue<T> m_queue;
+	std::condition_variable m_condition;
+	std::atomic<bool> m_shutdown;
 };
 
 }

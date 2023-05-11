@@ -2,7 +2,7 @@
 #include "game_server/zone_server/zone_to_master_module.h"
 #include "game_server/zone_server/internal_server_module.h"
 #include "game_server/zone_server/player_manager_module.h"
-#include "game_server/zone_server/zone_to_db_module.h"
+#include "db_mongo/mongo_module.h"
 
 #include <nlohmann-json/json.hpp>
 
@@ -11,7 +11,8 @@ namespace zq{
 
 
 NLOHMANN_DEFINE_TYPE_NON_INTRUSIVE(ZoneServerConfig, appId, masterServerIp, masterServerPort, 
-	dbServerIp, dbServerPort, internalIp, internalPort, externalIp, externalPort)
+		internalIp, internalPort, externalIp, externalPort,
+		mongoUser, mongoPwd, mongoHost, mongoPort)
 
 ZoneServer::ZoneServer(int argc, char* argv[])
 	:
@@ -26,10 +27,10 @@ ZoneServer::~ZoneServer()
 
 bool ZoneServer::registerServerModules()
 {
-	registerModule<WorldToMasterModule>(this);
+	registerModule<ZoneToMasterModule>(this);
 	registerModule<InternalServerModule>(this);
 	registerModule<PlayerManagerModule>(this);
-	registerModule<WorldToDBModule>(this);
+	registerModule<MongoModule>(m_serverConfg.mongoUser, m_serverConfg.mongoPwd, m_serverConfg.mongoHost, m_serverConfg.mongoPort);
 	return true;
 }
 

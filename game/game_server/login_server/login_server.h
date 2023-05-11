@@ -12,12 +12,14 @@ struct LoginServerConfig
 	std::string appId;
 	std::string masterServerIp;
 	uint16_t masterServerPort;
-	std::string dbServerIp;
-	uint16_t dbServerPort;
 	std::string internalIp;
 	uint16_t internalPort;
 	std::string externalIp;
 	uint16_t externalPort;
+	std::string mongoUser;
+	std::string mongoPwd;
+	std::string mongoHost;
+	uint16_t mongoPort;
 };
 
 class LoginServer : public ServerBase

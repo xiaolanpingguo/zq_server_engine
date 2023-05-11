@@ -69,6 +69,8 @@ private:
 
 	void signalHandler(std::error_code ec, int signo);
 
+	void update(void* userData);
+
 protected:
 
 	std::string m_configName;

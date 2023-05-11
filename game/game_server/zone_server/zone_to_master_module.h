@@ -11,13 +11,13 @@ namespace zq
 
 
 class ZoneServer;
-class WorldToMasterModule : public IModule
+class ZoneToMasterModule : public IModule
 {
-	INIT_MODULE_NAME(WorldToMasterModule);
+	INIT_MODULE_NAME(ZoneToMasterModule);
 
 public:
-	WorldToMasterModule(ZoneServer* thisServer);
-	~WorldToMasterModule();
+	ZoneToMasterModule(ZoneServer* thisServer);
+	~ZoneToMasterModule();
 
 public:
 	bool init() override;
