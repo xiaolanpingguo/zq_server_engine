@@ -1,4 +1,5 @@
 build/
+linux-build/
 bin/
 thirdparty/protobuf-22.1/install/
 thirdparty/protobuf-22.1/build/

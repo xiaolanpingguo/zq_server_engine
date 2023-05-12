@@ -43,10 +43,10 @@
 
 
 
-#ifdef COMPILER_MSC
+#if defined(COMPILER_MSC)
 	#define DLL_EXPORT __declspec(dllexport)
 	#define DLL_IMPORT __declspec(dllimport)
-#elif COMPILER_GNU
+#elif defined(COMPILER_GNU)
 	#define DLL_EXPORT __attribute__((visibility("default")))
 	#define DLL_IMPORT
 #else
