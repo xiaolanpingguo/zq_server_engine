@@ -52,7 +52,7 @@ bool MongoModule::init()
 		//testInsert();
 		//testRemove();
 		//testSave();
-		testFind();
+		//testFind();
 	}
 
 	return true;
@@ -87,6 +87,50 @@ MongoQueryCallback& MongoModule::addCallback(MongoQueryCallback&& query)
 {
 	m_callbacks.push(std::move(query));
 	return m_callbacks.back();
+}
+
+async_simple::coro::Lazy<MongoResultPtr> MongoModule::insert(const std::string& dbName, const std::string& collectionName, BsonObjectPtr insertor)
+{
+	MongoTask* task = new MongoInsertTask(this, dbName, collectionName, insertor);
+	CallbackAwaitor<MongoResultPtr> awaitor;
+	co_return co_await awaitor.awaitResume([this, task](auto handler) {
+		addCallback(addTask(task).withCallback([handler](MongoResultPtr result) {
+			handler.setValueThenResume(result);
+		}));
+	});
+}
+
+async_simple::coro::Lazy<MongoResultPtr> MongoModule::remove(const std::string& dbName, const std::string& collectionName, BsonObjectPtr selector)
+{
+	MongoTask* task = new MongoRemoveTask(this, dbName, collectionName, selector);
+	CallbackAwaitor<MongoResultPtr> awaitor;
+	co_return co_await awaitor.awaitResume([this, task](auto handler) {
+		addCallback(addTask(task).withCallback([handler](MongoResultPtr result) {
+			handler.setValueThenResume(result);
+		}));
+	});
+}
+
+async_simple::coro::Lazy<MongoResultPtr> MongoModule::save(const std::string& dbName, const std::string& collectionName, BsonObjectPtr selector, BsonObjectPtr updator)
+{
+	MongoTask* task = new MongoSaveTask(this, dbName, collectionName, selector, updator);
+	CallbackAwaitor<MongoResultPtr> awaitor;
+	co_return co_await awaitor.awaitResume([this, task](auto handler) {
+		addCallback(addTask(task).withCallback([handler](MongoResultPtr result) {
+			handler.setValueThenResume(result);
+		}));
+	});
+}
+
+async_simple::coro::Lazy<MongoResultPtr> MongoModule::find(const std::string& dbName, const std::string& collectionName, BsonObjectPtr selector, int limit, int skip)
+{
+	MongoTask* task = new MongoFindTask(this, dbName, collectionName, selector, limit, skip);
+	CallbackAwaitor<MongoResultPtr> awaitor;
+	co_return co_await awaitor.awaitResume([this, task](auto handler) {
+		addCallback(addTask(task).withCallback([handler](MongoResultPtr result) {
+			handler.setValueThenResume(result);
+		}));
+	});
 }
 
 bool MongoModule::initMongo()
@@ -316,34 +360,50 @@ void MongoModule::testInsert()
 	BsonObjectPtr insertor = std::make_shared<BsonObject>();
 	insertor->appendString("test_insert1", "abcdef");
 	insertor->appendInt32("test_insert2", 1234567);
-	MongoTask* task = new MongoInsertTask(this, "zq", "player", insertor);
-	addCallback(addTask(task).withCallback([](MongoResultPtr result)
+	std::string dbName = "zq";
+	std::string coName = "player";
+
+	insert(dbName, coName, insertor).start([](async_simple::Try<MongoResultPtr> v) {
+		try
 		{
+			MongoResultPtr result = v.value();
 			if (!result->success)
 			{
 				LOG_ERROR("[mongo test]", "insert error: {}", result->errorMsg);
 				return;
 			}
-
 			LOG_INFO("[mongo test]", "insert success!");
-		}));
+		}
+		catch (const std::exception& e)
+		{
+			LOG_ERROR("[mongo test]", "insert exception: {}", e.what());
+		}
+	});
 }
 
 void MongoModule::testRemove()
 {
-	BsonObjectPtr selecotr = std::make_shared<BsonObject>();
-	selecotr->appendString("test_insert1", "abcdef");
+	BsonObjectPtr selector = std::make_shared<BsonObject>();
+	selector->appendString("test_insert1", "abcdef");
+	std::string dbName = "zq";
+	std::string coName = "player";
 
-	MongoTask* task = new MongoRemoveTask(this, "zq", "player", selecotr);
-	addCallback(addTask(task).withCallback([](MongoResultPtr result) {
-		if (!result->success)
+	remove(dbName, coName, selector).start([](async_simple::Try<MongoResultPtr> v) {
+		try
 		{
-			LOG_ERROR("[mongo test]", "remove error: {}", result->errorMsg);
-			return;
+			MongoResultPtr result = v.value();
+			if (!result->success)
+			{
+				LOG_ERROR("[mongo test]", "remove error: {}", result->errorMsg);
+				return;
+			}
+			LOG_INFO("[mongo test]", "remove success!");
 		}
-
-		LOG_INFO("[mongo test]", "remove success!");
-	}));
+		catch (const std::exception& e)
+		{
+			LOG_ERROR("[mongo test]", "remove exception: {}", e.what());
+		}
+	});
 }
 
 void MongoModule::testSave()
@@ -352,17 +412,25 @@ void MongoModule::testSave()
 	BsonObjectPtr updatetor = std::make_shared<BsonObject>();
 	selector->appendString("test_save34", "abcde");
 	updatetor->appendString("test_save35", "abcdef");
+	std::string dbName = "zq";
+	std::string coName = "player";
 
-	MongoTask* task = new MongoSaveTask(this, "zq", "player", selector, updatetor);
-	addCallback(addTask(task).withCallback([](MongoResultPtr result) {
-		if (!result->success)
+	save(dbName, coName, selector, updatetor).start([](async_simple::Try<MongoResultPtr> v) {
+		try
 		{
-			LOG_ERROR("[mongo test]", "save error: {}", result->errorMsg);
-			return;
+			MongoResultPtr result = v.value();
+			if (!result->success)
+			{
+				LOG_ERROR("[mongo test]", "save error: {}", result->errorMsg);
+				return;
+			}
+			LOG_INFO("[mongo test]", "save success!");
 		}
-
-		LOG_INFO("[mongo test]", "save success!");
-	}));
+		catch (const std::exception& e)
+		{
+			LOG_ERROR("[mongo test]", "save exception: {}", e.what());
+		}
+	});
 }
 
 void MongoModule::testFind()
@@ -370,42 +438,46 @@ void MongoModule::testFind()
 	{
 		std::vector<BsonObject> result;
 		BsonObjectPtr selector = std::make_shared<BsonObject>();
+		std::string dbName = "zq";
+		std::string coName = "player";
 
-		MongoTask* task = new MongoFindTask(this, "zq", "player", selector);
-		addCallback(addTask(task).withCallback([](MongoResultPtr result) {
+		find(dbName, coName, selector).start([](async_simple::Try<MongoResultPtr> v) {
+
+			MongoResultPtr result = v.value();
 			if (!result->success)
 			{
 				LOG_ERROR("[mongo test]", "find error: {}", result->errorMsg);
 				return;
 			}
-
 			LOG_INFO("[mongo test]", "find success, result num:{}", result->result.size());
 			for (auto& obj : result->result)
 			{
 				LOG_INFO(s_logCategory, "details:{}", obj.debugPrint());
 			}
-		}));
+		});
 	}
 
 	{
 		std::vector<BsonObject> result;
 		BsonObjectPtr selector = std::make_shared<BsonObject>();
 		selector->appendString("test_save1", "123333");
+		std::string dbName = "zq";
+		std::string coName = "player";
 
-		MongoTask* task = new MongoFindTask(this, "zq", "player", selector);
-		addCallback(addTask(task).withCallback([](MongoResultPtr result) {
+		find(dbName, coName, selector).start([](async_simple::Try<MongoResultPtr> v) {
+
+			MongoResultPtr result = v.value();
 			if (!result->success)
 			{
 				LOG_ERROR("[mongo test]", "find error: {}", result->errorMsg);
 				return;
 			}
-
 			LOG_INFO("[mongo test]", "find success, result num:{}", result->result.size());
 			for (auto& obj : result->result)
 			{
 				LOG_INFO(s_logCategory, "details:{}", obj.debugPrint());
 			}
-		}));
+		});
 	}
 }
 
