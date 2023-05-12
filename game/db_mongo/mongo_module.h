@@ -41,7 +41,7 @@ public:
 	bool mongoInsert(const std::string& dbName, const std::string& collectionName, BsonObject& insertor, std::string& errorMsg);
 	bool mongoRemove(const std::string& dbName, const std::string& collectionName, BsonObject& selector, std::string& errorMsg);
 	bool mongoSave(const std::string& dbName, const std::string& collectionName, BsonObject& selector, BsonObject& updator, std::string& errorMsg);
-	bool mongoFind(const std::string& dbName, const std::string& collectionName, BsonObject& selector, std::vector<BsonObject>& result, std::string& errorMsg, int limit = 0, int skip = 0);
+	bool mongoFind(const std::string& dbName, const std::string& collectionName, BsonObject& selector, std::vector<BsonObjectPtr>& result, std::string& errorMsg, int limit = 0, int skip = 0);
 	bool mongoBatchFind(const std::string& dbName, const std::string& collectionName);
 
 private:

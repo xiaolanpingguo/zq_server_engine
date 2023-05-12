@@ -11,6 +11,9 @@ enum C2S_MSG_ID
 
 	MSG_ID_LOGIN_REQ = 10002;
 	MSG_ID_LOGIN_RES = 10003;
+	
+	MSG_ID_LOGIN_ZONE_REQ = 10004;
+	MSG_ID_LOGIN_ZONE_RES = 10005;
 }
 
 
@@ -22,16 +25,29 @@ message C2SHeartBeat
 message C2SLoginReq
 {
 	string sdk_user_id = 1;
-	string token = 2;
+	string sdk_token = 2;
 	int32 channel_id = 3;
 }
 
 message C2SLoginRes
 {
 	int32 error_code = 1;
-	int32 token = 2;
+	string zone_token = 2;
+	string host = 3;
+	int32 port = 4;
 }
 
+
+message C2SLoginZoneReq
+{
+	string user_id = 1;
+	string zone_token = 2;
+}
+
+message C2SLoginZoneRes
+{
+	int32 error_code = 1;
+}
 
 
 

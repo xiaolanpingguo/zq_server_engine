@@ -75,9 +75,9 @@ MongoFindTask::MongoFindTask(MongoModule* mongoModule, const std::string& dbName
 
 void MongoFindTask::execute()
 {
-	MongoResultPtr findResult = std::make_shared<MongoResult>();
-	findResult->success = m_mongoModule->mongoFind(m_dbName, m_collectionName, *m_selector, findResult->result, findResult->errorMsg, m_limit, m_skip);
-	m_result->set_value(findResult);
+	MongoResultPtr result = std::make_shared<MongoResult>();
+	result->success = m_mongoModule->mongoFind(m_dbName, m_collectionName, *m_selector, result->foundResult, result->errorMsg, m_limit, m_skip);
+	m_result->set_value(result);
 }
 
 

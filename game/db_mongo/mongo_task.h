@@ -12,7 +12,7 @@ struct MongoResult
 {
 	bool success;
 	std::string errorMsg;
-	std::vector<BsonObject> result; // for find
+	std::vector<BsonObjectPtr> foundResult; // for find
 };
 
 

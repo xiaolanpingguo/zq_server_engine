@@ -55,11 +55,19 @@ extern C2SLoginReqDefaultTypeInternal _C2SLoginReq_default_instance_;
 class C2SLoginRes;
 struct C2SLoginResDefaultTypeInternal;
 extern C2SLoginResDefaultTypeInternal _C2SLoginRes_default_instance_;
+class C2SLoginZoneReq;
+struct C2SLoginZoneReqDefaultTypeInternal;
+extern C2SLoginZoneReqDefaultTypeInternal _C2SLoginZoneReq_default_instance_;
+class C2SLoginZoneRes;
+struct C2SLoginZoneResDefaultTypeInternal;
+extern C2SLoginZoneResDefaultTypeInternal _C2SLoginZoneRes_default_instance_;
 }  // namespace C2S
 PROTOBUF_NAMESPACE_OPEN
 template<> ::C2S::C2SHeartBeat* Arena::CreateMaybeMessage<::C2S::C2SHeartBeat>(Arena*);
 template<> ::C2S::C2SLoginReq* Arena::CreateMaybeMessage<::C2S::C2SLoginReq>(Arena*);
 template<> ::C2S::C2SLoginRes* Arena::CreateMaybeMessage<::C2S::C2SLoginRes>(Arena*);
+template<> ::C2S::C2SLoginZoneReq* Arena::CreateMaybeMessage<::C2S::C2SLoginZoneReq>(Arena*);
+template<> ::C2S::C2SLoginZoneRes* Arena::CreateMaybeMessage<::C2S::C2SLoginZoneRes>(Arena*);
 PROTOBUF_NAMESPACE_CLOSE
 namespace C2S {
 
@@ -68,12 +76,14 @@ enum C2S_MSG_ID : int {
   MSG_ID_HEARTBEAT = 10001,
   MSG_ID_LOGIN_REQ = 10002,
   MSG_ID_LOGIN_RES = 10003,
+  MSG_ID_LOGIN_ZONE_REQ = 10004,
+  MSG_ID_LOGIN_ZONE_RES = 10005,
   C2S_MSG_ID_INT_MIN_SENTINEL_DO_NOT_USE_ = std::numeric_limits<int32_t>::min(),
   C2S_MSG_ID_INT_MAX_SENTINEL_DO_NOT_USE_ = std::numeric_limits<int32_t>::max()
 };
 bool C2S_MSG_ID_IsValid(int value);
 constexpr C2S_MSG_ID C2S_MSG_ID_MIN = MSG_ID_NONE;
-constexpr C2S_MSG_ID C2S_MSG_ID_MAX = MSG_ID_LOGIN_RES;
+constexpr C2S_MSG_ID C2S_MSG_ID_MAX = MSG_ID_LOGIN_ZONE_RES;
 constexpr int C2S_MSG_ID_ARRAYSIZE = C2S_MSG_ID_MAX + 1;
 
 const ::PROTOBUF_NAMESPACE_ID::EnumDescriptor* C2S_MSG_ID_descriptor();
@@ -362,7 +372,7 @@ class C2SLoginReq final :
 
   enum : int {
     kSdkUserIdFieldNumber = 1,
-    kTokenFieldNumber = 2,
+    kSdkTokenFieldNumber = 2,
     kChannelIdFieldNumber = 3,
   };
   // string sdk_user_id = 1;
@@ -379,18 +389,18 @@ class C2SLoginReq final :
   std::string* _internal_mutable_sdk_user_id();
   public:
 
-  // string token = 2;
-  void clear_token();
-  const std::string& token() const;
+  // string sdk_token = 2;
+  void clear_sdk_token();
+  const std::string& sdk_token() const;
   template <typename ArgT0 = const std::string&, typename... ArgT>
-  void set_token(ArgT0&& arg0, ArgT... args);
-  std::string* mutable_token();
-  PROTOBUF_NODISCARD std::string* release_token();
-  void set_allocated_token(std::string* token);
+  void set_sdk_token(ArgT0&& arg0, ArgT... args);
+  std::string* mutable_sdk_token();
+  PROTOBUF_NODISCARD std::string* release_sdk_token();
+  void set_allocated_sdk_token(std::string* sdk_token);
   private:
-  const std::string& _internal_token() const;
-  inline PROTOBUF_ALWAYS_INLINE void _internal_set_token(const std::string& value);
-  std::string* _internal_mutable_token();
+  const std::string& _internal_sdk_token() const;
+  inline PROTOBUF_ALWAYS_INLINE void _internal_set_sdk_token(const std::string& value);
+  std::string* _internal_mutable_sdk_token();
   public:
 
   // int32 channel_id = 3;
@@ -411,7 +421,7 @@ class C2SLoginReq final :
   typedef void DestructorSkippable_;
   struct Impl_ {
     ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr sdk_user_id_;
-    ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr token_;
+    ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr sdk_token_;
     int32_t channel_id_;
     mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
   };
@@ -541,9 +551,39 @@ class C2SLoginRes final :
   // accessors -------------------------------------------------------
 
   enum : int {
+    kZoneTokenFieldNumber = 2,
+    kHostFieldNumber = 3,
     kErrorCodeFieldNumber = 1,
-    kTokenFieldNumber = 2,
+    kPortFieldNumber = 4,
   };
+  // string zone_token = 2;
+  void clear_zone_token();
+  const std::string& zone_token() const;
+  template <typename ArgT0 = const std::string&, typename... ArgT>
+  void set_zone_token(ArgT0&& arg0, ArgT... args);
+  std::string* mutable_zone_token();
+  PROTOBUF_NODISCARD std::string* release_zone_token();
+  void set_allocated_zone_token(std::string* zone_token);
+  private:
+  const std::string& _internal_zone_token() const;
+  inline PROTOBUF_ALWAYS_INLINE void _internal_set_zone_token(const std::string& value);
+  std::string* _internal_mutable_zone_token();
+  public:
+
+  // string host = 3;
+  void clear_host();
+  const std::string& host() const;
+  template <typename ArgT0 = const std::string&, typename... ArgT>
+  void set_host(ArgT0&& arg0, ArgT... args);
+  std::string* mutable_host();
+  PROTOBUF_NODISCARD std::string* release_host();
+  void set_allocated_host(std::string* host);
+  private:
+  const std::string& _internal_host() const;
+  inline PROTOBUF_ALWAYS_INLINE void _internal_set_host(const std::string& value);
+  std::string* _internal_mutable_host();
+  public:
+
   // int32 error_code = 1;
   void clear_error_code();
   int32_t error_code() const;
@@ -553,13 +593,13 @@ class C2SLoginRes final :
   void _internal_set_error_code(int32_t value);
   public:
 
-  // int32 token = 2;
-  void clear_token();
-  int32_t token() const;
-  void set_token(int32_t value);
+  // int32 port = 4;
+  void clear_port();
+  int32_t port() const;
+  void set_port(int32_t value);
   private:
-  int32_t _internal_token() const;
-  void _internal_set_token(int32_t value);
+  int32_t _internal_port() const;
+  void _internal_set_port(int32_t value);
   public:
 
   // @@protoc_insertion_point(class_scope:C2S.C2SLoginRes)
@@ -570,8 +610,327 @@ class C2SLoginRes final :
   typedef void InternalArenaConstructable_;
   typedef void DestructorSkippable_;
   struct Impl_ {
+    ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr zone_token_;
+    ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr host_;
     int32_t error_code_;
-    int32_t token_;
+    int32_t port_;
+    mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
+  };
+  union { Impl_ _impl_; };
+  friend struct ::TableStruct_c2s_5fcommon_2eproto;
+};
+// -------------------------------------------------------------------
+
+class C2SLoginZoneReq final :
+    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:C2S.C2SLoginZoneReq) */ {
+ public:
+  inline C2SLoginZoneReq() : C2SLoginZoneReq(nullptr) {}
+  ~C2SLoginZoneReq() override;
+  explicit PROTOBUF_CONSTEXPR C2SLoginZoneReq(::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized);
+
+  C2SLoginZoneReq(const C2SLoginZoneReq& from);
+  C2SLoginZoneReq(C2SLoginZoneReq&& from) noexcept
+    : C2SLoginZoneReq() {
+    *this = ::std::move(from);
+  }
+
+  inline C2SLoginZoneReq& operator=(const C2SLoginZoneReq& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  inline C2SLoginZoneReq& operator=(C2SLoginZoneReq&& from) noexcept {
+    if (this == &from) return *this;
+    if (GetOwningArena() == from.GetOwningArena()
+  #ifdef PROTOBUF_FORCE_COPY_IN_MOVE
+        && GetOwningArena() != nullptr
+  #endif  // !PROTOBUF_FORCE_COPY_IN_MOVE
+    ) {
+      InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* descriptor() {
+    return GetDescriptor();
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* GetDescriptor() {
+    return default_instance().GetMetadata().descriptor;
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Reflection* GetReflection() {
+    return default_instance().GetMetadata().reflection;
+  }
+  static const C2SLoginZoneReq& default_instance() {
+    return *internal_default_instance();
+  }
+  static inline const C2SLoginZoneReq* internal_default_instance() {
+    return reinterpret_cast<const C2SLoginZoneReq*>(
+               &_C2SLoginZoneReq_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages =
+    3;
+
+  friend void swap(C2SLoginZoneReq& a, C2SLoginZoneReq& b) {
+    a.Swap(&b);
+  }
+  inline void Swap(C2SLoginZoneReq* other) {
+    if (other == this) return;
+  #ifdef PROTOBUF_FORCE_COPY_IN_SWAP
+    if (GetOwningArena() != nullptr &&
+        GetOwningArena() == other->GetOwningArena()) {
+   #else  // PROTOBUF_FORCE_COPY_IN_SWAP
+    if (GetOwningArena() == other->GetOwningArena()) {
+  #endif  // !PROTOBUF_FORCE_COPY_IN_SWAP
+      InternalSwap(other);
+    } else {
+      ::PROTOBUF_NAMESPACE_ID::internal::GenericSwap(this, other);
+    }
+  }
+  void UnsafeArenaSwap(C2SLoginZoneReq* other) {
+    if (other == this) return;
+    GOOGLE_DCHECK(GetOwningArena() == other->GetOwningArena());
+    InternalSwap(other);
+  }
+
+  // implements Message ----------------------------------------------
+
+  C2SLoginZoneReq* New(::PROTOBUF_NAMESPACE_ID::Arena* arena = nullptr) const final {
+    return CreateMaybeMessage<C2SLoginZoneReq>(arena);
+  }
+  using ::PROTOBUF_NAMESPACE_ID::Message::CopyFrom;
+  void CopyFrom(const C2SLoginZoneReq& from);
+  using ::PROTOBUF_NAMESPACE_ID::Message::MergeFrom;
+  void MergeFrom( const C2SLoginZoneReq& from) {
+    C2SLoginZoneReq::MergeImpl(*this, from);
+  }
+  private:
+  static void MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const ::PROTOBUF_NAMESPACE_ID::Message& from_msg);
+  public:
+  PROTOBUF_ATTRIBUTE_REINITIALIZES void Clear() final;
+  bool IsInitialized() const final;
+
+  size_t ByteSizeLong() const final;
+  const char* _InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) final;
+  uint8_t* _InternalSerialize(
+      uint8_t* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const final;
+  int GetCachedSize() const final { return _impl_._cached_size_.Get(); }
+
+  private:
+  void SharedCtor(::PROTOBUF_NAMESPACE_ID::Arena* arena, bool is_message_owned);
+  void SharedDtor();
+  void SetCachedSize(int size) const final;
+  void InternalSwap(C2SLoginZoneReq* other);
+
+  private:
+  friend class ::PROTOBUF_NAMESPACE_ID::internal::AnyMetadata;
+  static ::PROTOBUF_NAMESPACE_ID::StringPiece FullMessageName() {
+    return "C2S.C2SLoginZoneReq";
+  }
+  protected:
+  explicit C2SLoginZoneReq(::PROTOBUF_NAMESPACE_ID::Arena* arena,
+                       bool is_message_owned = false);
+  public:
+
+  static const ClassData _class_data_;
+  const ::PROTOBUF_NAMESPACE_ID::Message::ClassData*GetClassData() const final;
+
+  ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadata() const final;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  enum : int {
+    kUserIdFieldNumber = 1,
+    kZoneTokenFieldNumber = 2,
+  };
+  // string user_id = 1;
+  void clear_user_id();
+  const std::string& user_id() const;
+  template <typename ArgT0 = const std::string&, typename... ArgT>
+  void set_user_id(ArgT0&& arg0, ArgT... args);
+  std::string* mutable_user_id();
+  PROTOBUF_NODISCARD std::string* release_user_id();
+  void set_allocated_user_id(std::string* user_id);
+  private:
+  const std::string& _internal_user_id() const;
+  inline PROTOBUF_ALWAYS_INLINE void _internal_set_user_id(const std::string& value);
+  std::string* _internal_mutable_user_id();
+  public:
+
+  // string zone_token = 2;
+  void clear_zone_token();
+  const std::string& zone_token() const;
+  template <typename ArgT0 = const std::string&, typename... ArgT>
+  void set_zone_token(ArgT0&& arg0, ArgT... args);
+  std::string* mutable_zone_token();
+  PROTOBUF_NODISCARD std::string* release_zone_token();
+  void set_allocated_zone_token(std::string* zone_token);
+  private:
+  const std::string& _internal_zone_token() const;
+  inline PROTOBUF_ALWAYS_INLINE void _internal_set_zone_token(const std::string& value);
+  std::string* _internal_mutable_zone_token();
+  public:
+
+  // @@protoc_insertion_point(class_scope:C2S.C2SLoginZoneReq)
+ private:
+  class _Internal;
+
+  template <typename T> friend class ::PROTOBUF_NAMESPACE_ID::Arena::InternalHelper;
+  typedef void InternalArenaConstructable_;
+  typedef void DestructorSkippable_;
+  struct Impl_ {
+    ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr user_id_;
+    ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr zone_token_;
+    mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
+  };
+  union { Impl_ _impl_; };
+  friend struct ::TableStruct_c2s_5fcommon_2eproto;
+};
+// -------------------------------------------------------------------
+
+class C2SLoginZoneRes final :
+    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:C2S.C2SLoginZoneRes) */ {
+ public:
+  inline C2SLoginZoneRes() : C2SLoginZoneRes(nullptr) {}
+  ~C2SLoginZoneRes() override;
+  explicit PROTOBUF_CONSTEXPR C2SLoginZoneRes(::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized);
+
+  C2SLoginZoneRes(const C2SLoginZoneRes& from);
+  C2SLoginZoneRes(C2SLoginZoneRes&& from) noexcept
+    : C2SLoginZoneRes() {
+    *this = ::std::move(from);
+  }
+
+  inline C2SLoginZoneRes& operator=(const C2SLoginZoneRes& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  inline C2SLoginZoneRes& operator=(C2SLoginZoneRes&& from) noexcept {
+    if (this == &from) return *this;
+    if (GetOwningArena() == from.GetOwningArena()
+  #ifdef PROTOBUF_FORCE_COPY_IN_MOVE
+        && GetOwningArena() != nullptr
+  #endif  // !PROTOBUF_FORCE_COPY_IN_MOVE
+    ) {
+      InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* descriptor() {
+    return GetDescriptor();
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* GetDescriptor() {
+    return default_instance().GetMetadata().descriptor;
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Reflection* GetReflection() {
+    return default_instance().GetMetadata().reflection;
+  }
+  static const C2SLoginZoneRes& default_instance() {
+    return *internal_default_instance();
+  }
+  static inline const C2SLoginZoneRes* internal_default_instance() {
+    return reinterpret_cast<const C2SLoginZoneRes*>(
+               &_C2SLoginZoneRes_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages =
+    4;
+
+  friend void swap(C2SLoginZoneRes& a, C2SLoginZoneRes& b) {
+    a.Swap(&b);
+  }
+  inline void Swap(C2SLoginZoneRes* other) {
+    if (other == this) return;
+  #ifdef PROTOBUF_FORCE_COPY_IN_SWAP
+    if (GetOwningArena() != nullptr &&
+        GetOwningArena() == other->GetOwningArena()) {
+   #else  // PROTOBUF_FORCE_COPY_IN_SWAP
+    if (GetOwningArena() == other->GetOwningArena()) {
+  #endif  // !PROTOBUF_FORCE_COPY_IN_SWAP
+      InternalSwap(other);
+    } else {
+      ::PROTOBUF_NAMESPACE_ID::internal::GenericSwap(this, other);
+    }
+  }
+  void UnsafeArenaSwap(C2SLoginZoneRes* other) {
+    if (other == this) return;
+    GOOGLE_DCHECK(GetOwningArena() == other->GetOwningArena());
+    InternalSwap(other);
+  }
+
+  // implements Message ----------------------------------------------
+
+  C2SLoginZoneRes* New(::PROTOBUF_NAMESPACE_ID::Arena* arena = nullptr) const final {
+    return CreateMaybeMessage<C2SLoginZoneRes>(arena);
+  }
+  using ::PROTOBUF_NAMESPACE_ID::Message::CopyFrom;
+  void CopyFrom(const C2SLoginZoneRes& from);
+  using ::PROTOBUF_NAMESPACE_ID::Message::MergeFrom;
+  void MergeFrom( const C2SLoginZoneRes& from) {
+    C2SLoginZoneRes::MergeImpl(*this, from);
+  }
+  private:
+  static void MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const ::PROTOBUF_NAMESPACE_ID::Message& from_msg);
+  public:
+  PROTOBUF_ATTRIBUTE_REINITIALIZES void Clear() final;
+  bool IsInitialized() const final;
+
+  size_t ByteSizeLong() const final;
+  const char* _InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) final;
+  uint8_t* _InternalSerialize(
+      uint8_t* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const final;
+  int GetCachedSize() const final { return _impl_._cached_size_.Get(); }
+
+  private:
+  void SharedCtor(::PROTOBUF_NAMESPACE_ID::Arena* arena, bool is_message_owned);
+  void SharedDtor();
+  void SetCachedSize(int size) const final;
+  void InternalSwap(C2SLoginZoneRes* other);
+
+  private:
+  friend class ::PROTOBUF_NAMESPACE_ID::internal::AnyMetadata;
+  static ::PROTOBUF_NAMESPACE_ID::StringPiece FullMessageName() {
+    return "C2S.C2SLoginZoneRes";
+  }
+  protected:
+  explicit C2SLoginZoneRes(::PROTOBUF_NAMESPACE_ID::Arena* arena,
+                       bool is_message_owned = false);
+  public:
+
+  static const ClassData _class_data_;
+  const ::PROTOBUF_NAMESPACE_ID::Message::ClassData*GetClassData() const final;
+
+  ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadata() const final;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  enum : int {
+    kErrorCodeFieldNumber = 1,
+  };
+  // int32 error_code = 1;
+  void clear_error_code();
+  int32_t error_code() const;
+  void set_error_code(int32_t value);
+  private:
+  int32_t _internal_error_code() const;
+  void _internal_set_error_code(int32_t value);
+  public:
+
+  // @@protoc_insertion_point(class_scope:C2S.C2SLoginZoneRes)
+ private:
+  class _Internal;
+
+  template <typename T> friend class ::PROTOBUF_NAMESPACE_ID::Arena::InternalHelper;
+  typedef void InternalArenaConstructable_;
+  typedef void DestructorSkippable_;
+  struct Impl_ {
+    int32_t error_code_;
     mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
   };
   union { Impl_ _impl_; };
@@ -662,54 +1021,54 @@ inline void C2SLoginReq::set_allocated_sdk_user_id(std::string* sdk_user_id) {
   // @@protoc_insertion_point(field_set_allocated:C2S.C2SLoginReq.sdk_user_id)
 }
 
-// string token = 2;
-inline void C2SLoginReq::clear_token() {
-  _impl_.token_.ClearToEmpty();
+// string sdk_token = 2;
+inline void C2SLoginReq::clear_sdk_token() {
+  _impl_.sdk_token_.ClearToEmpty();
 }
-inline const std::string& C2SLoginReq::token() const {
-  // @@protoc_insertion_point(field_get:C2S.C2SLoginReq.token)
-  return _internal_token();
+inline const std::string& C2SLoginReq::sdk_token() const {
+  // @@protoc_insertion_point(field_get:C2S.C2SLoginReq.sdk_token)
+  return _internal_sdk_token();
 }
 template <typename ArgT0, typename... ArgT>
 inline PROTOBUF_ALWAYS_INLINE
-void C2SLoginReq::set_token(ArgT0&& arg0, ArgT... args) {
+void C2SLoginReq::set_sdk_token(ArgT0&& arg0, ArgT... args) {
  
- _impl_.token_.Set(static_cast<ArgT0 &&>(arg0), args..., GetArenaForAllocation());
-  // @@protoc_insertion_point(field_set:C2S.C2SLoginReq.token)
+ _impl_.sdk_token_.Set(static_cast<ArgT0 &&>(arg0), args..., GetArenaForAllocation());
+  // @@protoc_insertion_point(field_set:C2S.C2SLoginReq.sdk_token)
 }
-inline std::string* C2SLoginReq::mutable_token() {
-  std::string* _s = _internal_mutable_token();
-  // @@protoc_insertion_point(field_mutable:C2S.C2SLoginReq.token)
+inline std::string* C2SLoginReq::mutable_sdk_token() {
+  std::string* _s = _internal_mutable_sdk_token();
+  // @@protoc_insertion_point(field_mutable:C2S.C2SLoginReq.sdk_token)
   return _s;
 }
-inline const std::string& C2SLoginReq::_internal_token() const {
-  return _impl_.token_.Get();
+inline const std::string& C2SLoginReq::_internal_sdk_token() const {
+  return _impl_.sdk_token_.Get();
 }
-inline void C2SLoginReq::_internal_set_token(const std::string& value) {
+inline void C2SLoginReq::_internal_set_sdk_token(const std::string& value) {
   
-  _impl_.token_.Set(value, GetArenaForAllocation());
+  _impl_.sdk_token_.Set(value, GetArenaForAllocation());
 }
-inline std::string* C2SLoginReq::_internal_mutable_token() {
+inline std::string* C2SLoginReq::_internal_mutable_sdk_token() {
   
-  return _impl_.token_.Mutable(GetArenaForAllocation());
+  return _impl_.sdk_token_.Mutable(GetArenaForAllocation());
 }
-inline std::string* C2SLoginReq::release_token() {
-  // @@protoc_insertion_point(field_release:C2S.C2SLoginReq.token)
-  return _impl_.token_.Release();
+inline std::string* C2SLoginReq::release_sdk_token() {
+  // @@protoc_insertion_point(field_release:C2S.C2SLoginReq.sdk_token)
+  return _impl_.sdk_token_.Release();
 }
-inline void C2SLoginReq::set_allocated_token(std::string* token) {
-  if (token != nullptr) {
+inline void C2SLoginReq::set_allocated_sdk_token(std::string* sdk_token) {
+  if (sdk_token != nullptr) {
     
   } else {
     
   }
-  _impl_.token_.SetAllocated(token, GetArenaForAllocation());
+  _impl_.sdk_token_.SetAllocated(sdk_token, GetArenaForAllocation());
 #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
-  if (_impl_.token_.IsDefault()) {
-    _impl_.token_.Set("", GetArenaForAllocation());
+  if (_impl_.sdk_token_.IsDefault()) {
+    _impl_.sdk_token_.Set("", GetArenaForAllocation());
   }
 #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
-  // @@protoc_insertion_point(field_set_allocated:C2S.C2SLoginReq.token)
+  // @@protoc_insertion_point(field_set_allocated:C2S.C2SLoginReq.sdk_token)
 }
 
 // int32 channel_id = 3;
@@ -756,29 +1115,261 @@ inline void C2SLoginRes::set_error_code(int32_t value) {
   // @@protoc_insertion_point(field_set:C2S.C2SLoginRes.error_code)
 }
 
-// int32 token = 2;
-inline void C2SLoginRes::clear_token() {
-  _impl_.token_ = 0;
+// string zone_token = 2;
+inline void C2SLoginRes::clear_zone_token() {
+  _impl_.zone_token_.ClearToEmpty();
 }
-inline int32_t C2SLoginRes::_internal_token() const {
-  return _impl_.token_;
+inline const std::string& C2SLoginRes::zone_token() const {
+  // @@protoc_insertion_point(field_get:C2S.C2SLoginRes.zone_token)
+  return _internal_zone_token();
 }
-inline int32_t C2SLoginRes::token() const {
-  // @@protoc_insertion_point(field_get:C2S.C2SLoginRes.token)
-  return _internal_token();
+template <typename ArgT0, typename... ArgT>
+inline PROTOBUF_ALWAYS_INLINE
+void C2SLoginRes::set_zone_token(ArgT0&& arg0, ArgT... args) {
+ 
+ _impl_.zone_token_.Set(static_cast<ArgT0 &&>(arg0), args..., GetArenaForAllocation());
+  // @@protoc_insertion_point(field_set:C2S.C2SLoginRes.zone_token)
 }
-inline void C2SLoginRes::_internal_set_token(int32_t value) {
+inline std::string* C2SLoginRes::mutable_zone_token() {
+  std::string* _s = _internal_mutable_zone_token();
+  // @@protoc_insertion_point(field_mutable:C2S.C2SLoginRes.zone_token)
+  return _s;
+}
+inline const std::string& C2SLoginRes::_internal_zone_token() const {
+  return _impl_.zone_token_.Get();
+}
+inline void C2SLoginRes::_internal_set_zone_token(const std::string& value) {
   
-  _impl_.token_ = value;
+  _impl_.zone_token_.Set(value, GetArenaForAllocation());
 }
-inline void C2SLoginRes::set_token(int32_t value) {
-  _internal_set_token(value);
-  // @@protoc_insertion_point(field_set:C2S.C2SLoginRes.token)
+inline std::string* C2SLoginRes::_internal_mutable_zone_token() {
+  
+  return _impl_.zone_token_.Mutable(GetArenaForAllocation());
+}
+inline std::string* C2SLoginRes::release_zone_token() {
+  // @@protoc_insertion_point(field_release:C2S.C2SLoginRes.zone_token)
+  return _impl_.zone_token_.Release();
+}
+inline void C2SLoginRes::set_allocated_zone_token(std::string* zone_token) {
+  if (zone_token != nullptr) {
+    
+  } else {
+    
+  }
+  _impl_.zone_token_.SetAllocated(zone_token, GetArenaForAllocation());
+#ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  if (_impl_.zone_token_.IsDefault()) {
+    _impl_.zone_token_.Set("", GetArenaForAllocation());
+  }
+#endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  // @@protoc_insertion_point(field_set_allocated:C2S.C2SLoginRes.zone_token)
+}
+
+// string host = 3;
+inline void C2SLoginRes::clear_host() {
+  _impl_.host_.ClearToEmpty();
+}
+inline const std::string& C2SLoginRes::host() const {
+  // @@protoc_insertion_point(field_get:C2S.C2SLoginRes.host)
+  return _internal_host();
+}
+template <typename ArgT0, typename... ArgT>
+inline PROTOBUF_ALWAYS_INLINE
+void C2SLoginRes::set_host(ArgT0&& arg0, ArgT... args) {
+ 
+ _impl_.host_.Set(static_cast<ArgT0 &&>(arg0), args..., GetArenaForAllocation());
+  // @@protoc_insertion_point(field_set:C2S.C2SLoginRes.host)
+}
+inline std::string* C2SLoginRes::mutable_host() {
+  std::string* _s = _internal_mutable_host();
+  // @@protoc_insertion_point(field_mutable:C2S.C2SLoginRes.host)
+  return _s;
+}
+inline const std::string& C2SLoginRes::_internal_host() const {
+  return _impl_.host_.Get();
+}
+inline void C2SLoginRes::_internal_set_host(const std::string& value) {
+  
+  _impl_.host_.Set(value, GetArenaForAllocation());
+}
+inline std::string* C2SLoginRes::_internal_mutable_host() {
+  
+  return _impl_.host_.Mutable(GetArenaForAllocation());
+}
+inline std::string* C2SLoginRes::release_host() {
+  // @@protoc_insertion_point(field_release:C2S.C2SLoginRes.host)
+  return _impl_.host_.Release();
+}
+inline void C2SLoginRes::set_allocated_host(std::string* host) {
+  if (host != nullptr) {
+    
+  } else {
+    
+  }
+  _impl_.host_.SetAllocated(host, GetArenaForAllocation());
+#ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  if (_impl_.host_.IsDefault()) {
+    _impl_.host_.Set("", GetArenaForAllocation());
+  }
+#endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  // @@protoc_insertion_point(field_set_allocated:C2S.C2SLoginRes.host)
+}
+
+// int32 port = 4;
+inline void C2SLoginRes::clear_port() {
+  _impl_.port_ = 0;
+}
+inline int32_t C2SLoginRes::_internal_port() const {
+  return _impl_.port_;
+}
+inline int32_t C2SLoginRes::port() const {
+  // @@protoc_insertion_point(field_get:C2S.C2SLoginRes.port)
+  return _internal_port();
+}
+inline void C2SLoginRes::_internal_set_port(int32_t value) {
+  
+  _impl_.port_ = value;
+}
+inline void C2SLoginRes::set_port(int32_t value) {
+  _internal_set_port(value);
+  // @@protoc_insertion_point(field_set:C2S.C2SLoginRes.port)
+}
+
+// -------------------------------------------------------------------
+
+// C2SLoginZoneReq
+
+// string user_id = 1;
+inline void C2SLoginZoneReq::clear_user_id() {
+  _impl_.user_id_.ClearToEmpty();
+}
+inline const std::string& C2SLoginZoneReq::user_id() const {
+  // @@protoc_insertion_point(field_get:C2S.C2SLoginZoneReq.user_id)
+  return _internal_user_id();
+}
+template <typename ArgT0, typename... ArgT>
+inline PROTOBUF_ALWAYS_INLINE
+void C2SLoginZoneReq::set_user_id(ArgT0&& arg0, ArgT... args) {
+ 
+ _impl_.user_id_.Set(static_cast<ArgT0 &&>(arg0), args..., GetArenaForAllocation());
+  // @@protoc_insertion_point(field_set:C2S.C2SLoginZoneReq.user_id)
+}
+inline std::string* C2SLoginZoneReq::mutable_user_id() {
+  std::string* _s = _internal_mutable_user_id();
+  // @@protoc_insertion_point(field_mutable:C2S.C2SLoginZoneReq.user_id)
+  return _s;
+}
+inline const std::string& C2SLoginZoneReq::_internal_user_id() const {
+  return _impl_.user_id_.Get();
+}
+inline void C2SLoginZoneReq::_internal_set_user_id(const std::string& value) {
+  
+  _impl_.user_id_.Set(value, GetArenaForAllocation());
+}
+inline std::string* C2SLoginZoneReq::_internal_mutable_user_id() {
+  
+  return _impl_.user_id_.Mutable(GetArenaForAllocation());
+}
+inline std::string* C2SLoginZoneReq::release_user_id() {
+  // @@protoc_insertion_point(field_release:C2S.C2SLoginZoneReq.user_id)
+  return _impl_.user_id_.Release();
+}
+inline void C2SLoginZoneReq::set_allocated_user_id(std::string* user_id) {
+  if (user_id != nullptr) {
+    
+  } else {
+    
+  }
+  _impl_.user_id_.SetAllocated(user_id, GetArenaForAllocation());
+#ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  if (_impl_.user_id_.IsDefault()) {
+    _impl_.user_id_.Set("", GetArenaForAllocation());
+  }
+#endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  // @@protoc_insertion_point(field_set_allocated:C2S.C2SLoginZoneReq.user_id)
+}
+
+// string zone_token = 2;
+inline void C2SLoginZoneReq::clear_zone_token() {
+  _impl_.zone_token_.ClearToEmpty();
+}
+inline const std::string& C2SLoginZoneReq::zone_token() const {
+  // @@protoc_insertion_point(field_get:C2S.C2SLoginZoneReq.zone_token)
+  return _internal_zone_token();
+}
+template <typename ArgT0, typename... ArgT>
+inline PROTOBUF_ALWAYS_INLINE
+void C2SLoginZoneReq::set_zone_token(ArgT0&& arg0, ArgT... args) {
+ 
+ _impl_.zone_token_.Set(static_cast<ArgT0 &&>(arg0), args..., GetArenaForAllocation());
+  // @@protoc_insertion_point(field_set:C2S.C2SLoginZoneReq.zone_token)
+}
+inline std::string* C2SLoginZoneReq::mutable_zone_token() {
+  std::string* _s = _internal_mutable_zone_token();
+  // @@protoc_insertion_point(field_mutable:C2S.C2SLoginZoneReq.zone_token)
+  return _s;
+}
+inline const std::string& C2SLoginZoneReq::_internal_zone_token() const {
+  return _impl_.zone_token_.Get();
+}
+inline void C2SLoginZoneReq::_internal_set_zone_token(const std::string& value) {
+  
+  _impl_.zone_token_.Set(value, GetArenaForAllocation());
+}
+inline std::string* C2SLoginZoneReq::_internal_mutable_zone_token() {
+  
+  return _impl_.zone_token_.Mutable(GetArenaForAllocation());
+}
+inline std::string* C2SLoginZoneReq::release_zone_token() {
+  // @@protoc_insertion_point(field_release:C2S.C2SLoginZoneReq.zone_token)
+  return _impl_.zone_token_.Release();
+}
+inline void C2SLoginZoneReq::set_allocated_zone_token(std::string* zone_token) {
+  if (zone_token != nullptr) {
+    
+  } else {
+    
+  }
+  _impl_.zone_token_.SetAllocated(zone_token, GetArenaForAllocation());
+#ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  if (_impl_.zone_token_.IsDefault()) {
+    _impl_.zone_token_.Set("", GetArenaForAllocation());
+  }
+#endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  // @@protoc_insertion_point(field_set_allocated:C2S.C2SLoginZoneReq.zone_token)
+}
+
+// -------------------------------------------------------------------
+
+// C2SLoginZoneRes
+
+// int32 error_code = 1;
+inline void C2SLoginZoneRes::clear_error_code() {
+  _impl_.error_code_ = 0;
+}
+inline int32_t C2SLoginZoneRes::_internal_error_code() const {
+  return _impl_.error_code_;
+}
+inline int32_t C2SLoginZoneRes::error_code() const {
+  // @@protoc_insertion_point(field_get:C2S.C2SLoginZoneRes.error_code)
+  return _internal_error_code();
+}
+inline void C2SLoginZoneRes::_internal_set_error_code(int32_t value) {
+  
+  _impl_.error_code_ = value;
+}
+inline void C2SLoginZoneRes::set_error_code(int32_t value) {
+  _internal_set_error_code(value);
+  // @@protoc_insertion_point(field_set:C2S.C2SLoginZoneRes.error_code)
 }
 
 #ifdef __GNUC__
   #pragma GCC diagnostic pop
 #endif  // __GNUC__
+// -------------------------------------------------------------------
+
+// -------------------------------------------------------------------
+
 // -------------------------------------------------------------------
 
 // -------------------------------------------------------------------

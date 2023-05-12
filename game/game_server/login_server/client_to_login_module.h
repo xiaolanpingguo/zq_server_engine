@@ -5,7 +5,7 @@
 #include "network/tcp_server.hpp"
 #include "game_common/bson_object.h"
 #include "protocol/c2s/c2s_common.pb.h"
-#include "protocol/s2s/db_mongo_proxy.pb.h"
+#include "common/coroutine_awaitor.hpp"
 
 
 namespace zq {
@@ -56,6 +56,7 @@ private:
 private:
 	void onC2SHeatBeatReq(TcpConnectionPtr connection, const C2S::C2SHeartBeat& msg);
 	void onC2SClientLoginReq(TcpConnectionPtr connection, const C2S::C2SLoginReq& msg);
+	async_simple::coro::Lazy<void> processLogin(TcpConnectionPtr connection, const C2S::C2SLoginReq& msg);
 
 private:
 	void onS2SFindAccountRes(bool success, const S2S::MongoUserData& userData, const std::vector<BsonObject>& result);

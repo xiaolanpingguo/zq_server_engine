@@ -272,7 +272,7 @@ bool MongoModule::mongoSave(const std::string& dbName, const std::string& collec
 	return true;
 }
 
-bool MongoModule::mongoFind(const std::string& dbName, const std::string& collectionName, BsonObject& selector, std::vector<BsonObject>& result, std::string& errorMsg, int limit, int skip)
+bool MongoModule::mongoFind(const std::string& dbName, const std::string& collectionName, BsonObject& selector, std::vector<BsonObjectPtr>& result, std::string& errorMsg, int limit, int skip)
 {
 	mongoc_collection_t* collection = getCollection(dbName, collectionName);
 	if (nullptr == collection)
@@ -307,8 +307,8 @@ bool MongoModule::mongoFind(const std::string& dbName, const std::string& collec
 		{
 			if (doc != nullptr)
 			{
-				BsonObject bsonObj;
-				bsonObj.convertFromRawBson(*doc);
+				BsonObjectPtr bsonObj = std::make_shared<BsonObject>();
+				bsonObj->convertFromRawBson(*doc);
 				result.emplace_back(bsonObj);
 			}
 			num++;
@@ -449,10 +449,10 @@ void MongoModule::testFind()
 				LOG_ERROR("[mongo test]", "find error: {}", result->errorMsg);
 				return;
 			}
-			LOG_INFO("[mongo test]", "find success, result num:{}", result->result.size());
-			for (auto& obj : result->result)
+			LOG_INFO("[mongo test]", "find success, result num:{}", result->foundResult.size());
+			for (auto& obj : result->foundResult)
 			{
-				LOG_INFO(s_logCategory, "details:{}", obj.debugPrint());
+				LOG_INFO(s_logCategory, "details:{}", obj->debugPrint());
 			}
 		});
 	}
@@ -472,10 +472,10 @@ void MongoModule::testFind()
 				LOG_ERROR("[mongo test]", "find error: {}", result->errorMsg);
 				return;
 			}
-			LOG_INFO("[mongo test]", "find success, result num:{}", result->result.size());
-			for (auto& obj : result->result)
+			LOG_INFO("[mongo test]", "find success, result num:{}", result->foundResult.size());
+			for (auto& obj : result->foundResult)
 			{
-				LOG_INFO(s_logCategory, "details:{}", obj.debugPrint());
+				LOG_INFO(s_logCategory, "details:{}", obj->debugPrint());
 			}
 		});
 	}

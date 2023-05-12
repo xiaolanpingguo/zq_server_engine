@@ -4,6 +4,7 @@
 #include "game_common/game_db_def.hpp"
 #include "game_common/bson_object.h"
 #include "game_common/gid.h"
+#include "db_mongo/mongo_module.h"
 
 
 namespace zq{
@@ -31,10 +32,6 @@ bool ClientToLoginModule::init()
 	MessageHelper& messagehelper = MessageHelper::getInstance();
 	messagehelper.registerHandler<&ClientToLoginModule::onC2SHeatBeatReq>(this, C2S::MSG_ID_HEARTBEAT);
 	messagehelper.registerHandler<&ClientToLoginModule::onC2SClientLoginReq>(this, C2S::MSG_ID_LOGIN_REQ);
-
-	//LoginToDBModule* loginToDbModule = m_thisServer->getModule<LoginToDBModule>();
-	//loginToDbModule->registerFindResCb(CMD_LOGIN_2_DB_FIND_ACCOUNT_REQ, std::bind(&ClientToLoginModule::onS2SFindAccountRes, this, _1, _2, _3));
-	//loginToDbModule->registerInsertResCb(CMD_LOGIN_2_DB_INSERT_ACCOUNT_REQ, std::bind(&ClientToLoginModule::onS2SInsertAccountRes, this, _1, _2));
 
 	m_tcpServer = std::make_unique<TcpServer<TcpConnection>>(m_thisServer->getIoContext(), m_thisServer->getConfig().internalIp, m_thisServer->getConfig().internalPort);
 	m_tcpServer->setClientConnectedCb(std::bind(&ClientToLoginModule::onClientConnected, this, _1));
@@ -77,20 +74,25 @@ void ClientToLoginModule::onC2SHeatBeatReq(TcpConnectionPtr connection, const C2
 
 void ClientToLoginModule::onC2SClientLoginReq(TcpConnectionPtr connection, const C2S::C2SLoginReq& msg)
 {
+	processLogin(connection, msg).start([](auto&&) {});
+}
+
+async_simple::coro::Lazy<void> ClientToLoginModule::processLogin(TcpConnectionPtr connection, const C2S::C2SLoginReq& msg)
+{
 	std::string sdkUserId = msg.sdk_user_id();
-	std::string token = msg.token();
+	std::string sdk_token = msg.sdk_token();
 	int channeId = msg.channel_id();
 
-	if (sdkUserId.empty() || token.empty())
+	if (sdkUserId.empty() || sdk_token.empty())
 	{
-		return;
+		co_return;
 	}
 
 	// the user login has in progress
 	auto session = findSession(sdkUserId);
 	if (session)
 	{
-		return;
+		co_return;
 	}
 
 	std::string sessionId = Gid::genGid();
@@ -99,20 +101,73 @@ void ClientToLoginModule::onC2SClientLoginReq(TcpConnectionPtr connection, const
 	session->createTime = time(nullptr);
 	session->sdkAccountInfo.sdkUserId = sdkUserId;
 	session->sdkAccountInfo.channelId = channeId;
-	session->sdkAccountInfo.token = token;
+	session->sdkAccountInfo.token = sdk_token;
 	session->sessionId = sessionId;
 	session->status = SessionStatus::WAITING_DB_RES;
 	session->connection = connection;
 	m_sessions[sdkUserId] = session;
 
 	// find user from DB
-	BsonObject selector;
-	selector.appendString(ACCOUNT_KEY_SDK_USER_ID, sdkUserId);
+	BsonObjectPtr selector = std::make_shared<BsonObject>();
+	selector->appendString(ACCOUNT_KEY_SDK_USER_ID, sdkUserId);
+	MongoResultPtr result = co_await m_thisServer->getModule<MongoModule>()->find(DB_NAME, COL_ACCOUNT, selector);
+	
+	// check if session expired
 
-	S2S::MongoUserData userData;
-	userData.set_int32_var1(CMD_LOGIN_2_DB_FIND_ACCOUNT_REQ);
-	userData.set_string_var1(sdkUserId);
-	//m_thisServer->getModule<LoginToDBModule>()->requestFind(DB_NAME, COL_ACCOUNT, selector, &userData);
+	int errorCode = 1;
+
+	do
+	{
+		if (!result->success)
+		{
+			LOG_ERROR(s_logCategory, "find acccount db failed:{}.", result->errorMsg);
+			errorCode = 1;
+			break;
+		}
+
+		if (result->foundResult.size() > 1)
+		{
+			LOG_ERROR(s_logCategory, "user account data error!, there are {} result!", result->foundResult.size());
+			errorCode = 1;
+			break;
+		}
+
+		// we got a new user, insert this account data
+		if (result->foundResult.empty())
+		{
+			BsonObjectPtr insertor = std::make_shared<BsonObject>();
+			insertor->appendString(ACCOUNT_KEY_SDK_USER_ID, sdkUserId);
+			insertor->appendInt32(ACCOUNT_KEY_SDK_CHANNEL_ID, channeId);
+			MongoResultPtr insertResult = co_await m_thisServer->getModule<MongoModule>()->insert(DB_NAME, COL_ACCOUNT, insertor);
+			if (!insertResult->success)
+			{
+				LOG_ERROR(s_logCategory, "insert user account failed:{}", insertResult->errorMsg);
+				int errorCode = 1;
+				break;
+			}
+		}
+
+		// check account info
+		BsonObjectPtr account = result->foundResult[0];
+
+		errorCode = 0;
+	}
+	while (0);
+
+	C2S::C2SLoginRes res;
+	res.set_error_code(errorCode);
+	res.set_zone_token("");
+	res.set_host("127.0.0.1");
+	res.set_port(1234);
+
+	std::string strRes;
+	if (!res.SerializeToString(&strRes))
+	{
+		LOG_ERROR(s_logCategory, "SerializeToString error!");
+		co_return;
+	}
+
+	connection->sendData(C2S::MSG_ID_LOGIN_RES, strRes.data(), (uint32_t)strRes.size());
 }
 
 void ClientToLoginModule::onS2SFindAccountRes(bool success, const S2S::MongoUserData& userData, const std::vector<BsonObject>& result)
