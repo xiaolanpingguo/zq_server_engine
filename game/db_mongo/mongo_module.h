@@ -66,6 +66,7 @@ private:
 	mongoc_uri_t* m_mongoUrl;
 	mongoc_client_t* m_mongoClient;
 
+	bool m_threadStop;
 	std::thread m_thr;
 	std::queue<MongoQueryCallback> m_callbacks;
 	ConcurrentQueue<MongoTask*> m_queue;

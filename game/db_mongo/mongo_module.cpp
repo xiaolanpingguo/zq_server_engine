@@ -8,6 +8,7 @@ namespace zq{
 
 
 MongoModule::MongoModule(const std::string& user, const std::string& pwd, const std::string& host, uint16_t port) :
+		m_threadStop(false),
 		m_thr(std::bind(&MongoModule::taskThrad, this)),
 		m_mongoUrl(nullptr),
 		m_mongoClient(nullptr),
@@ -66,6 +67,8 @@ bool MongoModule::update()
 
 bool MongoModule::finalize()
 {
+	m_threadStop = true;
+	m_thr.join();
 	for (auto& pair : m_collections)
 	{
 		mongoc_collection_destroy(pair.second);
@@ -178,7 +181,7 @@ bool MongoModule::mongoInsert(const std::string& dbName, const std::string& coll
 	mongoc_collection_t* collection = getCollection(dbName, collectionName);
 	if (nullptr == collection)
 	{
-		errorMsg = std::vformat("[mongo insert]cannot find collection: dbName:{}, collectionName:{}.", std::make_format_args(dbName, collectionName));
+		errorMsg = fmt::format("[mongo insert]cannot find collection: dbName:{}, collectionName:{}.", dbName, collectionName);
 		LOG_ERROR(s_logCategory, "{}", errorMsg);
 		return false;
 	}
@@ -190,7 +193,7 @@ bool MongoModule::mongoInsert(const std::string& dbName, const std::string& coll
 	if (!mongoc_collection_insert_one(collection, &bson, nullptr, nullptr, &mongoError))
 	{
 		bson_destroy(&bson);
-		errorMsg = std::vformat("insert mongo data error, dbName:{}, collectionName:{}, error:{}:{}:{}.", std::make_format_args(dbName, collectionName, mongoError.domain, mongoError.code, mongoError.message));
+		errorMsg = fmt::format("insert mongo data error, dbName:{}, collectionName:{}, error:{}:{}:{}.", dbName, collectionName, mongoError.domain, mongoError.code, mongoError.message);
 		LOG_ERROR(s_logCategory, "{}", errorMsg);
 		return false;
 	}
@@ -205,7 +208,7 @@ bool MongoModule::mongoRemove(const std::string& dbName, const std::string& coll
 	mongoc_collection_t* collection = getCollection(dbName, collectionName);
 	if (nullptr == collection)
 	{
-		errorMsg = std::vformat("[mongo insert]cannot find collection: dbName:{}, collectionName:{}.", std::make_format_args(dbName, collectionName));
+		errorMsg = fmt::format("[mongo insert]cannot find collection: dbName:{}, collectionName:{}.", dbName, collectionName);
 		LOG_ERROR(s_logCategory, "{}", errorMsg);
 		return false;
 	}
@@ -217,7 +220,7 @@ bool MongoModule::mongoRemove(const std::string& dbName, const std::string& coll
 
 	if (!mongoc_collection_delete_one(collection, &bsonSelector, nullptr, nullptr, &mongoError))
 	{
-		errorMsg = std::vformat("remove mongo data error, dbName:{}, collectionName:{}, error:{}:{}:{}.", std::make_format_args(dbName, collectionName, mongoError.domain, mongoError.code, mongoError.message));
+		errorMsg = fmt::format("remove mongo data error, dbName:{}, collectionName:{}, error:{}:{}:{}.", dbName, collectionName, mongoError.domain, mongoError.code, mongoError.message);
 		LOG_ERROR(s_logCategory, "{}", errorMsg);
 		bson_destroy(&bsonSelector);
 		return false;
@@ -232,7 +235,7 @@ bool MongoModule::mongoSave(const std::string& dbName, const std::string& collec
 	mongoc_collection_t* collection = getCollection(dbName, collectionName);
 	if (nullptr == collection)
 	{
-		errorMsg = std::vformat("[mongo insert]cannot find collection: dbName:{}, collectionName:{}.", std::make_format_args(dbName, collectionName));
+		errorMsg = fmt::format("[mongo insert]cannot find collection: dbName:{}, collectionName:{}.", dbName, collectionName);
 		LOG_ERROR(s_logCategory, "{}", errorMsg);
 		return false;
 	}
@@ -258,7 +261,7 @@ bool MongoModule::mongoSave(const std::string& dbName, const std::string& collec
 
 	if (!mongoc_collection_replace_one(collection, &bsonSelector, &bsonUpdateort, &bsonOpt, nullptr, &mongoError))
 	{
-		errorMsg = std::vformat("save mongo data error, dbName:{}, collectionName:{}, error:{}:{}:{}.", std::make_format_args(dbName, collectionName, mongoError.domain, mongoError.code, mongoError.message));
+		errorMsg = fmt::format("save mongo data error, dbName:{}, collectionName:{}, error:{}:{}:{}.", dbName, collectionName, mongoError.domain, mongoError.code, mongoError.message);
 		LOG_ERROR(s_logCategory, "{}", errorMsg);
 		bson_destroy(&bsonOpt);
 		bson_destroy(&bsonSelector);
@@ -277,7 +280,7 @@ bool MongoModule::mongoFind(const std::string& dbName, const std::string& collec
 	mongoc_collection_t* collection = getCollection(dbName, collectionName);
 	if (nullptr == collection)
 	{
-		errorMsg = std::vformat("[mongo insert]cannot find collection: dbName:{}, collectionName:{}.", std::make_format_args(dbName, collectionName));
+		errorMsg = fmt::format("[mongo insert]cannot find collection: dbName:{}, collectionName:{}.", dbName, collectionName);
 		LOG_ERROR(s_logCategory, "{}", errorMsg);
 		return false;
 	}
@@ -325,7 +328,7 @@ bool MongoModule::mongoFind(const std::string& dbName, const std::string& collec
 
 	if (!success)
 	{
-		errorMsg = std::vformat("find mongo data error, dbName:{}, collectionName:{}.", std::make_format_args(dbName, collectionName));
+		errorMsg = fmt::format("find mongo data error, dbName:{}, collectionName:{}.", dbName, collectionName);
 		LOG_ERROR(s_logCategory, "{}", errorMsg);
 		return false;
 	}
@@ -498,6 +501,22 @@ void MongoModule::taskThrad()
 	while (1)
 	{
 		MongoTask* task;
+
+		if (m_threadStop)
+		{
+			while (!m_queue.empty())
+			{
+				if (m_queue.pop(task))
+				{
+					task->execute();
+					delete task;
+					task = nullptr;
+				}
+			}
+
+			break;
+		}
+
 		m_queue.waitAndPop(task);
 		task->execute();
 		delete task;

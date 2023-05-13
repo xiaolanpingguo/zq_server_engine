@@ -10,7 +10,7 @@ GroupSources(${CMAKE_CURRENT_SOURCE_DIR})
 CollectIncludeDirectories(${CMAKE_CURRENT_SOURCE_DIR} PUBLIC_INCLUDES)
 
 
-target_link_libraries(login_server c2s_protocol db_mongo ${GAME_COMM_LINK_LIB} ${COMM_LINK_LIB})	
+target_link_libraries(login_server c2s_protocol db_redis db_mongo ${GAME_COMM_LINK_LIB} ${COMM_LINK_LIB})	
 set_target_properties(login_server PROPERTIES FOLDER "game")
 
 install(TARGETS login_server RUNTIME DESTINATION ${InstallDir})

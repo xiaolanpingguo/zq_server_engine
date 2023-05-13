@@ -6,9 +6,10 @@
 #include <assert.h>
 #include <atomic>
 #include <filesystem>
-#include <format>
+//#include <format> text format support need gcc-13
 #include <fstream>
 #include <map>
+#include "common/format.hpp"
 #include "common/concurrent_queue.hpp"
 
 
@@ -94,13 +95,16 @@ public:
 		std::string str;
 		if (level <= LogLevel::Info)
 		{
-			str = std::vformat("[{}][{}][{}]: ", std::make_format_args(category, toStringLvel(level), strTime));
+			//str = std::vformat("[{}][{}][{}]: ", std::make_format_args(category, toStringLvel(level), strTime));
+			str = fmt::format("[{}][{}][{}]: ", category, toStringLvel(level), strTime);
 		}
 		else
 		{
-			str = std::vformat("[{}][{}][{}:{}:{}()-{}]: ", std::make_format_args(category, toStringLvel(level), file, line, fun, strTime));
+			//str = std::vformat("[{}][{}][{}:{}:{}()-{}]: ", std::make_format_args(category, toStringLvel(level), file, line, fun, strTime));
+			str = fmt::format("[{}][{}][{}:{}:{}()-{}]: ", category, toStringLvel(level), file, line, fun, strTime);
 		}
-		str += std::vformat(fmt, std::make_format_args(std::forward<Args>(args)...));
+		//str += std::vformat(fmt, std::make_format_args(std::forward<Args>(args)...));
+		str += fmt::format(fmt, std::forward<Args>(args)...);
 
 		m_logQueue.push(std::move(str));
 
@@ -266,7 +270,7 @@ private:
 
 	uint32_t m_fileNumber = 0;
 	std::streamoff m_bytesWritten = 0;
-	uint32_t m_rollSizeBytes;
+	uint32_t m_rollSizeBytes = 4 * 1024 * 1024;
 	std::string m_name;
 };
 

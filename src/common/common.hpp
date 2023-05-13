@@ -94,11 +94,13 @@ inline void Assert(bool condition, std::string_view file, int line, std::string_
 	std::string str = "";
 	if (file.data() && fun.data())
 	{
-		str += std::vformat("file:{}, line:{}, function:{}, msg:", std::make_format_args(file, line, fun));
+		//str += std::vformat("file:{}, line:{}, function:{}, msg:", std::make_format_args(file, line, fun));
+		str += fmt::format("file:{}, line:{}, function:{}, msg:", file, line, fun);
 	}
 	if (fmt.data())
 	{
-		str += std::vformat(fmt, std::make_format_args(std::forward<Args>(args)...));
+		//str += std::vformat(fmt, std::make_format_args(std::forward<Args>(args)...));
+		str += fmt::format(fmt, std::forward<Args>(args)...);
 	}
 
 	fprintf(stderr, "\nASSERTION FAILED:%s\n", str.c_str());

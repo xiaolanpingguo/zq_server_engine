@@ -43,7 +43,7 @@ std::string AppId::convertIntToStr(int appid)
 	int funcId = getFuncId(appid);
 	int zoneId = getZoneId(appid);
 	int instId = getInstId(appid);
-	return std::vformat("{}.{}.{}.{}", std::make_format_args(worldId, funcId, zoneId, instId));
+	return fmt::format("{}.{}.{}.{}", worldId, funcId, zoneId, instId);
 }
 
 int AppId::getWorldId(int appid)

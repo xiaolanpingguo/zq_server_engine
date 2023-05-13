@@ -2,7 +2,7 @@
 
 
 #include "game_common/bson_object.h"
-#include "db_mongo/query_callback.hpp"
+#include "game_common/query_callback.hpp"
 
 
 namespace zq{

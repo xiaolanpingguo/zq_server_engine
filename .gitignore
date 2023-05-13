@@ -5,3 +5,5 @@ thirdparty/protobuf-22.1/install/
 thirdparty/protobuf-22.1/build/
 thirdparty/mongo-c-driver-1.23.3/install/
 thirdparty/mongo-c-driver-1.23.3/cmake-build/
+thirdparty/hiredis-1.1.0/install/
+thirdparty/hiredis-1.1.0/build/
