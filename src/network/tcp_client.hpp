@@ -41,14 +41,6 @@ public:
 
 	void asyncConnect()
 	{
-		asio::error_code errorCode;
-		auto addr = asio::ip::address::from_string(m_host, errorCode);
-		if (errorCode)
-		{
-			LOG_ERROR(s_logCategory, "asyncConnect address::from_string: {}", errorCode.message());
-			return;
-		}
-
 		std::shared_ptr<asio::steady_timer> timer = std::make_shared<asio::steady_timer>(m_ioContext);
 		timer->expires_after(std::chrono::milliseconds(m_connectTimeoutMs));
 		timer->async_wait(std::bind(&TcpClient::timeout, this->shared_from_this(), std::placeholders::_1));
@@ -99,7 +91,7 @@ public:
 							LOG_ERROR(s_logCategory, "asyncConnect error: {}", ec.message());
 							if (m_onConnectToServer)
 							{
-								m_onConnectToServer(nullptr, std::format("connecte {}:{} failed, error msg:{}!", m_host, m_port, ec ? ec.message() : "unkown error."));
+								m_onConnectToServer(nullptr, fmt::format("connecte {}:{} failed, error msg:{}!", m_host, m_port, ec ? ec.message() : "unkown error."));
 							}
 
 							if (m_retryCount <= 0)
@@ -155,8 +147,8 @@ private:
 private:
 
 	asio::io_context& m_ioContext;
-	asio::ip::tcp::resolver m_resolver;
 	asio::ip::tcp::socket m_socket;
+	asio::ip::tcp::resolver m_resolver;
 
 	std::string m_host;
 	uint16_t m_port;

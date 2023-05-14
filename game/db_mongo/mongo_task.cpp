@@ -10,7 +10,7 @@ MongoTask::MongoTask(MongoModule* mongoModule, const std::string& dbName, const 
 		m_dbName(dbName),
 		m_collectionName(collectionName)
 {
-	m_result = std::make_unique<QueryResultPromise>();
+	m_result = std::make_unique<MongoQueryResultPromise>();
 }
 
 

@@ -2,6 +2,10 @@
 #include "db_redis/redis_commond.hpp"
 #include "db_redis/redis_task.h"
 
+#ifdef PLATFORM_WIN
+#pragma warning(disable : 4200) // hiredis lib: nonstandard extension used: zero-sized array in struct/union
+#endif
+
 #include <hiredis/hiredis.h>
 
 

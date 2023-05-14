@@ -13,8 +13,7 @@ class ConcurrentQueue
 {
 public:
 
-	using DataType = T;
-	ConcurrentQueue<T>() : m_shutdown(false) {}
+	ConcurrentQueue() : m_shutdown(false) {}
 
 	void push(const T& value)
 	{

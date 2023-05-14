@@ -11,8 +11,8 @@ namespace zq{
 
 using RedisResultPtr = std::shared_ptr<redisReply>;
 using RedisQueryCallback = QueryCallback<RedisResultPtr>;
-using QueryResultFuture = typename RedisQueryCallback::QueryResultFuture;
-using QueryResultPromise = typename RedisQueryCallback::QueryResultPromise;
+using RedisQueryResultFuture = typename RedisQueryCallback::QueryResultFuture;
+using RedisQueryResultPromise = typename RedisQueryCallback::QueryResultPromise;
 
 
 class RedisModule;
@@ -22,13 +22,13 @@ public:
 	RedisTask(RedisModule* redisModule, const std::string& command);
 	virtual ~RedisTask() {}
 	virtual void execute();
-	QueryResultFuture getFuture();
+	RedisQueryResultFuture getFuture();
 
 protected:
-	std::unique_ptr<QueryResultPromise> m_result;
 
-	std::string m_command;
 	RedisModule* m_redisModule;
+	std::string m_command;
+	std::unique_ptr<RedisQueryResultPromise> m_result;
 };
 
 

@@ -9,5 +9,8 @@
 	"mongoUser": "null",
 	"mongoPwd": "null",
 	"mongoHost": "localhost",
-	"mongoPort": 27017
+	"mongoPort": 27017,
+	"redisAuth": "null",
+	"redisHost": "192.168.0.109",
+	"redisPort": 7001
 }

@@ -1,9 +1,9 @@
 #include "common/utils.h"
 #include "common/file.hpp"
 
-#ifdef PLATFORM_WIN
+#if defined(PLATFORM_WIN)
 #include <windows.h>
-#elif PLATFORM_LINUX
+#elif defined(PLATFORM_LINUX)
 #include <unistd.h>
 #endif
 
@@ -23,10 +23,12 @@ int Utils::createPIDFile(std::string const& filename)
 
 int Utils::getPid()
 {
-#ifdef PLATFORM_WIN
+#if defined(PLATFORM_WIN)
 	int pid = (int)GetCurrentProcessId();
+#elif defined(PLATFORM_LINUX)
+	int pid = getpid();
 #else
-	int pid = _getpid();
+	int pid = 0;
 #endif
 
 	return pid;

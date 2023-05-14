@@ -1,15 +1,30 @@
 #include <iostream>
+#include <functional>
+#include "test.h"
 #include "common/format.hpp"
 using namespace std;
 using namespace zq;
 
+
 int main(int argc, char* argv[])
 {
-	int a = 100;
-	std::string s = "dwa";
-	float b = 9.8f;
-	std::string str = fmt::format("[{dwa}][{0}][{2}]: ", a, s, b);
-	std::cout << str << std::endl;
+	Log::getInstance().init("test", 4);
+
+	std::vector<std::function<bool()>> vec
+	{
+		std::bind(formatTest),
+		std::bind(redisTest),
+	};
+
+	for (const auto& fun : vec)
+	{
+		if (!fun())
+		{
+			std::cout << "test function:" << fun.target_type().name() << "failed !" << std::endl; 
+		}
+	}
+
+	Log::getInstance().finalize();
 	return 0;
 }
 

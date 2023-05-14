@@ -1,1 +1,0 @@
-db_server.exe -cfg=db_server_1.json

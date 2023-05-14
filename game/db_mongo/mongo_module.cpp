@@ -81,7 +81,7 @@ bool MongoModule::finalize()
 
 MongoQueryCallback MongoModule::addTask(MongoTask* task)
 {
-	QueryResultFuture result = task->getFuture();
+	MongoQueryResultFuture result = task->getFuture();
 	m_queue.push(task);
 	return MongoQueryCallback(std::move(result));
 }
@@ -140,11 +140,11 @@ bool MongoModule::initMongo()
 {
 	if (m_user == "null")
 	{
-		m_url = std::format("mongodb://{}:{}", m_host, m_port);
+		m_url = fmt::format("mongodb://{}:{}", m_host, m_port);
 	}
 	else
 	{
-		m_url = std::format("mongodb://{}:{}@{}:{}/?{}", m_user, m_pwd, m_host, m_port, "authMechanism=SCRAM-SHA-1");
+		m_url = fmt::format("mongodb://{}:{}@{}:{}/?{}", m_user, m_pwd, m_host, m_port, "authMechanism=SCRAM-SHA-1");
 	}
 
 	mongoc_init();

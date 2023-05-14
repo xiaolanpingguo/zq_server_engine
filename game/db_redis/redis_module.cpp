@@ -2,6 +2,8 @@
 
 #ifdef PLATFORM_WIN
 #include <winsock2.h> /* For struct timeval */
+#pragma comment(lib, "ws2_32.lib")
+#pragma warning(disable : 4200) // hiredis lib: nonstandard extension used: zero-sized array in struct/union
 #endif
 
 #include <hiredis/hiredis.h>
@@ -10,12 +12,11 @@
 namespace zq{
 
 
-RedisModule::RedisModule(const std::string& user, const std::string& pwd, const std::string& host, uint16_t port) :
+RedisModule::RedisModule(const std::string& auth, const std::string& host, uint16_t port) :
 		m_threadStop(false),
 		m_thr(std::bind(&RedisModule::taskThrad, this)),
 		m_redisContext(nullptr),
-		m_user(user),
-		m_pwd(pwd),
+		m_auth(auth),
 		m_host(host),
 		m_port(port),
 		m_clusterEnabled(false)
@@ -85,7 +86,7 @@ bool RedisModule::initRedis()
 	}
 
 	// auth
-	if (!AUTH(m_pwd))
+	if (m_auth != "null" && !AUTH(m_auth))
 	{
 		LOG_ERROR(s_logCategory, "redis authorization faild!");
 		redisFree(c);
@@ -103,16 +104,11 @@ bool RedisModule::initRedis()
 	}
 	if (r == 1)
 	{
-		//for (size_t i = 0; i < m_clients.size(); i++)
-		//{
-		//	m_clients.at(i) = m_redisContext;
-		//}
-
 		LOG_INFO(s_logCategory, "redis has setup with standalone mode.");
 		return true;
 	}
 
-	// we are using redis cluster
+	// using redis cluster
 	m_clusterEnabled = true;
 	LOG_INFO(s_logCategory, "redis has setup with cluster mode.");
 	if (getRedisClusterInfo() != 0)
@@ -135,7 +131,7 @@ int RedisModule::checkClusterEnabled()
 
 	if (reply->type == REDIS_REPLY_STRING)
 	{
-		char* ptr = std::strstr(reply->str, "cluster_enabled:1");
+		char* ptr = strstr(reply->str, "cluster_enabled:1");
 		if (ptr)
 		{
 			freeReplyObject(reply);
@@ -149,7 +145,6 @@ int RedisModule::checkClusterEnabled()
 
 int RedisModule::getRedisClusterInfo()
 {
-	// todo 
 	redisReply* reply = (redisReply*)redisCommand(m_redisContext, "CLUSTER SHARDS");
 	if (reply == nullptr)
 	{
@@ -164,71 +159,176 @@ int RedisModule::getRedisClusterInfo()
 		return -1;
 	}
 
-	for (int i = 0; i < reply->elements; i++)
+	for (int i = 0; i < (int)reply->elements; i++)
 	{
-		redisReply* ptrCluster = reply->element[i];
-		if (ptrCluster == nullptr || ptrCluster->type != REDIS_REPLY_ARRAY)
+		redisReply* shard = reply->element[i];
+		if (shard == nullptr || shard->type != REDIS_REPLY_ARRAY)
 		{
 			continue;
 		}
 
-		for (int j = 0; j < ptrCluster->elements; j++)
+		std::vector<int> slotIndex;
+		std::vector<RedisClusterNode> nodes;
+
+		for (int j = 0; j < (int)shard->elements; j++)
 		{
-			redisReply* ptrNode = ptrCluster->element[j];
-			if (ptrNode == nullptr)
-			{
+			redisReply* node = shard->element[j];
+			if (node == nullptr)
+			{ 
 				continue;
 			}
 
-			// slots: begin and end
-			if (REDIS_REPLY_INTEGER == ptrNode->type)
+			if (node->type == REDIS_REPLY_STRING && node->str)
 			{
-				if (j == 0)
+				if (strcmp(node->str, "slots") == 0)
 				{
-					m_nodes[i].slot[i].begin = (int)ptrNode->integer;
-				}
-				else if (j == 1)
-				{
-					m_nodes[i].slot[i].end = (int)ptrNode->integer;
-				}
-			}
-			// nodes
-			else if (REDIS_REPLY_ARRAY == ptrNode->type)
-			{
-				if (ptrNode->elements == 0)
-				{
-					continue;
-				}
-
-				for (int k = 0; k < 2; k++)
-				{
-					redisReply* ptrHost = ptrNode->element[k];
-					if (ptrHost == nullptr)
+					redisReply* ele = shard->element[j + 1];
+					if (ele == nullptr || ele->type != REDIS_REPLY_ARRAY)
 					{
 						continue;
 					}
 
-					if (REDIS_REPLY_STRING == ptrHost->type)
+					for (int k = 0; k < ele->elements; k++)
 					{
-						m_nodes[i].ip = std::string(ptrHost->str, ptrHost->len);
-					}
-					else if (REDIS_REPLY_INTEGER == ptrHost->type)
-					{
-						m_nodes[i].port = (uint16_t)ptrHost->integer;
-					}
-				}
+						redisReply* slots = ele->element[k];
+						if (slots == nullptr)
+						{
+							continue;
+						}
 
-				break;
+						if (slots->type == REDIS_REPLY_INTEGER)
+						{
+							slotIndex.emplace_back((int)slots->integer);
+						}
+					}
+
+					// we have got a slots by shard->element[j + 1]
+					++j;
+				}
+				else if (strcmp(node->str, "nodes") == 0)
+				{
+					redisReply* ele = shard->element[j + 1];
+					if (ele == nullptr || ele->type != REDIS_REPLY_ARRAY)
+					{
+						continue;
+					}
+
+					for (int k = 0; k < ele->elements; ++k)
+					{
+						RedisClusterNode node;
+
+						redisReply* nodesEle = ele->element[k];
+						if (nodesEle == nullptr || nodesEle->type != REDIS_REPLY_ARRAY)
+						{
+							continue;
+						}
+
+						for (int x = 0; x < nodesEle->elements; x += 2)
+						{
+							redisReply* key = nodesEle->element[x];
+							redisReply* value = nodesEle->element[x + 1];
+							if (key == nullptr || value == nullptr)
+							{
+								continue;
+							}
+
+							if (strcmp(key->str, "id") == 0 && value->type == REDIS_REPLY_STRING && value->str && value->len > 0)
+							{
+								std::string id = std::string(value->str, value->len);
+								node.id = id;
+							}
+							else if (strcmp(key->str, "ip") == 0 && value->type == REDIS_REPLY_STRING && value->str && value->len > 0)
+							{
+								std::string ip = std::string(value->str, value->len);
+								node.ip = ip;
+							}
+							else if (strcmp(key->str, "role") == 0 && value->type == REDIS_REPLY_STRING && value->str && value->len > 0)
+							{
+								std::string role = std::string(value->str, value->len);
+								node.role = role;
+							}
+							else if (strcmp(key->str, "port") == 0 && value->type == REDIS_REPLY_INTEGER)
+							{
+								uint16_t port = (uint16_t)value->integer;
+								node.port = port;
+							}
+						}
+
+						nodes.emplace_back(node);
+					}
+
+					++j;
+				}	
 			}
 		}
+
+		std::sort(slotIndex.begin(), slotIndex.end());
+		RedisClusterShard shardInfo;
+		shardInfo.slots = std::move(slotIndex);
+		shardInfo.nodes = std::move(nodes);
+		m_redisClusterShards.emplace_back(shardInfo);
 	}
+
+	LOG_INFO(s_logCategory, "redis cluster info: ");
+	for (size_t i = 0; i < m_redisClusterShards.size(); ++i)
+	{
+		const RedisClusterShard& shard = m_redisClusterShards[i];
+		std::string slotsStr;
+		for (size_t j = 0; j < shard.slots.size(); ++j)
+		{
+			slotsStr += std::to_string(shard.slots[j]);
+			slotsStr += " ";
+		}
+		std::string nodesStr;
+		for (size_t j = 0; j < shard.nodes.size(); ++j)
+		{
+			nodesStr.append("id: ");
+			nodesStr.append(shard.nodes[j].id);
+			nodesStr.append("  ");
+
+			nodesStr.append("ip: ");
+			nodesStr.append(shard.nodes[j].ip);
+			nodesStr.append("  ");
+
+			nodesStr.append("pord: ");
+			nodesStr.append(std::to_string(shard.nodes[j].port));
+			nodesStr.append("  ");
+
+			nodesStr.append("role: ");
+			nodesStr.append(shard.nodes[j].role);
+			nodesStr.append("  ");
+		}
+
+		LOG_INFO(s_logCategory, "redis cluster shard:{}, slots index:{}, nodes:{}", i, slotsStr, nodesStr);
+	}
+
+	freeReplyObject(reply);
 
 	return 0;
 }
 
 bool RedisModule::setupRedisCluster()
 {
-	// todo 
+	// to do
+	for (size_t i = 0; i < m_redisClusterShards.size(); ++i)
+	{
+		redisContext* conn = nullptr;
+		const RedisClusterShard& shard = m_redisClusterShards[i];
+		std::string slotsStr;
+		for (size_t j = 0; j < shard.slots.size(); ++j)
+		{
+			slotsStr += std::to_string(shard.slots[j]);
+			slotsStr += " ";
+		}
+
+		for (size_t j = 0; j < shard.nodes.size(); ++j)
+		{
+			std::string ip = shard.nodes[j].ip;
+			int port = shard.nodes[j].port;
+		}
+
+	}
+
 	return true;
 }
 
@@ -258,7 +358,7 @@ RedisResultPtr RedisModule::exeCmd(const std::string& cmd)
 
 RedisQueryCallback RedisModule::addTask(RedisTask* task)
 {
-	QueryResultFuture result = task->getFuture();
+	RedisQueryResultFuture result = task->getFuture();
 	m_queue.push(task);
 	return RedisQueryCallback(std::move(result));
 }

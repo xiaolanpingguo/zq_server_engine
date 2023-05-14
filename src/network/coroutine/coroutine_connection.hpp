@@ -40,10 +40,10 @@ public:
 		const ConnectToServerCallbackT& cb1, const ClientDisconnectedCallbackT& cb2) :
 			m_socket(ioContext),
 			m_resolver(ioContext),
-			m_connectionId(0),
-			m_isClient(true),
 			m_host(host),
 			m_port(port),
+			m_connectionId(0),
+			m_isClient(true),
 			m_onConnectToServer(cb1),
 			m_onDisconnectedFromServer(cb2)
 
@@ -259,7 +259,7 @@ public:
 			co_return false;
 		}
 
-		uint16_t readMsgId = readHeader->msgId;
+		//uint16_t readMsgId = readHeader->msgId;
 		uint32_t bodyLen = readHeader->bodyLen;
 
 		// read packet body
@@ -330,14 +330,14 @@ private:
 
 private:
 
+	asio::ip::tcp::socket m_socket;
+
 	// for client
 	asio::ip::tcp::resolver m_resolver;
 
-	asio::ip::tcp::socket m_socket;
 	std::string m_host;
 	uint16_t m_port;
 	uint64_t m_connectionId;
-
 	bool m_isClient;
 
 	// use for client/server

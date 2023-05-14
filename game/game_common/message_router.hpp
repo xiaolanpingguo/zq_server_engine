@@ -123,7 +123,6 @@ private:
 	bool registHandlerImpl(const HandlerKeyT& key)
 	{
 		static_assert(!std::is_member_function_pointer_v<decltype(Fun)>, "register member function but lack of the object pointer");
-		using return_type = function_return_type_t<decltype(Fun)>;
 
 		auto it = m_handlers.emplace(key, [this](std::shared_ptr<ConnectionT> connection, const char* data, uint32_t len) 
 			{
@@ -146,7 +145,6 @@ private:
 	{
 		using FunT = decltype(Fun);
 		using ParamType = function_parameters_t<FunT>;
-		using ReturnType = function_return_type_t<FunT>;
 
 		constexpr size_t size = std::tuple_size_v<ParamType>;
 		static_assert(size == 2, "param number must be 2 for message handler");

@@ -9,10 +9,10 @@ RedisTask::RedisTask(RedisModule* redisModule, const std::string& command) :
 		m_redisModule(redisModule),
 		m_command(command)
 {
-	m_result = std::make_unique<QueryResultPromise>();
+	m_result = std::make_unique<RedisQueryResultPromise>();
 }
 
-QueryResultFuture RedisTask::getFuture()
+RedisQueryResultFuture RedisTask::getFuture()
 {
 	return m_result->get_future();
 }

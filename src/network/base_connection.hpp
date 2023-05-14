@@ -164,15 +164,15 @@ protected:
 
 	asio::io_context& m_ioContext;
 	asio::ip::tcp::socket m_socket;
+	uint64_t m_connectionId;
 	std::string m_host;
 	uint16_t m_port;
-	uint64_t m_connectionId;
-
-	bool m_isClient;
 
 	bool m_closed;
 	bool m_isWritingAsync;
 	std::queue<MessageBuffer> m_writeQueue;
+
+	bool m_isClient;
 
 	constexpr static std::string_view s_logCategory = "BaseConnection";
 };

@@ -148,8 +148,8 @@ public:
 
 private:
 
-	BsonDataType m_type;
 	std::string m_key;
+	BsonDataType m_type;
 	VariantDataT m_data;
 };
 

@@ -12,7 +12,8 @@ namespace zq{
 
 NLOHMANN_DEFINE_TYPE_NON_INTRUSIVE(ZoneServerConfig, appId, masterServerIp, masterServerPort, 
 		internalIp, internalPort, externalIp, externalPort,
-		mongoUser, mongoPwd, mongoHost, mongoPort)
+		mongoUser, mongoPwd, mongoHost, mongoPort,
+		redisAuth, redisHost, redisPort)
 
 ZoneServer::ZoneServer(int argc, char* argv[])
 	:

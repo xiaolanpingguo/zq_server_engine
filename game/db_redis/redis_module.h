@@ -13,18 +13,19 @@ struct redisContext;
 namespace zq{
 
 
-struct RedisClusterSlot
-{
-	int begin = 0;
-	int end = 0;
-};
-
+// for redis cluster
 struct RedisClusterNode
 {
+	std::string id;
 	std::string ip;
-	uint16_t port = 0;
-	int second = 0;
-	std::map<int, RedisClusterSlot> slot;
+	std::string role;
+	uint16_t port;
+};
+
+struct RedisClusterShard
+{
+	std::vector<int> slots;
+	std::vector<RedisClusterNode> nodes;
 };
 
 
@@ -40,7 +41,7 @@ class RedisModule : public IModule
 	INIT_MODULE_NAME(RedisModule);
 
 public:
-	RedisModule(const std::string& user, const std::string& pwd, const std::string& host, uint16_t port);
+	RedisModule(const std::string& auth, const std::string& host, uint16_t port);
 	~RedisModule();
 
 public:
@@ -245,22 +246,22 @@ private:
 
 private:
 
-	std::string m_user;
-	std::string m_pwd;
-	std::string m_host;
-	uint16_t m_port;
-
 	bool m_threadStop;
 	std::thread m_thr;
+	redisContext* m_redisContext;
+
 	std::queue<RedisQueryCallback> m_callbacks;
 	ConcurrentQueue<RedisTask*> m_queue;
-	redisContext* m_redisContext;
+
+	std::string m_auth;
+	std::string m_host;
+	uint16_t m_port;
 
 	// for cluster
 	bool m_clusterEnabled;
 	constexpr static int s_maxRedisNodes = 16384;
 	std::array<redisContext*, s_maxRedisNodes> m_clients;
-	std::map<int, RedisClusterNode> m_nodes;
+	std::vector<RedisClusterShard> m_redisClusterShards;
 
 	constexpr static std::string_view s_logCategory = "RedisModule";
 };

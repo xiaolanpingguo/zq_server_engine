@@ -57,17 +57,19 @@ private:
 
 private:
 
+	bool m_threadStop;
+	std::thread m_thr;
+
+	mongoc_uri_t* m_mongoUrl;
+	mongoc_client_t* m_mongoClient;
+
 	std::string m_user;
 	std::string m_pwd;
 	std::string m_host;
 	uint16_t m_port;
 
 	std::string m_url;
-	mongoc_uri_t* m_mongoUrl;
-	mongoc_client_t* m_mongoClient;
 
-	bool m_threadStop;
-	std::thread m_thr;
 	std::queue<MongoQueryCallback> m_callbacks;
 	ConcurrentQueue<MongoTask*> m_queue;
 

@@ -18,8 +18,8 @@ struct MongoResult
 
 using MongoResultPtr = std::shared_ptr<MongoResult>;
 using MongoQueryCallback = QueryCallback<MongoResultPtr>;
-using QueryResultFuture = typename MongoQueryCallback::QueryResultFuture;
-using QueryResultPromise = typename MongoQueryCallback::QueryResultPromise;
+using MongoQueryResultFuture = typename MongoQueryCallback::QueryResultFuture;
+using MongoQueryResultPromise = typename MongoQueryCallback::QueryResultPromise;
 
 
 class MongoModule;
@@ -29,14 +29,14 @@ public:
 	MongoTask(MongoModule* mongoModule, const std::string& dbName, const std::string& collectionName);
 	virtual ~MongoTask() {}
 	virtual void execute() = 0;
-	QueryResultFuture getFuture() { return m_result->get_future(); }
+	MongoQueryResultFuture getFuture() { return m_result->get_future(); }
 
 protected:
-	std::unique_ptr<QueryResultPromise> m_result;
+	std::unique_ptr<MongoQueryResultPromise> m_result;
 
+	MongoModule* m_mongoModule;
 	std::string m_dbName;
 	std::string m_collectionName;
-	MongoModule* m_mongoModule;
 };
 
 
@@ -95,9 +95,9 @@ public:
 	void execute() override;
 
 protected:
+	BsonObjectPtr m_selector;
 	int m_limit;
 	int m_skip;
-	BsonObjectPtr m_selector;
 };
 
 }

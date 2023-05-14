@@ -1,10 +1,13 @@
 echo '-----begin make protobuf------------'
 
 cd protobuf-22.1
-rm -rf build
-mkdir build
-cd build
-cmake .. -G "Visual Studio 17 2022" -DCMAKE_INSTALL_PREFIX=..\install
-cmake --build . --config Release --target install
+rm -rf linux-build/
+rm -rf linux-install/
+mkdir linux-build
+cd linux-build
+cmake .. -DCMAKE_INSTALL_PREFIX=../linux-install -DCMAKE_BUILD_TYPE=Release
+cmake --build . --target install
+make clean
+cd ../..
 
 echo '-----finish make protobuf------------'

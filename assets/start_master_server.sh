@@ -1,0 +1,1 @@
+./master_server -cfg=master_server_1.json

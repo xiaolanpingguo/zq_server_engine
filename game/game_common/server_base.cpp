@@ -12,8 +12,8 @@ ServerBase::ServerBase(int argc, char* argv[])
 	:
 		m_ioContext(),
 		m_work(m_ioContext),
-		m_timer(std::make_unique<Timer>(m_ioContext)),
-		m_signals(m_ioContext)
+		m_signals(m_ioContext),
+		m_timer(std::make_unique<Timer>(m_ioContext))
 {
 	std::string fileName;
 	for (int i = 1; i < argc; i++)
@@ -94,6 +94,7 @@ void ServerBase::stop()
 	}
 
 	m_modules.clear();
+	Log::getInstance().finalize();
 }
 
 uint64_t ServerBase::addTimer(std::chrono::steady_clock::duration interval, const std::function<void(void*)>& fn, bool runOnce)

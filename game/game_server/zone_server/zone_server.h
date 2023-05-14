@@ -19,6 +19,9 @@ struct ZoneServerConfig
 	std::string mongoPwd;
 	std::string mongoHost;
 	uint16_t mongoPort;
+	std::string redisAuth;
+	std::string redisHost;
+	uint16_t redisPort;
 };
 
 class WorldToMasterModule;

@@ -4,6 +4,7 @@
 #include <stdint.h>
 #include <iostream>
 #include <assert.h>
+#include <string.h> // linux: memset
 #include <atomic>
 #include <filesystem>
 //#include <format> text format support need gcc-13
@@ -27,15 +28,18 @@ enum class LogLevel : char
 
 class Log
 {
+	enum class Status
+	{
+		INIT,
+		READY,
+		STOP,
+	};
 public:
-	Log() : m_level(LogLevel::Debug), m_thread(&Log::write, this)
+	Log() : m_level(LogLevel::Debug), m_thread(&Log::logThread, this)
 	{
 	}
 
-	~Log()
-	{
-		wait();
-	}
+	~Log(){}
 
 	Log(const Log&) = delete;
 	Log& operator=(const Log&) = delete;
@@ -48,6 +52,11 @@ public:
 
 	bool init(const std::string& logName, uint32_t rollSizeMb)
 	{
+		if (m_status != Status::INIT)
+		{
+			return false;
+		}
+
 		if (logName.empty())
 		{
 			return false;
@@ -73,13 +82,25 @@ public:
 
 		m_name = std::string(s_logDir) + logName;
 		m_rollSizeBytes = rollSizeMb * 1024 * 1024;
-		return rollFile();		
+		if (!rollFile())
+		{
+			return false;
+		}
+
+		m_status = Status::READY;
+		return true;
+	}
+
+	void finalize()
+	{
+		m_status = Status::STOP;
+		m_thread.join();
 	}
 
 	template <typename... Args>
 	void logfmt(std::string_view category, LogLevel level, std::string_view file, int line, std::string_view fun, std::string_view fmt, Args&&... args)
 	{
-		if (fmt.data() == nullptr || category.data() == nullptr)
+		if (m_status != Status::READY || fmt.data() == nullptr || category.data() == nullptr)
 		{
 			return;
 		}
@@ -188,19 +209,6 @@ private:
 		return true;
 	}
 
-	void wait()
-	{
-		if (m_thread.joinable())
-			m_thread.join();
-
-		if (m_ofs && m_ofs->is_open())
-		{
-			m_ofs->flush();
-			m_ofs->close();
-			m_ofs = nullptr;
-		}
-	}
-
 	uint64_t count() const
 	{
 		return m_count;
@@ -211,22 +219,44 @@ private:
 		return m_errorCount;
 	}
 
-	void write()
+	void logThread()
 	{
 		std::string strLog = "";
 		while (1)
 		{
+			if (m_status == Status::STOP)
+			{
+				while (!m_logQueue.empty())
+				{
+					if (m_logQueue.pop(strLog))
+					{
+						writeFile(strLog);
+					}
+				}
+
+				break;
+			}
+
 			m_logQueue.waitAndPop(strLog);
 			writeFile(strLog);
+		}
+
+		if (m_ofs && m_ofs->is_open())
+		{
+			m_ofs->flush();
+			m_ofs->close();
+			m_ofs = nullptr;
 		}
 	}
 
 	void writeFile(const std::string& strLog)
 	{
+#if defined(_WIN32)
 		if (m_enableStdout)
 		{
 			std::cout << strLog << std::endl;
 		}
+#endif
 
 		if (m_bytesWritten > m_rollSizeBytes)
 		{
@@ -272,6 +302,7 @@ private:
 	std::streamoff m_bytesWritten = 0;
 	uint32_t m_rollSizeBytes = 4 * 1024 * 1024;
 	std::string m_name;
+	std::atomic<Status> m_status = Status::INIT;
 };
 
 #define LOG_DEBUG(category, fmt, ...) Log::getInstance().logfmt(category, LogLevel::Debug, __FILE__, __LINE__, __func__, fmt, ##__VA_ARGS__);

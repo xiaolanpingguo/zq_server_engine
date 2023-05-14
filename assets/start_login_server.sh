@@ -1,0 +1,1 @@
+./login_server -cfg=login_server_1.json

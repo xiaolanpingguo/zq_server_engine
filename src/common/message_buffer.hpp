@@ -2,8 +2,12 @@
 
 
 #include <vector>
+#include <stdint.h>
+#include <string.h> //linux:memmove
+
 
 namespace zq {
+
 
 class MessageBuffer
 {

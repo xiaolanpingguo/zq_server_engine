@@ -2,9 +2,82 @@
 #include "game_common/message_helper.hpp"
 #include "game_server/db_server/db_server.h"
 
+#include "game_common/txt_table_reader.h"
+
 
 namespace zq{
 
+
+
+struct tagResAwardItem
+{
+	int iItemType = 0;
+	int iItemId = 0;
+	int iItemNum = 0;
+};
+
+struct tagResSevenDayLogin
+{
+
+	int iDay = 0; //第几天
+	int iLimitType = 0; //限制类型
+	int iLimitParam = 0; //限制类型参数
+	std::vector<tagResAwardItem> vecAwardItem; //登录基础奖励
+};
+
+class CTableSevenDayLogin
+{
+public:
+
+	int Init(const char* pszFileName)
+	{
+		DBCFile dbcFile;
+		if (!dbcFile.OpenFromTXT(pszFileName) || dbcFile.GetRecordsNum() == 0)
+		{
+			return -1;
+		}
+
+		int iRowNum = dbcFile.GetRecordsNum();
+		for (int i = 0; i < iRowNum; i++)
+		{
+			tagResSevenDayLogin* pUnit = new tagResSevenDayLogin;
+			pUnit->iDay = dbcFile.Search_Name(i, "day")->iValue;
+			pUnit->iLimitType = dbcFile.Search_Name(i, "limit_type")->iValue;
+			pUnit->iLimitParam = dbcFile.Search_Name(i, "limit_param")->iValue;
+			for (int j = 0; j < 4; ++j)
+			{
+				tagResAwardItem stAwardItem;
+				stAwardItem.iItemType = dbcFile.Search_Name(i, "award_type", j)->iValue;
+				stAwardItem.iItemId = dbcFile.Search_Name(i, "award_id", j)->iValue;
+				stAwardItem.iItemNum = dbcFile.Search_Name(i, "award_num", j)->iValue;
+				if (stAwardItem.iItemType <= 0 || stAwardItem.iItemNum <= 0)
+				{
+					continue;
+				}
+
+				pUnit->vecAwardItem.push_back(stAwardItem);
+			}
+			for (int j = 0; j < 3; ++j)
+			{
+				tagResAwardItem stAwardItem;
+				stAwardItem.iItemType = dbcFile.Search_Name(i, "award_type_ex", j)->iValue;
+				stAwardItem.iItemId = dbcFile.Search_Name(i, "award_id_ex", j)->iValue;
+				stAwardItem.iItemNum = dbcFile.Search_Name(i, "award_num_ex", j)->iValue;
+				if (stAwardItem.iItemType <= 0 || stAwardItem.iItemNum <= 0)
+				{
+					continue;
+				}
+
+				pUnit->vecAwardItem.push_back(stAwardItem);
+			}
+
+			m_mapContainer[pUnit->iDay] = pUnit;
+		}
+
+	}
+
+	std::map<int, tagResSevenDayLogin*> m_mapContainer;
+};
 
 
 InternalServerModule::InternalServerModule(DBServer* thisServer)
@@ -35,6 +108,9 @@ bool InternalServerModule::init()
 		LOG_ERROR(s_logCategory, "tcp server start failed!");
 		return false;
 	}
+
+	CTableSevenDayLogin aa;
+	aa.Init("assets/table_cfg/table_seven_day_login.txt");
 
 	return true;
 }

@@ -2,6 +2,7 @@
 #include "game_server/login_server/internal_server_module.h"
 #include "game_server/login_server/client_to_login_module.h"
 #include "db_mongo/mongo_module.h"
+#include "db_redis/redis_module.h"
 
 #include <nlohmann-json/json.hpp>
 
@@ -10,7 +11,8 @@ namespace zq{
 
 NLOHMANN_DEFINE_TYPE_NON_INTRUSIVE(LoginServerConfig, appId, masterServerIp, masterServerPort,
 		internalIp, internalPort, externalIp, externalPort,
-		mongoUser, mongoPwd, mongoHost, mongoPort)
+		mongoUser, mongoPwd, mongoHost, mongoPort,
+		redisAuth, redisHost, redisPort)
 
 LoginServer::LoginServer(int argc, char* argv[])
 	:
@@ -27,6 +29,7 @@ bool LoginServer::registerServerModules()
 {
 	registerModule<InternalServerModule>(this);
 	registerModule<MongoModule>(m_serverConfg.mongoUser, m_serverConfg.mongoPwd, m_serverConfg.mongoHost, m_serverConfg.mongoPort);
+	registerModule<RedisModule>(m_serverConfg.redisAuth, m_serverConfg.redisHost, m_serverConfg.redisPort);
 	registerModule<ClientToLoginModule>(this);
 	return true;
 }

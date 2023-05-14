@@ -134,18 +134,19 @@ private:
 
 private:
 
+	asio::io_context& m_ioContext;
+	asio::ip::tcp::acceptor m_acceptor;
+	asio::ip::tcp::socket m_socket;
+
 	std::string m_host;
 	uint16_t m_port;
 	bool m_closed;
-	asio::io_context& m_ioContext;
-	asio::ip::tcp::acceptor m_acceptor;
-
-	int64_t m_connectionId;
-	asio::ip::tcp::socket m_socket;
 
 	ClientConnectedCallbackT m_onClientConnected;
 	ClientDisconnectedCallbackT m_onClientDisconnected;
 	DataReceivedCallbackT m_onDataReceived;
+
+	int64_t m_connectionId;
 
 	constexpr static std::string_view s_logCategory = "TcpServer";
 };
