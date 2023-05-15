@@ -89,6 +89,8 @@ public:
 
 	async_simple::coro::Lazy<bool> INCRBYFLOAT(const std::string& key, const float increment, float& value);
 
+	async_simple::coro::Lazy<bool> MSET(const StringPairVector& values);
+	async_simple::coro::Lazy<bool> MGET(const std::vector<std::string>& keys, std::vector<std::string>& values);
 	async_simple::coro::Lazy<bool> SET(const std::string& key, const std::string& value);
 
 	async_simple::coro::Lazy<bool> SETEX(const std::string& key, const std::string& value, int time);
@@ -231,8 +233,9 @@ private:
 	RedisClient* getConnection(const std::string& key);
 	RedisClient* getClusterConnection(const std::string& key);
 	int checkClusterEnabled();
-	int getRedisClusterInfo();
 	bool setupRedisCluster();
+	int getRedisClusterInfo();
+	bool connectClusterNode();
 	void keepAlive();
 
 	RedisQueryCallback addTask(RedisTask* task);
@@ -253,11 +256,11 @@ private:
 	std::string m_auth;
 	std::string m_host;
 	uint16_t m_port;
+	int m_pingCheckInterval;
 
 	// for cluster
 	bool m_clusterEnabled;
 	constexpr static int s_maxRedisNodes = 16384;
-	std::array<redisContext*, s_maxRedisNodes> m_clients;
 	std::vector<RedisClusterShard> m_redisClusterShards;
 
 	constexpr static std::string_view s_logCategory = "RedisModule";

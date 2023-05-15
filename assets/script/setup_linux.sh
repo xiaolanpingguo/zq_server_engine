@@ -23,7 +23,7 @@ echo "deb [signed-by=/usr/share/keyrings/redis-archive-keyring.gpg] https://pack
 sudo apt-get update
 sudo apt-get install redis
 # start stop restart
-#sudo /usr/bin/redis-server start
+#sudo /usr/bin/redis-server redis.conf
 # or sudo service redis-server start
 #or 
 #sudo /usr/bin/redis-server /mnt/d/program/my_osp/zq_server_engine/assets/redis_cfg/redis.conf

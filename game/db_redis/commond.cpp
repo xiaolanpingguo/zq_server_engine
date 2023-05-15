@@ -427,13 +427,101 @@ async_simple::coro::Lazy<bool> RedisModule::GET(const std::string& key, std::str
 
 	if (result->type == REDIS_REPLY_STRING)
 	{
-		value = std::string(result->str, result->len);
-		
+		value = std::string(result->str, result->len);	
 		co_return true;
 	}
 
 	co_return false;
 }
+
+async_simple::coro::Lazy<bool> RedisModule::MSET(const StringPairVector& values)
+{
+	if (m_clusterEnabled)
+	{
+		LOG_ERROR(s_logCategory, "MSET not supportted on cluster mode!");
+		co_return false;
+	}
+
+	RedisClient* client = getConnection();
+	if (client == nullptr)
+	{
+		LOG_ERROR(s_logCategory, "cant found redis client!");
+		co_return false;
+	}
+
+	RedisCommand cmd(GET_NAME(MSET));
+	for (size_t i = 0; i < values.size(); ++i)
+	{
+		cmd << values[i].first;
+		cmd << values[i].second;
+	}
+
+	std::string strCmd = cmd.serialize();
+	RedisTask* task = new RedisTask(this, *client, strCmd);
+
+	CallbackAwaitor<RedisResultPtr> awaitor;
+	RedisResultPtr result = co_await awaitor.awaitResume([this, task](auto handler) {
+		addCallback(addTask(task).withCallback([handler](RedisResultPtr result) {
+			handler.setValueThenResume(result);
+		}));
+	});
+
+	// always OK since MSET can't fail.
+	if (result == nullptr)
+	{
+		co_return false;
+	}
+
+	co_return true;
+}
+
+async_simple::coro::Lazy<bool> RedisModule::MGET(const std::vector<std::string>& keys, std::vector<std::string>& values)
+{
+	if (m_clusterEnabled)
+	{
+		LOG_ERROR(s_logCategory, "MGET not supportted on cluster mode!");
+		co_return false;
+	}
+
+	RedisClient* client = getConnection();
+	if (client == nullptr)
+	{
+		LOG_ERROR(s_logCategory, "cant found redis client!");
+		co_return false;
+	}
+
+	RedisCommand cmd(GET_NAME(MGET));
+	for (size_t i = 0; i < keys.size(); ++i)
+	{
+		cmd << keys[i];
+	}
+
+	std::string strCmd = cmd.serialize();
+	RedisTask* task = new RedisTask(this, *client, strCmd);
+
+	CallbackAwaitor<RedisResultPtr> awaitor;
+	RedisResultPtr result = co_await awaitor.awaitResume([this, task](auto handler) {
+		addCallback(addTask(task).withCallback([handler](RedisResultPtr result) {
+			handler.setValueThenResume(result);
+		}));
+	});
+
+	if (result->type == REDIS_REPLY_ARRAY)
+	{
+		for (size_t k = 0; k < result->elements; k++)
+		{
+			if (result->element[k]->type == REDIS_REPLY_STRING)
+			{
+				values.emplace_back(std::string(result->element[k]->str, result->element[k]->len));
+			}
+		}
+
+		co_return true;
+	}
+
+	co_return false;
+}
+
 //----------------------------string  end--------------------------------------
 
 
@@ -2927,7 +3015,7 @@ bool RedisModule::PING(RedisClient& client)
 	}
 
 	client.lastActiveTime = time(nullptr);
-	if (result->type == REDIS_REPLY_STRING)
+	if (result->type == REDIS_REPLY_STATUS)
 	{
 		if (strcmp(result->str, "PONG") == 0)
 		{

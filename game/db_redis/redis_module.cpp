@@ -12,6 +12,10 @@
 namespace zq{
 
 
+// for keep alive check
+constexpr static int s_normalCheckInterval = 15;
+constexpr static int s_excptionCheckInterval = 5;
+
 // redis CRC16 implementation according to CCITT standards.doc: https://redis.io/docs/reference/cluster-spec/
 static const uint16_t s_crc16tab[256] = {
 	0x0000, 0x1021, 0x2042, 0x3063, 0x4084, 0x50a5, 0x60c6, 0x70e7,
@@ -65,6 +69,7 @@ RedisModule::RedisModule(const std::string& auth, const std::string& host, uint1
 		m_auth(auth),
 		m_host(host),
 		m_port(port),
+		m_pingCheckInterval(s_normalCheckInterval),
 		m_clusterEnabled(false)
 {
 
@@ -137,9 +142,9 @@ bool RedisModule::initRedis()
 	// using redis cluster
 	m_clusterEnabled = true;
 	LOG_INFO(s_logCategory, "redis has setup with cluster mode.");
-	if (getRedisClusterInfo() != 0)
+	if (!setupRedisCluster())
 	{
-		LOG_ERROR(s_logCategory, "get redis cluster faild!");
+		LOG_ERROR(s_logCategory, "set redis cluster faild!");
 		return false;
 	}
 
@@ -193,7 +198,7 @@ RedisClient* RedisModule::getConnection(const std::string& key)
 
 RedisClient* RedisModule::getClusterConnection(const std::string& key)
 {
-	uint16_t crc = crc16(key.c_str(), (int)key.size());
+	uint16_t crc = crc16(key.c_str(), (int)key.size()) % s_maxRedisNodes;
 	for (size_t i = 0; i < m_redisClusterShards.size(); ++i)
 	{
 		RedisClusterShard& shard = m_redisClusterShards[i];
@@ -268,6 +273,22 @@ int RedisModule::checkClusterEnabled()
 
 	freeReplyObject(reply);
 	return 1;
+}
+
+bool RedisModule::setupRedisCluster()
+{
+	if (getRedisClusterInfo() != 0)
+	{
+		LOG_ERROR(s_logCategory, "get redis cluster info failed!");
+		return false;
+	}
+
+	if (!connectClusterNode())
+	{
+		return false;
+	}
+
+	return true;
 }
 
 int RedisModule::getRedisClusterInfo()
@@ -389,14 +410,14 @@ int RedisModule::getRedisClusterInfo()
 			}
 		}
 
-		if (slotIndex.size() % 2 != 0)
+		std::sort(slotIndex.begin(), slotIndex.end());
+		if (slotIndex.size() % 2 != 0 || slotIndex.back() >= s_maxRedisNodes)
 		{
 			freeReplyObject(reply);
 			LOG_INFO(s_logCategory, "slot size is not a multiple of 2, size:{}", slotIndex.size());
 			return 1;
 		}
 
-		std::sort(slotIndex.begin(), slotIndex.end());
 		RedisClusterShard shardInfo;
 		for (size_t j = 0; j < slotIndex.size(); j += 2)
 		{
@@ -447,12 +468,12 @@ int RedisModule::getRedisClusterInfo()
 	return 0;
 }
 
-bool RedisModule::setupRedisCluster()
+bool RedisModule::connectClusterNode()
 {
 	for (size_t i = 0; i < m_redisClusterShards.size(); ++i)
 	{
 		RedisClusterShard& shard = m_redisClusterShards[i];
-		
+
 		for (size_t j = 0; j < shard.nodes.size(); ++j)
 		{
 			std::string ip = shard.nodes[j].ip;
@@ -476,20 +497,16 @@ bool RedisModule::setupRedisCluster()
 
 void RedisModule::keepAlive()
 {
-	constexpr static int s_normalCheckInterval = 15;
-	constexpr static int s_excptionCheckInterval = 3;
-
 	uint64_t now = time(nullptr);
 
 	if (!m_clusterEnabled)
 	{
-		static int s_checkInterval = s_normalCheckInterval;
-
-		if (now - m_redisClient.lastActiveTime < s_checkInterval)
+		if (now - m_redisClient.lastActiveTime < m_pingCheckInterval)
 		{
 			return;
 		}
 
+		m_redisClient.lastActiveTime = now;
 		if (!PING(m_redisClient))
 		{
 			LOG_ERROR(s_logCategory, "ping error! client has disconnted from redis:  host:{}:{}.", m_host, m_port);
@@ -504,7 +521,6 @@ void RedisModule::keepAlive()
 			redisContext* c = makeConnection(m_host, m_port);
 			if (c == nullptr)
 			{
-				s_checkInterval = s_excptionCheckInterval;
 				LOG_ERROR(s_logCategory, "redis standalone, make a new connection failed, cannot connect to redis!");
 				return;
 			}
@@ -513,12 +529,11 @@ void RedisModule::keepAlive()
 			m_redisClient.connected = true;
 			m_redisClient.lastActiveTime = time(nullptr);
 
-			s_checkInterval = s_normalCheckInterval;
+			m_pingCheckInterval = s_normalCheckInterval;
 		}
 	}
 	else
 	{
-		static int s_checkInterval = s_normalCheckInterval;
 		for (size_t i = 0; i < m_redisClusterShards.size(); ++i)
 		{
 			RedisClusterShard& shard = m_redisClusterShards[i];
@@ -526,11 +541,12 @@ void RedisModule::keepAlive()
 			{
 				RedisClusterNode& node = shard.nodes[j];
 
-				if (now - node.client.lastActiveTime < s_checkInterval)
+				if (now - node.client.lastActiveTime < m_pingCheckInterval)
 				{
 					continue;
 				}
 
+				node.client.lastActiveTime = now;
 				if (!PING(node.client))
 				{
 					LOG_ERROR(s_logCategory, "ping error! client has disconnted from redis cluster: id:{}, role:{}, host:{}:{}.", node.id, node.role, node.ip, node.port);
@@ -544,7 +560,6 @@ void RedisModule::keepAlive()
 					redisContext* c = makeConnection(m_host, m_port);
 					if (c == nullptr)
 					{
-						s_checkInterval = s_excptionCheckInterval;
 						LOG_ERROR(s_logCategory, "redis cluster, make a new connection failed, cannot connect to redis!");
 						continue;
 					}
@@ -553,7 +568,7 @@ void RedisModule::keepAlive()
 					node.client.connected = true;
 					node.client.lastActiveTime = time(nullptr);
 
-					s_checkInterval = s_normalCheckInterval;
+					m_pingCheckInterval = s_normalCheckInterval;
 				}
 			}
 		}
@@ -580,17 +595,21 @@ RedisResultPtr RedisModule::exeCmd(RedisClient& client, const std::string& cmd)
 		return nullptr;
 	}
 
-	client.lastActiveTime = time(nullptr);
-
+	// if REDIS_ERR returned, it maybe client has disconnted, just make ping to check it
 	redisReply* reply = nullptr;
 	r = redisGetReply(client.conn, (void**)&reply);
 	if (r != REDIS_OK || reply == nullptr)
 	{
+		client.connected = false;
+		m_pingCheckInterval = s_excptionCheckInterval;
 		return nullptr;
 	}
 
+	client.lastActiveTime = time(nullptr);
+
 	if (REDIS_REPLY_ERROR == reply->type)
 	{
+		LOG_ERROR(s_logCategory, "exe cmd error, cmd:{}, error:{}", cmd, std::string(reply->str, reply->len));
 		freeReplyObject(reply);
 		return nullptr;
 	}

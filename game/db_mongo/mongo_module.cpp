@@ -499,7 +499,7 @@ void MongoModule::processTask()
 
 void MongoModule::keepAlive()
 {
-	constexpr static int s_interVal = 5;
+	constexpr static int s_interVal = 15;
 	time_t now = time(nullptr);
 	if (now - m_lastActiveTime >= s_interVal)
 	{
