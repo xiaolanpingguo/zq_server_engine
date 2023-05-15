@@ -13,6 +13,13 @@ struct redisContext;
 namespace zq{
 
 
+struct RedisClient
+{
+	redisContext* conn = nullptr;
+	uint64_t lastActiveTime = 0;
+	bool connected = false;
+};
+
 // for redis cluster
 struct RedisClusterNode
 {
@@ -20,14 +27,14 @@ struct RedisClusterNode
 	std::string ip;
 	std::string role;
 	uint16_t port;
+	RedisClient client;
 };
 
 struct RedisClusterShard
 {
-	std::vector<int> slots;
+	std::vector<std::pair<int, int>> slots;
 	std::vector<RedisClusterNode> nodes;
 };
-
 
 
 using StringPair = std::pair<std::string, std::string>;
@@ -49,7 +56,7 @@ public:
 	bool update() override;
 	bool finalize() override;
 
-	RedisResultPtr exeCmd(const std::string& cmd);
+	RedisResultPtr exeCmd(RedisClient& client, const std::string& cmd);
 
 public:
 	/////////   key  //////////////
@@ -64,8 +71,6 @@ public:
 	async_simple::coro::Lazy<bool> PERSIST(const std::string& key);
 
 	async_simple::coro::Lazy<int> TTL(const std::string& key);
-
-	async_simple::coro::Lazy <std::string> TYPE(const std::string& key);
 
 	/////////   string  //////////////
 	async_simple::coro::Lazy<bool> APPEND(const std::string& key, const std::string& value, int& length);
@@ -83,10 +88,6 @@ public:
 	async_simple::coro::Lazy<bool> INCRBY(const std::string& key, const int64_t increment, int64_t& value);
 
 	async_simple::coro::Lazy<bool> INCRBYFLOAT(const std::string& key, const float increment, float& value);
-
-	async_simple::coro::Lazy<bool> MGET(const std::vector<std::string>& keys, std::vector<std::string>& values);
-
-	async_simple::coro::Lazy<bool> MSET(const StringPairVector& values);
 
 	async_simple::coro::Lazy<bool> SET(const std::string& key, const std::string& value);
 
@@ -155,14 +156,6 @@ public:
 
 	async_simple::coro::Lazy<bool> SCARD(const std::string& key, int& nCount);
 
-	async_simple::coro::Lazy<bool> SDIFF(const std::string& key_1, const std::string& key_2, std::vector<std::string>& output);
-
-	async_simple::coro::Lazy<int> SDIFFSTORE(const std::string& store_key, const std::string& diff_key1, const std::string& diff_key2);
-
-	async_simple::coro::Lazy<bool> SINTER(const std::string& key_1, const std::string& key_2, std::vector<std::string>& output);
-
-	async_simple::coro::Lazy<int> SINTERSTORE(const std::string& inter_store_key, const std::string& inter_key1, const std::string& inter_key2);
-
 	async_simple::coro::Lazy<bool> SISMEMBER(const std::string& key, const std::string& member);
 
 	async_simple::coro::Lazy<bool> SMEMBERS(const std::string& key, std::vector<std::string>& output);
@@ -222,33 +215,37 @@ public:
 
 	async_simple::coro::Lazy<bool> UNSUBSCRIBE(const std::string& key);
 
-	bool AUTH(const std::string& auth);
-
+	/////////  other  //////////////
 	async_simple::coro::Lazy<bool> SELECTDB();
-
-	async_simple::coro::Lazy<bool> ROLE(bool& is_master, StringPairVector& values);
 
 	async_simple::coro::Lazy<bool> INFO(const std::string& param, std::string& outstr);
 
-	/////////  debug  //////////////
-	async_simple::coro::Lazy<bool> PING();
-
 private:
+	bool AUTH(redisContext* conn, const std::string& auth);
+	bool PING(RedisClient& client);
+
+
 	bool initRedis();
+	redisContext* makeConnection(const std::string& host, uint16_t port, int timeoutMs = 1500000);
+	RedisClient* getConnection();
+	RedisClient* getConnection(const std::string& key);
+	RedisClient* getClusterConnection(const std::string& key);
 	int checkClusterEnabled();
 	int getRedisClusterInfo();
 	bool setupRedisCluster();
+	void keepAlive();
 
 	RedisQueryCallback addTask(RedisTask* task);
 	RedisQueryCallback& addCallback(RedisQueryCallback&& query);
 	void processCallbacks();
+	void processTask();
 	void taskThrad();
 
 private:
 
-	bool m_threadStop;
-	std::thread m_thr;
-	redisContext* m_redisContext;
+	std::atomic<bool> m_threadStop;
+	std::unique_ptr<std::thread> m_taskThread;
+	RedisClient m_redisClient;
 
 	std::queue<RedisQueryCallback> m_callbacks;
 	ConcurrentQueue<RedisTask*> m_queue;

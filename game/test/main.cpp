@@ -8,12 +8,14 @@ using namespace zq;
 
 int main(int argc, char* argv[])
 {
-	Log::getInstance().init("test", 4);
+	Log::getInstance().init("test");
 
 	std::vector<std::function<bool()>> vec
 	{
-		std::bind(formatTest),
-		std::bind(redisTest),
+		//std::bind(testFormat),
+		//std::bind(testRedis),
+		//std::bind(testMongo),
+		std::bind(testLog),
 	};
 
 	for (const auto& fun : vec)

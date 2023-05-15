@@ -7,6 +7,7 @@
 #include <string.h> // linux: memset
 #include <atomic>
 #include <filesystem>
+#include <functional>
 //#include <format> text format support need gcc-13
 #include <fstream>
 #include <map>
@@ -35,11 +36,11 @@ class Log
 		STOP,
 	};
 public:
-	Log() : m_level(LogLevel::Debug), m_thread(&Log::logThread, this)
-	{
+	Log(){}
+	~Log()
+	{ 
+		finalize();
 	}
-
-	~Log(){}
 
 	Log(const Log&) = delete;
 	Log& operator=(const Log&) = delete;
@@ -50,7 +51,7 @@ public:
 		return log;
 	}
 
-	bool init(const std::string& logName, uint32_t rollSizeMb)
+	bool init(const std::string& logName, uint64_t rollSize = 1024 * 1024 * 8)
 	{
 		if (m_status != Status::INIT)
 		{
@@ -81,20 +82,30 @@ public:
 		}
 
 		m_name = std::string(s_logDir) + logName;
-		m_rollSizeBytes = rollSizeMb * 1024 * 1024;
+		m_rollSizeBytes = rollSize;
 		if (!rollFile())
 		{
 			return false;
 		}
 
+		m_thread = std::make_unique<std::thread>(std::bind(&Log::logThread, this));
 		m_status = Status::READY;
 		return true;
 	}
 
 	void finalize()
 	{
+		if (m_status == Status::STOP)
+		{
+			return;
+		}
+
 		m_status = Status::STOP;
-		m_thread.join();
+		m_logQueue.stopWait();
+		if (m_thread && m_thread->joinable())
+		{
+			m_thread->join();
+		}
 	}
 
 	template <typename... Args>
@@ -224,21 +235,15 @@ private:
 		std::string strLog = "";
 		while (1)
 		{
-			if (m_status == Status::STOP)
+			if (m_status == Status::STOP && m_logQueue.empty())
 			{
-				while (!m_logQueue.empty())
-				{
-					if (m_logQueue.pop(strLog))
-					{
-						writeFile(strLog);
-					}
-				}
-
 				break;
 			}
 
-			m_logQueue.waitAndPop(strLog);
-			writeFile(strLog);
+			if (m_logQueue.waitAndPop(strLog))
+			{
+				writeFile(strLog);
+			}
 		}
 
 		if (m_ofs && m_ofs->is_open())
@@ -291,16 +296,16 @@ private:
 	}
 
 	bool m_enableStdout = true;
-	LogLevel m_level;
+	LogLevel m_level = LogLevel::Debug;
 	uint64_t m_count = 0;
 	int64_t m_errorCount = 0;
 	std::unique_ptr<std::ofstream> m_ofs;
-	std::thread m_thread;
+	std::unique_ptr<std::thread> m_thread;
 	ConcurrentQueue<std::string> m_logQueue;
 
 	uint32_t m_fileNumber = 0;
-	std::streamoff m_bytesWritten = 0;
-	uint32_t m_rollSizeBytes = 4 * 1024 * 1024;
+	uint64_t m_bytesWritten = 0;
+	uint64_t m_rollSizeBytes = 1024 * 1024 * 8;
 	std::string m_name;
 	std::atomic<Status> m_status = Status::INIT;
 };

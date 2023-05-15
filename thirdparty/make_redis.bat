@@ -7,7 +7,6 @@ mkdir win-build
 cd win-build
 cmake .. -G "Visual Studio 17 2022" -DCMAKE_INSTALL_PREFIX=..\win-install
 cmake --build . --target install
-
-pause
+cd ../..
 
 @echo "=======finish build redis=========="

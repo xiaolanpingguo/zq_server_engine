@@ -5,8 +5,9 @@
 namespace zq{
 
 
-RedisTask::RedisTask(RedisModule* redisModule, const std::string& command) :
+RedisTask::RedisTask(RedisModule* redisModule, RedisClient& client, const std::string& command) :
 		m_redisModule(redisModule),
+		m_client(client),
 		m_command(command)
 {
 	m_result = std::make_unique<RedisQueryResultPromise>();
@@ -19,7 +20,7 @@ RedisQueryResultFuture RedisTask::getFuture()
 
 void RedisTask::execute()
 {
-	RedisResultPtr result = m_redisModule->exeCmd(m_command);
+	RedisResultPtr result = m_redisModule->exeCmd(m_client, m_command);
 	m_result->set_value(result);
 }
 

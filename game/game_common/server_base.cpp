@@ -38,33 +38,46 @@ ServerBase::~ServerBase()
 
 bool ServerBase::start()
 {
-	if (!readServerConfig())
+	bool success = false;
+	do 
 	{
-		return false;
-	}
+		if (!readServerConfig())
+		{
+			break;
+		}
 
-	if (!checkAppid())
-	{
-		return false;
-	}
+		if (!checkAppid())
+		{
+			break;
+		}
 
-	if (!initGid())
-	{
-		return false;
-	}
+		if (!initGid())
+		{
+			break;
+		}
 
-	if (!initLog())
-	{
-		return false;
-	}
+		if (!initLog())
+		{
+			break;
+		}
 
-	if (!registerServerModules())
-	{
-		return false;
-	}
+		if (!registerServerModules())
+		{
+			break;
+		}
 
-	if (!initModules())
+		if (!initModules())
+		{
+			break;
+		}
+
+		success = true;
+	} while (0);
+	
+	if (!success)
 	{
+		LOG_INFO(s_logCategory, "server:{}, appId:{} start failed!", getName(), getStrAppId());
+		stop();
 		return false;
 	}
 
@@ -80,7 +93,10 @@ void ServerBase::run()
 
 void ServerBase::stop()
 {
-	m_ioContext.stop();
+	if (!m_ioContext.stopped())
+	{
+		m_ioContext.stop();
+	}
 
 	for (auto& it : m_modules)
 	{
@@ -110,7 +126,7 @@ bool ServerBase::cancelTimer(uint64_t id)
 bool ServerBase::initLog()
 {
 	std::string name = std::string(getName()) + "-" + getStrAppId();
-	if (!Log::getInstance().init(name, 4))
+	if (!Log::getInstance().init(name, 1024 * 1024 *8))
 	{
 		return false;
 	}

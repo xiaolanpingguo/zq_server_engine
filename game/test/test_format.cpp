@@ -2,7 +2,7 @@
 #include "common/format.hpp"
 using namespace zq;
 
-bool formatTest()
+bool testFormat()
 {
 	int a = 100;
 	std::string s = "dwa";

@@ -3,7 +3,7 @@
 using namespace zq;
 
 
-bool redisTest()
+bool testRedis()
 {
 	std::string auth = "null";
 	std::string host = "192.168.0.109";

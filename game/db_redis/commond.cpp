@@ -1,4 +1,4 @@
-#include "db_redis/redis_module.h"
+ï»¿#include "db_redis/redis_module.h"
 #include "db_redis/redis_commond.hpp"
 #include "db_redis/redis_task.h"
 
@@ -17,11 +17,18 @@ namespace zq{
 //----------------------------string--------------------------------------
 async_simple::coro::Lazy<bool> RedisModule::APPEND(const std::string &key, const std::string &value, int& length)
 {
+	RedisClient* client = getConnection(key);
+	if (client == nullptr)
+	{
+		LOG_ERROR(s_logCategory, "cant found redis client!, key:{}", key);
+		co_return false;
+	}
+
 	RedisCommand cmd(GET_NAME(APPEND));
     cmd << key;
     cmd << value;
 	std::string strCmd = cmd.serialize();
-	RedisTask* task = new RedisTask(this, strCmd);
+	RedisTask* task = new RedisTask(this, *client, strCmd);
 
 	CallbackAwaitor<RedisResultPtr> awaitor;
 	RedisResultPtr result = co_await awaitor.awaitResume([this, task](auto handler) {
@@ -45,10 +52,17 @@ async_simple::coro::Lazy<bool> RedisModule::APPEND(const std::string &key, const
 
 async_simple::coro::Lazy<bool> RedisModule::DECR(const std::string& key, int64_t& value)
 {
+	RedisClient* client = getConnection(key);
+	if (client == nullptr)
+	{
+		LOG_ERROR(s_logCategory, "cant found redis client!, key:{}", key);
+		co_return false;
+	}
+
 	RedisCommand cmd(GET_NAME(DECR));
     cmd << key;
 	std::string strCmd = cmd.serialize();
-	RedisTask* task = new RedisTask(this, strCmd);
+	RedisTask* task = new RedisTask(this, *client, strCmd);
 
 	CallbackAwaitor<RedisResultPtr> awaitor;
 	RedisResultPtr result = co_await awaitor.awaitResume([this, task](auto handler) {
@@ -73,11 +87,18 @@ async_simple::coro::Lazy<bool> RedisModule::DECR(const std::string& key, int64_t
 
 async_simple::coro::Lazy<bool> RedisModule::DECRBY(const std::string& key, const int64_t decrement, int64_t& value)
 {
+	RedisClient* client = getConnection(key);
+	if (client == nullptr)
+	{
+		LOG_ERROR(s_logCategory, "cant found redis client!, key:{}", key);
+		co_return false;
+	}
+
 	RedisCommand cmd(GET_NAME(DECRBY));
 	cmd << key;
 	cmd << decrement;
 	std::string strCmd = cmd.serialize();
-	RedisTask* task = new RedisTask(this, strCmd);
+	RedisTask* task = new RedisTask(this, *client, strCmd);
 
 	CallbackAwaitor<RedisResultPtr> awaitor;
 	RedisResultPtr result = co_await awaitor.awaitResume([this, task](auto handler) {
@@ -103,11 +124,18 @@ async_simple::coro::Lazy<bool> RedisModule::DECRBY(const std::string& key, const
 
 async_simple::coro::Lazy<bool> RedisModule::GETSET(const std::string& key, const std::string& value, std::string& oldValue)
 {
+	RedisClient* client = getConnection(key);
+	if (client == nullptr)
+	{
+		LOG_ERROR(s_logCategory, "cant found redis client!, key:{}", key);
+		co_return false;
+	}
+
 	RedisCommand cmd(GET_NAME(GETSET));
 	cmd << key;
 	cmd << value;
 	std::string strCmd = cmd.serialize();
-	RedisTask* task = new RedisTask(this, strCmd);
+	RedisTask* task = new RedisTask(this, *client, strCmd);
 
 	CallbackAwaitor<RedisResultPtr> awaitor;
 	RedisResultPtr result = co_await awaitor.awaitResume([this, task](auto handler) {
@@ -133,10 +161,17 @@ async_simple::coro::Lazy<bool> RedisModule::GETSET(const std::string& key, const
 
 async_simple::coro::Lazy<bool> RedisModule::INCR(const std::string& key, int64_t& value)
 {
+	RedisClient* client = getConnection(key);
+	if (client == nullptr)
+	{
+		LOG_ERROR(s_logCategory, "cant found redis client!, key:{}", key);
+		co_return false;
+	}
+
 	RedisCommand cmd(GET_NAME(INCR));
 	cmd << key;
 	std::string strCmd = cmd.serialize();
-	RedisTask* task = new RedisTask(this, strCmd);
+	RedisTask* task = new RedisTask(this, *client, strCmd);
 
 	CallbackAwaitor<RedisResultPtr> awaitor;
 	RedisResultPtr result = co_await awaitor.awaitResume([this, task](auto handler) {
@@ -157,11 +192,18 @@ async_simple::coro::Lazy<bool> RedisModule::INCR(const std::string& key, int64_t
 
 async_simple::coro::Lazy<bool> RedisModule::INCRBY(const std::string& key, const int64_t increment, int64_t& value)
 {
+	RedisClient* client = getConnection(key);
+	if (client == nullptr)
+	{
+		LOG_ERROR(s_logCategory, "cant found redis client!, key:{}", key);
+		co_return false;
+	}
+
 	RedisCommand cmd(GET_NAME(INCRBY));
 	cmd << key;
 	cmd << increment;
 	std::string strCmd = cmd.serialize();
-	RedisTask* task = new RedisTask(this, strCmd);
+	RedisTask* task = new RedisTask(this, *client, strCmd);
 
 	CallbackAwaitor<RedisResultPtr> awaitor;
 	RedisResultPtr result = co_await awaitor.awaitResume([this, task](auto handler) {
@@ -182,11 +224,18 @@ async_simple::coro::Lazy<bool> RedisModule::INCRBY(const std::string& key, const
 
 async_simple::coro::Lazy<bool> RedisModule::INCRBYFLOAT(const std::string& key, const float increment, float& value)
 {
+	RedisClient* client = getConnection(key);
+	if (client == nullptr)
+	{
+		LOG_ERROR(s_logCategory, "cant found redis client!, key:{}", key);
+		co_return false;
+	}
+
 	RedisCommand cmd(GET_NAME(INCRBYFLOAT));
 	cmd << key;
 	cmd << increment;
 	std::string strCmd = cmd.serialize();
-	RedisTask* task = new RedisTask(this, strCmd);
+	RedisTask* task = new RedisTask(this, *client, strCmd);
 
 	CallbackAwaitor<RedisResultPtr> awaitor;
 	RedisResultPtr result = co_await awaitor.awaitResume([this, task](auto handler) {
@@ -212,77 +261,22 @@ async_simple::coro::Lazy<bool> RedisModule::INCRBYFLOAT(const std::string& key, 
 	co_return success;
 }
 
-async_simple::coro::Lazy<bool> RedisModule::MGET(const std::vector<std::string>& keys, std::vector<std::string>& values)
+async_simple::coro::Lazy<bool> RedisModule::SETEX(const std::string& key, const std::string& value, int time)
 {
-	RedisCommand cmd(GET_NAME(MGET));
-
-	for (size_t i = 0; i < keys.size(); ++i)
+	RedisClient* client = getConnection(key);
+	if (client == nullptr)
 	{
-		cmd << keys[i];
-	}
-
-	std::string strCmd = cmd.serialize();
-	RedisTask* task = new RedisTask(this, strCmd);
-
-	CallbackAwaitor<RedisResultPtr> awaitor;
-	RedisResultPtr result = co_await awaitor.awaitResume([this, task](auto handler) {
-		addCallback(addTask(task).withCallback([handler](RedisResultPtr result) {
-			handler.setValueThenResume(result);
-		}));
-	});
-
-	if (result->type == REDIS_REPLY_ARRAY)
-	{
-		for (size_t k = 0; k < result->elements; k++)
-		{
-			if (result->element[k]->type == REDIS_REPLY_STRING)
-			{
-				values.emplace_back(std::string(result->element[k]->str));
-			}
-		}
-
-		co_return true;
-	}
-
-	co_return false;
-}
-
-async_simple::coro::Lazy<bool> RedisModule::MSET(const StringPairVector& values)
-{
-	RedisCommand cmd(GET_NAME(MSET));
-	for (size_t i = 0; i < values.size(); ++i)
-	{
-		cmd << values[i].first;
-		cmd << values[i].second;
-	}
-
-	std::string strCmd = cmd.serialize();
-	RedisTask* task = new RedisTask(this, strCmd);
-
-	CallbackAwaitor<RedisResultPtr> awaitor;
-	RedisResultPtr result = co_await awaitor.awaitResume([this, task](auto handler) {
-		addCallback(addTask(task).withCallback([handler](RedisResultPtr result) {
-			handler.setValueThenResume(result);
-		}));
-	});
-
-	if (result == nullptr)
-	{
+		LOG_ERROR(s_logCategory, "cant found redis client!, key:{}", key);
 		co_return false;
 	}
 
-	co_return true;
-}
-
-async_simple::coro::Lazy<bool> RedisModule::SETEX(const std::string& key, const std::string& value, int time)
-{
 	RedisCommand cmd(GET_NAME(SETEX));
 	cmd << key;
 	cmd << value;
 	cmd << time;
 
 	std::string strCmd = cmd.serialize();
-	RedisTask* task = new RedisTask(this, strCmd);
+	RedisTask* task = new RedisTask(this, *client, strCmd);
 
 	CallbackAwaitor<RedisResultPtr> awaitor;
 	RedisResultPtr result = co_await awaitor.awaitResume([this, task](auto handler) {
@@ -301,12 +295,19 @@ async_simple::coro::Lazy<bool> RedisModule::SETEX(const std::string& key, const 
 
 async_simple::coro::Lazy<bool> RedisModule::SETNX(const std::string& key, const std::string& value)
 {
+	RedisClient* client = getConnection(key);
+	if (client == nullptr)
+	{
+		LOG_ERROR(s_logCategory, "cant found redis client!, key:{}", key);
+		co_return false;
+	}
+
 	RedisCommand cmd(GET_NAME(SETNX));
 	cmd << key;
 	cmd << value;
 
 	std::string strCmd = cmd.serialize();
-	RedisTask* task = new RedisTask(this, strCmd);
+	RedisTask* task = new RedisTask(this, *client, strCmd);
 
 	CallbackAwaitor<RedisResultPtr> awaitor;
 	RedisResultPtr result = co_await awaitor.awaitResume([this, task](auto handler) {
@@ -331,11 +332,18 @@ async_simple::coro::Lazy<bool> RedisModule::SETNX(const std::string& key, const 
 
 async_simple::coro::Lazy<bool> RedisModule::STRLEN(const std::string& key, int& length)
 {
+	RedisClient* client = getConnection(key);
+	if (client == nullptr)
+	{
+		LOG_ERROR(s_logCategory, "cant found redis client!, key:{}", key);
+		co_return false;
+	}
+
 	RedisCommand cmd(GET_NAME(STRLEN));
 	cmd << key;
 
 	std::string strCmd = cmd.serialize();
-	RedisTask* task = new RedisTask(this, strCmd);
+	RedisTask* task = new RedisTask(this, *client, strCmd);
 
 	CallbackAwaitor<RedisResultPtr> awaitor;
 	RedisResultPtr result = co_await awaitor.awaitResume([this, task](auto handler) {
@@ -361,12 +369,19 @@ async_simple::coro::Lazy<bool> RedisModule::STRLEN(const std::string& key, int& 
 
 async_simple::coro::Lazy<bool> RedisModule::SET(const std::string &key, const std::string &value)
 {
+	RedisClient* client = getConnection(key);
+	if (client == nullptr)
+	{
+		LOG_ERROR(s_logCategory,"cant found redis client!, key:{}", key);
+		co_return false;
+	}
+
     RedisCommand cmd(GET_NAME(SET));
     cmd << key;
     cmd << value;
 
 	std::string strCmd = cmd.serialize();
-	RedisTask* task = new RedisTask(this, strCmd);
+	RedisTask* task = new RedisTask(this, *client, strCmd);
 
 	CallbackAwaitor<RedisResultPtr> awaitor;
 	RedisResultPtr result = co_await awaitor.awaitResume([this, task](auto handler) {
@@ -385,11 +400,18 @@ async_simple::coro::Lazy<bool> RedisModule::SET(const std::string &key, const st
 
 async_simple::coro::Lazy<bool> RedisModule::GET(const std::string& key, std::string& value)
 {
+	RedisClient* client = getConnection(key);
+	if (client == nullptr)
+	{
+		LOG_ERROR(s_logCategory, "cant found redis client!, key:{}", key);
+		co_return false;
+	}
+
     RedisCommand cmd(GET_NAME(GET));
     cmd << key;
 
 	std::string strCmd = cmd.serialize();
-	RedisTask* task = new RedisTask(this, strCmd);
+	RedisTask* task = new RedisTask(this, *client, strCmd);
 
 	CallbackAwaitor<RedisResultPtr> awaitor;
 	RedisResultPtr result = co_await awaitor.awaitResume([this, task](auto handler) {
@@ -419,12 +441,19 @@ async_simple::coro::Lazy<bool> RedisModule::GET(const std::string& key, std::str
 //----------------------------hash-------------------------------------
 async_simple::coro::Lazy<int> RedisModule::HDEL(const std::string& key, const std::string& field)
 {
+	RedisClient* client = getConnection(key);
+	if (client == nullptr)
+	{
+		LOG_ERROR(s_logCategory, "cant found redis client!, key:{}", key);
+		co_return false;
+	}
+
 	RedisCommand cmd(GET_NAME(HDEL));
 	cmd << key;
 	cmd << field;
 
 	std::string strCmd = cmd.serialize();
-	RedisTask* task = new RedisTask(this, strCmd);
+	RedisTask* task = new RedisTask(this, *client, strCmd);
 
 	CallbackAwaitor<RedisResultPtr> awaitor;
 	RedisResultPtr result = co_await awaitor.awaitResume([this, task](auto handler) {
@@ -449,6 +478,13 @@ async_simple::coro::Lazy<int> RedisModule::HDEL(const std::string& key, const st
 
 async_simple::coro::Lazy<int> RedisModule::HDEL(const std::string& key, const std::vector<std::string>& fields)
 {
+	RedisClient* client = getConnection(key);
+	if (client == nullptr)
+	{
+		LOG_ERROR(s_logCategory, "cant found redis client!, key:{}", key);
+		co_return false;
+	}
+
 	RedisCommand cmd(GET_NAME(HDEL));
 	cmd << key;
 	for (auto it = fields.begin(); it != fields.end(); ++it)
@@ -457,7 +493,7 @@ async_simple::coro::Lazy<int> RedisModule::HDEL(const std::string& key, const st
 	}
 
 	std::string strCmd = cmd.serialize();
-	RedisTask* task = new RedisTask(this, strCmd);
+	RedisTask* task = new RedisTask(this, *client, strCmd);
 
 	CallbackAwaitor<RedisResultPtr> awaitor;
 	RedisResultPtr result = co_await awaitor.awaitResume([this, task](auto handler) {
@@ -482,12 +518,19 @@ async_simple::coro::Lazy<int> RedisModule::HDEL(const std::string& key, const st
 
 async_simple::coro::Lazy<bool> RedisModule::HEXISTS(const std::string& key, const std::string& field)
 {
+	RedisClient* client = getConnection(key);
+	if (client == nullptr)
+	{
+		LOG_ERROR(s_logCategory, "cant found redis client!, key:{}", key);
+		co_return false;
+	}
+
 	RedisCommand cmd(GET_NAME(HEXISTS));
 	cmd << key;
 	cmd << field;
 
 	std::string strCmd = cmd.serialize();
-	RedisTask* task = new RedisTask(this, strCmd);
+	RedisTask* task = new RedisTask(this, *client, strCmd);
 
 	CallbackAwaitor<RedisResultPtr> awaitor;
 	RedisResultPtr result = co_await awaitor.awaitResume([this, task](auto handler) {
@@ -512,12 +555,19 @@ async_simple::coro::Lazy<bool> RedisModule::HEXISTS(const std::string& key, cons
 
 async_simple::coro::Lazy<bool> RedisModule::HGET(const std::string& key, const std::string& field, std::string& value)
 {
+	RedisClient* client = getConnection(key);
+	if (client == nullptr)
+	{
+		LOG_ERROR(s_logCategory, "cant found redis client!, key:{}", key);
+		co_return false;
+	}
+
 	RedisCommand cmd(GET_NAME(HGET));
 	cmd << key;
 	cmd << field;
 
 	std::string strCmd = cmd.serialize();
-	RedisTask* task = new RedisTask(this, strCmd);
+	RedisTask* task = new RedisTask(this, *client, strCmd);
 
 	CallbackAwaitor<RedisResultPtr> awaitor;
 	RedisResultPtr result = co_await awaitor.awaitResume([this, task](auto handler) {
@@ -544,11 +594,18 @@ async_simple::coro::Lazy<bool> RedisModule::HGET(const std::string& key, const s
 
 async_simple::coro::Lazy<bool> RedisModule::HGETALL(const std::string& key, std::vector<StringPair>& values)
 {
+	RedisClient* client = getConnection(key);
+	if (client == nullptr)
+	{
+		LOG_ERROR(s_logCategory, "cant found redis client!, key:{}", key);
+		co_return false;
+	}
+
 	RedisCommand cmd(GET_NAME(HGETALL));
 	cmd << key;
 
 	std::string strCmd = cmd.serialize();
-	RedisTask* task = new RedisTask(this, strCmd);
+	RedisTask* task = new RedisTask(this, *client, strCmd);
 
 	CallbackAwaitor<RedisResultPtr> awaitor;
 	RedisResultPtr result = co_await awaitor.awaitResume([this, task](auto handler) {
@@ -578,13 +635,20 @@ async_simple::coro::Lazy<bool> RedisModule::HGETALL(const std::string& key, std:
 
 async_simple::coro::Lazy<bool> RedisModule::HINCRBY(const std::string& key, const std::string& field, const int by, int64_t& value)
 {
+	RedisClient* client = getConnection(key);
+	if (client == nullptr)
+	{
+		LOG_ERROR(s_logCategory, "cant found redis client!, key:{}", key);
+		co_return false;
+	}
+
 	RedisCommand cmd(GET_NAME(HINCRBY));
 	cmd << key;
 	cmd << field;
 	cmd << by;
 
 	std::string strCmd = cmd.serialize();
-	RedisTask* task = new RedisTask(this, strCmd);
+	RedisTask* task = new RedisTask(this, *client, strCmd);
 
 	CallbackAwaitor<RedisResultPtr> awaitor;
 	RedisResultPtr result = co_await awaitor.awaitResume([this, task](auto handler) {
@@ -610,13 +674,20 @@ async_simple::coro::Lazy<bool> RedisModule::HINCRBY(const std::string& key, cons
 
 async_simple::coro::Lazy<bool> RedisModule::HINCRBYFLOAT(const std::string& key, const std::string& field, const float by, float& value)
 {
+	RedisClient* client = getConnection(key);
+	if (client == nullptr)
+	{
+		LOG_ERROR(s_logCategory, "cant found redis client!, key:{}", key);
+		co_return false;
+	}
+
 	RedisCommand cmd(GET_NAME(HINCRBYFLOAT));
 	cmd << key;
 	cmd << field;
 	cmd << by;
 
 	std::string strCmd = cmd.serialize();
-	RedisTask* task = new RedisTask(this, strCmd);
+	RedisTask* task = new RedisTask(this, *client, strCmd);
 
 	CallbackAwaitor<RedisResultPtr> awaitor;
 	RedisResultPtr result = co_await awaitor.awaitResume([this, task](auto handler) {
@@ -649,11 +720,18 @@ async_simple::coro::Lazy<bool> RedisModule::HINCRBYFLOAT(const std::string& key,
 
 async_simple::coro::Lazy<bool> RedisModule::HKEYS(const std::string& key, std::vector<std::string>& fields)
 {
+	RedisClient* client = getConnection(key);
+	if (client == nullptr)
+	{
+		LOG_ERROR(s_logCategory, "cant found redis client!, key:{}", key);
+		co_return false;
+	}
+
 	RedisCommand cmd(GET_NAME(HKEYS));
 	cmd << key;
 
 	std::string strCmd = cmd.serialize();
-	RedisTask* task = new RedisTask(this, strCmd);
+	RedisTask* task = new RedisTask(this, *client, strCmd);
 
 	CallbackAwaitor<RedisResultPtr> awaitor;
 	RedisResultPtr result = co_await awaitor.awaitResume([this, task](auto handler) {
@@ -682,11 +760,18 @@ async_simple::coro::Lazy<bool> RedisModule::HKEYS(const std::string& key, std::v
 
 async_simple::coro::Lazy<bool> RedisModule::HLEN(const std::string& key, int& number)
 {
+	RedisClient* client = getConnection(key);
+	if (client == nullptr)
+	{
+		LOG_ERROR(s_logCategory, "cant found redis client!, key:{}", key);
+		co_return false;
+	}
+
 	RedisCommand cmd(GET_NAME(HLEN));
 	cmd << key;
 
 	std::string strCmd = cmd.serialize();
-	RedisTask* task = new RedisTask(this, strCmd);
+	RedisTask* task = new RedisTask(this, *client, strCmd);
 
 	CallbackAwaitor<RedisResultPtr> awaitor;
 	RedisResultPtr result = co_await awaitor.awaitResume([this, task](auto handler) {
@@ -711,6 +796,13 @@ async_simple::coro::Lazy<bool> RedisModule::HLEN(const std::string& key, int& nu
 
 async_simple::coro::Lazy<bool> RedisModule::HMGET(const std::string& key, const std::vector<std::string>& fields, std::vector<std::string>& values)
 {
+	RedisClient* client = getConnection(key);
+	if (client == nullptr)
+	{
+		LOG_ERROR(s_logCategory, "cant found redis client!, key:{}", key);
+		co_return false;
+	}
+
 	RedisCommand cmd(GET_NAME(HMGET));
 	cmd << key;
 	for (size_t i = 0; i < fields.size(); ++i)
@@ -719,7 +811,7 @@ async_simple::coro::Lazy<bool> RedisModule::HMGET(const std::string& key, const 
 	}
 
 	std::string strCmd = cmd.serialize();
-	RedisTask* task = new RedisTask(this, strCmd);
+	RedisTask* task = new RedisTask(this, *client, strCmd);
 
 	CallbackAwaitor<RedisResultPtr> awaitor;
 	RedisResultPtr result = co_await awaitor.awaitResume([this, task](auto handler) {
@@ -751,6 +843,13 @@ async_simple::coro::Lazy<bool> RedisModule::HMGET(const std::string& key, const 
 
 async_simple::coro::Lazy<bool> RedisModule::HMSET(const std::string& key, const std::vector<StringPair>& values)
 {
+	RedisClient* client = getConnection(key);
+	if (client == nullptr)
+	{
+		LOG_ERROR(s_logCategory, "cant found redis client!, key:{}", key);
+		co_return false;
+	}
+
 	RedisCommand cmd(GET_NAME(HMSET));
 	cmd << key;
 	for (size_t i = 0; i < values.size(); ++i)
@@ -760,7 +859,7 @@ async_simple::coro::Lazy<bool> RedisModule::HMSET(const std::string& key, const 
 	}
 
 	std::string strCmd = cmd.serialize();
-	RedisTask* task = new RedisTask(this, strCmd);
+	RedisTask* task = new RedisTask(this, *client, strCmd);
 
 	CallbackAwaitor<RedisResultPtr> awaitor;
 	RedisResultPtr result = co_await awaitor.awaitResume([this, task](auto handler) {
@@ -779,6 +878,13 @@ async_simple::coro::Lazy<bool> RedisModule::HMSET(const std::string& key, const 
 
 async_simple::coro::Lazy<bool> RedisModule::HMSET(const std::string& key, const std::vector<std::string>& fields, const std::vector<std::string>& values)
 {
+	RedisClient* client = getConnection(key);
+	if (client == nullptr)
+	{
+		LOG_ERROR(s_logCategory, "cant found redis client!, key:{}", key);
+		co_return false;
+	}
+
 	if (fields.size() != values.size())
 	{
 		co_return false;
@@ -793,7 +899,7 @@ async_simple::coro::Lazy<bool> RedisModule::HMSET(const std::string& key, const 
 	}
 
 	std::string strCmd = cmd.serialize();
-	RedisTask* task = new RedisTask(this, strCmd);
+	RedisTask* task = new RedisTask(this, *client, strCmd);
 
 	CallbackAwaitor<RedisResultPtr> awaitor;
 	RedisResultPtr result = co_await awaitor.awaitResume([this, task](auto handler) {
@@ -812,13 +918,20 @@ async_simple::coro::Lazy<bool> RedisModule::HMSET(const std::string& key, const 
 
 async_simple::coro::Lazy<bool> RedisModule::HSET(const std::string& key, const std::string& field, const std::string& value)
 {
+	RedisClient* client = getConnection(key);
+	if (client == nullptr)
+	{
+		LOG_ERROR(s_logCategory, "cant found redis client!, key:{}", key);
+		co_return false;
+	}
+
 	RedisCommand cmd(GET_NAME(HSET));
 	cmd << key;
 	cmd << field;
 	cmd << value;
 
 	std::string strCmd = cmd.serialize();
-	RedisTask* task = new RedisTask(this, strCmd);
+	RedisTask* task = new RedisTask(this, *client, strCmd);
 
 	CallbackAwaitor<RedisResultPtr> awaitor;
 	RedisResultPtr result = co_await awaitor.awaitResume([this, task](auto handler) {
@@ -843,13 +956,20 @@ async_simple::coro::Lazy<bool> RedisModule::HSET(const std::string& key, const s
 
 async_simple::coro::Lazy<bool> RedisModule::HSETNX(const std::string &key, const std::string &field, const std::string &value)
 {
+	RedisClient* client = getConnection(key);
+	if (client == nullptr)
+	{
+		LOG_ERROR(s_logCategory, "cant found redis client!, key:{}", key);
+		co_return false;
+	}
+
 	RedisCommand cmd(GET_NAME(HSETNX));
 	cmd << key;
 	cmd << field;
 	cmd << value;
 
 	std::string strCmd = cmd.serialize();
-	RedisTask* task = new RedisTask(this, strCmd);
+	RedisTask* task = new RedisTask(this, *client, strCmd);
 
 	CallbackAwaitor<RedisResultPtr> awaitor;
 	RedisResultPtr result = co_await awaitor.awaitResume([this, task](auto handler) {
@@ -874,11 +994,18 @@ async_simple::coro::Lazy<bool> RedisModule::HSETNX(const std::string &key, const
 
 async_simple::coro::Lazy<bool> RedisModule::HVALS(const std::string& key, std::vector<std::string>& values)
 {
+	RedisClient* client = getConnection(key);
+	if (client == nullptr)
+	{
+		LOG_ERROR(s_logCategory, "cant found redis client!, key:{}", key);
+		co_return false;
+	}
+
 	RedisCommand cmd(GET_NAME(HVALS));
 	cmd << key;
 
 	std::string strCmd = cmd.serialize();
-	RedisTask* task = new RedisTask(this, strCmd);
+	RedisTask* task = new RedisTask(this, *client, strCmd);
 
 	CallbackAwaitor<RedisResultPtr> awaitor;
 	RedisResultPtr result = co_await awaitor.awaitResume([this, task](auto handler) {
@@ -905,12 +1032,19 @@ async_simple::coro::Lazy<bool> RedisModule::HVALS(const std::string& key, std::v
 
 async_simple::coro::Lazy<bool> RedisModule::HSTRLEN(const std::string &key, const std::string &field, int& length)
 {
+	RedisClient* client = getConnection(key);
+	if (client == nullptr)
+	{
+		LOG_ERROR(s_logCategory, "cant found redis client!, key:{}", key);
+		co_return false;
+	}
+
 	RedisCommand cmd(GET_NAME(HSTRLEN));
 	cmd << key;
 	cmd << field;
 
 	std::string strCmd = cmd.serialize();
-	RedisTask* task = new RedisTask(this, strCmd);
+	RedisTask* task = new RedisTask(this, *client, strCmd);
 
 	CallbackAwaitor<RedisResultPtr> awaitor;
 	RedisResultPtr result = co_await awaitor.awaitResume([this, task](auto handler) {
@@ -940,11 +1074,18 @@ async_simple::coro::Lazy<bool> RedisModule::HSTRLEN(const std::string &key, cons
 //----------------------------key--------------------------------------
 async_simple::coro::Lazy<bool> RedisModule::DEL(const std::string &key)
 {
+	RedisClient* client = getConnection(key);
+	if (client == nullptr)
+	{
+		LOG_ERROR(s_logCategory, "cant found redis client!, key:{}", key);
+		co_return false;
+	}
+
 	RedisCommand cmd(GET_NAME(DEL));
 	cmd << key;
 
 	std::string strCmd = cmd.serialize();
-	RedisTask* task = new RedisTask(this, strCmd);
+	RedisTask* task = new RedisTask(this, *client, strCmd);
 
 	CallbackAwaitor<RedisResultPtr> awaitor;
 	RedisResultPtr result = co_await awaitor.awaitResume([this, task](auto handler) {
@@ -969,11 +1110,18 @@ async_simple::coro::Lazy<bool> RedisModule::DEL(const std::string &key)
 
 async_simple::coro::Lazy<bool> RedisModule::EXISTS(const std::string &key)
 {
+	RedisClient* client = getConnection(key);
+	if (client == nullptr)
+	{
+		LOG_ERROR(s_logCategory, "cant found redis client!, key:{}", key);
+		co_return false;
+	}
+
 	RedisCommand cmd(GET_NAME(EXISTS));
 	cmd << key;
 
 	std::string strCmd = cmd.serialize();
-	RedisTask* task = new RedisTask(this, strCmd);
+	RedisTask* task = new RedisTask(this, *client, strCmd);
 
 	CallbackAwaitor<RedisResultPtr> awaitor;
 	RedisResultPtr result = co_await awaitor.awaitResume([this, task](auto handler) {
@@ -998,12 +1146,19 @@ async_simple::coro::Lazy<bool> RedisModule::EXISTS(const std::string &key)
 
 async_simple::coro::Lazy<bool> RedisModule::EXPIRE(const std::string &key, const unsigned int secs)
 {
+	RedisClient* client = getConnection(key);
+	if (client == nullptr)
+	{
+		LOG_ERROR(s_logCategory, "cant found redis client!, key:{}", key);
+		co_return false;
+	}
+
 	RedisCommand cmd(GET_NAME(EXPIRE));
 	cmd << key;
 	cmd << secs;
 
 	std::string strCmd = cmd.serialize();
-	RedisTask* task = new RedisTask(this, strCmd);
+	RedisTask* task = new RedisTask(this, *client, strCmd);
 
 	CallbackAwaitor<RedisResultPtr> awaitor;
 	RedisResultPtr result = co_await awaitor.awaitResume([this, task](auto handler) {
@@ -1028,12 +1183,19 @@ async_simple::coro::Lazy<bool> RedisModule::EXPIRE(const std::string &key, const
 
 async_simple::coro::Lazy<bool> RedisModule::EXPIREAT(const std::string &key, const int64_t unixTime)
 {
+	RedisClient* client = getConnection(key);
+	if (client == nullptr)
+	{
+		LOG_ERROR(s_logCategory, "cant found redis client!, key:{}", key);
+		co_return false;
+	}
+
 	RedisCommand cmd(GET_NAME(EXPIREAT));
 	cmd << key;
 	cmd << unixTime;
 
 	std::string strCmd = cmd.serialize();
-	RedisTask* task = new RedisTask(this, strCmd);
+	RedisTask* task = new RedisTask(this, *client, strCmd);
 
 	CallbackAwaitor<RedisResultPtr> awaitor;
 	RedisResultPtr result = co_await awaitor.awaitResume([this, task](auto handler) {
@@ -1058,11 +1220,18 @@ async_simple::coro::Lazy<bool> RedisModule::EXPIREAT(const std::string &key, con
 
 async_simple::coro::Lazy<bool> RedisModule::PERSIST(const std::string &key)
 {
+	RedisClient* client = getConnection(key);
+	if (client == nullptr)
+	{
+		LOG_ERROR(s_logCategory, "cant found redis client!, key:{}", key);
+		co_return false;
+	}
+
 	RedisCommand cmd(GET_NAME(PERSIST));
 	cmd << key;
 
 	std::string strCmd = cmd.serialize();
-	RedisTask* task = new RedisTask(this, strCmd);
+	RedisTask* task = new RedisTask(this, *client, strCmd);
 
 	CallbackAwaitor<RedisResultPtr> awaitor;
 	RedisResultPtr result = co_await awaitor.awaitResume([this, task](auto handler) {
@@ -1087,11 +1256,18 @@ async_simple::coro::Lazy<bool> RedisModule::PERSIST(const std::string &key)
 
 async_simple::coro::Lazy<int> RedisModule::TTL(const std::string& key)
 {
+	RedisClient* client = getConnection(key);
+	if (client == nullptr)
+	{
+		LOG_ERROR(s_logCategory, "cant found redis client!, key:{}", key);
+		co_return false;
+	}
+
 	RedisCommand cmd(GET_NAME(TTL));
 	cmd << key;
 
 	std::string strCmd = cmd.serialize();
-	RedisTask* task = new RedisTask(this, strCmd);
+	RedisTask* task = new RedisTask(this, *client, strCmd);
 
 	CallbackAwaitor<RedisResultPtr> awaitor;
 	RedisResultPtr result = co_await awaitor.awaitResume([this, task](auto handler) {
@@ -1114,47 +1290,25 @@ async_simple::coro::Lazy<int> RedisModule::TTL(const std::string& key)
 	co_return leftTime;
 }
 
-async_simple::coro::Lazy<std::string> RedisModule::TYPE(const std::string& key)
-{
-	RedisCommand cmd(GET_NAME(TYPE));
-	cmd << key;
-
-	std::string strCmd = cmd.serialize();
-	RedisTask* task = new RedisTask(this, strCmd);
-
-	CallbackAwaitor<RedisResultPtr> awaitor;
-	RedisResultPtr result = co_await awaitor.awaitResume([this, task](auto handler) {
-		addCallback(addTask(task).withCallback([handler](RedisResultPtr result) {
-			handler.setValueThenResume(result);
-		}));
-	});
-
-	if (result == nullptr)
-	{
-		co_return "";
-	}
-
-	std::string type_name = "";
-	if (result->type == REDIS_REPLY_STATUS)
-	{
-		type_name = result->str;
-	}
-
-	co_return type_name;
-}
-
 //----------------------------key end--------------------------------------
 
 
 //----------------------------list--------------------------------------
 async_simple::coro::Lazy<bool> RedisModule::LINDEX(const std::string &key, const int index, std::string& value)
 {
+	RedisClient* client = getConnection(key);
+	if (client == nullptr)
+	{
+		LOG_ERROR(s_logCategory, "cant found redis client!, key:{}", key);
+		co_return false;
+	}
+
 	RedisCommand cmd(GET_NAME(LINDEX));
 	cmd << key;
 	cmd << index;
 
 	std::string strCmd = cmd.serialize();
-	RedisTask* task = new RedisTask(this, strCmd);
+	RedisTask* task = new RedisTask(this, *client, strCmd);
 
 	CallbackAwaitor<RedisResultPtr> awaitor;
 	RedisResultPtr result = co_await awaitor.awaitResume([this, task](auto handler) {
@@ -1178,11 +1332,18 @@ async_simple::coro::Lazy<bool> RedisModule::LINDEX(const std::string &key, const
 
 async_simple::coro::Lazy<bool> RedisModule::LLEN(const std::string &key, int& length)
 {
+	RedisClient* client = getConnection(key);
+	if (client == nullptr)
+	{
+		LOG_ERROR(s_logCategory, "cant found redis client!, key:{}", key);
+		co_return false;
+	}
+
 	RedisCommand cmd(GET_NAME(LLEN));
 	cmd << key;
 
 	std::string strCmd = cmd.serialize();
-	RedisTask* task = new RedisTask(this, strCmd);
+	RedisTask* task = new RedisTask(this, *client, strCmd);
 
 	CallbackAwaitor<RedisResultPtr> awaitor;
 	RedisResultPtr result = co_await awaitor.awaitResume([this, task](auto handler) {
@@ -1206,11 +1367,18 @@ async_simple::coro::Lazy<bool> RedisModule::LLEN(const std::string &key, int& le
 
 async_simple::coro::Lazy<bool> RedisModule::LPOP(const std::string &key, std::string& value)
 {
+	RedisClient* client = getConnection(key);
+	if (client == nullptr)
+	{
+		LOG_ERROR(s_logCategory, "cant found redis client!, key:{}", key);
+		co_return false;
+	}
+
 	RedisCommand cmd(GET_NAME(LPOP));
 	cmd << key;
 
 	std::string strCmd = cmd.serialize();
-	RedisTask* task = new RedisTask(this, strCmd);
+	RedisTask* task = new RedisTask(this, *client, strCmd);
 
 	CallbackAwaitor<RedisResultPtr> awaitor;
 	RedisResultPtr result = co_await awaitor.awaitResume([this, task](auto handler) {
@@ -1234,12 +1402,19 @@ async_simple::coro::Lazy<bool> RedisModule::LPOP(const std::string &key, std::st
 
 async_simple::coro::Lazy<int> RedisModule::LPUSH(const std::string& key, const std::string& value)
 {
+	RedisClient* client = getConnection(key);
+	if (client == nullptr)
+	{
+		LOG_ERROR(s_logCategory, "cant found redis client!, key:{}", key);
+		co_return false;
+	}
+
 	RedisCommand cmd(GET_NAME(LPUSH));
 	cmd << key;
 	cmd << value;
 
 	std::string strCmd = cmd.serialize();
-	RedisTask* task = new RedisTask(this, strCmd);
+	RedisTask* task = new RedisTask(this, *client, strCmd);
 
 	CallbackAwaitor<RedisResultPtr> awaitor;
 	RedisResultPtr result = co_await awaitor.awaitResume([this, task](auto handler) {
@@ -1264,12 +1439,19 @@ async_simple::coro::Lazy<int> RedisModule::LPUSH(const std::string& key, const s
 
 async_simple::coro::Lazy<int> RedisModule::LPUSHX(const std::string& key, const std::string& value)
 {
+	RedisClient* client = getConnection(key);
+	if (client == nullptr)
+	{
+		LOG_ERROR(s_logCategory, "cant found redis client!, key:{}", key);
+		co_return false;
+	}
+
 	RedisCommand cmd(GET_NAME(LPUSHX));
 	cmd << key;
 	cmd << value;
 
 	std::string strCmd = cmd.serialize();
-	RedisTask* task = new RedisTask(this, strCmd);
+	RedisTask* task = new RedisTask(this, *client, strCmd);
 
 	CallbackAwaitor<RedisResultPtr> awaitor;
 	RedisResultPtr result = co_await awaitor.awaitResume([this, task](auto handler) {
@@ -1294,6 +1476,13 @@ async_simple::coro::Lazy<int> RedisModule::LPUSHX(const std::string& key, const 
 
 async_simple::coro::Lazy<bool> RedisModule::LRANGE(const std::string& key, const int start, const int end, std::vector<std::string>& values)
 {
+	RedisClient* client = getConnection(key);
+	if (client == nullptr)
+	{
+		LOG_ERROR(s_logCategory, "cant found redis client!, key:{}", key);
+		co_return false;
+	}
+
 	if (end - start <= 0)
 	{
 		co_return false;
@@ -1305,7 +1494,7 @@ async_simple::coro::Lazy<bool> RedisModule::LRANGE(const std::string& key, const
 	cmd << end;
 
 	std::string strCmd = cmd.serialize();
-	RedisTask* task = new RedisTask(this, strCmd);
+	RedisTask* task = new RedisTask(this, *client, strCmd);
 
 	CallbackAwaitor<RedisResultPtr> awaitor;
 	RedisResultPtr result = co_await awaitor.awaitResume([this, task](auto handler) {
@@ -1335,13 +1524,20 @@ async_simple::coro::Lazy<bool> RedisModule::LRANGE(const std::string& key, const
 
 async_simple::coro::Lazy<bool> RedisModule::LSET(const std::string &key, const int index, const std::string &value)
 {
+	RedisClient* client = getConnection(key);
+	if (client == nullptr)
+	{
+		LOG_ERROR(s_logCategory, "cant found redis client!, key:{}", key);
+		co_return false;
+	}
+
 	RedisCommand cmd(GET_NAME(LSET));
 	cmd << key;
 	cmd << index;
 	cmd << value;
 
 	std::string strCmd = cmd.serialize();
-	RedisTask* task = new RedisTask(this, strCmd);
+	RedisTask* task = new RedisTask(this, *client, strCmd);
 
 	CallbackAwaitor<RedisResultPtr> awaitor;
 	RedisResultPtr result = co_await awaitor.awaitResume([this, task](auto handler) {
@@ -1360,11 +1556,18 @@ async_simple::coro::Lazy<bool> RedisModule::LSET(const std::string &key, const i
 
 async_simple::coro::Lazy<bool> RedisModule::RPOP(const std::string& key, std::string& value)
 {
+	RedisClient* client = getConnection(key);
+	if (client == nullptr)
+	{
+		LOG_ERROR(s_logCategory, "cant found redis client!, key:{}", key);
+		co_return false;
+	}
+
 	RedisCommand cmd(GET_NAME(RPOP));
 	cmd << key;
 
 	std::string strCmd = cmd.serialize();
-	RedisTask* task = new RedisTask(this, strCmd);
+	RedisTask* task = new RedisTask(this, *client, strCmd);
 
 	CallbackAwaitor<RedisResultPtr> awaitor;
 	RedisResultPtr result = co_await awaitor.awaitResume([this, task](auto handler) {
@@ -1388,12 +1591,19 @@ async_simple::coro::Lazy<bool> RedisModule::RPOP(const std::string& key, std::st
 
 async_simple::coro::Lazy<int> RedisModule::RPUSH(const std::string& key, const std::string& value)
 {
+	RedisClient* client = getConnection(key);
+	if (client == nullptr)
+	{
+		LOG_ERROR(s_logCategory, "cant found redis client!, key:{}", key);
+		co_return false;
+	}
+
 	RedisCommand cmd(GET_NAME(RPUSH));
 	cmd << key;
 	cmd << value;
 
 	std::string strCmd = cmd.serialize();
-	RedisTask* task = new RedisTask(this, strCmd);
+	RedisTask* task = new RedisTask(this, *client, strCmd);
 
 	CallbackAwaitor<RedisResultPtr> awaitor;
 	RedisResultPtr result = co_await awaitor.awaitResume([this, task](auto handler) {
@@ -1418,12 +1628,19 @@ async_simple::coro::Lazy<int> RedisModule::RPUSH(const std::string& key, const s
 
 async_simple::coro::Lazy<int> RedisModule::RPUSHX(const std::string& key, const std::string& value)
 {
+	RedisClient* client = getConnection(key);
+	if (client == nullptr)
+	{
+		LOG_ERROR(s_logCategory, "cant found redis client!, key:{}", key);
+		co_return false;
+	}
+
 	RedisCommand cmd(GET_NAME(RPUSHX));
 	cmd << key;
 	cmd << value;
 
 	std::string strCmd = cmd.serialize();
-	RedisTask* task = new RedisTask(this, strCmd);
+	RedisTask* task = new RedisTask(this, *client, strCmd);
 
 	CallbackAwaitor<RedisResultPtr> awaitor;
 	RedisResultPtr result = co_await awaitor.awaitResume([this, task](auto handler) {
@@ -1452,12 +1669,19 @@ async_simple::coro::Lazy<int> RedisModule::RPUSHX(const std::string& key, const 
 //----------------------------pubsub--------------------------------------
 async_simple::coro::Lazy<bool> RedisModule::PUBLISH(const std::string& key, const std::string& value)
 {
+	RedisClient* client = getConnection(key);
+	if (client == nullptr)
+	{
+		LOG_ERROR(s_logCategory, "cant found redis client!, key:{}", key);
+		co_return false;
+	}
+
 	RedisCommand cmd(GET_NAME(PUBLISH));
 	cmd << key;
 	cmd << value;
 
 	std::string strCmd = cmd.serialize();
-	RedisTask* task = new RedisTask(this, strCmd);
+	RedisTask* task = new RedisTask(this, *client, strCmd);
 
 	CallbackAwaitor<RedisResultPtr> awaitor;
 	RedisResultPtr result = co_await awaitor.awaitResume([this, task](auto handler) {
@@ -1476,11 +1700,18 @@ async_simple::coro::Lazy<bool> RedisModule::PUBLISH(const std::string& key, cons
 
 async_simple::coro::Lazy<bool> RedisModule::SUBSCRIBE(const std::string& key)
 {
+	RedisClient* client = getConnection(key);
+	if (client == nullptr)
+	{
+		LOG_ERROR(s_logCategory, "cant found redis client!, key:{}", key);
+		co_return false;
+	}
+
 	RedisCommand cmd(GET_NAME(SUBSCRIBE));
 	cmd << key;
 
 	std::string strCmd = cmd.serialize();
-	RedisTask* task = new RedisTask(this, strCmd);
+	RedisTask* task = new RedisTask(this, *client, strCmd);
 
 	CallbackAwaitor<RedisResultPtr> awaitor;
 	RedisResultPtr result = co_await awaitor.awaitResume([this, task](auto handler) {
@@ -1499,11 +1730,18 @@ async_simple::coro::Lazy<bool> RedisModule::SUBSCRIBE(const std::string& key)
 
 async_simple::coro::Lazy<bool> RedisModule::UNSUBSCRIBE(const std::string& key)
 {
+	RedisClient* client = getConnection(key);
+	if (client == nullptr)
+	{
+		LOG_ERROR(s_logCategory, "cant found redis client!, key:{}", key);
+		co_return false;
+	}
+
 	RedisCommand cmd(GET_NAME(UNSUBSCRIBE));
 	cmd << key;
 
 	std::string strCmd = cmd.serialize();
-	RedisTask* task = new RedisTask(this, strCmd);
+	RedisTask* task = new RedisTask(this, *client, strCmd);
 
 	CallbackAwaitor<RedisResultPtr> awaitor;
 	RedisResultPtr result = co_await awaitor.awaitResume([this, task](auto handler) {
@@ -1526,10 +1764,17 @@ async_simple::coro::Lazy<bool> RedisModule::UNSUBSCRIBE(const std::string& key)
 //----------------------------server--------------------------------------
 async_simple::coro::Lazy<bool> RedisModule::FLUSHALL()
 {
+	RedisClient* client = getConnection();
+	if (client == nullptr)
+	{
+		LOG_ERROR(s_logCategory, "cant found redis client!");
+		co_return false;
+	}
+
 	RedisCommand cmd(GET_NAME(FLUSHALL));
 
 	std::string strCmd = cmd.serialize();
-	RedisTask* task = new RedisTask(this, strCmd);
+	RedisTask* task = new RedisTask(this, *client, strCmd);
 
 	CallbackAwaitor<RedisResultPtr> awaitor;
 	RedisResultPtr result = co_await awaitor.awaitResume([this, task](auto handler) {
@@ -1548,10 +1793,17 @@ async_simple::coro::Lazy<bool> RedisModule::FLUSHALL()
 
 async_simple::coro::Lazy<bool> RedisModule::FLUSHDB()
 {
+	RedisClient* client = getConnection();
+	if (client == nullptr)
+	{
+		LOG_ERROR(s_logCategory, "cant found redis client!");
+		co_return false;
+	}
+
 	RedisCommand cmd(GET_NAME(FLUSHDB));
 
 	std::string strCmd = cmd.serialize();
-	RedisTask* task = new RedisTask(this, strCmd);
+	RedisTask* task = new RedisTask(this, *client, strCmd);
 
 	CallbackAwaitor<RedisResultPtr> awaitor;
 	RedisResultPtr result = co_await awaitor.awaitResume([this, task](auto handler) {
@@ -1568,16 +1820,15 @@ async_simple::coro::Lazy<bool> RedisModule::FLUSHDB()
 	co_return true;
 }
 
-bool RedisModule::AUTH(const std::string& auth)
+bool RedisModule::AUTH(redisContext* conn, const std::string& auth)
 {
-	RedisCommand cmd(GET_NAME(AUTH));
-	cmd << auth;
+	if (conn == nullptr || auth.empty())
+	{
+		return false;
+	}
 
-	// if password error, redis will return REDIS_REPLY_ERROR
-	// pReply will be null
-	std::string strCmd = cmd.serialize();
-
-	RedisResultPtr result = exeCmd(strCmd);
+	std::string strCmd = "AUTH " + auth;
+	redisReply* result = (redisReply*)redisCommand(conn, strCmd.c_str());
 	if (result == nullptr)
 	{
 		return false;
@@ -1588,19 +1839,28 @@ bool RedisModule::AUTH(const std::string& auth)
 		if (std::string("OK") == std::string(result->str, result->len) ||
 			std::string("ok") == std::string(result->str, result->len))
 		{
+			freeReplyObject(result);
 			return true;
 		}
 	}
 
+	freeReplyObject(result);
 	return false;
 }
 
 async_simple::coro::Lazy<bool> RedisModule::SELECTDB()
 {
+	RedisClient* client = getConnection();
+	if (client == nullptr)
+	{
+		LOG_ERROR(s_logCategory, "cant found redis client!");
+		co_return false;
+	}
+
 	RedisCommand cmd(GET_NAME(SELECTDB));
 
 	std::string strCmd = cmd.serialize();
-	RedisTask* task = new RedisTask(this, strCmd);
+	RedisTask* task = new RedisTask(this, *client, strCmd);
 
 	CallbackAwaitor<RedisResultPtr> awaitor;
 	RedisResultPtr result = co_await awaitor.awaitResume([this, task](auto handler) {
@@ -1612,47 +1872,6 @@ async_simple::coro::Lazy<bool> RedisModule::SELECTDB()
 	if (result == nullptr)
 	{
 		co_return false;
-	}
-
-	co_return true;
-}
-
-async_simple::coro::Lazy<bool> RedisModule::ROLE(bool& is_master, StringPairVector& values)
-{
-	RedisCommand cmd(GET_NAME(ROLE));
-
-	std::string strCmd = cmd.serialize();
-	RedisTask* task = new RedisTask(this, strCmd);
-
-	CallbackAwaitor<RedisResultPtr> awaitor;
-	RedisResultPtr result = co_await awaitor.awaitResume([this, task](auto handler) {
-		addCallback(addTask(task).withCallback([handler](RedisResultPtr result) {
-			handler.setValueThenResume(result);
-		}));
-	});
-
-	if (result == nullptr)
-	{
-		co_return false;
-	}
-
-	if (result->type == REDIS_REPLY_ARRAY)
-	{
-		// È·¶¨·þÎñÆ÷ÊÇÖ÷·þÎñÆ÷ÔòËÑË÷´Ó·þÎñÆ÷»Øµ÷Á¬½Ó
-		if (strcmp(result->element[0]->str, "master") == 0)
-		{
-			is_master = true;
-
-			for (size_t k = 0; k < result->element[2]->elements; k++)
-			{
-				redisReply* p = result->element[2]->element[k];
-				values.emplace_back(std::make_pair(std::string(p->element[0]->str), std::string(p->element[1]->str)));
-			}
-		}
-		else
-		{
-			is_master = false;
-		}
 	}
 
 	co_return true;
@@ -1660,11 +1879,18 @@ async_simple::coro::Lazy<bool> RedisModule::ROLE(bool& is_master, StringPairVect
 
 async_simple::coro::Lazy<bool> RedisModule::INFO(const std::string& param, std::string& outstr)
 {
+	RedisClient* client = getConnection();
+	if (client == nullptr)
+	{
+		LOG_ERROR(s_logCategory, "cant found redis client!");
+		co_return false;
+	}
+
 	RedisCommand cmd(GET_NAME(INFO));
 	cmd << param;
 
 	std::string strCmd = cmd.serialize();
-	RedisTask* task = new RedisTask(this, strCmd);
+	RedisTask* task = new RedisTask(this, *client, strCmd);
 
 	CallbackAwaitor<RedisResultPtr> awaitor;
 	RedisResultPtr result = co_await awaitor.awaitResume([this, task](auto handler) {
@@ -1691,12 +1917,19 @@ async_simple::coro::Lazy<bool> RedisModule::INFO(const std::string& param, std::
 //----------------------------set--------------------------------------
 async_simple::coro::Lazy<int> RedisModule::SADD(const std::string& key, const std::string& member)
 {
+	RedisClient* client = getConnection(key);
+	if (client == nullptr)
+	{
+		LOG_ERROR(s_logCategory, "cant found redis client!, key:{}", key);
+		co_return false;
+	}
+
 	RedisCommand cmd(GET_NAME(SADD));
 	cmd << key;
 	cmd << member;
 
 	std::string strCmd = cmd.serialize();
-	RedisTask* task = new RedisTask(this, strCmd);
+	RedisTask* task = new RedisTask(this, *client, strCmd);
 
 	CallbackAwaitor<RedisResultPtr> awaitor;
 	RedisResultPtr result = co_await awaitor.awaitResume([this, task](auto handler) {
@@ -1721,11 +1954,18 @@ async_simple::coro::Lazy<int> RedisModule::SADD(const std::string& key, const st
 
 async_simple::coro::Lazy<bool> RedisModule::SCARD(const std::string& key, int& nCount)
 {
+	RedisClient* client = getConnection(key);
+	if (client == nullptr)
+	{
+		LOG_ERROR(s_logCategory, "cant found redis client!, key:{}", key);
+		co_return false;
+	}
+
 	RedisCommand cmd(GET_NAME(SCARD));
 	cmd << key;
 
 	std::string strCmd = cmd.serialize();
-	RedisTask* task = new RedisTask(this, strCmd);
+	RedisTask* task = new RedisTask(this, *client, strCmd);
 
 	CallbackAwaitor<RedisResultPtr> awaitor;
 	RedisResultPtr result = co_await awaitor.awaitResume([this, task](auto handler) {
@@ -1747,146 +1987,21 @@ async_simple::coro::Lazy<bool> RedisModule::SCARD(const std::string& key, int& n
 	co_return true;
 }
 
-async_simple::coro::Lazy<bool> RedisModule::SDIFF(const std::string& key_1, const std::string& key_2, std::vector<std::string>& output)
-{
-	RedisCommand cmd(GET_NAME(SDIFF));
-	cmd << key_1;
-	cmd << key_2;
-
-	std::string strCmd = cmd.serialize();
-	RedisTask* task = new RedisTask(this, strCmd);
-
-	CallbackAwaitor<RedisResultPtr> awaitor;
-	RedisResultPtr result = co_await awaitor.awaitResume([this, task](auto handler) {
-		addCallback(addTask(task).withCallback([handler](RedisResultPtr result) {
-			handler.setValueThenResume(result);
-		}));
-	});
-
-	if (result == nullptr)
-	{
-		co_return false;
-	}
-
-	if (result->type == REDIS_REPLY_ARRAY)
-	{
-		for (size_t k = 0; k < result->elements; k++)
-		{
-			if (result->element[k]->type == REDIS_REPLY_STRING)
-			{
-				output.emplace_back(std::string(result->element[k]->str, result->element[k]->len));
-			}
-		}
-	}
-
-	co_return true;
-}
-
-async_simple::coro::Lazy<int> RedisModule::SDIFFSTORE(const std::string& store_key, const std::string& diff_key1, const std::string& diff_key2)
-{
-	RedisCommand cmd(GET_NAME(SDIFFSTORE));
-	cmd << store_key;
-	cmd << diff_key1;
-	cmd << diff_key2;
-
-	std::string strCmd = cmd.serialize();
-	RedisTask* task = new RedisTask(this, strCmd);
-
-	CallbackAwaitor<RedisResultPtr> awaitor;
-	RedisResultPtr result = co_await awaitor.awaitResume([this, task](auto handler) {
-		addCallback(addTask(task).withCallback([handler](RedisResultPtr result) {
-			handler.setValueThenResume(result);
-		}));
-	});
-
-	if (result == nullptr)
-	{
-		co_return -1;
-	}
-
-	int num = 0;
-	if (result->type == REDIS_REPLY_INTEGER)
-	{
-		num = (int)result->integer;
-	}
-
-	co_return num;
-}
-
-async_simple::coro::Lazy<bool> RedisModule::SINTER(const std::string& key_1, const std::string& key_2, std::vector<std::string>& output)
-{
-	RedisCommand cmd(GET_NAME(SINTER));
-	cmd << key_1;
-	cmd << key_2;
-
-	std::string strCmd = cmd.serialize();
-	RedisTask* task = new RedisTask(this, strCmd);
-
-	CallbackAwaitor<RedisResultPtr> awaitor;
-	RedisResultPtr result = co_await awaitor.awaitResume([this, task](auto handler) {
-		addCallback(addTask(task).withCallback([handler](RedisResultPtr result) {
-			handler.setValueThenResume(result);
-		}));
-	});
-
-	if (result == nullptr)
-	{
-		co_return false;
-	}
-
-	if (result->type == REDIS_REPLY_ARRAY)
-	{
-		for (size_t k = 0; k < result->elements; k++)
-		{
-			if (result->element[k]->type == REDIS_REPLY_STRING)
-			{
-				output.emplace_back(std::string(result->element[k]->str, result->element[k]->len));
-			}
-		}
-	}
-
-	co_return true;
-}
-
-async_simple::coro::Lazy<int> RedisModule::SINTERSTORE(const std::string& inter_store_key, const std::string& inter_key1, const std::string& inter_key2)
-{
-	RedisCommand cmd(GET_NAME(SINTERSTORE));
-	cmd << inter_store_key;
-	cmd << inter_key1;
-	cmd << inter_key2;
-
-	std::string strCmd = cmd.serialize();
-	RedisTask* task = new RedisTask(this, strCmd);
-
-	CallbackAwaitor<RedisResultPtr> awaitor;
-	RedisResultPtr result = co_await awaitor.awaitResume([this, task](auto handler) {
-		addCallback(addTask(task).withCallback([handler](RedisResultPtr result) {
-			handler.setValueThenResume(result);
-		}));
-	});
-
-	if (result == nullptr)
-	{
-		co_return -1;
-	}
-
-	int num = 0;
-	if (result->type == REDIS_REPLY_INTEGER)
-	{
-		num = (int)result->integer;
-	}
-
-	co_return num;
-}
-
 async_simple::coro::Lazy<bool> RedisModule::SISMEMBER(const std::string& key, const std::string& member)
 {
+	RedisClient* client = getConnection(key);
+	if (client == nullptr)
+	{
+		LOG_ERROR(s_logCategory, "cant found redis client!, key:{}", key);
+		co_return false;
+	}
+
 	RedisCommand cmd(GET_NAME(SISMEMBER));
 	cmd << key;
 	cmd << member;
 
 	std::string strCmd = cmd.serialize();
-	RedisTask* task = new RedisTask(this, strCmd);
+	RedisTask* task = new RedisTask(this, *client, strCmd);
 
 	CallbackAwaitor<RedisResultPtr> awaitor;
 	RedisResultPtr result = co_await awaitor.awaitResume([this, task](auto handler) {
@@ -1910,11 +2025,18 @@ async_simple::coro::Lazy<bool> RedisModule::SISMEMBER(const std::string& key, co
 
 async_simple::coro::Lazy<bool> RedisModule::SMEMBERS(const std::string& key, std::vector<std::string>& output)
 {
+	RedisClient* client = getConnection(key);
+	if (client == nullptr)
+	{
+		LOG_ERROR(s_logCategory, "cant found redis client!, key:{}", key);
+		co_return false;
+	}
+
 	RedisCommand cmd(GET_NAME(SMEMBERS));
 	cmd << key;
 
 	std::string strCmd = cmd.serialize();
-	RedisTask* task = new RedisTask(this, strCmd);
+	RedisTask* task = new RedisTask(this, *client, strCmd);
 
 	CallbackAwaitor<RedisResultPtr> awaitor;
 	RedisResultPtr result = co_await awaitor.awaitResume([this, task](auto handler) {
@@ -1944,13 +2066,20 @@ async_simple::coro::Lazy<bool> RedisModule::SMEMBERS(const std::string& key, std
 
 async_simple::coro::Lazy<bool> RedisModule::SMOVE(const std::string& source_key, const std::string& dest_key, const std::string& member)
 {
+	RedisClient* client = getConnection();
+	if (client == nullptr)
+	{
+		LOG_ERROR(s_logCategory, "cant found redis client!, source_key:{}", source_key);
+		co_return false;
+	}
+
 	RedisCommand cmd(GET_NAME(SMOVE));
 	cmd << source_key;
 	cmd << dest_key;
 	cmd << member;
 
 	std::string strCmd = cmd.serialize();
-	RedisTask* task = new RedisTask(this, strCmd);
+	RedisTask* task = new RedisTask(this, *client, strCmd);
 
 	CallbackAwaitor<RedisResultPtr> awaitor;
 	RedisResultPtr result = co_await awaitor.awaitResume([this, task](auto handler) {
@@ -1974,11 +2103,18 @@ async_simple::coro::Lazy<bool> RedisModule::SMOVE(const std::string& source_key,
 
 async_simple::coro::Lazy<bool> RedisModule::SPOP(const std::string& key, std::string& output)
 {
+	RedisClient* client = getConnection(key);
+	if (client == nullptr)
+	{
+		LOG_ERROR(s_logCategory, "cant found redis client!, key:{}", key);
+		co_return false;
+	}
+
 	RedisCommand cmd(GET_NAME(SPOP));
 	cmd << key;
 
 	std::string strCmd = cmd.serialize();
-	RedisTask* task = new RedisTask(this, strCmd);
+	RedisTask* task = new RedisTask(this, *client, strCmd);
 
 	CallbackAwaitor<RedisResultPtr> awaitor;
 	RedisResultPtr result = co_await awaitor.awaitResume([this, task](auto handler) {
@@ -2003,12 +2139,19 @@ async_simple::coro::Lazy<bool> RedisModule::SPOP(const std::string& key, std::st
 
 async_simple::coro::Lazy<bool> RedisModule::SRANDMEMBER(const std::string& key, int count, std::vector<std::string>& output)
 {
+	RedisClient* client = getConnection(key);
+	if (client == nullptr)
+	{
+		LOG_ERROR(s_logCategory, "cant found redis client!, key:{}", key);
+		co_return false;
+	}
+
 	RedisCommand cmd(GET_NAME(SRANDMEMBER));
 	cmd << key;
 	cmd << count;
 
 	std::string strCmd = cmd.serialize();
-	RedisTask* task = new RedisTask(this, strCmd);
+	RedisTask* task = new RedisTask(this, *client, strCmd);
 
 	CallbackAwaitor<RedisResultPtr> awaitor;
 	RedisResultPtr result = co_await awaitor.awaitResume([this, task](auto handler) {
@@ -2038,6 +2181,13 @@ async_simple::coro::Lazy<bool> RedisModule::SRANDMEMBER(const std::string& key, 
 
 async_simple::coro::Lazy<int> RedisModule::SREM(const std::string& key, const std::vector<std::string>& members)
 {
+	RedisClient* client = getConnection(key);
+	if (client == nullptr)
+	{
+		LOG_ERROR(s_logCategory, "cant found redis client!, key:{}", key);
+		co_return false;
+	}
+
 	RedisCommand cmd(GET_NAME(SREM));
 	cmd << key;
 	for (const auto& member : members)
@@ -2046,7 +2196,7 @@ async_simple::coro::Lazy<int> RedisModule::SREM(const std::string& key, const st
 	}
 
 	std::string strCmd = cmd.serialize();
-	RedisTask* task = new RedisTask(this, strCmd);
+	RedisTask* task = new RedisTask(this, *client, strCmd);
 
 	CallbackAwaitor<RedisResultPtr> awaitor;
 	RedisResultPtr result = co_await awaitor.awaitResume([this, task](auto handler) {
@@ -2071,12 +2221,19 @@ async_simple::coro::Lazy<int> RedisModule::SREM(const std::string& key, const st
 
 async_simple::coro::Lazy<bool> RedisModule::SUNION(const std::string& union_key1, const std::string& union_key2, std::vector<std::string>& output)
 {
+	RedisClient* client = getConnection();
+	if (client == nullptr)
+	{
+		LOG_ERROR(s_logCategory, "cant found redis client!, union_key1:{}", union_key1);
+		co_return false;
+	}
+
 	RedisCommand cmd(GET_NAME(SUNION));
 	cmd << union_key1;
 	cmd << union_key2;
 
 	std::string strCmd = cmd.serialize();
-	RedisTask* task = new RedisTask(this, strCmd);
+	RedisTask* task = new RedisTask(this, *client, strCmd);
 
 	CallbackAwaitor<RedisResultPtr> awaitor;
 	RedisResultPtr result = co_await awaitor.awaitResume([this, task](auto handler) {
@@ -2106,13 +2263,20 @@ async_simple::coro::Lazy<bool> RedisModule::SUNION(const std::string& union_key1
 
 async_simple::coro::Lazy<int> RedisModule::SUNIONSTORE(const std::string& dest_store_key, const std::string& union_key1, const std::string& union_key2)
 {
+	RedisClient* client = getConnection();
+	if (client == nullptr)
+	{
+		LOG_ERROR(s_logCategory, "cant found redis client!, dest_store_key:{}", dest_store_key);
+		co_return false;
+	}
+
 	RedisCommand cmd(GET_NAME(SUNIONSTORE));
 	cmd << dest_store_key;
 	cmd << union_key1;
 	cmd << union_key2;
 
 	std::string strCmd = cmd.serialize();
-	RedisTask* task = new RedisTask(this, strCmd);
+	RedisTask* task = new RedisTask(this, *client, strCmd);
 
 	CallbackAwaitor<RedisResultPtr> awaitor;
 	RedisResultPtr result = co_await awaitor.awaitResume([this, task](auto handler) {
@@ -2140,13 +2304,20 @@ async_simple::coro::Lazy<int> RedisModule::SUNIONSTORE(const std::string& dest_s
 //----------------------------sort--------------------------------------
 async_simple::coro::Lazy<int> RedisModule::ZADD(const std::string& key, const std::string& member, const double score)
 {
+	RedisClient* client = getConnection(key);
+	if (client == nullptr)
+	{
+		LOG_ERROR(s_logCategory, "cant found redis client!, key:{}", key);
+		co_return false;
+	}
+
 	RedisCommand cmd(GET_NAME(ZADD));
 	cmd << key;
 	cmd << score;
 	cmd << member;
 
 	std::string strCmd = cmd.serialize();
-	RedisTask* task = new RedisTask(this, strCmd);
+	RedisTask* task = new RedisTask(this, *client, strCmd);
 
 	CallbackAwaitor<RedisResultPtr> awaitor;
 	RedisResultPtr result = co_await awaitor.awaitResume([this, task](auto handler) {
@@ -2171,11 +2342,18 @@ async_simple::coro::Lazy<int> RedisModule::ZADD(const std::string& key, const st
 
 async_simple::coro::Lazy<bool> RedisModule::ZCARD(const std::string& key, int &nCount)
 {
+	RedisClient* client = getConnection(key);
+	if (client == nullptr)
+	{
+		LOG_ERROR(s_logCategory, "cant found redis client!, key:{}", key);
+		co_return false;
+	}
+
 	RedisCommand cmd(GET_NAME(ZCARD));
 	cmd << key;
 
 	std::string strCmd = cmd.serialize();
-	RedisTask* task = new RedisTask(this, strCmd);
+	RedisTask* task = new RedisTask(this, *client, strCmd);
 
 	CallbackAwaitor<RedisResultPtr> awaitor;
 	RedisResultPtr result = co_await awaitor.awaitResume([this, task](auto handler) {
@@ -2199,13 +2377,20 @@ async_simple::coro::Lazy<bool> RedisModule::ZCARD(const std::string& key, int &n
 
 async_simple::coro::Lazy<bool> RedisModule::ZCOUNT(const std::string& key, const double start, const double end, int& nCount)
 {
+	RedisClient* client = getConnection(key);
+	if (client == nullptr)
+	{
+		LOG_ERROR(s_logCategory, "cant found redis client!, key:{}", key);
+		co_return false;
+	}
+
 	RedisCommand cmd(GET_NAME(ZCOUNT));
 	cmd << key;
 	cmd << start;
 	cmd << end;
 
 	std::string strCmd = cmd.serialize();
-	RedisTask* task = new RedisTask(this, strCmd);
+	RedisTask* task = new RedisTask(this, *client, strCmd);
 
 	CallbackAwaitor<RedisResultPtr> awaitor;
 	RedisResultPtr result = co_await awaitor.awaitResume([this, task](auto handler) {
@@ -2229,13 +2414,20 @@ async_simple::coro::Lazy<bool> RedisModule::ZCOUNT(const std::string& key, const
 
 async_simple::coro::Lazy<bool> RedisModule::ZINCRBY(const std::string& key, const std::string& member, const double score, double& newScore)
 {
+	RedisClient* client = getConnection(key);
+	if (client == nullptr)
+	{
+		LOG_ERROR(s_logCategory, "cant found redis client!, key:{}", key);
+		co_return false;
+	}
+
 	RedisCommand cmd(GET_NAME(ZINCRBY));
 	cmd << key;
 	cmd << score;
 	cmd << member;
 
 	std::string strCmd = cmd.serialize();
-	RedisTask* task = new RedisTask(this, strCmd);
+	RedisTask* task = new RedisTask(this, *client, strCmd);
 
 	CallbackAwaitor<RedisResultPtr> awaitor;
 	RedisResultPtr result = co_await awaitor.awaitResume([this, task](auto handler) {
@@ -2268,6 +2460,13 @@ async_simple::coro::Lazy<bool> RedisModule::ZINCRBY(const std::string& key, cons
 
 async_simple::coro::Lazy<bool> RedisModule::ZRANGE(const std::string& key, const int start, const int end, StringScoreVector& values)
 {
+	RedisClient* client = getConnection(key);
+	if (client == nullptr)
+	{
+		LOG_ERROR(s_logCategory, "cant found redis client!, key:{}", key);
+		co_return false;
+	}
+
 	RedisCommand cmd(GET_NAME(ZRANGE));
 	cmd << key;
 	cmd << start;
@@ -2275,7 +2474,7 @@ async_simple::coro::Lazy<bool> RedisModule::ZRANGE(const std::string& key, const
 	cmd << "WITHSCORES";
 
 	std::string strCmd = cmd.serialize();
-	RedisTask* task = new RedisTask(this, strCmd);
+	RedisTask* task = new RedisTask(this, *client, strCmd);
 
 	CallbackAwaitor<RedisResultPtr> awaitor;
 	RedisResultPtr result = co_await awaitor.awaitResume([this, task](auto handler) {
@@ -2289,32 +2488,27 @@ async_simple::coro::Lazy<bool> RedisModule::ZRANGE(const std::string& key, const
 		co_return false;
 	}
 
-	try
+	if (result->type == REDIS_REPLY_ARRAY)
 	{
-		if (result->type == REDIS_REPLY_ARRAY)
+		for (size_t k = 0; k < result->elements; k = k + 2)
 		{
-			for (size_t k = 0; k < result->elements; k = k + 2)
+			if (result->element[k]->type == REDIS_REPLY_STRING)
 			{
-				if (result->element[k]->type == REDIS_REPLY_STRING)
+				StringScorePair vecPair;
+				vecPair.first = std::string(result->element[k]->str, result->element[k]->len);
+				try
 				{
-					StringScorePair vecPair;
-					vecPair.first = std::string(result->element[k]->str, result->element[k]->len);
-					try
-					{
-						vecPair.second = std::stod(result->element[k + 1]->str);
-						values.emplace_back(vecPair);
-					}
-					catch (const std::exception& e)
-					{
-						LOG_ERROR(s_logCategory, "ZRANGE exception:{}.", e.what())
-					}
+					vecPair.second = std::stod(result->element[k + 1]->str);
+					values.emplace_back(vecPair);
+				}
+				catch (const std::exception& e)
+				{
+					LOG_ERROR(s_logCategory, "ZRANGE exception:{}.", e.what());
+					values.clear();
+					co_return false;
 				}
 			}
 		}
-	}
-	catch (...)
-	{
-		co_return false;
 	}
 
 	co_return true;
@@ -2322,6 +2516,13 @@ async_simple::coro::Lazy<bool> RedisModule::ZRANGE(const std::string& key, const
 
 async_simple::coro::Lazy<bool> RedisModule::ZRANGEBYSCORE(const std::string & key, const double start, const double end, StringScoreVector& values)
 {
+	RedisClient* client = getConnection(key);
+	if (client == nullptr)
+	{
+		LOG_ERROR(s_logCategory, "cant found redis client!, key:{}", key);
+		co_return false;
+	}
+
 	RedisCommand cmd(GET_NAME(ZRANGEBYSCORE));
 	cmd << key;
 	cmd << key;
@@ -2330,7 +2531,7 @@ async_simple::coro::Lazy<bool> RedisModule::ZRANGEBYSCORE(const std::string & ke
 	cmd << "WITHSCORES";
 
 	std::string strCmd = cmd.serialize();
-	RedisTask* task = new RedisTask(this, strCmd);
+	RedisTask* task = new RedisTask(this, *client, strCmd);
 
 	CallbackAwaitor<RedisResultPtr> awaitor;
 	RedisResultPtr result = co_await awaitor.awaitResume([this, task](auto handler) {
@@ -2344,32 +2545,27 @@ async_simple::coro::Lazy<bool> RedisModule::ZRANGEBYSCORE(const std::string & ke
 		co_return false;
 	}
 
-	try
+	if (result->type == REDIS_REPLY_ARRAY)
 	{
-		if (result->type == REDIS_REPLY_ARRAY)
+		for (size_t k = 0; k < result->elements; k = k + 2)
 		{
-			for (size_t k = 0; k < result->elements; k = k + 2)
+			if (result->element[k]->type == REDIS_REPLY_STRING)
 			{
-				if (result->element[k]->type == REDIS_REPLY_STRING)
+				StringScorePair vecPair;
+				vecPair.first = std::string(result->element[k]->str, result->element[k]->len);
+				try
 				{
-					StringScorePair vecPair;
-					vecPair.first = std::string(result->element[k]->str, result->element[k]->len);
-					try
-					{
-						vecPair.second = std::stod(result->element[k + 1]->str);
-						values.emplace_back(vecPair);
-					}
-					catch (const std::exception& e)
-					{
-						LOG_ERROR(s_logCategory, "ZRANGEBYSCORE exception:{}.", e.what())
-					}
+					vecPair.second = std::stod(result->element[k + 1]->str);
+					values.emplace_back(vecPair);
+				}
+				catch (const std::exception& e)
+				{
+					LOG_ERROR(s_logCategory, "ZRANGEBYSCORE exception:{}.", e.what());
+					values.clear();
+					co_return false;
 				}
 			}
 		}
-	}
-	catch (...)
-	{
-		co_return false;
 	}
 
 	co_return true;
@@ -2377,12 +2573,19 @@ async_simple::coro::Lazy<bool> RedisModule::ZRANGEBYSCORE(const std::string & ke
 
 async_simple::coro::Lazy<bool> RedisModule::ZRANK(const std::string & key, const std::string & member, int& rank)
 {
+	RedisClient* client = getConnection(key);
+	if (client == nullptr)
+	{
+		LOG_ERROR(s_logCategory, "cant found redis client!, key:{}", key);
+		co_return false;
+	}
+
 	RedisCommand cmd(GET_NAME(ZRANK));
 	cmd << key;
 	cmd << member;
 
 	std::string strCmd = cmd.serialize();
-	RedisTask* task = new RedisTask(this, strCmd);
+	RedisTask* task = new RedisTask(this, *client, strCmd);
 
 	CallbackAwaitor<RedisResultPtr> awaitor;
 	RedisResultPtr result = co_await awaitor.awaitResume([this, task](auto handler) {
@@ -2406,12 +2609,19 @@ async_simple::coro::Lazy<bool> RedisModule::ZRANK(const std::string & key, const
 
 async_simple::coro::Lazy<bool> RedisModule::ZREM(const std::string & key, const std::string & member)
 {
+	RedisClient* client = getConnection(key);
+	if (client == nullptr)
+	{
+		LOG_ERROR(s_logCategory, "cant found redis client!, key:{}", key);
+		co_return false;
+	}
+
 	RedisCommand cmd(GET_NAME(ZREM));
 	cmd << key;
 	cmd << member;
 
 	std::string strCmd = cmd.serialize();
-	RedisTask* task = new RedisTask(this, strCmd);
+	RedisTask* task = new RedisTask(this, *client, strCmd);
 
 	CallbackAwaitor<RedisResultPtr> awaitor;
 	RedisResultPtr result = co_await awaitor.awaitResume([this, task](auto handler) {
@@ -2435,13 +2645,20 @@ async_simple::coro::Lazy<bool> RedisModule::ZREM(const std::string & key, const 
 
 async_simple::coro::Lazy<bool> RedisModule::ZREMRANGEBYRANK(const std::string & key, const int start, const int end)
 {
+	RedisClient* client = getConnection(key);
+	if (client == nullptr)
+	{
+		LOG_ERROR(s_logCategory, "cant found redis client!, key:{}", key);
+		co_return false;
+	}
+
 	RedisCommand cmd(GET_NAME(ZREMRANGEBYRANK));
 	cmd << key;
 	cmd << start;
 	cmd << end;
 
 	std::string strCmd = cmd.serialize();
-	RedisTask* task = new RedisTask(this, strCmd);
+	RedisTask* task = new RedisTask(this, *client, strCmd);
 
 	CallbackAwaitor<RedisResultPtr> awaitor;
 	RedisResultPtr result = co_await awaitor.awaitResume([this, task](auto handler) {
@@ -2465,13 +2682,20 @@ async_simple::coro::Lazy<bool> RedisModule::ZREMRANGEBYRANK(const std::string & 
 
 async_simple::coro::Lazy<bool> RedisModule::ZREMRANGEBYSCORE(const std::string & key, const double start, const double end)
 {
+	RedisClient* client = getConnection(key);
+	if (client == nullptr)
+	{
+		LOG_ERROR(s_logCategory, "cant found redis client!, key:{}", key);
+		co_return false;
+	}
+
 	RedisCommand cmd(GET_NAME(ZREMRANGEBYSCORE));
 	cmd << key;
 	cmd << start;
 	cmd << end;
 
 	std::string strCmd = cmd.serialize();
-	RedisTask* task = new RedisTask(this, strCmd);
+	RedisTask* task = new RedisTask(this, *client, strCmd);
 
 	CallbackAwaitor<RedisResultPtr> awaitor;
 	RedisResultPtr result = co_await awaitor.awaitResume([this, task](auto handler) {
@@ -2495,6 +2719,13 @@ async_simple::coro::Lazy<bool> RedisModule::ZREMRANGEBYSCORE(const std::string &
 
 async_simple::coro::Lazy<bool> RedisModule::ZREVRANGE(const std::string& key, const int start, const int end, StringScoreVector& values)
 {
+	RedisClient* client = getConnection(key);
+	if (client == nullptr)
+	{
+		LOG_ERROR(s_logCategory, "cant found redis client!, key:{}", key);
+		co_return false;
+	}
+
 	RedisCommand cmd(GET_NAME(ZREVRANGE));
 	cmd << key;
 	cmd << start;
@@ -2502,7 +2733,7 @@ async_simple::coro::Lazy<bool> RedisModule::ZREVRANGE(const std::string& key, co
 	cmd << "WITHSCORES";
 
 	std::string strCmd = cmd.serialize();
-	RedisTask* task = new RedisTask(this, strCmd);
+	RedisTask* task = new RedisTask(this, *client, strCmd);
 
 	CallbackAwaitor<RedisResultPtr> awaitor;
 	RedisResultPtr result = co_await awaitor.awaitResume([this, task](auto handler) {
@@ -2516,32 +2747,27 @@ async_simple::coro::Lazy<bool> RedisModule::ZREVRANGE(const std::string& key, co
 		co_return false;
 	}
 
-	try
+	if (result->type == REDIS_REPLY_ARRAY)
 	{
-		if (result->type == REDIS_REPLY_ARRAY)
+		for (size_t k = 0; k < result->elements; k = k + 2)
 		{
-			for (size_t k = 0; k < result->elements; k = k + 2)
+			if (result->element[k]->type == REDIS_REPLY_STRING)
 			{
-				if (result->element[k]->type == REDIS_REPLY_STRING)
+				StringScorePair vecPair;
+				vecPair.first = std::string(result->element[k]->str, result->element[k]->len);
+				try
 				{
-					StringScorePair vecPair;
-					vecPair.first = std::string(result->element[k]->str, result->element[k]->len);
-					try
-					{
-						vecPair.second = std::stod(result->element[k + 1]->str);
-						values.emplace_back(vecPair);
-					}
-					catch (const std::exception& e)
-					{
-						LOG_ERROR(s_logCategory, "ZREVRANGE exception:{}.", e.what())
-					}
+					vecPair.second = std::stod(result->element[k + 1]->str);
+					values.emplace_back(vecPair);
+				}
+				catch (const std::exception& e)
+				{
+					LOG_ERROR(s_logCategory, "ZREVRANGE exception:{}.", e.what());
+					values.clear();
+					co_return false;
 				}
 			}
 		}
-	}
-	catch (...)
-	{
-		co_return false;
 	}
 
 	co_return true;
@@ -2549,6 +2775,13 @@ async_simple::coro::Lazy<bool> RedisModule::ZREVRANGE(const std::string& key, co
 
 async_simple::coro::Lazy<bool> RedisModule::ZREVRANGEBYSCORE(const std::string & key, const double start, const double end, StringScoreVector& values)
 {
+	RedisClient* client = getConnection(key);
+	if (client == nullptr)
+	{
+		LOG_ERROR(s_logCategory, "cant found redis client!, key:{}", key);
+		co_return false;
+	}
+
 	RedisCommand cmd(GET_NAME(ZREVRANGEBYSCORE));
 	cmd << key;
 	cmd << start;
@@ -2556,7 +2789,7 @@ async_simple::coro::Lazy<bool> RedisModule::ZREVRANGEBYSCORE(const std::string &
 	cmd << "WITHSCORES";
 
 	std::string strCmd = cmd.serialize();
-	RedisTask* task = new RedisTask(this, strCmd);
+	RedisTask* task = new RedisTask(this, *client, strCmd);
 
 	CallbackAwaitor<RedisResultPtr> awaitor;
 	RedisResultPtr result = co_await awaitor.awaitResume([this, task](auto handler) {
@@ -2570,52 +2803,54 @@ async_simple::coro::Lazy<bool> RedisModule::ZREVRANGEBYSCORE(const std::string &
 		co_return false;
 	}
 
-	try
+	if (result->type == REDIS_REPLY_ARRAY)
 	{
-		if (result->type == REDIS_REPLY_ARRAY)
+		for (size_t k = 0; k < result->elements; k = k + 2)
 		{
-			for (size_t k = 0; k < result->elements; k = k + 2)
+			if (result->element[k]->type == REDIS_REPLY_STRING)
 			{
-				if (result->element[k]->type == REDIS_REPLY_STRING)
+				StringScorePair vecPair;
+				vecPair.first = std::string(result->element[k]->str, result->element[k]->len);
+				try
 				{
-					StringScorePair vecPair;
-					vecPair.first = std::string(result->element[k]->str, result->element[k]->len);
-					try
-					{
-						vecPair.second = std::stod(result->element[k + 1]->str);
-						values.emplace_back(vecPair);
-					}
-					catch (const std::exception& e)
-					{
-						LOG_ERROR(s_logCategory, "ZREVRANGEBYSCORE exception:{}.", e.what())
-					}
+					vecPair.second = std::stod(result->element[k + 1]->str);
+					values.emplace_back(vecPair);
+				}
+				catch (const std::exception& e)
+				{
+					LOG_ERROR(s_logCategory, "ZREVRANGEBYSCORE exception:{}.", e.what());
+					values.clear();
+					co_return false;
 				}
 			}
 		}
-	}
-	catch (...)
-	{
-		co_return false;
 	}
 
 	co_return true;
 }
 
-async_simple::coro::Lazy<bool> RedisModule::ZREVRANK(const std::string & key, const std::string & member, int& rank)
+async_simple::coro::Lazy<bool> RedisModule::ZREVRANK(const std::string& key, const std::string& member, int& rank)
 {
+	RedisClient* client = getConnection(key);
+	if (client == nullptr)
+	{
+		LOG_ERROR(s_logCategory, "cant found redis client!, key:{}", key);
+		co_return false;
+	}
+
 	RedisCommand cmd(GET_NAME(ZREVRANK));
 	cmd << key;
 	cmd << member;
 
 	std::string strCmd = cmd.serialize();
-	RedisTask* task = new RedisTask(this, strCmd);
+	RedisTask* task = new RedisTask(this, *client, strCmd);
 
 	CallbackAwaitor<RedisResultPtr> awaitor;
 	RedisResultPtr result = co_await awaitor.awaitResume([this, task](auto handler) {
 		addCallback(addTask(task).withCallback([handler](RedisResultPtr result) {
 			handler.setValueThenResume(result);
-		}));
-	});
+			}));
+		});
 
 	if (result == nullptr)
 	{
@@ -2630,21 +2865,28 @@ async_simple::coro::Lazy<bool> RedisModule::ZREVRANK(const std::string & key, co
 	co_return true;
 }
 
-async_simple::coro::Lazy<bool> RedisModule::ZSCORE(const std::string & key, const std::string & member, double& score)
+async_simple::coro::Lazy<bool> RedisModule::ZSCORE(const std::string& key, const std::string& member, double& score)
 {
+	RedisClient* client = getConnection(key);
+	if (client == nullptr)
+	{
+		LOG_ERROR(s_logCategory, "cant found redis client!, key:{}", key);
+		co_return false;
+	}
+
 	RedisCommand cmd(GET_NAME(ZSCORE));
 	cmd << key;
 	cmd << member;
 
 	std::string strCmd = cmd.serialize();
-	RedisTask* task = new RedisTask(this, strCmd);
+	RedisTask* task = new RedisTask(this, *client, strCmd);
 
 	CallbackAwaitor<RedisResultPtr> awaitor;
 	RedisResultPtr result = co_await awaitor.awaitResume([this, task](auto handler) {
 		addCallback(addTask(task).withCallback([handler](RedisResultPtr result) {
 			handler.setValueThenResume(result);
-		}));
-	});
+			}));
+		});
 
 	if (result == nullptr)
 	{
@@ -2671,34 +2913,31 @@ async_simple::coro::Lazy<bool> RedisModule::ZSCORE(const std::string & key, cons
 
 
 
-//----------------------------debug begin--------------------------------------
-async_simple::coro::Lazy<bool> RedisModule::PING()
+bool RedisModule::PING(RedisClient& client)
 {
-	RedisCommand cmd(GET_NAME(PING));
+	if (client.conn == nullptr || !client.connected)
+	{
+		return false;
+	}
 
-	std::string strCmd = cmd.serialize();
-	RedisTask* task = new RedisTask(this, strCmd);
-
-	CallbackAwaitor<RedisResultPtr> awaitor;
-	RedisResultPtr result = co_await awaitor.awaitResume([this, task](auto handler) {
-		addCallback(addTask(task).withCallback([handler](RedisResultPtr result) {
-			handler.setValueThenResume(result);
-		}));
-	});
-
+	redisReply* result = (redisReply*)redisCommand(client.conn, "PING");
 	if (result == nullptr)
 	{
-		co_return false;
+		return false;
 	}
 
-	bool success = false;
+	client.lastActiveTime = time(nullptr);
 	if (result->type == REDIS_REPLY_STRING)
 	{
-		success = (strcmp(result->str, "PONG") == 0) || (strcmp(result->str, "pong") == 0);
+		if (strcmp(result->str, "PONG") == 0)
+		{
+			freeReplyObject(result);
+			return true;
+		}
 	}
 
-	co_return success;
+	freeReplyObject(result);
+	return false;
 }
-//----------------------------debug end--------------------------------------
 
 }

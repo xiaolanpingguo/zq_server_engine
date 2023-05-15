@@ -16,10 +16,11 @@ using RedisQueryResultPromise = typename RedisQueryCallback::QueryResultPromise;
 
 
 class RedisModule;
+struct RedisClient;
 class RedisTask
 {
 public:
-	RedisTask(RedisModule* redisModule, const std::string& command);
+	RedisTask(RedisModule* redisModule, RedisClient& client, const std::string& command);
 	virtual ~RedisTask() {}
 	virtual void execute();
 	RedisQueryResultFuture getFuture();
@@ -27,6 +28,7 @@ public:
 protected:
 
 	RedisModule* m_redisModule;
+	RedisClient& m_client;
 	std::string m_command;
 	std::unique_ptr<RedisQueryResultPromise> m_result;
 };

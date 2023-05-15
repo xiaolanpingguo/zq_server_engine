@@ -9,14 +9,22 @@
 
 #include <mongoc/mongoc.h>
 
-
 namespace zq{
 
 
 class MongoTask;
+class MongoInsertTask;
+class MongoRemoveTask;
+class MongoSaveTask;
+class MongoFindTask;
 class MongoModule : public IModule
 {
 	INIT_MODULE_NAME(MongoModule);
+
+	friend class MongoInsertTask;
+	friend class MongoRemoveTask;
+	friend class MongoSaveTask;
+	friend class MongoFindTask;
 
 public:
 	MongoModule(const std::string& user, const std::string& pwd, const std::string& host, uint16_t port);
@@ -27,38 +35,38 @@ public:
 	bool update() override;
 	bool finalize() override;
 
-    MongoQueryCallback addTask(MongoTask* task);
-	MongoQueryCallback& addCallback(MongoQueryCallback&& query);
+	bool setupCollection(const std::string& dbName, const std::string& collectionName);
 
 	async_simple::coro::Lazy<MongoResultPtr> insert(const std::string& dbName, const std::string& collectionName, BsonObjectPtr insertor);
 	async_simple::coro::Lazy<MongoResultPtr> remove(const std::string& dbName, const std::string& collectionName, BsonObjectPtr selector);
 	async_simple::coro::Lazy<MongoResultPtr> save(const std::string& dbName, const std::string& collectionName, BsonObjectPtr selector, BsonObjectPtr updator);
 	async_simple::coro::Lazy<MongoResultPtr> find(const std::string& dbName, const std::string& collectionName, BsonObjectPtr selector, int limit = 0, int skip = 0);
 
-public:
+private:
 	bool initMongo();
-	bool setupCollection(const std::string& dbName, const std::string& collectionName);
 	bool mongoInsert(const std::string& dbName, const std::string& collectionName, BsonObject& insertor, std::string& errorMsg);
 	bool mongoRemove(const std::string& dbName, const std::string& collectionName, BsonObject& selector, std::string& errorMsg);
 	bool mongoSave(const std::string& dbName, const std::string& collectionName, BsonObject& selector, BsonObject& updator, std::string& errorMsg);
 	bool mongoFind(const std::string& dbName, const std::string& collectionName, BsonObject& selector, std::vector<BsonObjectPtr>& result, std::string& errorMsg, int limit = 0, int skip = 0);
-	bool mongoBatchFind(const std::string& dbName, const std::string& collectionName);
+	void ping();
 
 private:
-	static void mongoLog(mongoc_log_level_t logLevel, const char* logDomain, const char* message, void* userData);
+
+	mongoc_database_t* getDb(const std::string& dbName);
 	mongoc_collection_t* getCollection(const std::string& dbName, const std::string& collectionName);
+
+    MongoQueryCallback addTask(MongoTask* task);
+	MongoQueryCallback& addCallback(MongoQueryCallback&& query);
 	void processCallbacks();
+	void processTask();
+
+	void keepAlive();
 	void taskThrad();
 
-	void testInsert();
-	void testRemove();
-	void testSave();
-	void testFind();
-
 private:
 
-	bool m_threadStop;
-	std::thread m_thr;
+	std::atomic<bool> m_threadStop;
+	std::unique_ptr<std::thread> m_taskThread;
 
 	mongoc_uri_t* m_mongoUrl;
 	mongoc_client_t* m_mongoClient;
@@ -69,10 +77,13 @@ private:
 	uint16_t m_port;
 
 	std::string m_url;
+	uint64_t m_lastActiveTime;
 
 	std::queue<MongoQueryCallback> m_callbacks;
 	ConcurrentQueue<MongoTask*> m_queue;
 
+	std::vector<std::pair<std::string, std::string>> m_vecColl;
+	std::map<std::string, mongoc_database_t*> m_databases;
 	std::map<std::pair<std::string, std::string>, mongoc_collection_t*> m_collections;
 	constexpr static std::string_view s_logCategory = "MongoModule";
 };

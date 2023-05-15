@@ -7,15 +7,20 @@
 namespace zq{
 
 
+static void mongoLog(mongoc_log_level_t logLevel, const char* logDomain, const char* message, void* userData)
+{
+	LOG_INFO("mongoInternalLog", "mongoLog: logLevel:{}, logDomain:{}, message:{}.\n", (int)logLevel, logDomain, message);
+}
+
 MongoModule::MongoModule(const std::string& user, const std::string& pwd, const std::string& host, uint16_t port) :
 		m_threadStop(false),
-		m_thr(std::bind(&MongoModule::taskThrad, this)),
 		m_mongoUrl(nullptr),
 		m_mongoClient(nullptr),
 		m_user(user),
 		m_pwd(pwd),
 		m_host(host),
-		m_port(port)
+		m_port(port),
+		m_lastActiveTime(time(nullptr))
 {
 }
 
@@ -30,24 +35,7 @@ bool MongoModule::init()
 		return false;
 	}
 
-	struct CollectionSetupData
-	{
-		std::string dbName;
-		std::string collectionName;
-	};
-
-	std::vector<CollectionSetupData> allCollections{
-		{ DB_NAME, COL_ACCOUNT },
-		{ DB_NAME, COL_PLAYER },
-		{ DB_NAME, COL_PLAYER_NAME },
-	};
-	for (const auto& col : allCollections)
-	{
-		if (!setupCollection(col.dbName, col.collectionName))
-		{
-			return false;
-		}
-	}
+	m_taskThread = std::make_unique<std::thread>(std::bind(&MongoModule::taskThrad, this));
 
 	{
 		//testInsert();
@@ -68,13 +56,38 @@ bool MongoModule::update()
 bool MongoModule::finalize()
 {
 	m_threadStop = true;
-	m_thr.join();
+	m_queue.stopWait();
+	if (m_taskThread && m_taskThread->joinable())
+	{
+		m_taskThread->join();
+	}
+
 	for (auto& pair : m_collections)
 	{
-		mongoc_collection_destroy(pair.second);
+		if (pair.second)
+		{
+			mongoc_collection_destroy(pair.second);
+		}
 	}
-	mongoc_uri_destroy(m_mongoUrl);
-	mongoc_client_destroy(m_mongoClient);
+
+	for (auto& pair : m_databases)
+	{
+		if (pair.second)
+		{
+			mongoc_database_destroy(pair.second);
+		}
+	}
+
+	if (m_mongoUrl)
+	{
+		mongoc_uri_destroy(m_mongoUrl);
+	}
+
+	if (m_mongoClient)
+	{
+		mongoc_client_destroy(m_mongoClient);
+	}
+
 	mongoc_cleanup();
 	return true;
 }
@@ -150,29 +163,61 @@ bool MongoModule::initMongo()
 	mongoc_init();
 	m_mongoUrl = mongoc_uri_new(m_url.c_str());
 	m_mongoClient = mongoc_client_new_from_uri(m_mongoUrl);
-	mongoc_client_set_appname(m_mongoClient, "MongoModule");
-	mongoc_log_set_handler(&MongoModule::mongoLog, this);
+	mongoc_log_set_handler(mongoLog, this);
 
 	return true;
 }
 
 bool MongoModule::setupCollection(const std::string& dbName, const std::string& collectionName)
 {
-	mongoc_collection_t* collection = getCollection(dbName, collectionName);
-	if (collection != nullptr)
+	bool success = false;
+	do 
 	{
-		LOG_ERROR(s_logCategory, "setup a duplicate collection: db:{}, collectionName:{}.\n", dbName, collectionName);
+		mongoc_database_t* db = getDb(dbName);
+		if (db == nullptr)
+		{
+			db = mongoc_client_get_database(m_mongoClient, dbName.c_str());
+			if (db == nullptr)
+			{
+				LOG_ERROR(s_logCategory, "get db failed dbName:{}, collectionName:{}.", dbName, collectionName);
+				break;
+			}
+
+			m_databases[dbName] = db;
+		}
+
+		mongoc_collection_t* collection = getCollection(dbName, collectionName);
+		if (collection == nullptr)
+		{
+			collection = mongoc_client_get_collection(m_mongoClient, dbName.c_str(), collectionName.c_str());
+			if (collection == nullptr)
+			{
+				LOG_ERROR(s_logCategory, "get collection failed dbName:{}, collectionName:{}.", dbName, collectionName);
+				break;
+			}
+
+			m_vecColl.emplace_back(std::make_pair(dbName, collectionName));
+			m_collections[std::make_pair(dbName, collectionName)] = collection;
+		}
+
+		success = true;
+	} while (0);
+	
+	if (!success)
+	{
+		for (auto it = m_collections.begin(); it != m_collections.end(); it++)
+		{
+			mongoc_collection_destroy(it->second);
+		}
+
+		for (auto it = m_databases.begin(); it != m_databases.end(); it++)
+		{
+			mongoc_database_destroy(it->second);
+		}
+
 		return false;
 	}
 
-	collection = mongoc_client_get_collection(m_mongoClient, dbName.c_str(), collectionName.c_str());
-	if (collection == nullptr)
-	{
-		LOG_ERROR(s_logCategory, "Get Collection Failed DBName:{}, CollectionName:{}.\n", dbName, collectionName);
-		return false;
-	}
-
-	m_collections[{ dbName, collectionName }] = collection;
 	return true;
 }
 
@@ -185,6 +230,8 @@ bool MongoModule::mongoInsert(const std::string& dbName, const std::string& coll
 		LOG_ERROR(s_logCategory, "{}", errorMsg);
 		return false;
 	}
+
+	m_lastActiveTime = time(nullptr);
 
 	bson_error_t mongoError;
 	bson_t bson;
@@ -212,6 +259,8 @@ bool MongoModule::mongoRemove(const std::string& dbName, const std::string& coll
 		LOG_ERROR(s_logCategory, "{}", errorMsg);
 		return false;
 	}
+
+	m_lastActiveTime = time(nullptr);
 
 	bson_error_t mongoError;
 	bson_t bsonSelector;
@@ -246,6 +295,8 @@ bool MongoModule::mongoSave(const std::string& dbName, const std::string& collec
 		LOG_ERROR(s_logCategory, "{}", errorMsg);
 		return false;
 	}
+
+	m_lastActiveTime = time(nullptr);
 
 	bson_error_t mongoError;
 	bson_t bsonSelector;
@@ -326,6 +377,8 @@ bool MongoModule::mongoFind(const std::string& dbName, const std::string& collec
 	bson_destroy(&bsonOpt);
 	bson_destroy(&baseQuery);
 
+	m_lastActiveTime = time(nullptr);
+
 	if (!success)
 	{
 		errorMsg = fmt::format("find mongo data error, dbName:{}, collectionName:{}.", dbName, collectionName);
@@ -336,9 +389,77 @@ bool MongoModule::mongoFind(const std::string& dbName, const std::string& collec
 	return true;
 }
 
-bool MongoModule::mongoBatchFind(const std::string& dbName, const std::string& collectionName)
+void MongoModule::ping()
 {
-	return true;
+	bool connected = true;
+	for (auto& ele : m_databases)
+	{
+		bson_t bsonPing;
+		bson_error_t error;
+
+		bson_init(&bsonPing);
+		bson_append_int32(&bsonPing, "ping", 4, 1);
+		bool r = mongoc_database_command_with_opts(ele.second, &bsonPing, nullptr, nullptr, nullptr, &error);
+		bson_destroy(&bsonPing);
+
+		if (!r)
+		{
+			connected = false;
+			LOG_ERROR(s_logCategory, "ping failure, mongo client has disConnect!, dbname:{} ", ele.first);
+			break;
+		}
+	}
+
+	if (connected)
+	{
+		return;
+	}
+
+	for (auto it = m_collections.begin(); it != m_collections.end(); it++)
+	{
+		mongoc_collection_destroy(it->second);
+	}
+
+	for (auto it = m_databases.begin(); it != m_databases.end(); it++)
+	{
+		mongoc_database_destroy(it->second);
+	}
+	m_collections.clear();
+	m_databases.clear();
+
+	mongoc_client_t* newConn = mongoc_client_new_from_uri(m_mongoUrl);
+	if (newConn == nullptr)
+	{
+		LOG_ERROR(s_logCategory, "create a new mongo client failed!, url:{} ", m_url);
+		return;
+	}
+
+	if (m_mongoClient)
+	{
+		mongoc_client_destroy(m_mongoClient);
+		m_mongoClient = nullptr;
+	}
+
+	m_mongoClient = newConn;
+	for (const auto& pair : m_vecColl)
+	{
+		if (!setupCollection(pair.first, pair.second))
+		{
+			LOG_ERROR(s_logCategory, "setup collection failed!, db:{}, coll:{}", pair.first, pair.second);
+			return;
+		}
+	}
+}
+
+mongoc_database_t* MongoModule::getDb(const std::string& dbName)
+{
+	auto it = m_databases.find(dbName);
+	if (it == m_databases.end())
+	{
+		return nullptr;
+	}
+
+	return it->second;
 }
 
 mongoc_collection_t* MongoModule::getCollection(const std::string& dbName, const std::string& collectionName)
@@ -353,137 +474,6 @@ mongoc_collection_t* MongoModule::getCollection(const std::string& dbName, const
 	return it->second;
 }
 
-void MongoModule::mongoLog(mongoc_log_level_t logLevel, const char* logDomain, const char* message, void* userData)
-{
-	LOG_INFO("mongoLog", "mongoLog: logLevel:{}, logDomain:{}, message:{}.\n", (int)logLevel, logDomain, message);
-}
-
-void MongoModule::testInsert()
-{
-	BsonObjectPtr insertor = std::make_shared<BsonObject>();
-	insertor->appendString("test_insert1", "abcdef");
-	insertor->appendInt32("test_insert2", 1234567);
-	std::string dbName = "zq";
-	std::string coName = "player";
-
-	insert(dbName, coName, insertor).start([](async_simple::Try<MongoResultPtr> v) {
-		try
-		{
-			MongoResultPtr result = v.value();
-			if (!result->success)
-			{
-				LOG_ERROR("[mongo test]", "insert error: {}", result->errorMsg);
-				return;
-			}
-			LOG_INFO("[mongo test]", "insert success!");
-		}
-		catch (const std::exception& e)
-		{
-			LOG_ERROR("[mongo test]", "insert exception: {}", e.what());
-		}
-	});
-}
-
-void MongoModule::testRemove()
-{
-	BsonObjectPtr selector = std::make_shared<BsonObject>();
-	selector->appendString("test_insert1", "abcdef");
-	std::string dbName = "zq";
-	std::string coName = "player";
-
-	remove(dbName, coName, selector).start([](async_simple::Try<MongoResultPtr> v) {
-		try
-		{
-			MongoResultPtr result = v.value();
-			if (!result->success)
-			{
-				LOG_ERROR("[mongo test]", "remove error: {}", result->errorMsg);
-				return;
-			}
-			LOG_INFO("[mongo test]", "remove success!");
-		}
-		catch (const std::exception& e)
-		{
-			LOG_ERROR("[mongo test]", "remove exception: {}", e.what());
-		}
-	});
-}
-
-void MongoModule::testSave()
-{
-	BsonObjectPtr selector = std::make_shared<BsonObject>();
-	BsonObjectPtr updatetor = std::make_shared<BsonObject>();
-	selector->appendString("test_save34", "abcde");
-	updatetor->appendString("test_save35", "abcdef");
-	std::string dbName = "zq";
-	std::string coName = "player";
-
-	save(dbName, coName, selector, updatetor).start([](async_simple::Try<MongoResultPtr> v) {
-		try
-		{
-			MongoResultPtr result = v.value();
-			if (!result->success)
-			{
-				LOG_ERROR("[mongo test]", "save error: {}", result->errorMsg);
-				return;
-			}
-			LOG_INFO("[mongo test]", "save success!");
-		}
-		catch (const std::exception& e)
-		{
-			LOG_ERROR("[mongo test]", "save exception: {}", e.what());
-		}
-	});
-}
-
-void MongoModule::testFind()
-{
-	{
-		std::vector<BsonObject> result;
-		BsonObjectPtr selector = std::make_shared<BsonObject>();
-		std::string dbName = "zq";
-		std::string coName = "player";
-
-		find(dbName, coName, selector).start([](async_simple::Try<MongoResultPtr> v) {
-
-			MongoResultPtr result = v.value();
-			if (!result->success)
-			{
-				LOG_ERROR("[mongo test]", "find error: {}", result->errorMsg);
-				return;
-			}
-			LOG_INFO("[mongo test]", "find success, result num:{}", result->foundResult.size());
-			for (auto& obj : result->foundResult)
-			{
-				LOG_INFO(s_logCategory, "details:{}", obj->debugPrint());
-			}
-		});
-	}
-
-	{
-		std::vector<BsonObject> result;
-		BsonObjectPtr selector = std::make_shared<BsonObject>();
-		selector->appendString("test_save1", "123333");
-		std::string dbName = "zq";
-		std::string coName = "player";
-
-		find(dbName, coName, selector).start([](async_simple::Try<MongoResultPtr> v) {
-
-			MongoResultPtr result = v.value();
-			if (!result->success)
-			{
-				LOG_ERROR("[mongo test]", "find error: {}", result->errorMsg);
-				return;
-			}
-			LOG_INFO("[mongo test]", "find success, result num:{}", result->foundResult.size());
-			for (auto& obj : result->foundResult)
-			{
-				LOG_INFO(s_logCategory, "details:{}", obj->debugPrint());
-			}
-		});
-	}
-}
-
 void MongoModule::processCallbacks()
 {
 	while (!m_callbacks.empty())
@@ -496,31 +486,34 @@ void MongoModule::processCallbacks()
 	}
 }
 
-void MongoModule::taskThrad()
+void MongoModule::processTask()
 {
-	while (1)
+	MongoTask* task = nullptr;
+	if (m_queue.pop(task))
 	{
-		MongoTask* task;
-
-		if (m_threadStop)
-		{
-			while (!m_queue.empty())
-			{
-				if (m_queue.pop(task))
-				{
-					task->execute();
-					delete task;
-					task = nullptr;
-				}
-			}
-
-			break;
-		}
-
-		m_queue.waitAndPop(task);
 		task->execute();
 		delete task;
 		task = nullptr;
+	}
+}
+
+void MongoModule::keepAlive()
+{
+	constexpr static int s_interVal = 5;
+	time_t now = time(nullptr);
+	if (now - m_lastActiveTime >= s_interVal)
+	{
+		m_lastActiveTime = now;
+		ping();
+	}
+}
+
+void MongoModule::taskThrad()
+{
+	while (!m_threadStop || !m_queue.empty())
+	{
+		keepAlive();
+		processTask();
 	}
 }
 

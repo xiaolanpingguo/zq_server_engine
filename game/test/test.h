@@ -1,5 +1,9 @@
 #include "common/common.hpp"
 
 
-bool formatTest();
-bool redisTest();
+constexpr static std::string_view s_logCategory = "Test";
+
+bool testFormat();
+bool testRedis();
+bool testMongo();
+bool testLog();
