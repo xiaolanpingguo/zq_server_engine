@@ -7,3 +7,4 @@ bool testFormat();
 bool testRedis();
 bool testMongo();
 bool testLog();
+bool testLogin();

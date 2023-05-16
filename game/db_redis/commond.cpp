@@ -1160,7 +1160,7 @@ async_simple::coro::Lazy<bool> RedisModule::HSTRLEN(const std::string &key, cons
 
 
 //----------------------------key--------------------------------------
-async_simple::coro::Lazy<bool> RedisModule::DEL(const std::string &key)
+async_simple::coro::Lazy<int> RedisModule::DEL(const std::string &key)
 {
 	RedisClient* client = getConnection(key);
 	if (client == nullptr)
@@ -1187,13 +1187,13 @@ async_simple::coro::Lazy<bool> RedisModule::DEL(const std::string &key)
 		co_return false;
 	}
 
-	bool del_key_num = false;
+	int num = false;
 	if (result->type == REDIS_REPLY_INTEGER)
 	{
-		del_key_num = (bool)result->integer;
+		num = (int)result->integer;
 	}
 
-	co_return del_key_num;
+	co_return num;
 }
 
 async_simple::coro::Lazy<bool> RedisModule::EXISTS(const std::string &key)
@@ -2602,7 +2602,7 @@ async_simple::coro::Lazy<bool> RedisModule::ZRANGE(const std::string& key, const
 	co_return true;
 }
 
-async_simple::coro::Lazy<bool> RedisModule::ZRANGEBYSCORE(const std::string & key, const double start, const double end, StringScoreVector& values)
+async_simple::coro::Lazy<bool> RedisModule::ZRANGEWITHSCORE(const std::string& key, const int start, const int end, StringScoreVector& values)
 {
 	RedisClient* client = getConnection(key);
 	if (client == nullptr)

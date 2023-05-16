@@ -30,6 +30,7 @@ public:
 		:
 			BaseConnection<TcpConnection>(ioContext, std::move(socket), connectionId, isClient)
 	{
+		memset(m_head, 0, HEAD_LENTH);
 	}
 
 	virtual ~TcpConnection()

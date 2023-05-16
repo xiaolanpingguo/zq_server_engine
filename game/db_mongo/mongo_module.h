@@ -27,7 +27,7 @@ class MongoModule : public IModule
 	friend class MongoFindTask;
 
 public:
-	MongoModule(const std::string& user, const std::string& pwd, const std::string& host, uint16_t port);
+	MongoModule(const std::string& user, const std::string& pwd, const std::string& host, uint16_t port, const std::vector<std::pair<std::string, std::string>>& collections);
 	~MongoModule();
 
 public:
@@ -81,6 +81,8 @@ private:
 
 	std::queue<MongoQueryCallback> m_callbacks;
 	ConcurrentQueue<MongoTask*> m_queue;
+
+	std::vector<std::pair<std::string, std::string>> m_initCollectionsConfig;
 
 	std::vector<std::pair<std::string, std::string>> m_vecColl;
 	std::map<std::string, mongoc_database_t*> m_databases;

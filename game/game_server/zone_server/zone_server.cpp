@@ -3,6 +3,7 @@
 #include "game_server/zone_server/internal_server_module.h"
 #include "game_server/zone_server/player_manager_module.h"
 #include "db_mongo/mongo_module.h"
+#include "game_common/game_db_def.hpp"
 
 #include <nlohmann-json/json.hpp>
 
@@ -28,10 +29,15 @@ ZoneServer::~ZoneServer()
 
 bool ZoneServer::registerServerModules()
 {
+	std::vector<std::pair<std::string, std::string>> collections{
+		{ DB_NAME, COL_ACCOUNT },
+		{ DB_NAME, COL_PLAYER },
+	};
+
 	registerModule<ZoneToMasterModule>(this);
 	registerModule<InternalServerModule>(this);
 	registerModule<PlayerManagerModule>(this);
-	registerModule<MongoModule>(m_serverConfg.mongoUser, m_serverConfg.mongoPwd, m_serverConfg.mongoHost, m_serverConfg.mongoPort);
+	registerModule<MongoModule>(m_serverConfg.mongoUser, m_serverConfg.mongoPwd, m_serverConfg.mongoHost, m_serverConfg.mongoPort, collections);
 	return true;
 }
 

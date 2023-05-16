@@ -3,6 +3,7 @@
 #include "game_server/login_server/client_to_login_module.h"
 #include "db_mongo/mongo_module.h"
 #include "db_redis/redis_module.h"
+#include "game_common/game_db_def.hpp"
 
 #include <nlohmann-json/json.hpp>
 
@@ -27,8 +28,14 @@ LoginServer::~LoginServer()
 
 bool LoginServer::registerServerModules()
 {
+	std::vector<std::pair<std::string, std::string>> collections
+	{
+		{ DB_NAME, COL_ACCOUNT },
+		{ DB_NAME, COL_PLAYER },
+	};
+
 	registerModule<InternalServerModule>(this);
-	registerModule<MongoModule>(m_serverConfg.mongoUser, m_serverConfg.mongoPwd, m_serverConfg.mongoHost, m_serverConfg.mongoPort);
+	registerModule<MongoModule>(m_serverConfg.mongoUser, m_serverConfg.mongoPwd, m_serverConfg.mongoHost, m_serverConfg.mongoPort, collections);
 	registerModule<RedisModule>(m_serverConfg.redisAuth, m_serverConfg.redisHost, m_serverConfg.redisPort);
 	registerModule<ClientToLoginModule>(this);
 	return true;

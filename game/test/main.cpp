@@ -13,9 +13,10 @@ int main(int argc, char* argv[])
 	std::vector<std::function<bool()>> vec
 	{
 		//std::bind(testFormat),
-		std::bind(testRedis),
+		//std::bind(testRedis),
 		//std::bind(testMongo),
 		//std::bind(testLog),
+		std::bind(testLogin),
 	};
 
 	for (const auto& fun : vec)

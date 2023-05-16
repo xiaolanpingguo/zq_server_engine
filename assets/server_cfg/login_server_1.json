@@ -11,6 +11,6 @@
 	"mongoHost": "localhost",
 	"mongoPort": 27017,
 	"redisAuth": "null",
-	"redisHost": "192.168.0.109",
-	"redisPort": 7001
+	"redisHost": "127.0.0.1",
+	"redisPort": 6379
 }

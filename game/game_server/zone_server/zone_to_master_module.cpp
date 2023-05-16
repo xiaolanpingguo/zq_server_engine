@@ -21,7 +21,6 @@ bool ZoneToMasterModule::init()
 {
 	using namespace std::placeholders;
 
-
 	MessageHelper& messageHelper = MessageHelper::getInstance();
 	messageHelper.registerHandler<&ZoneToMasterModule::onS2SServerRegisterRes>(this, S2S::MSG_ID_SERVER_REGSTER_RES);
 
@@ -30,20 +29,6 @@ bool ZoneToMasterModule::init()
 	m_tcpClient->setDisconnectFromServerCb(std::bind(&ZoneToMasterModule::onDisconnectedFromServer, this, _1));
 	m_tcpClient->setDataReceivedCb(std::bind(&ZoneToMasterModule::onDataReceivedFromServer, this, _1, _2, _3, _4));
 	m_tcpClient->asyncConnect();
-
-	//testFun1().start([](async_simple::Try<bool> result) {
-	//	if (result.hasError())
-	//	{
-	//		try
-	//		{
-	//			std::rethrow_exception(result.getException());
-	//		}
-	//		catch (const std::exception& e)
-	//		{
-	//			std::cerr << e.what() << std::endl;
-	//		}
-
-	//	} });
 
 	return true;
 }
@@ -82,33 +67,6 @@ void ZoneToMasterModule::onDataReceivedFromServer(TcpConnectionPtr connection, u
 	LOG_INFO(s_logCategory, "onClientDataReceived, msgid:{}, len:{}", msgId, len);
 	MessageHelper::getInstance().dispatch(connection, msgId, (const char*)data, (uint32_t)len);
 }
-
-void fun11(TcpConnectionPtr connection, const S2S::S2SServerRegisterRes& res)
-{
-}
-
-async_simple::coro::Lazy<bool> ZoneToMasterModule::testFun1()
-{
-	S2S::S2SServerRegisterReq s2sPackage;
-	S2S::ServerInfo* serverInfo = s2sPackage.mutable_server_info();
-	serverInfo->set_server_type(3255);
-	serverInfo->set_server_id(2131);
-	serverInfo->set_ip("1234111");
-	serverInfo->set_port(7777);
-
-	std::string strData;
-	if (!s2sPackage.SerializeToString(&strData))
-	{
-		co_return false;
-	}
-
-	S2S::S2SServerRegisterRes res;
-	bool b = co_await m_coConnection->send(S2S::MSG_ID_SERVER_REGSTER_REQ, strData.data(), (uint32_t)strData.size(), res);
-	LOG_INFO(s_logCategory, "testFun1, success:{}, error:{}", res.success(), res.error_msg());
-
-	co_return true;
-}
-
 
 void ZoneToMasterModule::onS2SServerRegisterRes(TcpConnectionPtr connection, const S2S::S2SServerRegisterRes& res)
 {

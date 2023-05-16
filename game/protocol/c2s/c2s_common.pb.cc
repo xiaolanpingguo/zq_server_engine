@@ -52,7 +52,8 @@ PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORIT
 PROTOBUF_CONSTEXPR C2SLoginRes::C2SLoginRes(
     ::_pbi::ConstantInitialized): _impl_{
     /*decltype(_impl_.zone_token_)*/{&::_pbi::fixed_address_empty_string, ::_pbi::ConstantInitialized{}}
-  , /*decltype(_impl_.host_)*/{&::_pbi::fixed_address_empty_string, ::_pbi::ConstantInitialized{}}
+  , /*decltype(_impl_.ip_)*/{&::_pbi::fixed_address_empty_string, ::_pbi::ConstantInitialized{}}
+  , /*decltype(_impl_.profile_id_)*/{&::_pbi::fixed_address_empty_string, ::_pbi::ConstantInitialized{}}
   , /*decltype(_impl_.error_code_)*/0
   , /*decltype(_impl_.port_)*/0
   , /*decltype(_impl_._cached_size_)*/{}} {}
@@ -94,7 +95,7 @@ struct C2SLoginZoneResDefaultTypeInternal {
 PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 C2SLoginZoneResDefaultTypeInternal _C2SLoginZoneRes_default_instance_;
 }  // namespace C2S
 static ::_pb::Metadata file_level_metadata_c2s_5fcommon_2eproto[5];
-static const ::_pb::EnumDescriptor* file_level_enum_descriptors_c2s_5fcommon_2eproto[1];
+static const ::_pb::EnumDescriptor* file_level_enum_descriptors_c2s_5fcommon_2eproto[2];
 static constexpr ::_pb::ServiceDescriptor const** file_level_service_descriptors_c2s_5fcommon_2eproto = nullptr;
 
 const uint32_t TableStruct_c2s_5fcommon_2eproto::offsets[] PROTOBUF_SECTION_VARIABLE(protodesc_cold) = {
@@ -122,8 +123,9 @@ const uint32_t TableStruct_c2s_5fcommon_2eproto::offsets[] PROTOBUF_SECTION_VARI
   ~0u,  // no _inlined_string_donated_
   PROTOBUF_FIELD_OFFSET(::C2S::C2SLoginRes, _impl_.error_code_),
   PROTOBUF_FIELD_OFFSET(::C2S::C2SLoginRes, _impl_.zone_token_),
-  PROTOBUF_FIELD_OFFSET(::C2S::C2SLoginRes, _impl_.host_),
+  PROTOBUF_FIELD_OFFSET(::C2S::C2SLoginRes, _impl_.ip_),
   PROTOBUF_FIELD_OFFSET(::C2S::C2SLoginRes, _impl_.port_),
+  PROTOBUF_FIELD_OFFSET(::C2S::C2SLoginRes, _impl_.profile_id_),
   ~0u,  // no _has_bits_
   PROTOBUF_FIELD_OFFSET(::C2S::C2SLoginZoneReq, _internal_metadata_),
   ~0u,  // no _extensions_
@@ -144,8 +146,8 @@ static const ::_pbi::MigrationSchema schemas[] PROTOBUF_SECTION_VARIABLE(protode
   { 0, -1, -1, sizeof(::C2S::C2SHeartBeat)},
   { 7, -1, -1, sizeof(::C2S::C2SLoginReq)},
   { 16, -1, -1, sizeof(::C2S::C2SLoginRes)},
-  { 26, -1, -1, sizeof(::C2S::C2SLoginZoneReq)},
-  { 34, -1, -1, sizeof(::C2S::C2SLoginZoneRes)},
+  { 27, -1, -1, sizeof(::C2S::C2SLoginZoneReq)},
+  { 35, -1, -1, sizeof(::C2S::C2SLoginZoneRes)},
 };
 
 static const ::_pb::Message* const file_default_instances[] = {
@@ -160,19 +162,24 @@ const char descriptor_table_protodef_c2s_5fcommon_2eproto[] PROTOBUF_SECTION_VAR
   "\n\020c2s_common.proto\022\003C2S\"\035\n\014C2SHeartBeat\022"
   "\r\n\005state\030\001 \001(\005\"I\n\013C2SLoginReq\022\023\n\013sdk_use"
   "r_id\030\001 \001(\t\022\021\n\tsdk_token\030\002 \001(\t\022\022\n\nchannel"
-  "_id\030\003 \001(\005\"Q\n\013C2SLoginRes\022\022\n\nerror_code\030\001"
-  " \001(\005\022\022\n\nzone_token\030\002 \001(\t\022\014\n\004host\030\003 \001(\t\022\014"
-  "\n\004port\030\004 \001(\005\"6\n\017C2SLoginZoneReq\022\017\n\007user_"
-  "id\030\001 \001(\t\022\022\n\nzone_token\030\002 \001(\t\"%\n\017C2SLogin"
-  "ZoneRes\022\022\n\nerror_code\030\001 \001(\005*\232\001\n\nC2S_MSG_"
-  "ID\022\017\n\013MSG_ID_NONE\020\000\022\025\n\020MSG_ID_HEARTBEAT\020"
-  "\221N\022\025\n\020MSG_ID_LOGIN_REQ\020\222N\022\025\n\020MSG_ID_LOGI"
-  "N_RES\020\223N\022\032\n\025MSG_ID_LOGIN_ZONE_REQ\020\224N\022\032\n\025"
-  "MSG_ID_LOGIN_ZONE_RES\020\225Nb\006proto3"
+  "_id\030\003 \001(\005\"c\n\013C2SLoginRes\022\022\n\nerror_code\030\001"
+  " \001(\005\022\022\n\nzone_token\030\002 \001(\t\022\n\n\002ip\030\003 \001(\t\022\014\n\004"
+  "port\030\004 \001(\005\022\022\n\nprofile_id\030\005 \001(\t\"6\n\017C2SLog"
+  "inZoneReq\022\017\n\007user_id\030\001 \001(\t\022\022\n\nzone_token"
+  "\030\002 \001(\t\":\n\017C2SLoginZoneRes\022\'\n\nerror_code\030"
+  "\001 \001(\0162\023.C2S.C2S_ERROR_CODE*\232\001\n\nC2S_MSG_I"
+  "D\022\017\n\013MSG_ID_NONE\020\000\022\025\n\020MSG_ID_HEARTBEAT\020\221"
+  "N\022\025\n\020MSG_ID_LOGIN_REQ\020\222N\022\025\n\020MSG_ID_LOGIN"
+  "_RES\020\223N\022\032\n\025MSG_ID_LOGIN_ZONE_REQ\020\224N\022\032\n\025M"
+  "SG_ID_LOGIN_ZONE_RES\020\225N*\234\001\n\016C2S_ERROR_CO"
+  "DE\022\016\n\nEC_SUCCESS\020\000\022\025\n\021EC_GENERRAL_ERROR\020"
+  "e\022\034\n\030EC_SERVER_INTERNAL_ERROR\020f\022\027\n\023EC_SE"
+  "RVER_NOT_READY\020g\022\030\n\024EC_INVALID_PARAMETER"
+  "\020h\022\022\n\016EC_SERVER_BUSY\020ib\006proto3"
   ;
 static ::_pbi::once_flag descriptor_table_c2s_5fcommon_2eproto_once;
 const ::_pbi::DescriptorTable descriptor_table_c2s_5fcommon_2eproto = {
-    false, false, 472, descriptor_table_protodef_c2s_5fcommon_2eproto,
+    false, false, 670, descriptor_table_protodef_c2s_5fcommon_2eproto,
     "c2s_common.proto",
     &descriptor_table_c2s_5fcommon_2eproto_once, nullptr, 0, 5,
     schemas, file_default_instances, TableStruct_c2s_5fcommon_2eproto::offsets,
@@ -198,6 +205,24 @@ bool C2S_MSG_ID_IsValid(int value) {
     case 10003:
     case 10004:
     case 10005:
+      return true;
+    default:
+      return false;
+  }
+}
+
+const ::PROTOBUF_NAMESPACE_ID::EnumDescriptor* C2S_ERROR_CODE_descriptor() {
+  ::PROTOBUF_NAMESPACE_ID::internal::AssignDescriptors(&descriptor_table_c2s_5fcommon_2eproto);
+  return file_level_enum_descriptors_c2s_5fcommon_2eproto[1];
+}
+bool C2S_ERROR_CODE_IsValid(int value) {
+  switch (value) {
+    case 0:
+    case 101:
+    case 102:
+    case 103:
+    case 104:
+    case 105:
       return true;
     default:
       return false;
@@ -680,7 +705,8 @@ C2SLoginRes::C2SLoginRes(const C2SLoginRes& from)
   C2SLoginRes* const _this = this; (void)_this;
   new (&_impl_) Impl_{
       decltype(_impl_.zone_token_){}
-    , decltype(_impl_.host_){}
+    , decltype(_impl_.ip_){}
+    , decltype(_impl_.profile_id_){}
     , decltype(_impl_.error_code_){}
     , decltype(_impl_.port_){}
     , /*decltype(_impl_._cached_size_)*/{}};
@@ -694,12 +720,20 @@ C2SLoginRes::C2SLoginRes(const C2SLoginRes& from)
     _this->_impl_.zone_token_.Set(from._internal_zone_token(), 
       _this->GetArenaForAllocation());
   }
-  _impl_.host_.InitDefault();
+  _impl_.ip_.InitDefault();
   #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
-    _impl_.host_.Set("", GetArenaForAllocation());
+    _impl_.ip_.Set("", GetArenaForAllocation());
   #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
-  if (!from._internal_host().empty()) {
-    _this->_impl_.host_.Set(from._internal_host(), 
+  if (!from._internal_ip().empty()) {
+    _this->_impl_.ip_.Set(from._internal_ip(), 
+      _this->GetArenaForAllocation());
+  }
+  _impl_.profile_id_.InitDefault();
+  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+    _impl_.profile_id_.Set("", GetArenaForAllocation());
+  #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  if (!from._internal_profile_id().empty()) {
+    _this->_impl_.profile_id_.Set(from._internal_profile_id(), 
       _this->GetArenaForAllocation());
   }
   ::memcpy(&_impl_.error_code_, &from._impl_.error_code_,
@@ -714,7 +748,8 @@ inline void C2SLoginRes::SharedCtor(
   (void)is_message_owned;
   new (&_impl_) Impl_{
       decltype(_impl_.zone_token_){}
-    , decltype(_impl_.host_){}
+    , decltype(_impl_.ip_){}
+    , decltype(_impl_.profile_id_){}
     , decltype(_impl_.error_code_){0}
     , decltype(_impl_.port_){0}
     , /*decltype(_impl_._cached_size_)*/{}
@@ -723,9 +758,13 @@ inline void C2SLoginRes::SharedCtor(
   #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
     _impl_.zone_token_.Set("", GetArenaForAllocation());
   #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
-  _impl_.host_.InitDefault();
+  _impl_.ip_.InitDefault();
   #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
-    _impl_.host_.Set("", GetArenaForAllocation());
+    _impl_.ip_.Set("", GetArenaForAllocation());
+  #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  _impl_.profile_id_.InitDefault();
+  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+    _impl_.profile_id_.Set("", GetArenaForAllocation());
   #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
 }
 
@@ -741,7 +780,8 @@ C2SLoginRes::~C2SLoginRes() {
 inline void C2SLoginRes::SharedDtor() {
   GOOGLE_DCHECK(GetArenaForAllocation() == nullptr);
   _impl_.zone_token_.Destroy();
-  _impl_.host_.Destroy();
+  _impl_.ip_.Destroy();
+  _impl_.profile_id_.Destroy();
 }
 
 void C2SLoginRes::SetCachedSize(int size) const {
@@ -755,7 +795,8 @@ void C2SLoginRes::Clear() {
   (void) cached_has_bits;
 
   _impl_.zone_token_.ClearToEmpty();
-  _impl_.host_.ClearToEmpty();
+  _impl_.ip_.ClearToEmpty();
+  _impl_.profile_id_.ClearToEmpty();
   ::memset(&_impl_.error_code_, 0, static_cast<size_t>(
       reinterpret_cast<char*>(&_impl_.port_) -
       reinterpret_cast<char*>(&_impl_.error_code_)) + sizeof(_impl_.port_));
@@ -786,13 +827,13 @@ const char* C2SLoginRes::_InternalParse(const char* ptr, ::_pbi::ParseContext* c
         } else
           goto handle_unusual;
         continue;
-      // string host = 3;
+      // string ip = 3;
       case 3:
         if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 26)) {
-          auto str = _internal_mutable_host();
+          auto str = _internal_mutable_ip();
           ptr = ::_pbi::InlineGreedyStringParser(str, ptr, ctx);
           CHK_(ptr);
-          CHK_(::_pbi::VerifyUTF8(str, "C2S.C2SLoginRes.host"));
+          CHK_(::_pbi::VerifyUTF8(str, "C2S.C2SLoginRes.ip"));
         } else
           goto handle_unusual;
         continue;
@@ -801,6 +842,16 @@ const char* C2SLoginRes::_InternalParse(const char* ptr, ::_pbi::ParseContext* c
         if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 32)) {
           _impl_.port_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint32(&ptr);
           CHK_(ptr);
+        } else
+          goto handle_unusual;
+        continue;
+      // string profile_id = 5;
+      case 5:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 42)) {
+          auto str = _internal_mutable_profile_id();
+          ptr = ::_pbi::InlineGreedyStringParser(str, ptr, ctx);
+          CHK_(ptr);
+          CHK_(::_pbi::VerifyUTF8(str, "C2S.C2SLoginRes.profile_id"));
         } else
           goto handle_unusual;
         continue;
@@ -849,20 +900,30 @@ uint8_t* C2SLoginRes::_InternalSerialize(
         2, this->_internal_zone_token(), target);
   }
 
-  // string host = 3;
-  if (!this->_internal_host().empty()) {
+  // string ip = 3;
+  if (!this->_internal_ip().empty()) {
     ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::VerifyUtf8String(
-      this->_internal_host().data(), static_cast<int>(this->_internal_host().length()),
+      this->_internal_ip().data(), static_cast<int>(this->_internal_ip().length()),
       ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::SERIALIZE,
-      "C2S.C2SLoginRes.host");
+      "C2S.C2SLoginRes.ip");
     target = stream->WriteStringMaybeAliased(
-        3, this->_internal_host(), target);
+        3, this->_internal_ip(), target);
   }
 
   // int32 port = 4;
   if (this->_internal_port() != 0) {
     target = stream->EnsureSpace(target);
     target = ::_pbi::WireFormatLite::WriteInt32ToArray(4, this->_internal_port(), target);
+  }
+
+  // string profile_id = 5;
+  if (!this->_internal_profile_id().empty()) {
+    ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::VerifyUtf8String(
+      this->_internal_profile_id().data(), static_cast<int>(this->_internal_profile_id().length()),
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::SERIALIZE,
+      "C2S.C2SLoginRes.profile_id");
+    target = stream->WriteStringMaybeAliased(
+        5, this->_internal_profile_id(), target);
   }
 
   if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
@@ -888,11 +949,18 @@ size_t C2SLoginRes::ByteSizeLong() const {
         this->_internal_zone_token());
   }
 
-  // string host = 3;
-  if (!this->_internal_host().empty()) {
+  // string ip = 3;
+  if (!this->_internal_ip().empty()) {
     total_size += 1 +
       ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::StringSize(
-        this->_internal_host());
+        this->_internal_ip());
+  }
+
+  // string profile_id = 5;
+  if (!this->_internal_profile_id().empty()) {
+    total_size += 1 +
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::StringSize(
+        this->_internal_profile_id());
   }
 
   // int32 error_code = 1;
@@ -926,8 +994,11 @@ void C2SLoginRes::MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const ::PR
   if (!from._internal_zone_token().empty()) {
     _this->_internal_set_zone_token(from._internal_zone_token());
   }
-  if (!from._internal_host().empty()) {
-    _this->_internal_set_host(from._internal_host());
+  if (!from._internal_ip().empty()) {
+    _this->_internal_set_ip(from._internal_ip());
+  }
+  if (!from._internal_profile_id().empty()) {
+    _this->_internal_set_profile_id(from._internal_profile_id());
   }
   if (from._internal_error_code() != 0) {
     _this->_internal_set_error_code(from._internal_error_code());
@@ -959,8 +1030,12 @@ void C2SLoginRes::InternalSwap(C2SLoginRes* other) {
       &other->_impl_.zone_token_, rhs_arena
   );
   ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::InternalSwap(
-      &_impl_.host_, lhs_arena,
-      &other->_impl_.host_, rhs_arena
+      &_impl_.ip_, lhs_arena,
+      &other->_impl_.ip_, rhs_arena
+  );
+  ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::InternalSwap(
+      &_impl_.profile_id_, lhs_arena,
+      &other->_impl_.profile_id_, rhs_arena
   );
   ::PROTOBUF_NAMESPACE_ID::internal::memswap<
       PROTOBUF_FIELD_OFFSET(C2SLoginRes, _impl_.port_)
@@ -1296,11 +1371,12 @@ const char* C2SLoginZoneRes::_InternalParse(const char* ptr, ::_pbi::ParseContex
     uint32_t tag;
     ptr = ::_pbi::ReadTag(ptr, &tag);
     switch (tag >> 3) {
-      // int32 error_code = 1;
+      // .C2S.C2S_ERROR_CODE error_code = 1;
       case 1:
         if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 8)) {
-          _impl_.error_code_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint32(&ptr);
+          uint64_t val = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint64(&ptr);
           CHK_(ptr);
+          _internal_set_error_code(static_cast<::C2S::C2S_ERROR_CODE>(val));
         } else
           goto handle_unusual;
         continue;
@@ -1333,10 +1409,11 @@ uint8_t* C2SLoginZoneRes::_InternalSerialize(
   uint32_t cached_has_bits = 0;
   (void) cached_has_bits;
 
-  // int32 error_code = 1;
+  // .C2S.C2S_ERROR_CODE error_code = 1;
   if (this->_internal_error_code() != 0) {
     target = stream->EnsureSpace(target);
-    target = ::_pbi::WireFormatLite::WriteInt32ToArray(1, this->_internal_error_code(), target);
+    target = ::_pbi::WireFormatLite::WriteEnumToArray(
+      1, this->_internal_error_code(), target);
   }
 
   if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
@@ -1355,9 +1432,10 @@ size_t C2SLoginZoneRes::ByteSizeLong() const {
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
 
-  // int32 error_code = 1;
+  // .C2S.C2S_ERROR_CODE error_code = 1;
   if (this->_internal_error_code() != 0) {
-    total_size += ::_pbi::WireFormatLite::Int32SizePlusOne(this->_internal_error_code());
+    total_size += 1 +
+      ::_pbi::WireFormatLite::EnumSize(this->_internal_error_code());
   }
 
   return MaybeComputeUnknownFieldsSize(total_size, &_impl_._cached_size_);

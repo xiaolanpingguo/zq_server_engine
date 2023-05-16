@@ -1,3 +1,7 @@
+# install wsl on windows
+wsl --install -d Ubuntu-22.04
+
+# linux setup
 # backup sources list
 sudo cp /etc/apt/sources.list /etc/apt/sources.list.bak
 sudo  vi /etc/apt/sources.list
@@ -17,7 +21,7 @@ sudo apt-get install cmake
 sudo apt-get install libssl-dev 
 sudo apt-get install libsasl2-dev
 
-# setup redis
+# setup redis   you can use redis-windows for development: https://github.com/tporadowski/redis/releases 
 curl -fsSL https://packages.redis.io/gpg | sudo gpg --dearmor -o /usr/share/keyrings/redis-archive-keyring.gpg
 echo "deb [signed-by=/usr/share/keyrings/redis-archive-keyring.gpg] https://packages.redis.io/deb $(lsb_release -cs) main" | sudo tee /etc/apt/sources.list.d/redis.list
 sudo apt-get update

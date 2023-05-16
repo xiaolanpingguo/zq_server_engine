@@ -100,6 +100,35 @@ inline bool C2S_MSG_ID_Parse(
   return ::PROTOBUF_NAMESPACE_ID::internal::ParseNamedEnum<C2S_MSG_ID>(
     C2S_MSG_ID_descriptor(), name, value);
 }
+enum C2S_ERROR_CODE : int {
+  EC_SUCCESS = 0,
+  EC_GENERRAL_ERROR = 101,
+  EC_SERVER_INTERNAL_ERROR = 102,
+  EC_SERVER_NOT_READY = 103,
+  EC_INVALID_PARAMETER = 104,
+  EC_SERVER_BUSY = 105,
+  C2S_ERROR_CODE_INT_MIN_SENTINEL_DO_NOT_USE_ = std::numeric_limits<int32_t>::min(),
+  C2S_ERROR_CODE_INT_MAX_SENTINEL_DO_NOT_USE_ = std::numeric_limits<int32_t>::max()
+};
+bool C2S_ERROR_CODE_IsValid(int value);
+constexpr C2S_ERROR_CODE C2S_ERROR_CODE_MIN = EC_SUCCESS;
+constexpr C2S_ERROR_CODE C2S_ERROR_CODE_MAX = EC_SERVER_BUSY;
+constexpr int C2S_ERROR_CODE_ARRAYSIZE = C2S_ERROR_CODE_MAX + 1;
+
+const ::PROTOBUF_NAMESPACE_ID::EnumDescriptor* C2S_ERROR_CODE_descriptor();
+template<typename T>
+inline const std::string& C2S_ERROR_CODE_Name(T enum_t_value) {
+  static_assert(::std::is_same<T, C2S_ERROR_CODE>::value ||
+    ::std::is_integral<T>::value,
+    "Incorrect type passed to function C2S_ERROR_CODE_Name.");
+  return ::PROTOBUF_NAMESPACE_ID::internal::NameOfEnum(
+    C2S_ERROR_CODE_descriptor(), enum_t_value);
+}
+inline bool C2S_ERROR_CODE_Parse(
+    ::PROTOBUF_NAMESPACE_ID::ConstStringParam name, C2S_ERROR_CODE* value) {
+  return ::PROTOBUF_NAMESPACE_ID::internal::ParseNamedEnum<C2S_ERROR_CODE>(
+    C2S_ERROR_CODE_descriptor(), name, value);
+}
 // ===================================================================
 
 class C2SHeartBeat final :
@@ -552,7 +581,8 @@ class C2SLoginRes final :
 
   enum : int {
     kZoneTokenFieldNumber = 2,
-    kHostFieldNumber = 3,
+    kIpFieldNumber = 3,
+    kProfileIdFieldNumber = 5,
     kErrorCodeFieldNumber = 1,
     kPortFieldNumber = 4,
   };
@@ -570,18 +600,32 @@ class C2SLoginRes final :
   std::string* _internal_mutable_zone_token();
   public:
 
-  // string host = 3;
-  void clear_host();
-  const std::string& host() const;
+  // string ip = 3;
+  void clear_ip();
+  const std::string& ip() const;
   template <typename ArgT0 = const std::string&, typename... ArgT>
-  void set_host(ArgT0&& arg0, ArgT... args);
-  std::string* mutable_host();
-  PROTOBUF_NODISCARD std::string* release_host();
-  void set_allocated_host(std::string* host);
+  void set_ip(ArgT0&& arg0, ArgT... args);
+  std::string* mutable_ip();
+  PROTOBUF_NODISCARD std::string* release_ip();
+  void set_allocated_ip(std::string* ip);
   private:
-  const std::string& _internal_host() const;
-  inline PROTOBUF_ALWAYS_INLINE void _internal_set_host(const std::string& value);
-  std::string* _internal_mutable_host();
+  const std::string& _internal_ip() const;
+  inline PROTOBUF_ALWAYS_INLINE void _internal_set_ip(const std::string& value);
+  std::string* _internal_mutable_ip();
+  public:
+
+  // string profile_id = 5;
+  void clear_profile_id();
+  const std::string& profile_id() const;
+  template <typename ArgT0 = const std::string&, typename... ArgT>
+  void set_profile_id(ArgT0&& arg0, ArgT... args);
+  std::string* mutable_profile_id();
+  PROTOBUF_NODISCARD std::string* release_profile_id();
+  void set_allocated_profile_id(std::string* profile_id);
+  private:
+  const std::string& _internal_profile_id() const;
+  inline PROTOBUF_ALWAYS_INLINE void _internal_set_profile_id(const std::string& value);
+  std::string* _internal_mutable_profile_id();
   public:
 
   // int32 error_code = 1;
@@ -611,7 +655,8 @@ class C2SLoginRes final :
   typedef void DestructorSkippable_;
   struct Impl_ {
     ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr zone_token_;
-    ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr host_;
+    ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr ip_;
+    ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr profile_id_;
     int32_t error_code_;
     int32_t port_;
     mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
@@ -913,13 +958,13 @@ class C2SLoginZoneRes final :
   enum : int {
     kErrorCodeFieldNumber = 1,
   };
-  // int32 error_code = 1;
+  // .C2S.C2S_ERROR_CODE error_code = 1;
   void clear_error_code();
-  int32_t error_code() const;
-  void set_error_code(int32_t value);
+  ::C2S::C2S_ERROR_CODE error_code() const;
+  void set_error_code(::C2S::C2S_ERROR_CODE value);
   private:
-  int32_t _internal_error_code() const;
-  void _internal_set_error_code(int32_t value);
+  ::C2S::C2S_ERROR_CODE _internal_error_code() const;
+  void _internal_set_error_code(::C2S::C2S_ERROR_CODE value);
   public:
 
   // @@protoc_insertion_point(class_scope:C2S.C2SLoginZoneRes)
@@ -930,7 +975,7 @@ class C2SLoginZoneRes final :
   typedef void InternalArenaConstructable_;
   typedef void DestructorSkippable_;
   struct Impl_ {
-    int32_t error_code_;
+    int error_code_;
     mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
   };
   union { Impl_ _impl_; };
@@ -1165,54 +1210,54 @@ inline void C2SLoginRes::set_allocated_zone_token(std::string* zone_token) {
   // @@protoc_insertion_point(field_set_allocated:C2S.C2SLoginRes.zone_token)
 }
 
-// string host = 3;
-inline void C2SLoginRes::clear_host() {
-  _impl_.host_.ClearToEmpty();
+// string ip = 3;
+inline void C2SLoginRes::clear_ip() {
+  _impl_.ip_.ClearToEmpty();
 }
-inline const std::string& C2SLoginRes::host() const {
-  // @@protoc_insertion_point(field_get:C2S.C2SLoginRes.host)
-  return _internal_host();
+inline const std::string& C2SLoginRes::ip() const {
+  // @@protoc_insertion_point(field_get:C2S.C2SLoginRes.ip)
+  return _internal_ip();
 }
 template <typename ArgT0, typename... ArgT>
 inline PROTOBUF_ALWAYS_INLINE
-void C2SLoginRes::set_host(ArgT0&& arg0, ArgT... args) {
+void C2SLoginRes::set_ip(ArgT0&& arg0, ArgT... args) {
  
- _impl_.host_.Set(static_cast<ArgT0 &&>(arg0), args..., GetArenaForAllocation());
-  // @@protoc_insertion_point(field_set:C2S.C2SLoginRes.host)
+ _impl_.ip_.Set(static_cast<ArgT0 &&>(arg0), args..., GetArenaForAllocation());
+  // @@protoc_insertion_point(field_set:C2S.C2SLoginRes.ip)
 }
-inline std::string* C2SLoginRes::mutable_host() {
-  std::string* _s = _internal_mutable_host();
-  // @@protoc_insertion_point(field_mutable:C2S.C2SLoginRes.host)
+inline std::string* C2SLoginRes::mutable_ip() {
+  std::string* _s = _internal_mutable_ip();
+  // @@protoc_insertion_point(field_mutable:C2S.C2SLoginRes.ip)
   return _s;
 }
-inline const std::string& C2SLoginRes::_internal_host() const {
-  return _impl_.host_.Get();
+inline const std::string& C2SLoginRes::_internal_ip() const {
+  return _impl_.ip_.Get();
 }
-inline void C2SLoginRes::_internal_set_host(const std::string& value) {
+inline void C2SLoginRes::_internal_set_ip(const std::string& value) {
   
-  _impl_.host_.Set(value, GetArenaForAllocation());
+  _impl_.ip_.Set(value, GetArenaForAllocation());
 }
-inline std::string* C2SLoginRes::_internal_mutable_host() {
+inline std::string* C2SLoginRes::_internal_mutable_ip() {
   
-  return _impl_.host_.Mutable(GetArenaForAllocation());
+  return _impl_.ip_.Mutable(GetArenaForAllocation());
 }
-inline std::string* C2SLoginRes::release_host() {
-  // @@protoc_insertion_point(field_release:C2S.C2SLoginRes.host)
-  return _impl_.host_.Release();
+inline std::string* C2SLoginRes::release_ip() {
+  // @@protoc_insertion_point(field_release:C2S.C2SLoginRes.ip)
+  return _impl_.ip_.Release();
 }
-inline void C2SLoginRes::set_allocated_host(std::string* host) {
-  if (host != nullptr) {
+inline void C2SLoginRes::set_allocated_ip(std::string* ip) {
+  if (ip != nullptr) {
     
   } else {
     
   }
-  _impl_.host_.SetAllocated(host, GetArenaForAllocation());
+  _impl_.ip_.SetAllocated(ip, GetArenaForAllocation());
 #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
-  if (_impl_.host_.IsDefault()) {
-    _impl_.host_.Set("", GetArenaForAllocation());
+  if (_impl_.ip_.IsDefault()) {
+    _impl_.ip_.Set("", GetArenaForAllocation());
   }
 #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
-  // @@protoc_insertion_point(field_set_allocated:C2S.C2SLoginRes.host)
+  // @@protoc_insertion_point(field_set_allocated:C2S.C2SLoginRes.ip)
 }
 
 // int32 port = 4;
@@ -1233,6 +1278,56 @@ inline void C2SLoginRes::_internal_set_port(int32_t value) {
 inline void C2SLoginRes::set_port(int32_t value) {
   _internal_set_port(value);
   // @@protoc_insertion_point(field_set:C2S.C2SLoginRes.port)
+}
+
+// string profile_id = 5;
+inline void C2SLoginRes::clear_profile_id() {
+  _impl_.profile_id_.ClearToEmpty();
+}
+inline const std::string& C2SLoginRes::profile_id() const {
+  // @@protoc_insertion_point(field_get:C2S.C2SLoginRes.profile_id)
+  return _internal_profile_id();
+}
+template <typename ArgT0, typename... ArgT>
+inline PROTOBUF_ALWAYS_INLINE
+void C2SLoginRes::set_profile_id(ArgT0&& arg0, ArgT... args) {
+ 
+ _impl_.profile_id_.Set(static_cast<ArgT0 &&>(arg0), args..., GetArenaForAllocation());
+  // @@protoc_insertion_point(field_set:C2S.C2SLoginRes.profile_id)
+}
+inline std::string* C2SLoginRes::mutable_profile_id() {
+  std::string* _s = _internal_mutable_profile_id();
+  // @@protoc_insertion_point(field_mutable:C2S.C2SLoginRes.profile_id)
+  return _s;
+}
+inline const std::string& C2SLoginRes::_internal_profile_id() const {
+  return _impl_.profile_id_.Get();
+}
+inline void C2SLoginRes::_internal_set_profile_id(const std::string& value) {
+  
+  _impl_.profile_id_.Set(value, GetArenaForAllocation());
+}
+inline std::string* C2SLoginRes::_internal_mutable_profile_id() {
+  
+  return _impl_.profile_id_.Mutable(GetArenaForAllocation());
+}
+inline std::string* C2SLoginRes::release_profile_id() {
+  // @@protoc_insertion_point(field_release:C2S.C2SLoginRes.profile_id)
+  return _impl_.profile_id_.Release();
+}
+inline void C2SLoginRes::set_allocated_profile_id(std::string* profile_id) {
+  if (profile_id != nullptr) {
+    
+  } else {
+    
+  }
+  _impl_.profile_id_.SetAllocated(profile_id, GetArenaForAllocation());
+#ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  if (_impl_.profile_id_.IsDefault()) {
+    _impl_.profile_id_.Set("", GetArenaForAllocation());
+  }
+#endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  // @@protoc_insertion_point(field_set_allocated:C2S.C2SLoginRes.profile_id)
 }
 
 // -------------------------------------------------------------------
@@ -1343,22 +1438,22 @@ inline void C2SLoginZoneReq::set_allocated_zone_token(std::string* zone_token) {
 
 // C2SLoginZoneRes
 
-// int32 error_code = 1;
+// .C2S.C2S_ERROR_CODE error_code = 1;
 inline void C2SLoginZoneRes::clear_error_code() {
   _impl_.error_code_ = 0;
 }
-inline int32_t C2SLoginZoneRes::_internal_error_code() const {
-  return _impl_.error_code_;
+inline ::C2S::C2S_ERROR_CODE C2SLoginZoneRes::_internal_error_code() const {
+  return static_cast< ::C2S::C2S_ERROR_CODE >(_impl_.error_code_);
 }
-inline int32_t C2SLoginZoneRes::error_code() const {
+inline ::C2S::C2S_ERROR_CODE C2SLoginZoneRes::error_code() const {
   // @@protoc_insertion_point(field_get:C2S.C2SLoginZoneRes.error_code)
   return _internal_error_code();
 }
-inline void C2SLoginZoneRes::_internal_set_error_code(int32_t value) {
+inline void C2SLoginZoneRes::_internal_set_error_code(::C2S::C2S_ERROR_CODE value) {
   
   _impl_.error_code_ = value;
 }
-inline void C2SLoginZoneRes::set_error_code(int32_t value) {
+inline void C2SLoginZoneRes::set_error_code(::C2S::C2S_ERROR_CODE value) {
   _internal_set_error_code(value);
   // @@protoc_insertion_point(field_set:C2S.C2SLoginZoneRes.error_code)
 }
@@ -1385,6 +1480,11 @@ template <> struct is_proto_enum< ::C2S::C2S_MSG_ID> : ::std::true_type {};
 template <>
 inline const EnumDescriptor* GetEnumDescriptor< ::C2S::C2S_MSG_ID>() {
   return ::C2S::C2S_MSG_ID_descriptor();
+}
+template <> struct is_proto_enum< ::C2S::C2S_ERROR_CODE> : ::std::true_type {};
+template <>
+inline const EnumDescriptor* GetEnumDescriptor< ::C2S::C2S_ERROR_CODE>() {
+  return ::C2S::C2S_ERROR_CODE_descriptor();
 }
 
 PROTOBUF_NAMESPACE_CLOSE

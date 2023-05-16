@@ -16,6 +16,17 @@ enum C2S_MSG_ID
 	MSG_ID_LOGIN_ZONE_RES = 10005;
 }
 
+enum C2S_ERROR_CODE
+{
+	// oommon
+	EC_SUCCESS = 0;
+	EC_GENERRAL_ERROR = 101;
+	EC_SERVER_INTERNAL_ERROR = 102;
+	EC_SERVER_NOT_READY = 103;
+	EC_INVALID_PARAMETER = 104;
+	EC_SERVER_BUSY = 105;
+}
+
 
 message C2SHeartBeat
 {
@@ -33,8 +44,9 @@ message C2SLoginRes
 {
 	int32 error_code = 1;
 	string zone_token = 2;
-	string host = 3;
+	string ip = 3;
 	int32 port = 4;
+	string profile_id = 5;
 }
 
 
@@ -46,7 +58,7 @@ message C2SLoginZoneReq
 
 message C2SLoginZoneRes
 {
-	int32 error_code = 1;
+	C2S_ERROR_CODE error_code = 1;
 }
 
 

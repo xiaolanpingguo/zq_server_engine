@@ -1,0 +1,43 @@
+syntax = "proto3";
+
+package S2S;
+
+
+enum S2S_ONLINE_STATUS
+{
+
+	NONE = 0;
+	PROGRESS_ON_LOGIN_SERVER = 1;
+	WAITTING_TO_LOGIN_ZONE = 2;
+	ONLINE = 3;
+	DISCONNTECTING = 4;
+	OFFLINE = 5;
+}
+
+message S2SPlayerSessionData
+{
+	string sdk_user_id = 1;
+	string sdk_token = 2;
+	int32 channel_id = 3;
+	string profile_id = 4;
+	S2S_ONLINE_STATUS online_status = 5;
+	int64 login_time = 6;
+	string login_token = 7;
+	string app_id = 8;
+	string ip = 9;
+	int32 port = 10;
+}
+
+
+message S2SZoneServerData
+{
+	int32 online_players = 1; 
+	string app_id = 2; 
+	int32 port = 3; 
+	string ip = 4;
+}
+
+
+
+
+

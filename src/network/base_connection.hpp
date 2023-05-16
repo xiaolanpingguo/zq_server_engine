@@ -26,7 +26,8 @@ public:
 			m_connectionId(connectionId),
 			m_closed(true),
 			m_isWritingAsync(false),
-			m_isClient(isClient)
+			m_isClient(isClient),
+			m_delayClose(false)
 	{
 
 	}
@@ -97,6 +98,13 @@ public:
 		m_socket.close(ec);
 	}
 
+	void delayClose()
+	{
+		m_delayClose = true;
+		asio::error_code ec;
+		m_socket.shutdown(asio::ip::tcp::socket::shutdown_receive, ec);
+	}
+
 	uint64_t getConnectionId() { return m_connectionId; }
 	const std::string& getHost() { return m_host; }
 	int getPort() { return m_port; }
@@ -143,6 +151,12 @@ protected:
 			return;
 		}
 
+		if (m_delayClose && m_writeQueue.empty())
+		{
+			close();
+			return;
+		}
+
 		m_isWritingAsync = false;
 
 		// asio will ensure transferedBytes == getActiveSize(),
@@ -173,6 +187,7 @@ protected:
 	std::queue<MessageBuffer> m_writeQueue;
 
 	bool m_isClient;
+	bool m_delayClose;
 
 	constexpr static std::string_view s_logCategory = "BaseConnection";
 };

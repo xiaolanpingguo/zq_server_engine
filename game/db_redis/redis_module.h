@@ -60,7 +60,7 @@ public:
 
 public:
 	/////////   key  //////////////
-	async_simple::coro::Lazy<bool> DEL(const std::string& key);
+	async_simple::coro::Lazy<int> DEL(const std::string& key);
 
 	async_simple::coro::Lazy<bool> EXISTS(const std::string& key);
 
@@ -186,7 +186,7 @@ public:
 
 	async_simple::coro::Lazy<bool> ZRANGE(const std::string& key, const int start, const int end, StringScoreVector& values);
 
-	async_simple::coro::Lazy<bool> ZRANGEBYSCORE(const std::string& key, const double start, const double end, StringScoreVector& values);
+	async_simple::coro::Lazy<bool> ZRANGEWITHSCORE(const std::string& key, const int start, const int end, StringScoreVector& values);
 
 	async_simple::coro::Lazy<bool> ZRANK(const std::string& key, const std::string& member, int& rank);
 

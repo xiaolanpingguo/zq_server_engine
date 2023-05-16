@@ -133,9 +133,12 @@ bool testMongo()
 	std::string pwd = "null";
 	std::string host = "127.0.0.1";
 	uint16_t port = 27017;
-	MongoModule m(user, pwd, host, port);
+
+	std::vector<std::pair<std::string, std::string>> collections{
+		{ "zq", "player" },
+	};
+	MongoModule m(user, pwd, host, port, collections);
 	m.init();
-	m.setupCollection("zq", "player");
 
 	testInsert(m);
 

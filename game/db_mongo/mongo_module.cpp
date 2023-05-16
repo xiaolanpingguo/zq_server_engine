@@ -12,7 +12,7 @@ static void mongoLog(mongoc_log_level_t logLevel, const char* logDomain, const c
 	LOG_INFO("mongoInternalLog", "mongoLog: logLevel:{}, logDomain:{}, message:{}.\n", (int)logLevel, logDomain, message);
 }
 
-MongoModule::MongoModule(const std::string& user, const std::string& pwd, const std::string& host, uint16_t port) :
+MongoModule::MongoModule(const std::string& user, const std::string& pwd, const std::string& host, uint16_t port, const std::vector<std::pair<std::string, std::string>>& collections) :
 		m_threadStop(false),
 		m_mongoUrl(nullptr),
 		m_mongoClient(nullptr),
@@ -20,7 +20,8 @@ MongoModule::MongoModule(const std::string& user, const std::string& pwd, const 
 		m_pwd(pwd),
 		m_host(host),
 		m_port(port),
-		m_lastActiveTime(time(nullptr))
+		m_lastActiveTime(time(nullptr)),
+		m_initCollectionsConfig(collections)
 {
 }
 
@@ -35,15 +36,15 @@ bool MongoModule::init()
 		return false;
 	}
 
-	m_taskThread = std::make_unique<std::thread>(std::bind(&MongoModule::taskThrad, this));
-
+	for (const auto& coll : m_initCollectionsConfig)
 	{
-		//testInsert();
-		//testRemove();
-		//testSave();
-		//testFind();
+		if (!setupCollection(coll.first, coll.second))
+		{
+			return false;
+		}
 	}
 
+	m_taskThread = std::make_unique<std::thread>(std::bind(&MongoModule::taskThrad, this));
 	return true;
 }
 
