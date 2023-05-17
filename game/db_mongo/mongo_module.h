@@ -17,6 +17,7 @@ class MongoInsertTask;
 class MongoRemoveTask;
 class MongoSaveTask;
 class MongoFindTask;
+class MongoSaveIfNotExistTask;
 class MongoModule : public IModule
 {
 	INIT_MODULE_NAME(MongoModule);
@@ -25,6 +26,7 @@ class MongoModule : public IModule
 	friend class MongoRemoveTask;
 	friend class MongoSaveTask;
 	friend class MongoFindTask;
+	friend class MongoSaveIfNotExistTask;
 
 public:
 	MongoModule(const std::string& user, const std::string& pwd, const std::string& host, uint16_t port, const std::vector<std::pair<std::string, std::string>>& collections);
@@ -35,12 +37,11 @@ public:
 	bool update() override;
 	bool finalize() override;
 
-	bool setupCollection(const std::string& dbName, const std::string& collectionName);
-
 	async_simple::coro::Lazy<MongoResultPtr> insert(const std::string& dbName, const std::string& collectionName, BsonObjectPtr insertor);
 	async_simple::coro::Lazy<MongoResultPtr> remove(const std::string& dbName, const std::string& collectionName, BsonObjectPtr selector);
 	async_simple::coro::Lazy<MongoResultPtr> save(const std::string& dbName, const std::string& collectionName, BsonObjectPtr selector, BsonObjectPtr updator);
 	async_simple::coro::Lazy<MongoResultPtr> find(const std::string& dbName, const std::string& collectionName, BsonObjectPtr selector, int limit = 0, int skip = 0);
+	async_simple::coro::Lazy<MongoResultPtr> SaveIfNotExist(const std::string& dbName, const std::string& collectionName, BsonObjectPtr selector, BsonObjectPtr updator);
 
 private:
 	bool initMongo();
@@ -48,14 +49,15 @@ private:
 	bool mongoRemove(const std::string& dbName, const std::string& collectionName, BsonObject& selector, std::string& errorMsg);
 	bool mongoSave(const std::string& dbName, const std::string& collectionName, BsonObject& selector, BsonObject& updator, std::string& errorMsg);
 	bool mongoFind(const std::string& dbName, const std::string& collectionName, BsonObject& selector, std::vector<BsonObjectPtr>& result, std::string& errorMsg, int limit = 0, int skip = 0);
+	bool mongoSaveIfNotExist(const std::string& dbName, const std::string& collectionName, BsonObject& selector, BsonObject& updator, std::vector<BsonObjectPtr>& result, std::string& errorMsg);
 	void ping();
 
 private:
-
+	bool setupCollection(const std::string& dbName, const std::string& collectionName);
 	mongoc_database_t* getDb(const std::string& dbName);
 	mongoc_collection_t* getCollection(const std::string& dbName, const std::string& collectionName);
 
-    MongoQueryCallback addTask(MongoTask* task);
+    MongoQueryCallback addTask(std::shared_ptr<MongoTask> task);
 	MongoQueryCallback& addCallback(MongoQueryCallback&& query);
 	void processCallbacks();
 	void processTask();
@@ -80,7 +82,7 @@ private:
 	uint64_t m_lastActiveTime;
 
 	std::queue<MongoQueryCallback> m_callbacks;
-	ConcurrentQueue<MongoTask*> m_queue;
+	ConcurrentQueue<std::shared_ptr<MongoTask>> m_queue;
 
 	std::vector<std::pair<std::string, std::string>> m_initCollectionsConfig;
 

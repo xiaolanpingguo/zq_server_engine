@@ -93,7 +93,7 @@ bool MongoModule::finalize()
 	return true;
 }
 
-MongoQueryCallback MongoModule::addTask(MongoTask* task)
+MongoQueryCallback MongoModule::addTask(std::shared_ptr<MongoTask> task)
 {
 	MongoQueryResultFuture result = task->getFuture();
 	m_queue.push(task);
@@ -108,7 +108,7 @@ MongoQueryCallback& MongoModule::addCallback(MongoQueryCallback&& query)
 
 async_simple::coro::Lazy<MongoResultPtr> MongoModule::insert(const std::string& dbName, const std::string& collectionName, BsonObjectPtr insertor)
 {
-	MongoTask* task = new MongoInsertTask(this, dbName, collectionName, insertor);
+	std::shared_ptr<MongoTask> task = std::make_shared<MongoInsertTask>(this, dbName, collectionName, insertor);
 	CallbackAwaitor<MongoResultPtr> awaitor;
 	co_return co_await awaitor.awaitResume([this, task](auto handler) {
 		addCallback(addTask(task).withCallback([handler](MongoResultPtr result) {
@@ -119,7 +119,7 @@ async_simple::coro::Lazy<MongoResultPtr> MongoModule::insert(const std::string& 
 
 async_simple::coro::Lazy<MongoResultPtr> MongoModule::remove(const std::string& dbName, const std::string& collectionName, BsonObjectPtr selector)
 {
-	MongoTask* task = new MongoRemoveTask(this, dbName, collectionName, selector);
+	std::shared_ptr<MongoTask> task = std::make_shared<MongoRemoveTask>(this, dbName, collectionName, selector);
 	CallbackAwaitor<MongoResultPtr> awaitor;
 	co_return co_await awaitor.awaitResume([this, task](auto handler) {
 		addCallback(addTask(task).withCallback([handler](MongoResultPtr result) {
@@ -130,7 +130,7 @@ async_simple::coro::Lazy<MongoResultPtr> MongoModule::remove(const std::string& 
 
 async_simple::coro::Lazy<MongoResultPtr> MongoModule::save(const std::string& dbName, const std::string& collectionName, BsonObjectPtr selector, BsonObjectPtr updator)
 {
-	MongoTask* task = new MongoSaveTask(this, dbName, collectionName, selector, updator);
+	std::shared_ptr<MongoTask> task = std::make_shared<MongoSaveTask>(this, dbName, collectionName, selector, updator);
 	CallbackAwaitor<MongoResultPtr> awaitor;
 	co_return co_await awaitor.awaitResume([this, task](auto handler) {
 		addCallback(addTask(task).withCallback([handler](MongoResultPtr result) {
@@ -141,7 +141,18 @@ async_simple::coro::Lazy<MongoResultPtr> MongoModule::save(const std::string& db
 
 async_simple::coro::Lazy<MongoResultPtr> MongoModule::find(const std::string& dbName, const std::string& collectionName, BsonObjectPtr selector, int limit, int skip)
 {
-	MongoTask* task = new MongoFindTask(this, dbName, collectionName, selector, limit, skip);
+	std::shared_ptr<MongoTask> task = std::make_shared<MongoFindTask>(this, dbName, collectionName, selector, limit, skip);
+	CallbackAwaitor<MongoResultPtr> awaitor;
+	co_return co_await awaitor.awaitResume([this, task](auto handler) {
+		addCallback(addTask(task).withCallback([handler](MongoResultPtr result) {
+			handler.setValueThenResume(result);
+		}));
+	});
+}
+
+async_simple::coro::Lazy<MongoResultPtr> MongoModule::SaveIfNotExist(const std::string& dbName, const std::string& collectionName, BsonObjectPtr selector, BsonObjectPtr updator)
+{
+	std::shared_ptr<MongoTask> task = std::make_shared<MongoSaveIfNotExistTask>(this, dbName, collectionName, selector, updator);
 	CallbackAwaitor<MongoResultPtr> awaitor;
 	co_return co_await awaitor.awaitResume([this, task](auto handler) {
 		addCallback(addTask(task).withCallback([handler](MongoResultPtr result) {
@@ -351,14 +362,14 @@ bool MongoModule::mongoFind(const std::string& dbName, const std::string& collec
 	bool success = false;
 	do
 	{
-		mongoc_cursor_t* pCursor = mongoc_collection_find_with_opts(collection, &baseQuery, &bsonOpt, nullptr);
-		if (pCursor == nullptr)
+		mongoc_cursor_t* cursor = mongoc_collection_find_with_opts(collection, &baseQuery, &bsonOpt, nullptr);
+		if (cursor == nullptr)
 		{
 			break;
 		}
 
 		const bson_t* doc;
-		while (mongoc_cursor_next(pCursor, &doc))
+		while (mongoc_cursor_next(cursor, &doc))
 		{
 			if (doc != nullptr)
 			{
@@ -369,8 +380,15 @@ bool MongoModule::mongoFind(const std::string& dbName, const std::string& collec
 			num++;
 		}
 
-		mongoc_cursor_destroy(pCursor);
+		bson_error_t error;
+		if (mongoc_cursor_error(cursor, &error))
+		{
+			errorMsg = fmt::format("find mongo data error, dbName:{}, collectionName:{}, error:{}.", dbName, collectionName, error.message);
+			mongoc_cursor_destroy(cursor);
+			break;
+		}
 
+		mongoc_cursor_destroy(cursor);
 		success = true;
 	}
 	while (0);
@@ -382,11 +400,91 @@ bool MongoModule::mongoFind(const std::string& dbName, const std::string& collec
 
 	if (!success)
 	{
-		errorMsg = fmt::format("find mongo data error, dbName:{}, collectionName:{}.", dbName, collectionName);
+		if (errorMsg.empty())
+		{
+			errorMsg = fmt::format("find mongo data error, dbName:{}, collectionName:{}.", dbName, collectionName);
+		}
 		LOG_ERROR(s_logCategory, "{}", errorMsg);
 		return false;
 	}
 
+	return true;
+}
+
+bool MongoModule::mongoSaveIfNotExist(const std::string& dbName, const std::string& collectionName, BsonObject& selector, BsonObject& updator, std::vector<BsonObjectPtr>& result, std::string& errorMsg)
+{
+	mongoc_collection_t* collection = getCollection(dbName, collectionName);
+	if (nullptr == collection)
+	{
+		errorMsg = fmt::format("[mongo insert]cannot find collection: dbName:{}, collectionName:{}.", dbName, collectionName);
+		LOG_ERROR(s_logCategory, "{}", errorMsg);
+		return false;
+	}
+
+	bson_error_t mongoError;
+	bson_t bsonSelector;
+	bson_t bsonUpdateort;
+	bson_t bsonChild;
+	bson_t reply;
+	mongoc_find_and_modify_opts_t* opts = mongoc_find_and_modify_opts_new();
+	bson_init(&bsonSelector);
+	bson_init(&bsonUpdateort);
+	bson_init(&bsonChild);
+
+	updator.convertToRawBson(bsonChild);
+	selector.convertToRawBson(bsonSelector);
+
+	BSON_APPEND_DOCUMENT(&bsonUpdateort, "$setOnInsert", &bsonChild);
+	mongoc_find_and_modify_opts_set_update(opts, &bsonUpdateort);
+	mongoc_find_and_modify_opts_set_flags(opts, (mongoc_find_and_modify_flags_t)(MONGOC_FIND_AND_MODIFY_UPSERT | MONGOC_FIND_AND_MODIFY_RETURN_NEW));
+
+	bool success = false;
+	do 
+	{
+		if (!mongoc_collection_find_and_modify_with_opts(collection, &bsonSelector, opts, &reply, &mongoError))
+		{
+			errorMsg = fmt::format("FindAndModify mongo data error, dbName:{}, collectionName:{}, error:{}:{}:{}.", dbName, collectionName, mongoError.domain, mongoError.code, mongoError.message);
+			break;
+		}
+
+		bson_iter_t iter;
+		if (bson_iter_init(&iter, &reply) && bson_iter_find(&iter, "value") && BSON_ITER_HOLDS_DOCUMENT(&iter))
+		{
+			uint32_t docLen;
+			const uint8_t* docBuf;
+			bson_t doc;
+			bson_iter_document(&iter, &docLen, &docBuf);
+			if (bson_init_static(&doc, docBuf, docLen))
+			{
+				BsonObjectPtr bsonObj = std::make_shared<BsonObject>();
+				bsonObj->convertFromRawBson(doc);
+				result.emplace_back(bsonObj);
+			}
+			else
+			{
+				errorMsg = fmt::format("FindAndModify mongo data error, dbName:{}, collectionName:{}, error: bson_init_static failed, docLen:{}", dbName, collectionName, docLen);
+				break;
+			}
+		}
+		else
+		{
+			errorMsg = fmt::format("FindAndModify mongo data error, dbName:{}, collectionName:{}, error: get doc value failed.", dbName, collectionName);
+			break;
+		}
+
+		success = true;
+	} while (0);
+
+	if (!success)
+	{
+		LOG_ERROR(s_logCategory, "{}", errorMsg);
+	}
+
+	mongoc_find_and_modify_opts_destroy(opts);
+	bson_destroy(&reply);
+	bson_destroy(&bsonChild);
+	bson_destroy(&bsonSelector);
+	bson_destroy(&bsonUpdateort);
 	return true;
 }
 
@@ -489,12 +587,10 @@ void MongoModule::processCallbacks()
 
 void MongoModule::processTask()
 {
-	MongoTask* task = nullptr;
+	std::shared_ptr<MongoTask> task = nullptr;
 	if (m_queue.pop(task))
 	{
 		task->execute();
-		delete task;
-		task = nullptr;
 	}
 }
 

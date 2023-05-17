@@ -617,7 +617,7 @@ RedisResultPtr RedisModule::exeCmd(RedisClient& client, const std::string& cmd)
 	return RedisResultPtr(reply, [](redisReply* r) { if (r) freeReplyObject(r); });
 }
 
-RedisQueryCallback RedisModule::addTask(RedisTask* task)
+RedisQueryCallback RedisModule::addTask(std::shared_ptr<RedisTask> task)
 {
 	RedisQueryResultFuture result = task->getFuture();
 	m_queue.push(task);
@@ -644,12 +644,10 @@ void RedisModule::processCallbacks()
 
 void RedisModule::processTask()
 {
-	RedisTask* task = nullptr;
+	std::shared_ptr<RedisTask> task = nullptr;
 	if (m_queue.pop(task))
 	{
 		task->execute();
-		delete task;
-		task = nullptr;
 	}
 }
 

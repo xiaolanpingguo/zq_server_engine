@@ -132,7 +132,7 @@ async_simple::coro::Lazy<void> ClientToLoginModule::processLogin(TcpConnectionPt
 		}
 
 		// find user from DB
-		BsonObjectPtr userAccountData = std::make_shared<BsonObject>();
+		BsonObjectPtr userAccountData;
 		r = co_await findAndSaveUser(sdkUserId, sdkToken, channelId, userAccountData);
 		if (r != 0)
 		{

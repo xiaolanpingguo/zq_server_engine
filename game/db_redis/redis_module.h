@@ -238,7 +238,7 @@ private:
 	bool connectClusterNode();
 	void keepAlive();
 
-	RedisQueryCallback addTask(RedisTask* task);
+	RedisQueryCallback addTask(std::shared_ptr<RedisTask> task);
 	RedisQueryCallback& addCallback(RedisQueryCallback&& query);
 	void processCallbacks();
 	void processTask();
@@ -251,7 +251,7 @@ private:
 	RedisClient m_redisClient;
 
 	std::queue<RedisQueryCallback> m_callbacks;
-	ConcurrentQueue<RedisTask*> m_queue;
+	ConcurrentQueue<std::shared_ptr<RedisTask>> m_queue;
 
 	std::string m_auth;
 	std::string m_host;

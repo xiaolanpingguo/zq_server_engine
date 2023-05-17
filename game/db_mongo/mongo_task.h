@@ -10,9 +10,9 @@ namespace zq{
 
 struct MongoResult
 {
-	bool success;
+	bool success = false;
 	std::string errorMsg;
-	std::vector<BsonObjectPtr> foundResult; // for find
+	std::vector<BsonObjectPtr> foundResult; // for find and saveIfNotExist
 };
 
 
@@ -98,6 +98,21 @@ protected:
 	BsonObjectPtr m_selector;
 	int m_limit;
 	int m_skip;
+};
+
+
+
+class MongoSaveIfNotExistTask : public MongoTask
+{
+public:
+	MongoSaveIfNotExistTask(MongoModule* mongoModule, const std::string& dbName, const std::string& collectionName, BsonObjectPtr selector, BsonObjectPtr updator);
+	virtual ~MongoSaveIfNotExistTask() {}
+
+	void execute() override;
+
+protected:
+	BsonObjectPtr m_selector;
+	BsonObjectPtr m_updator;
 };
 
 }

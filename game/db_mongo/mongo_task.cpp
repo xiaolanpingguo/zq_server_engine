@@ -82,4 +82,21 @@ void MongoFindTask::execute()
 
 
 
+// save if not exist
+MongoSaveIfNotExistTask::MongoSaveIfNotExistTask(MongoModule* mongoModule, const std::string& dbName, const std::string& collectionName, BsonObjectPtr selector, BsonObjectPtr updator) :
+		MongoTask(mongoModule, dbName, collectionName),
+		m_selector(selector),
+		m_updator(updator)
+{
+}
+
+void MongoSaveIfNotExistTask::execute()
+{
+	MongoResultPtr result = std::make_shared<MongoResult>();
+	result->success = m_mongoModule->mongoSaveIfNotExist(m_dbName, m_collectionName, *m_selector, *m_updator, result->foundResult, result->errorMsg);
+	m_result->set_value(result);
+}
+
+
+
 }

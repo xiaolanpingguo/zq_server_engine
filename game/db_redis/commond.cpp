@@ -28,7 +28,7 @@ async_simple::coro::Lazy<bool> RedisModule::APPEND(const std::string &key, const
     cmd << key;
     cmd << value;
 	std::string strCmd = cmd.serialize();
-	RedisTask* task = new RedisTask(this, *client, strCmd);
+	std::shared_ptr<RedisTask> task = std::make_shared<RedisTask>(this, *client, strCmd);
 
 	CallbackAwaitor<RedisResultPtr> awaitor;
 	RedisResultPtr result = co_await awaitor.awaitResume([this, task](auto handler) {
@@ -62,7 +62,7 @@ async_simple::coro::Lazy<bool> RedisModule::DECR(const std::string& key, int64_t
 	RedisCommand cmd(GET_NAME(DECR));
     cmd << key;
 	std::string strCmd = cmd.serialize();
-	RedisTask* task = new RedisTask(this, *client, strCmd);
+	std::shared_ptr<RedisTask> task = std::make_shared<RedisTask>(this, *client, strCmd);
 
 	CallbackAwaitor<RedisResultPtr> awaitor;
 	RedisResultPtr result = co_await awaitor.awaitResume([this, task](auto handler) {
@@ -98,7 +98,7 @@ async_simple::coro::Lazy<bool> RedisModule::DECRBY(const std::string& key, const
 	cmd << key;
 	cmd << decrement;
 	std::string strCmd = cmd.serialize();
-	RedisTask* task = new RedisTask(this, *client, strCmd);
+	std::shared_ptr<RedisTask> task = std::make_shared<RedisTask>(this, *client, strCmd);
 
 	CallbackAwaitor<RedisResultPtr> awaitor;
 	RedisResultPtr result = co_await awaitor.awaitResume([this, task](auto handler) {
@@ -135,7 +135,7 @@ async_simple::coro::Lazy<bool> RedisModule::GETSET(const std::string& key, const
 	cmd << key;
 	cmd << value;
 	std::string strCmd = cmd.serialize();
-	RedisTask* task = new RedisTask(this, *client, strCmd);
+	std::shared_ptr<RedisTask> task = std::make_shared<RedisTask>(this, *client, strCmd);
 
 	CallbackAwaitor<RedisResultPtr> awaitor;
 	RedisResultPtr result = co_await awaitor.awaitResume([this, task](auto handler) {
@@ -171,7 +171,7 @@ async_simple::coro::Lazy<bool> RedisModule::INCR(const std::string& key, int64_t
 	RedisCommand cmd(GET_NAME(INCR));
 	cmd << key;
 	std::string strCmd = cmd.serialize();
-	RedisTask* task = new RedisTask(this, *client, strCmd);
+	std::shared_ptr<RedisTask> task = std::make_shared<RedisTask>(this, *client, strCmd);
 
 	CallbackAwaitor<RedisResultPtr> awaitor;
 	RedisResultPtr result = co_await awaitor.awaitResume([this, task](auto handler) {
@@ -203,7 +203,7 @@ async_simple::coro::Lazy<bool> RedisModule::INCRBY(const std::string& key, const
 	cmd << key;
 	cmd << increment;
 	std::string strCmd = cmd.serialize();
-	RedisTask* task = new RedisTask(this, *client, strCmd);
+	std::shared_ptr<RedisTask> task = std::make_shared<RedisTask>(this, *client, strCmd);
 
 	CallbackAwaitor<RedisResultPtr> awaitor;
 	RedisResultPtr result = co_await awaitor.awaitResume([this, task](auto handler) {
@@ -235,7 +235,7 @@ async_simple::coro::Lazy<bool> RedisModule::INCRBYFLOAT(const std::string& key, 
 	cmd << key;
 	cmd << increment;
 	std::string strCmd = cmd.serialize();
-	RedisTask* task = new RedisTask(this, *client, strCmd);
+	std::shared_ptr<RedisTask> task = std::make_shared<RedisTask>(this, *client, strCmd);
 
 	CallbackAwaitor<RedisResultPtr> awaitor;
 	RedisResultPtr result = co_await awaitor.awaitResume([this, task](auto handler) {
@@ -276,7 +276,7 @@ async_simple::coro::Lazy<bool> RedisModule::SETEX(const std::string& key, const 
 	cmd << time;
 
 	std::string strCmd = cmd.serialize();
-	RedisTask* task = new RedisTask(this, *client, strCmd);
+	std::shared_ptr<RedisTask> task = std::make_shared<RedisTask>(this, *client, strCmd);
 
 	CallbackAwaitor<RedisResultPtr> awaitor;
 	RedisResultPtr result = co_await awaitor.awaitResume([this, task](auto handler) {
@@ -307,7 +307,7 @@ async_simple::coro::Lazy<bool> RedisModule::SETNX(const std::string& key, const 
 	cmd << value;
 
 	std::string strCmd = cmd.serialize();
-	RedisTask* task = new RedisTask(this, *client, strCmd);
+	std::shared_ptr<RedisTask> task = std::make_shared<RedisTask>(this, *client, strCmd);
 
 	CallbackAwaitor<RedisResultPtr> awaitor;
 	RedisResultPtr result = co_await awaitor.awaitResume([this, task](auto handler) {
@@ -343,7 +343,7 @@ async_simple::coro::Lazy<bool> RedisModule::STRLEN(const std::string& key, int& 
 	cmd << key;
 
 	std::string strCmd = cmd.serialize();
-	RedisTask* task = new RedisTask(this, *client, strCmd);
+	std::shared_ptr<RedisTask> task = std::make_shared<RedisTask>(this, *client, strCmd);
 
 	CallbackAwaitor<RedisResultPtr> awaitor;
 	RedisResultPtr result = co_await awaitor.awaitResume([this, task](auto handler) {
@@ -381,7 +381,7 @@ async_simple::coro::Lazy<bool> RedisModule::SET(const std::string &key, const st
     cmd << value;
 
 	std::string strCmd = cmd.serialize();
-	RedisTask* task = new RedisTask(this, *client, strCmd);
+	std::shared_ptr<RedisTask> task = std::make_shared<RedisTask>(this, *client, strCmd);
 
 	CallbackAwaitor<RedisResultPtr> awaitor;
 	RedisResultPtr result = co_await awaitor.awaitResume([this, task](auto handler) {
@@ -411,7 +411,7 @@ async_simple::coro::Lazy<bool> RedisModule::GET(const std::string& key, std::str
     cmd << key;
 
 	std::string strCmd = cmd.serialize();
-	RedisTask* task = new RedisTask(this, *client, strCmd);
+	std::shared_ptr<RedisTask> task = std::make_shared<RedisTask>(this, *client, strCmd);
 
 	CallbackAwaitor<RedisResultPtr> awaitor;
 	RedisResultPtr result = co_await awaitor.awaitResume([this, task](auto handler) {
@@ -457,7 +457,7 @@ async_simple::coro::Lazy<bool> RedisModule::MSET(const StringPairVector& values)
 	}
 
 	std::string strCmd = cmd.serialize();
-	RedisTask* task = new RedisTask(this, *client, strCmd);
+	std::shared_ptr<RedisTask> task = std::make_shared<RedisTask>(this, *client, strCmd);
 
 	CallbackAwaitor<RedisResultPtr> awaitor;
 	RedisResultPtr result = co_await awaitor.awaitResume([this, task](auto handler) {
@@ -497,7 +497,7 @@ async_simple::coro::Lazy<bool> RedisModule::MGET(const std::vector<std::string>&
 	}
 
 	std::string strCmd = cmd.serialize();
-	RedisTask* task = new RedisTask(this, *client, strCmd);
+	std::shared_ptr<RedisTask> task = std::make_shared<RedisTask>(this, *client, strCmd);
 
 	CallbackAwaitor<RedisResultPtr> awaitor;
 	RedisResultPtr result = co_await awaitor.awaitResume([this, task](auto handler) {
@@ -541,7 +541,7 @@ async_simple::coro::Lazy<int> RedisModule::HDEL(const std::string& key, const st
 	cmd << field;
 
 	std::string strCmd = cmd.serialize();
-	RedisTask* task = new RedisTask(this, *client, strCmd);
+	std::shared_ptr<RedisTask> task = std::make_shared<RedisTask>(this, *client, strCmd);
 
 	CallbackAwaitor<RedisResultPtr> awaitor;
 	RedisResultPtr result = co_await awaitor.awaitResume([this, task](auto handler) {
@@ -581,7 +581,7 @@ async_simple::coro::Lazy<int> RedisModule::HDEL(const std::string& key, const st
 	}
 
 	std::string strCmd = cmd.serialize();
-	RedisTask* task = new RedisTask(this, *client, strCmd);
+	std::shared_ptr<RedisTask> task = std::make_shared<RedisTask>(this, *client, strCmd);
 
 	CallbackAwaitor<RedisResultPtr> awaitor;
 	RedisResultPtr result = co_await awaitor.awaitResume([this, task](auto handler) {
@@ -618,7 +618,7 @@ async_simple::coro::Lazy<bool> RedisModule::HEXISTS(const std::string& key, cons
 	cmd << field;
 
 	std::string strCmd = cmd.serialize();
-	RedisTask* task = new RedisTask(this, *client, strCmd);
+	std::shared_ptr<RedisTask> task = std::make_shared<RedisTask>(this, *client, strCmd);
 
 	CallbackAwaitor<RedisResultPtr> awaitor;
 	RedisResultPtr result = co_await awaitor.awaitResume([this, task](auto handler) {
@@ -655,7 +655,7 @@ async_simple::coro::Lazy<bool> RedisModule::HGET(const std::string& key, const s
 	cmd << field;
 
 	std::string strCmd = cmd.serialize();
-	RedisTask* task = new RedisTask(this, *client, strCmd);
+	std::shared_ptr<RedisTask> task = std::make_shared<RedisTask>(this, *client, strCmd);
 
 	CallbackAwaitor<RedisResultPtr> awaitor;
 	RedisResultPtr result = co_await awaitor.awaitResume([this, task](auto handler) {
@@ -693,7 +693,7 @@ async_simple::coro::Lazy<bool> RedisModule::HGETALL(const std::string& key, std:
 	cmd << key;
 
 	std::string strCmd = cmd.serialize();
-	RedisTask* task = new RedisTask(this, *client, strCmd);
+	std::shared_ptr<RedisTask> task = std::make_shared<RedisTask>(this, *client, strCmd);
 
 	CallbackAwaitor<RedisResultPtr> awaitor;
 	RedisResultPtr result = co_await awaitor.awaitResume([this, task](auto handler) {
@@ -736,7 +736,7 @@ async_simple::coro::Lazy<bool> RedisModule::HINCRBY(const std::string& key, cons
 	cmd << by;
 
 	std::string strCmd = cmd.serialize();
-	RedisTask* task = new RedisTask(this, *client, strCmd);
+	std::shared_ptr<RedisTask> task = std::make_shared<RedisTask>(this, *client, strCmd);
 
 	CallbackAwaitor<RedisResultPtr> awaitor;
 	RedisResultPtr result = co_await awaitor.awaitResume([this, task](auto handler) {
@@ -775,7 +775,7 @@ async_simple::coro::Lazy<bool> RedisModule::HINCRBYFLOAT(const std::string& key,
 	cmd << by;
 
 	std::string strCmd = cmd.serialize();
-	RedisTask* task = new RedisTask(this, *client, strCmd);
+	std::shared_ptr<RedisTask> task = std::make_shared<RedisTask>(this, *client, strCmd);
 
 	CallbackAwaitor<RedisResultPtr> awaitor;
 	RedisResultPtr result = co_await awaitor.awaitResume([this, task](auto handler) {
@@ -819,7 +819,7 @@ async_simple::coro::Lazy<bool> RedisModule::HKEYS(const std::string& key, std::v
 	cmd << key;
 
 	std::string strCmd = cmd.serialize();
-	RedisTask* task = new RedisTask(this, *client, strCmd);
+	std::shared_ptr<RedisTask> task = std::make_shared<RedisTask>(this, *client, strCmd);
 
 	CallbackAwaitor<RedisResultPtr> awaitor;
 	RedisResultPtr result = co_await awaitor.awaitResume([this, task](auto handler) {
@@ -859,7 +859,7 @@ async_simple::coro::Lazy<bool> RedisModule::HLEN(const std::string& key, int& nu
 	cmd << key;
 
 	std::string strCmd = cmd.serialize();
-	RedisTask* task = new RedisTask(this, *client, strCmd);
+	std::shared_ptr<RedisTask> task = std::make_shared<RedisTask>(this, *client, strCmd);
 
 	CallbackAwaitor<RedisResultPtr> awaitor;
 	RedisResultPtr result = co_await awaitor.awaitResume([this, task](auto handler) {
@@ -899,7 +899,7 @@ async_simple::coro::Lazy<bool> RedisModule::HMGET(const std::string& key, const 
 	}
 
 	std::string strCmd = cmd.serialize();
-	RedisTask* task = new RedisTask(this, *client, strCmd);
+	std::shared_ptr<RedisTask> task = std::make_shared<RedisTask>(this, *client, strCmd);
 
 	CallbackAwaitor<RedisResultPtr> awaitor;
 	RedisResultPtr result = co_await awaitor.awaitResume([this, task](auto handler) {
@@ -947,7 +947,7 @@ async_simple::coro::Lazy<bool> RedisModule::HMSET(const std::string& key, const 
 	}
 
 	std::string strCmd = cmd.serialize();
-	RedisTask* task = new RedisTask(this, *client, strCmd);
+	std::shared_ptr<RedisTask> task = std::make_shared<RedisTask>(this, *client, strCmd);
 
 	CallbackAwaitor<RedisResultPtr> awaitor;
 	RedisResultPtr result = co_await awaitor.awaitResume([this, task](auto handler) {
@@ -987,7 +987,7 @@ async_simple::coro::Lazy<bool> RedisModule::HMSET(const std::string& key, const 
 	}
 
 	std::string strCmd = cmd.serialize();
-	RedisTask* task = new RedisTask(this, *client, strCmd);
+	std::shared_ptr<RedisTask> task = std::make_shared<RedisTask>(this, *client, strCmd);
 
 	CallbackAwaitor<RedisResultPtr> awaitor;
 	RedisResultPtr result = co_await awaitor.awaitResume([this, task](auto handler) {
@@ -1019,7 +1019,7 @@ async_simple::coro::Lazy<bool> RedisModule::HSET(const std::string& key, const s
 	cmd << value;
 
 	std::string strCmd = cmd.serialize();
-	RedisTask* task = new RedisTask(this, *client, strCmd);
+	std::shared_ptr<RedisTask> task = std::make_shared<RedisTask>(this, *client, strCmd);
 
 	CallbackAwaitor<RedisResultPtr> awaitor;
 	RedisResultPtr result = co_await awaitor.awaitResume([this, task](auto handler) {
@@ -1057,7 +1057,7 @@ async_simple::coro::Lazy<bool> RedisModule::HSETNX(const std::string &key, const
 	cmd << value;
 
 	std::string strCmd = cmd.serialize();
-	RedisTask* task = new RedisTask(this, *client, strCmd);
+	std::shared_ptr<RedisTask> task = std::make_shared<RedisTask>(this, *client, strCmd);
 
 	CallbackAwaitor<RedisResultPtr> awaitor;
 	RedisResultPtr result = co_await awaitor.awaitResume([this, task](auto handler) {
@@ -1093,7 +1093,7 @@ async_simple::coro::Lazy<bool> RedisModule::HVALS(const std::string& key, std::v
 	cmd << key;
 
 	std::string strCmd = cmd.serialize();
-	RedisTask* task = new RedisTask(this, *client, strCmd);
+	std::shared_ptr<RedisTask> task = std::make_shared<RedisTask>(this, *client, strCmd);
 
 	CallbackAwaitor<RedisResultPtr> awaitor;
 	RedisResultPtr result = co_await awaitor.awaitResume([this, task](auto handler) {
@@ -1132,7 +1132,7 @@ async_simple::coro::Lazy<bool> RedisModule::HSTRLEN(const std::string &key, cons
 	cmd << field;
 
 	std::string strCmd = cmd.serialize();
-	RedisTask* task = new RedisTask(this, *client, strCmd);
+	std::shared_ptr<RedisTask> task = std::make_shared<RedisTask>(this, *client, strCmd);
 
 	CallbackAwaitor<RedisResultPtr> awaitor;
 	RedisResultPtr result = co_await awaitor.awaitResume([this, task](auto handler) {
@@ -1173,7 +1173,7 @@ async_simple::coro::Lazy<int> RedisModule::DEL(const std::string &key)
 	cmd << key;
 
 	std::string strCmd = cmd.serialize();
-	RedisTask* task = new RedisTask(this, *client, strCmd);
+	std::shared_ptr<RedisTask> task = std::make_shared<RedisTask>(this, *client, strCmd);
 
 	CallbackAwaitor<RedisResultPtr> awaitor;
 	RedisResultPtr result = co_await awaitor.awaitResume([this, task](auto handler) {
@@ -1209,7 +1209,7 @@ async_simple::coro::Lazy<bool> RedisModule::EXISTS(const std::string &key)
 	cmd << key;
 
 	std::string strCmd = cmd.serialize();
-	RedisTask* task = new RedisTask(this, *client, strCmd);
+	std::shared_ptr<RedisTask> task = std::make_shared<RedisTask>(this, *client, strCmd);
 
 	CallbackAwaitor<RedisResultPtr> awaitor;
 	RedisResultPtr result = co_await awaitor.awaitResume([this, task](auto handler) {
@@ -1246,7 +1246,7 @@ async_simple::coro::Lazy<bool> RedisModule::EXPIRE(const std::string &key, const
 	cmd << secs;
 
 	std::string strCmd = cmd.serialize();
-	RedisTask* task = new RedisTask(this, *client, strCmd);
+	std::shared_ptr<RedisTask> task = std::make_shared<RedisTask>(this, *client, strCmd);
 
 	CallbackAwaitor<RedisResultPtr> awaitor;
 	RedisResultPtr result = co_await awaitor.awaitResume([this, task](auto handler) {
@@ -1283,7 +1283,7 @@ async_simple::coro::Lazy<bool> RedisModule::EXPIREAT(const std::string &key, con
 	cmd << unixTime;
 
 	std::string strCmd = cmd.serialize();
-	RedisTask* task = new RedisTask(this, *client, strCmd);
+	std::shared_ptr<RedisTask> task = std::make_shared<RedisTask>(this, *client, strCmd);
 
 	CallbackAwaitor<RedisResultPtr> awaitor;
 	RedisResultPtr result = co_await awaitor.awaitResume([this, task](auto handler) {
@@ -1319,7 +1319,7 @@ async_simple::coro::Lazy<bool> RedisModule::PERSIST(const std::string &key)
 	cmd << key;
 
 	std::string strCmd = cmd.serialize();
-	RedisTask* task = new RedisTask(this, *client, strCmd);
+	std::shared_ptr<RedisTask> task = std::make_shared<RedisTask>(this, *client, strCmd);
 
 	CallbackAwaitor<RedisResultPtr> awaitor;
 	RedisResultPtr result = co_await awaitor.awaitResume([this, task](auto handler) {
@@ -1355,7 +1355,7 @@ async_simple::coro::Lazy<int> RedisModule::TTL(const std::string& key)
 	cmd << key;
 
 	std::string strCmd = cmd.serialize();
-	RedisTask* task = new RedisTask(this, *client, strCmd);
+	std::shared_ptr<RedisTask> task = std::make_shared<RedisTask>(this, *client, strCmd);
 
 	CallbackAwaitor<RedisResultPtr> awaitor;
 	RedisResultPtr result = co_await awaitor.awaitResume([this, task](auto handler) {
@@ -1396,7 +1396,7 @@ async_simple::coro::Lazy<bool> RedisModule::LINDEX(const std::string &key, const
 	cmd << index;
 
 	std::string strCmd = cmd.serialize();
-	RedisTask* task = new RedisTask(this, *client, strCmd);
+	std::shared_ptr<RedisTask> task = std::make_shared<RedisTask>(this, *client, strCmd);
 
 	CallbackAwaitor<RedisResultPtr> awaitor;
 	RedisResultPtr result = co_await awaitor.awaitResume([this, task](auto handler) {
@@ -1431,7 +1431,7 @@ async_simple::coro::Lazy<bool> RedisModule::LLEN(const std::string &key, int& le
 	cmd << key;
 
 	std::string strCmd = cmd.serialize();
-	RedisTask* task = new RedisTask(this, *client, strCmd);
+	std::shared_ptr<RedisTask> task = std::make_shared<RedisTask>(this, *client, strCmd);
 
 	CallbackAwaitor<RedisResultPtr> awaitor;
 	RedisResultPtr result = co_await awaitor.awaitResume([this, task](auto handler) {
@@ -1466,7 +1466,7 @@ async_simple::coro::Lazy<bool> RedisModule::LPOP(const std::string &key, std::st
 	cmd << key;
 
 	std::string strCmd = cmd.serialize();
-	RedisTask* task = new RedisTask(this, *client, strCmd);
+	std::shared_ptr<RedisTask> task = std::make_shared<RedisTask>(this, *client, strCmd);
 
 	CallbackAwaitor<RedisResultPtr> awaitor;
 	RedisResultPtr result = co_await awaitor.awaitResume([this, task](auto handler) {
@@ -1502,7 +1502,7 @@ async_simple::coro::Lazy<int> RedisModule::LPUSH(const std::string& key, const s
 	cmd << value;
 
 	std::string strCmd = cmd.serialize();
-	RedisTask* task = new RedisTask(this, *client, strCmd);
+	std::shared_ptr<RedisTask> task = std::make_shared<RedisTask>(this, *client, strCmd);
 
 	CallbackAwaitor<RedisResultPtr> awaitor;
 	RedisResultPtr result = co_await awaitor.awaitResume([this, task](auto handler) {
@@ -1539,7 +1539,7 @@ async_simple::coro::Lazy<int> RedisModule::LPUSHX(const std::string& key, const 
 	cmd << value;
 
 	std::string strCmd = cmd.serialize();
-	RedisTask* task = new RedisTask(this, *client, strCmd);
+	std::shared_ptr<RedisTask> task = std::make_shared<RedisTask>(this, *client, strCmd);
 
 	CallbackAwaitor<RedisResultPtr> awaitor;
 	RedisResultPtr result = co_await awaitor.awaitResume([this, task](auto handler) {
@@ -1582,7 +1582,7 @@ async_simple::coro::Lazy<bool> RedisModule::LRANGE(const std::string& key, const
 	cmd << end;
 
 	std::string strCmd = cmd.serialize();
-	RedisTask* task = new RedisTask(this, *client, strCmd);
+	std::shared_ptr<RedisTask> task = std::make_shared<RedisTask>(this, *client, strCmd);
 
 	CallbackAwaitor<RedisResultPtr> awaitor;
 	RedisResultPtr result = co_await awaitor.awaitResume([this, task](auto handler) {
@@ -1625,7 +1625,7 @@ async_simple::coro::Lazy<bool> RedisModule::LSET(const std::string &key, const i
 	cmd << value;
 
 	std::string strCmd = cmd.serialize();
-	RedisTask* task = new RedisTask(this, *client, strCmd);
+	std::shared_ptr<RedisTask> task = std::make_shared<RedisTask>(this, *client, strCmd);
 
 	CallbackAwaitor<RedisResultPtr> awaitor;
 	RedisResultPtr result = co_await awaitor.awaitResume([this, task](auto handler) {
@@ -1655,7 +1655,7 @@ async_simple::coro::Lazy<bool> RedisModule::RPOP(const std::string& key, std::st
 	cmd << key;
 
 	std::string strCmd = cmd.serialize();
-	RedisTask* task = new RedisTask(this, *client, strCmd);
+	std::shared_ptr<RedisTask> task = std::make_shared<RedisTask>(this, *client, strCmd);
 
 	CallbackAwaitor<RedisResultPtr> awaitor;
 	RedisResultPtr result = co_await awaitor.awaitResume([this, task](auto handler) {
@@ -1691,7 +1691,7 @@ async_simple::coro::Lazy<int> RedisModule::RPUSH(const std::string& key, const s
 	cmd << value;
 
 	std::string strCmd = cmd.serialize();
-	RedisTask* task = new RedisTask(this, *client, strCmd);
+	std::shared_ptr<RedisTask> task = std::make_shared<RedisTask>(this, *client, strCmd);
 
 	CallbackAwaitor<RedisResultPtr> awaitor;
 	RedisResultPtr result = co_await awaitor.awaitResume([this, task](auto handler) {
@@ -1728,7 +1728,7 @@ async_simple::coro::Lazy<int> RedisModule::RPUSHX(const std::string& key, const 
 	cmd << value;
 
 	std::string strCmd = cmd.serialize();
-	RedisTask* task = new RedisTask(this, *client, strCmd);
+	std::shared_ptr<RedisTask> task = std::make_shared<RedisTask>(this, *client, strCmd);
 
 	CallbackAwaitor<RedisResultPtr> awaitor;
 	RedisResultPtr result = co_await awaitor.awaitResume([this, task](auto handler) {
@@ -1769,7 +1769,7 @@ async_simple::coro::Lazy<bool> RedisModule::PUBLISH(const std::string& key, cons
 	cmd << value;
 
 	std::string strCmd = cmd.serialize();
-	RedisTask* task = new RedisTask(this, *client, strCmd);
+	std::shared_ptr<RedisTask> task = std::make_shared<RedisTask>(this, *client, strCmd);
 
 	CallbackAwaitor<RedisResultPtr> awaitor;
 	RedisResultPtr result = co_await awaitor.awaitResume([this, task](auto handler) {
@@ -1799,7 +1799,7 @@ async_simple::coro::Lazy<bool> RedisModule::SUBSCRIBE(const std::string& key)
 	cmd << key;
 
 	std::string strCmd = cmd.serialize();
-	RedisTask* task = new RedisTask(this, *client, strCmd);
+	std::shared_ptr<RedisTask> task = std::make_shared<RedisTask>(this, *client, strCmd);
 
 	CallbackAwaitor<RedisResultPtr> awaitor;
 	RedisResultPtr result = co_await awaitor.awaitResume([this, task](auto handler) {
@@ -1829,7 +1829,7 @@ async_simple::coro::Lazy<bool> RedisModule::UNSUBSCRIBE(const std::string& key)
 	cmd << key;
 
 	std::string strCmd = cmd.serialize();
-	RedisTask* task = new RedisTask(this, *client, strCmd);
+	std::shared_ptr<RedisTask> task = std::make_shared<RedisTask>(this, *client, strCmd);
 
 	CallbackAwaitor<RedisResultPtr> awaitor;
 	RedisResultPtr result = co_await awaitor.awaitResume([this, task](auto handler) {
@@ -1862,7 +1862,7 @@ async_simple::coro::Lazy<bool> RedisModule::FLUSHALL()
 	RedisCommand cmd(GET_NAME(FLUSHALL));
 
 	std::string strCmd = cmd.serialize();
-	RedisTask* task = new RedisTask(this, *client, strCmd);
+	std::shared_ptr<RedisTask> task = std::make_shared<RedisTask>(this, *client, strCmd);
 
 	CallbackAwaitor<RedisResultPtr> awaitor;
 	RedisResultPtr result = co_await awaitor.awaitResume([this, task](auto handler) {
@@ -1891,7 +1891,7 @@ async_simple::coro::Lazy<bool> RedisModule::FLUSHDB()
 	RedisCommand cmd(GET_NAME(FLUSHDB));
 
 	std::string strCmd = cmd.serialize();
-	RedisTask* task = new RedisTask(this, *client, strCmd);
+	std::shared_ptr<RedisTask> task = std::make_shared<RedisTask>(this, *client, strCmd);
 
 	CallbackAwaitor<RedisResultPtr> awaitor;
 	RedisResultPtr result = co_await awaitor.awaitResume([this, task](auto handler) {
@@ -1948,7 +1948,7 @@ async_simple::coro::Lazy<bool> RedisModule::SELECTDB()
 	RedisCommand cmd(GET_NAME(SELECTDB));
 
 	std::string strCmd = cmd.serialize();
-	RedisTask* task = new RedisTask(this, *client, strCmd);
+	std::shared_ptr<RedisTask> task = std::make_shared<RedisTask>(this, *client, strCmd);
 
 	CallbackAwaitor<RedisResultPtr> awaitor;
 	RedisResultPtr result = co_await awaitor.awaitResume([this, task](auto handler) {
@@ -1978,7 +1978,7 @@ async_simple::coro::Lazy<bool> RedisModule::INFO(const std::string& param, std::
 	cmd << param;
 
 	std::string strCmd = cmd.serialize();
-	RedisTask* task = new RedisTask(this, *client, strCmd);
+	std::shared_ptr<RedisTask> task = std::make_shared<RedisTask>(this, *client, strCmd);
 
 	CallbackAwaitor<RedisResultPtr> awaitor;
 	RedisResultPtr result = co_await awaitor.awaitResume([this, task](auto handler) {
@@ -2017,7 +2017,7 @@ async_simple::coro::Lazy<int> RedisModule::SADD(const std::string& key, const st
 	cmd << member;
 
 	std::string strCmd = cmd.serialize();
-	RedisTask* task = new RedisTask(this, *client, strCmd);
+	std::shared_ptr<RedisTask> task = std::make_shared<RedisTask>(this, *client, strCmd);
 
 	CallbackAwaitor<RedisResultPtr> awaitor;
 	RedisResultPtr result = co_await awaitor.awaitResume([this, task](auto handler) {
@@ -2053,7 +2053,7 @@ async_simple::coro::Lazy<bool> RedisModule::SCARD(const std::string& key, int& n
 	cmd << key;
 
 	std::string strCmd = cmd.serialize();
-	RedisTask* task = new RedisTask(this, *client, strCmd);
+	std::shared_ptr<RedisTask> task = std::make_shared<RedisTask>(this, *client, strCmd);
 
 	CallbackAwaitor<RedisResultPtr> awaitor;
 	RedisResultPtr result = co_await awaitor.awaitResume([this, task](auto handler) {
@@ -2089,7 +2089,7 @@ async_simple::coro::Lazy<bool> RedisModule::SISMEMBER(const std::string& key, co
 	cmd << member;
 
 	std::string strCmd = cmd.serialize();
-	RedisTask* task = new RedisTask(this, *client, strCmd);
+	std::shared_ptr<RedisTask> task = std::make_shared<RedisTask>(this, *client, strCmd);
 
 	CallbackAwaitor<RedisResultPtr> awaitor;
 	RedisResultPtr result = co_await awaitor.awaitResume([this, task](auto handler) {
@@ -2124,7 +2124,7 @@ async_simple::coro::Lazy<bool> RedisModule::SMEMBERS(const std::string& key, std
 	cmd << key;
 
 	std::string strCmd = cmd.serialize();
-	RedisTask* task = new RedisTask(this, *client, strCmd);
+	std::shared_ptr<RedisTask> task = std::make_shared<RedisTask>(this, *client, strCmd);
 
 	CallbackAwaitor<RedisResultPtr> awaitor;
 	RedisResultPtr result = co_await awaitor.awaitResume([this, task](auto handler) {
@@ -2167,7 +2167,7 @@ async_simple::coro::Lazy<bool> RedisModule::SMOVE(const std::string& source_key,
 	cmd << member;
 
 	std::string strCmd = cmd.serialize();
-	RedisTask* task = new RedisTask(this, *client, strCmd);
+	std::shared_ptr<RedisTask> task = std::make_shared<RedisTask>(this, *client, strCmd);
 
 	CallbackAwaitor<RedisResultPtr> awaitor;
 	RedisResultPtr result = co_await awaitor.awaitResume([this, task](auto handler) {
@@ -2202,7 +2202,7 @@ async_simple::coro::Lazy<bool> RedisModule::SPOP(const std::string& key, std::st
 	cmd << key;
 
 	std::string strCmd = cmd.serialize();
-	RedisTask* task = new RedisTask(this, *client, strCmd);
+	std::shared_ptr<RedisTask> task = std::make_shared<RedisTask>(this, *client, strCmd);
 
 	CallbackAwaitor<RedisResultPtr> awaitor;
 	RedisResultPtr result = co_await awaitor.awaitResume([this, task](auto handler) {
@@ -2239,7 +2239,7 @@ async_simple::coro::Lazy<bool> RedisModule::SRANDMEMBER(const std::string& key, 
 	cmd << count;
 
 	std::string strCmd = cmd.serialize();
-	RedisTask* task = new RedisTask(this, *client, strCmd);
+	std::shared_ptr<RedisTask> task = std::make_shared<RedisTask>(this, *client, strCmd);
 
 	CallbackAwaitor<RedisResultPtr> awaitor;
 	RedisResultPtr result = co_await awaitor.awaitResume([this, task](auto handler) {
@@ -2284,7 +2284,7 @@ async_simple::coro::Lazy<int> RedisModule::SREM(const std::string& key, const st
 	}
 
 	std::string strCmd = cmd.serialize();
-	RedisTask* task = new RedisTask(this, *client, strCmd);
+	std::shared_ptr<RedisTask> task = std::make_shared<RedisTask>(this, *client, strCmd);
 
 	CallbackAwaitor<RedisResultPtr> awaitor;
 	RedisResultPtr result = co_await awaitor.awaitResume([this, task](auto handler) {
@@ -2321,7 +2321,7 @@ async_simple::coro::Lazy<bool> RedisModule::SUNION(const std::string& union_key1
 	cmd << union_key2;
 
 	std::string strCmd = cmd.serialize();
-	RedisTask* task = new RedisTask(this, *client, strCmd);
+	std::shared_ptr<RedisTask> task = std::make_shared<RedisTask>(this, *client, strCmd);
 
 	CallbackAwaitor<RedisResultPtr> awaitor;
 	RedisResultPtr result = co_await awaitor.awaitResume([this, task](auto handler) {
@@ -2364,7 +2364,7 @@ async_simple::coro::Lazy<int> RedisModule::SUNIONSTORE(const std::string& dest_s
 	cmd << union_key2;
 
 	std::string strCmd = cmd.serialize();
-	RedisTask* task = new RedisTask(this, *client, strCmd);
+	std::shared_ptr<RedisTask> task = std::make_shared<RedisTask>(this, *client, strCmd);
 
 	CallbackAwaitor<RedisResultPtr> awaitor;
 	RedisResultPtr result = co_await awaitor.awaitResume([this, task](auto handler) {
@@ -2405,7 +2405,7 @@ async_simple::coro::Lazy<int> RedisModule::ZADD(const std::string& key, const st
 	cmd << member;
 
 	std::string strCmd = cmd.serialize();
-	RedisTask* task = new RedisTask(this, *client, strCmd);
+	std::shared_ptr<RedisTask> task = std::make_shared<RedisTask>(this, *client, strCmd);
 
 	CallbackAwaitor<RedisResultPtr> awaitor;
 	RedisResultPtr result = co_await awaitor.awaitResume([this, task](auto handler) {
@@ -2441,7 +2441,7 @@ async_simple::coro::Lazy<bool> RedisModule::ZCARD(const std::string& key, int &n
 	cmd << key;
 
 	std::string strCmd = cmd.serialize();
-	RedisTask* task = new RedisTask(this, *client, strCmd);
+	std::shared_ptr<RedisTask> task = std::make_shared<RedisTask>(this, *client, strCmd);
 
 	CallbackAwaitor<RedisResultPtr> awaitor;
 	RedisResultPtr result = co_await awaitor.awaitResume([this, task](auto handler) {
@@ -2478,7 +2478,7 @@ async_simple::coro::Lazy<bool> RedisModule::ZCOUNT(const std::string& key, const
 	cmd << end;
 
 	std::string strCmd = cmd.serialize();
-	RedisTask* task = new RedisTask(this, *client, strCmd);
+	std::shared_ptr<RedisTask> task = std::make_shared<RedisTask>(this, *client, strCmd);
 
 	CallbackAwaitor<RedisResultPtr> awaitor;
 	RedisResultPtr result = co_await awaitor.awaitResume([this, task](auto handler) {
@@ -2515,7 +2515,7 @@ async_simple::coro::Lazy<bool> RedisModule::ZINCRBY(const std::string& key, cons
 	cmd << member;
 
 	std::string strCmd = cmd.serialize();
-	RedisTask* task = new RedisTask(this, *client, strCmd);
+	std::shared_ptr<RedisTask> task = std::make_shared<RedisTask>(this, *client, strCmd);
 
 	CallbackAwaitor<RedisResultPtr> awaitor;
 	RedisResultPtr result = co_await awaitor.awaitResume([this, task](auto handler) {
@@ -2562,7 +2562,7 @@ async_simple::coro::Lazy<bool> RedisModule::ZRANGE(const std::string& key, const
 	cmd << "WITHSCORES";
 
 	std::string strCmd = cmd.serialize();
-	RedisTask* task = new RedisTask(this, *client, strCmd);
+	std::shared_ptr<RedisTask> task = std::make_shared<RedisTask>(this, *client, strCmd);
 
 	CallbackAwaitor<RedisResultPtr> awaitor;
 	RedisResultPtr result = co_await awaitor.awaitResume([this, task](auto handler) {
@@ -2619,7 +2619,7 @@ async_simple::coro::Lazy<bool> RedisModule::ZRANGEWITHSCORE(const std::string& k
 	cmd << "WITHSCORES";
 
 	std::string strCmd = cmd.serialize();
-	RedisTask* task = new RedisTask(this, *client, strCmd);
+	std::shared_ptr<RedisTask> task = std::make_shared<RedisTask>(this, *client, strCmd);
 
 	CallbackAwaitor<RedisResultPtr> awaitor;
 	RedisResultPtr result = co_await awaitor.awaitResume([this, task](auto handler) {
@@ -2673,7 +2673,7 @@ async_simple::coro::Lazy<bool> RedisModule::ZRANK(const std::string & key, const
 	cmd << member;
 
 	std::string strCmd = cmd.serialize();
-	RedisTask* task = new RedisTask(this, *client, strCmd);
+	std::shared_ptr<RedisTask> task = std::make_shared<RedisTask>(this, *client, strCmd);
 
 	CallbackAwaitor<RedisResultPtr> awaitor;
 	RedisResultPtr result = co_await awaitor.awaitResume([this, task](auto handler) {
@@ -2709,7 +2709,7 @@ async_simple::coro::Lazy<bool> RedisModule::ZREM(const std::string & key, const 
 	cmd << member;
 
 	std::string strCmd = cmd.serialize();
-	RedisTask* task = new RedisTask(this, *client, strCmd);
+	std::shared_ptr<RedisTask> task = std::make_shared<RedisTask>(this, *client, strCmd);
 
 	CallbackAwaitor<RedisResultPtr> awaitor;
 	RedisResultPtr result = co_await awaitor.awaitResume([this, task](auto handler) {
@@ -2746,7 +2746,7 @@ async_simple::coro::Lazy<bool> RedisModule::ZREMRANGEBYRANK(const std::string & 
 	cmd << end;
 
 	std::string strCmd = cmd.serialize();
-	RedisTask* task = new RedisTask(this, *client, strCmd);
+	std::shared_ptr<RedisTask> task = std::make_shared<RedisTask>(this, *client, strCmd);
 
 	CallbackAwaitor<RedisResultPtr> awaitor;
 	RedisResultPtr result = co_await awaitor.awaitResume([this, task](auto handler) {
@@ -2783,7 +2783,7 @@ async_simple::coro::Lazy<bool> RedisModule::ZREMRANGEBYSCORE(const std::string &
 	cmd << end;
 
 	std::string strCmd = cmd.serialize();
-	RedisTask* task = new RedisTask(this, *client, strCmd);
+	std::shared_ptr<RedisTask> task = std::make_shared<RedisTask>(this, *client, strCmd);
 
 	CallbackAwaitor<RedisResultPtr> awaitor;
 	RedisResultPtr result = co_await awaitor.awaitResume([this, task](auto handler) {
@@ -2821,7 +2821,7 @@ async_simple::coro::Lazy<bool> RedisModule::ZREVRANGE(const std::string& key, co
 	cmd << "WITHSCORES";
 
 	std::string strCmd = cmd.serialize();
-	RedisTask* task = new RedisTask(this, *client, strCmd);
+	std::shared_ptr<RedisTask> task = std::make_shared<RedisTask>(this, *client, strCmd);
 
 	CallbackAwaitor<RedisResultPtr> awaitor;
 	RedisResultPtr result = co_await awaitor.awaitResume([this, task](auto handler) {
@@ -2877,7 +2877,7 @@ async_simple::coro::Lazy<bool> RedisModule::ZREVRANGEBYSCORE(const std::string &
 	cmd << "WITHSCORES";
 
 	std::string strCmd = cmd.serialize();
-	RedisTask* task = new RedisTask(this, *client, strCmd);
+	std::shared_ptr<RedisTask> task = std::make_shared<RedisTask>(this, *client, strCmd);
 
 	CallbackAwaitor<RedisResultPtr> awaitor;
 	RedisResultPtr result = co_await awaitor.awaitResume([this, task](auto handler) {
@@ -2931,7 +2931,7 @@ async_simple::coro::Lazy<bool> RedisModule::ZREVRANK(const std::string& key, con
 	cmd << member;
 
 	std::string strCmd = cmd.serialize();
-	RedisTask* task = new RedisTask(this, *client, strCmd);
+	std::shared_ptr<RedisTask> task = std::make_shared<RedisTask>(this, *client, strCmd);
 
 	CallbackAwaitor<RedisResultPtr> awaitor;
 	RedisResultPtr result = co_await awaitor.awaitResume([this, task](auto handler) {
@@ -2967,7 +2967,7 @@ async_simple::coro::Lazy<bool> RedisModule::ZSCORE(const std::string& key, const
 	cmd << member;
 
 	std::string strCmd = cmd.serialize();
-	RedisTask* task = new RedisTask(this, *client, strCmd);
+	std::shared_ptr<RedisTask> task = std::make_shared<RedisTask>(this, *client, strCmd);
 
 	CallbackAwaitor<RedisResultPtr> awaitor;
 	RedisResultPtr result = co_await awaitor.awaitResume([this, task](auto handler) {

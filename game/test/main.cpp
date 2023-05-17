@@ -14,9 +14,9 @@ int main(int argc, char* argv[])
 	{
 		//std::bind(testFormat),
 		//std::bind(testRedis),
-		//std::bind(testMongo),
+		std::bind(testMongo),
 		//std::bind(testLog),
-		std::bind(testLogin),
+		//std::bind(testLogin),
 	};
 
 	for (const auto& fun : vec)

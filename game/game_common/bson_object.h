@@ -128,11 +128,11 @@ public:
 		return std::get<std::string>(m_data);
 	}
 
-	std::string debugPrint()
+	std::string debugStr()
 	{
 		std::ostringstream ss;
 		ss << "---------" << std::endl;
-		ss << "type: " << (int)m_type << std::endl;
+		ss << "type: " << typeToStr() << std::endl;
 		ss << "key: " << m_key << std::endl;
 		std::visit([&ss](auto&& arg)
 		{
@@ -141,6 +141,19 @@ public:
 		ss << "---------" << std::endl;
 
 		return ss.str();
+	}
+
+	std::string_view typeToStr()
+	{
+		using namespace std::string_view_literals;
+		if (m_type == BOOL)		return "BOOL"sv;
+		if (m_type == INT32)	return "INT32"sv;
+		if (m_type == INT64)	return "INT64"sv;
+		if (m_type == DOUBLE)	return "DOUBLE"sv;
+		if (m_type == STRING)	return "STRING"sv;
+		if (m_type == BIN)		return "BIN"sv;
+		if (m_type == OID)		return "OID"sv;
+		return "unknow"sv;
 	}
 
 	BsonDataType getType() const { return m_type; }
@@ -321,12 +334,12 @@ public:
 		return nullptr;
 	}
 
-	std::string debugPrint()
+	std::string debugStr()
 	{
 		std::ostringstream ss;
 		for (auto& ele : m_mapBsonData)
 		{
-			ss << ele.second.debugPrint() << std::endl;
+			ss << ele.second.debugStr() << std::endl;
 		}
 
 		return ss.str();

@@ -99,7 +99,7 @@ void testFind(MongoModule& m)
 			LOG_INFO("[mongo test]", "find success, result num:{}", result->foundResult.size());
 			for (auto& obj : result->foundResult)
 			{
-				LOG_INFO(s_logCategory, "details:{}", obj->debugPrint());
+				LOG_INFO(s_logCategory, "details:{}", obj->debugStr());
 			}
 		});
 	}
@@ -121,10 +121,42 @@ void testFind(MongoModule& m)
 			LOG_INFO("[mongo test]", "find success, result num:{}", result->foundResult.size());
 			for (auto& obj : result->foundResult)
 			{
-				LOG_INFO(s_logCategory, "details:{}", obj->debugPrint());
+				LOG_INFO(s_logCategory, "details:{}", obj->debugStr());
 			}
 		});
 	}
+}
+
+void testSaveIfNotExist(MongoModule& m)
+{
+	BsonObjectPtr selector = std::make_shared<BsonObject>();
+	BsonObjectPtr updatetor = std::make_shared<BsonObject>();
+	selector->appendString("sdk_user_id1", "ab");
+	updatetor->appendString("profile_id112", "1234");
+	std::string dbName = "zq";
+	std::string coName = "account";
+
+	m.SaveIfNotExist(dbName, coName, selector, updatetor).start([](async_simple::Try<MongoResultPtr> v) {
+		try
+		{
+			MongoResultPtr result = v.value();
+			if (!result->success)
+			{
+				LOG_ERROR("[mongo test]", "SaveIfNotExist error: {}", result->errorMsg);
+				return;
+			}
+
+			assert(result->foundResult.size() == 1);
+			for (auto& obj : result->foundResult)
+			{
+				LOG_INFO(s_logCategory, "details:{}", obj->debugStr());
+			}
+		}
+		catch (const std::exception& e)
+		{
+			LOG_ERROR("[mongo test]", "SaveIfNotExist exception: {}", e.what());
+		}
+	});
 }
 
 bool testMongo()
@@ -135,12 +167,14 @@ bool testMongo()
 	uint16_t port = 27017;
 
 	std::vector<std::pair<std::string, std::string>> collections{
+		{ "zq", "account" },
 		{ "zq", "player" },
 	};
 	MongoModule m(user, pwd, host, port, collections);
 	m.init();
 
-	testInsert(m);
+	//testInsert(m);
+	testSaveIfNotExist(m);
 
 	while (1)
 	{
