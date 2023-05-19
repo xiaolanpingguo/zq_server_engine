@@ -4,14 +4,14 @@ How to Build:
 
 WIN(for development):
 
-Required: vs2022, cmake:https://cmake.org/download/
+    Required: vs2022, cmake:https://cmake.org/download/
 
 build step:
 
-1: make thirdparty lib:
-	enter zq_server_engine\thirdparty, click make_all.bat, this will make all thirdparty 
+    1: make thirdparty lib:
+	 enter zq_server_engine\thirdparty, click make_all.bat, this will make all thirdparty 
 	
-2: use cmake make project
+    2: use cmake make project
 
 	make dir: win-build,
 	use cmake command line: 
@@ -23,16 +23,20 @@ build step:
 	
 Linux:
 
-Required: use Ubuntu-22.04 or use any linux distribution above gcc-10 version
+   Required: use Ubuntu-22.04 or use any linux distribution above gcc-10 version
 
-1: install required dependence:
+   1: install required dependence:
 	sudo apt update
-	sudo apt upgrade
-	sudo apt-get install cmake 
-	sudo apt-get install libssl-dev 
-	sudo apt-get install libsasl2-dev
 	
-2: build project:
+	sudo apt upgrade
+	
+	sudo apt-get install cmake 
+	
+	sudo apt-get install libssl-dev 
+	
+	sudo apt-get install libsasl2-dev	
+	
+   2: build project:
 	1: clone project
 	
 	2: run ./make.sh
