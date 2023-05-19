@@ -150,7 +150,7 @@ async_simple::coro::Lazy<MongoResultPtr> MongoModule::find(const std::string& db
 	});
 }
 
-async_simple::coro::Lazy<MongoResultPtr> MongoModule::SaveIfNotExist(const std::string& dbName, const std::string& collectionName, BsonObjectPtr selector, BsonObjectPtr updator)
+async_simple::coro::Lazy<MongoResultPtr> MongoModule::saveIfNotExist(const std::string& dbName, const std::string& collectionName, BsonObjectPtr selector, BsonObjectPtr updator)
 {
 	std::shared_ptr<MongoTask> task = std::make_shared<MongoSaveIfNotExistTask>(this, dbName, collectionName, selector, updator);
 	CallbackAwaitor<MongoResultPtr> awaitor;

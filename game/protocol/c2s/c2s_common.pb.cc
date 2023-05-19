@@ -171,15 +171,16 @@ const char descriptor_table_protodef_c2s_5fcommon_2eproto[] PROTOBUF_SECTION_VAR
   "D\022\017\n\013MSG_ID_NONE\020\000\022\025\n\020MSG_ID_HEARTBEAT\020\221"
   "N\022\025\n\020MSG_ID_LOGIN_REQ\020\222N\022\025\n\020MSG_ID_LOGIN"
   "_RES\020\223N\022\032\n\025MSG_ID_LOGIN_ZONE_REQ\020\224N\022\032\n\025M"
-  "SG_ID_LOGIN_ZONE_RES\020\225N*\234\001\n\016C2S_ERROR_CO"
+  "SG_ID_LOGIN_ZONE_RES\020\225N*\266\001\n\016C2S_ERROR_CO"
   "DE\022\016\n\nEC_SUCCESS\020\000\022\025\n\021EC_GENERRAL_ERROR\020"
   "e\022\034\n\030EC_SERVER_INTERNAL_ERROR\020f\022\027\n\023EC_SE"
   "RVER_NOT_READY\020g\022\030\n\024EC_INVALID_PARAMETER"
-  "\020h\022\022\n\016EC_SERVER_BUSY\020ib\006proto3"
+  "\020h\022\022\n\016EC_SERVER_BUSY\020i\022\030\n\024EC_LOGIN_IN_PR"
+  "OGRESS\020jb\006proto3"
   ;
 static ::_pbi::once_flag descriptor_table_c2s_5fcommon_2eproto_once;
 const ::_pbi::DescriptorTable descriptor_table_c2s_5fcommon_2eproto = {
-    false, false, 670, descriptor_table_protodef_c2s_5fcommon_2eproto,
+    false, false, 696, descriptor_table_protodef_c2s_5fcommon_2eproto,
     "c2s_common.proto",
     &descriptor_table_c2s_5fcommon_2eproto_once, nullptr, 0, 5,
     schemas, file_default_instances, TableStruct_c2s_5fcommon_2eproto::offsets,
@@ -223,6 +224,7 @@ bool C2S_ERROR_CODE_IsValid(int value) {
     case 103:
     case 104:
     case 105:
+    case 106:
       return true;
     default:
       return false;

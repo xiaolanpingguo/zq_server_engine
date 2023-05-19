@@ -96,9 +96,29 @@ async_simple::coro::Lazy<void> ClientToLoginModule::processLogin(TcpConnectionPt
 			break;
 		}
 
+		// check which of these zone servers has the least load
+		S2S::S2SZoneServerData serverData;
+		int r = co_await getZoneServer(serverData);
+		if (r != 0)
+		{
+			LOG_ERROR(s_logCategory, "get zone server failed, user:{}:{}:{}.", sdkUserId, sdkToken, channelId);
+			errorCode = (r < -1 ? C2S::EC_SERVER_INTERNAL_ERROR : C2S::EC_SERVER_NOT_READY);
+			break;
+		}
+
+		// find user from DB
+		std::string profileId;
+		r = co_await findAndSaveUser(sdkUserId, sdkToken, channelId, profileId);
+		if (r != 0)
+		{
+			LOG_ERROR(s_logCategory, "findAndSaveUser failed, user:{}:{}:{}.", sdkUserId, sdkToken, channelId);
+			errorCode = (r < -1 ? C2S::EC_SERVER_INTERNAL_ERROR : C2S::EC_GENERRAL_ERROR);
+			break;
+		}
+
 		// check if the user is online
 		S2S::S2SPlayerSessionData sessionData;
-		int r = co_await findUserSession(sdkUserId, sessionData);
+		r = co_await findUserSession(sdkUserId, sessionData);
 		if (r == 0)
 		{
 			S2S::S2S_ONLINE_STATUS status = sessionData.online_status();
@@ -114,8 +134,8 @@ async_simple::coro::Lazy<void> ClientToLoginModule::processLogin(TcpConnectionPt
 			}
 			else
 			{
-				// The last login is still in progress, return directly here
-				co_return;
+				errorCode = C2S::EC_LOGIN_IN_PROGRESS;
+				break;
 			}
 		}
 
@@ -128,35 +148,6 @@ async_simple::coro::Lazy<void> ClientToLoginModule::processLogin(TcpConnectionPt
 			}
 			LOG_ERROR(s_logCategory, "createNewSeesion failed, user:{}:{}:{}.", sdkUserId, sdkToken, channelId);
 			errorCode = C2S::EC_GENERRAL_ERROR;
-			break;
-		}
-
-		// find user from DB
-		BsonObjectPtr userAccountData;
-		r = co_await findAndSaveUser(sdkUserId, sdkToken, channelId, userAccountData);
-		if (r != 0)
-		{
-			LOG_ERROR(s_logCategory, "findAndSaveUser failed, user:{}:{}:{}.", sdkUserId, sdkToken, channelId);
-			errorCode = (r < -1 ? C2S::EC_SERVER_INTERNAL_ERROR : C2S::EC_GENERRAL_ERROR);
-			break;
-		}
-
-		// we got a user data from db
-		std::string profileId = userAccountData->getString(ACCOUNT_KEY_PROFILE_ID);
-		if (profileId.empty())
-		{
-			LOG_ERROR(s_logCategory, "user profileid is empty! user:{}:{}:{}.", sdkUserId, sdkToken, channelId);
-			errorCode = C2S::EC_GENERRAL_ERROR;
-			break;
-		}
-
-		// check which of these zone servers has the least load
-		S2S::S2SZoneServerData serverData;
-		r = co_await getZoneServer(serverData);
-		if (r != 0)
-		{
-			LOG_ERROR(s_logCategory, "get zone server failed, user:{}:{}:{}.", sdkUserId, sdkToken, channelId);
-			errorCode = (r < -1 ? C2S::EC_SERVER_INTERNAL_ERROR : C2S::EC_SERVER_NOT_READY);
 			break;
 		}
 
@@ -237,7 +228,7 @@ async_simple::coro::Lazy<int> ClientToLoginModule::createSeesion(const std::stri
 	co_return 0;
 }
 
-async_simple::coro::Lazy<int> ClientToLoginModule::findAndSaveUser(const std::string& sdkUserId, const std::string& sdkToken, int channelId, BsonObjectPtr& userAccountData)
+async_simple::coro::Lazy<int> ClientToLoginModule::findAndSaveUser(const std::string& sdkUserId, const std::string& sdkToken, int channelId, std::string& profileId)
 {
 	if (sdkUserId.empty() || sdkToken.empty())
 	{
@@ -269,15 +260,35 @@ async_simple::coro::Lazy<int> ClientToLoginModule::findAndSaveUser(const std::st
 		updator->appendString(ACCOUNT_KEY_SDK_USER_ID, sdkUserId);
 		updator->appendInt32(ACCOUNT_KEY_SDK_CHANNEL_ID, channelId);
 		updator->appendString(ACCOUNT_KEY_PROFILE_ID, profileId);
-		MongoResultPtr saveResult = co_await m_thisServer->getModule<MongoModule>()->save(DB_NAME, COL_ACCOUNT, selector, updator);
+		MongoResultPtr saveResult = co_await m_thisServer->getModule<MongoModule>()->saveIfNotExist(DB_NAME, COL_ACCOUNT, selector, updator);
 		if (!saveResult->success)
 		{
 			LOG_ERROR(s_logCategory, "save user account failed:{}", saveResult->errorMsg);
 			co_return -4;
 		}
+		if (saveResult->foundResult.size() != 1)
+		{
+			LOG_ERROR(s_logCategory, "user account data error!, there are {} result!", saveResult->foundResult.size());
+			co_return -5;
+		}
+
+		profileId = saveResult->foundResult[0]->getString(ACCOUNT_KEY_PROFILE_ID);
+		if (profileId.empty())
+		{
+			LOG_ERROR(s_logCategory, "user profileid is empty! user:{}:{}:{}.", sdkUserId, sdkToken, channelId);
+			co_return -1;
+		}
+	}
+	else
+	{
+		profileId = result->foundResult[0]->getString(ACCOUNT_KEY_PROFILE_ID);
+		if (profileId.empty())
+		{
+			LOG_ERROR(s_logCategory, "user profileid is empty! user:{}:{}:{}.", sdkUserId, sdkToken, channelId);
+			co_return -1;
+		}
 	}
 
-	userAccountData = result->foundResult[0];
 	co_return 0;
 }
 
@@ -285,7 +296,7 @@ async_simple::coro::Lazy<int> ClientToLoginModule::getZoneServer(S2S::S2SZoneSer
 {
 	StringScoreVector zoneInfo;
 	bool success = co_await m_thisServer->getModule<RedisModule>()->ZRANGEWITHSCORE(RD_Z_ZONE_LOAD_KEY, 0, 0, zoneInfo);
-	if (!success || zoneInfo.empty() || zoneInfo.size() != 1)
+	if (!success || zoneInfo.empty())
 	{
 		LOG_ERROR(s_logCategory, "there no any zone server.");
 		co_return -1;

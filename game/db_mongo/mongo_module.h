@@ -41,7 +41,7 @@ public:
 	async_simple::coro::Lazy<MongoResultPtr> remove(const std::string& dbName, const std::string& collectionName, BsonObjectPtr selector);
 	async_simple::coro::Lazy<MongoResultPtr> save(const std::string& dbName, const std::string& collectionName, BsonObjectPtr selector, BsonObjectPtr updator);
 	async_simple::coro::Lazy<MongoResultPtr> find(const std::string& dbName, const std::string& collectionName, BsonObjectPtr selector, int limit = 0, int skip = 0);
-	async_simple::coro::Lazy<MongoResultPtr> SaveIfNotExist(const std::string& dbName, const std::string& collectionName, BsonObjectPtr selector, BsonObjectPtr updator);
+	async_simple::coro::Lazy<MongoResultPtr> saveIfNotExist(const std::string& dbName, const std::string& collectionName, BsonObjectPtr selector, BsonObjectPtr updator);
 
 private:
 	bool initMongo();

@@ -136,7 +136,7 @@ void testSaveIfNotExist(MongoModule& m)
 	std::string dbName = "zq";
 	std::string coName = "account";
 
-	m.SaveIfNotExist(dbName, coName, selector, updatetor).start([](async_simple::Try<MongoResultPtr> v) {
+	m.saveIfNotExist(dbName, coName, selector, updatetor).start([](async_simple::Try<MongoResultPtr> v) {
 		try
 		{
 			MongoResultPtr result = v.value();
