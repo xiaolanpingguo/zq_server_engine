@@ -5,7 +5,9 @@ How to Build:
 WIN(for development):
 
 Required: vs2022, cmake:https://cmake.org/download/
+
 build step:
+
 1: make thirdparty lib:
 	enter zq_server_engine\thirdparty, click make_all.bat, this will make all thirdparty 
 2: use cmake make project
@@ -17,6 +19,7 @@ build step:
 	
 	
 Linux:
+
 Required: use Ubuntu-22.04 or use any linux distribution above gcc-10 version
 
 1: install required dependence:
