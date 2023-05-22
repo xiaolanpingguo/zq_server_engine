@@ -59,9 +59,10 @@ private:
 	void onC2SClientLoginReq(TcpConnectionPtr connection, const C2S::C2SLoginReq& msg);
 	async_simple::coro::Lazy<void> processLogin(TcpConnectionPtr connection, const C2S::C2SLoginReq& msg);
 	async_simple::coro::Lazy<int> findUserSession(const std::string& sdkUserId, S2S::S2SPlayerSessionData& sessionData);
-	async_simple::coro::Lazy<int> createSeesion(const std::string& sdkUserId, const std::string& sdkToken, int channelId);
+	async_simple::coro::Lazy<int> createSeesion(const S2S::S2SPlayerSessionData& session, bool overWrite);
 	async_simple::coro::Lazy<int> findAndSaveUser(const std::string& sdkUserId, const std::string& sdkToken, int channelId, std::string& profileId);
-	async_simple::coro::Lazy<int> getZoneServer(S2S::S2SZoneServerData& serverData);
+	async_simple::coro::Lazy<int> getSuitableZoneServer(S2S::S2SZoneServerData& serverData);
+	async_simple::coro::Lazy<int> isZoneServerAailable(const std::string& appId);
 	async_simple::coro::Lazy<int> deleteSession(const std::string& sdkUserId);
 
 private:

@@ -87,7 +87,6 @@ async_simple::coro::Lazy<void> ClientToLoginModule::processLogin(TcpConnectionPt
 	C2S::C2SLoginRes res;
 
 	C2S::C2S_ERROR_CODE errorCode = C2S::EC_GENERRAL_ERROR;
-	bool needDeleteSession = true;
 	do 
 	{
 		if (sdkUserId.empty() || sdkToken.empty())
@@ -97,8 +96,8 @@ async_simple::coro::Lazy<void> ClientToLoginModule::processLogin(TcpConnectionPt
 		}
 
 		// check which of these zone servers has the least load
-		S2S::S2SZoneServerData serverData;
-		int r = co_await getZoneServer(serverData);
+		S2S::S2SZoneServerData availableServer;
+		int r = co_await getSuitableZoneServer(availableServer);
 		if (r != 0)
 		{
 			LOG_ERROR(s_logCategory, "get zone server failed, user:{}:{}:{}.", sdkUserId, sdkToken, channelId);
@@ -118,51 +117,61 @@ async_simple::coro::Lazy<void> ClientToLoginModule::processLogin(TcpConnectionPt
 
 		// check if the user is online
 		S2S::S2SPlayerSessionData sessionData;
+		sessionData.set_sdk_user_id(sdkUserId);
+		sessionData.set_sdk_token(sdkToken);
+		sessionData.set_channel_id(channelId);
+		sessionData.set_login_time(time(nullptr));
+
 		r = co_await findUserSession(sdkUserId, sessionData);
 		if (r == 0)
 		{
 			S2S::S2S_ONLINE_STATUS status = sessionData.online_status();
-			if (status == S2S::ONLINE)
+			std::string appId = sessionData.app_id();
+
+			// the user is online or is inprogress login, in case the zone server has crashed(user session has not be deleted),
+			// then check if the zone server is available
+			r = co_await isZoneServerAailable(appId);
+			if (r == 0)
 			{
 				// user has online, then return client zone ip and port
 				res.set_profile_id(sessionData.profile_id());
 				res.set_ip(sessionData.ip());
 				res.set_port(sessionData.port());
 				res.set_zone_token(sessionData.login_token());
-				errorCode = C2S::EC_SUCCESS;
-				break;
 			}
 			else
 			{
-				errorCode = C2S::EC_LOGIN_IN_PROGRESS;
+				// the zone server are not available, set a new zone server
+				sessionData.set_app_id(availableServer.app_id());
+				sessionData.set_ip(availableServer.ip());
+				sessionData.set_port(availableServer.port());
+
+				r = co_await createSeesion(sessionData, true);
+				if (r != 0)
+				{
+					LOG_ERROR(s_logCategory, "createNewSeesion1 failed, user:{}:{}:{}.", sdkUserId, sdkToken, channelId);
+					errorCode = C2S::EC_GENERRAL_ERROR;
+				}
+			}
+		}
+		else
+		{
+			r = co_await createSeesion(sessionData, false);
+			if (r != 0)
+			{
+				LOG_ERROR(s_logCategory, "createNewSeesion2 failed, user:{}:{}:{}.", sdkUserId, sdkToken, channelId);
+				errorCode = C2S::EC_GENERRAL_ERROR;
 				break;
 			}
-		}
 
-		r = co_await createSeesion(sdkUserId, sdkToken, channelId);
-		if (r != 0)
-		{
-			if (r == -2)
-			{
-				needDeleteSession = false;
-			}
-			LOG_ERROR(s_logCategory, "createNewSeesion failed, user:{}:{}:{}.", sdkUserId, sdkToken, channelId);
-			errorCode = C2S::EC_GENERRAL_ERROR;
-			break;
+			res.set_profile_id(profileId);
+			res.set_ip(availableServer.ip());
+			res.set_port(availableServer.port());
+			res.set_zone_token(sessionData.login_token());
 		}
-
-		res.set_profile_id(profileId);
-		res.set_ip(serverData.ip());
-		res.set_port(serverData.port());
-		res.set_zone_token(sessionData.login_token());
 
 		errorCode = C2S::EC_SUCCESS;
 	} while (0);
-
-	if (needDeleteSession && errorCode != C2S::EC_SUCCESS)
-	{
-		co_await deleteSession(sdkUserId);
-	}
 
 	res.set_error_code(errorCode);
 	std::string strRes;
@@ -196,33 +205,40 @@ async_simple::coro::Lazy<int> ClientToLoginModule::findUserSession(const std::st
 	co_return 0;
 }
 
-async_simple::coro::Lazy<int> ClientToLoginModule::createSeesion(const std::string& sdkUserId, const std::string& sdkToken, int channelId)
+async_simple::coro::Lazy<int> ClientToLoginModule::createSeesion(const S2S::S2SPlayerSessionData& session, bool overWrite)
 {
-	if (sdkUserId.empty() || sdkToken.empty())
+	if (session.sdk_user_id().empty() || session.sdk_token().empty())
 	{
 		co_return -1;
 	}
 
 	std::string strPb;
-	S2S::S2SPlayerSessionData session;
-	session.set_sdk_user_id(sdkUserId);
-	session.set_sdk_token(sdkToken);
-	session.set_channel_id(channelId);
-	session.set_login_time(time(nullptr));
-	session.set_online_status(S2S::WAITTING_TO_LOGIN_ZONE);
 	if (!session.SerializeToString(&strPb))
 	{
 		LOG_ERROR(s_logCategory, "SerializeToString error!");
 		co_return -1;
 	}
 
-	bool success = co_await m_thisServer->getModule<RedisModule>()->SETNX(RD_USER_SESSION_KEY(sdkUserId), strPb);
-	if (!success)
+	bool success = false;
+	if (overWrite)
 	{
-		// very unlikely to fail, because we have check it before by Redis GET
-		// if failed, the client may have logged in to different login servers at the same time
-		LOG_WARN(s_logCategory, "client try to logged in to different login servers at the same time.")
-		co_return -2;
+		success = co_await m_thisServer->getModule<RedisModule>()->SET(RD_USER_SESSION_KEY(session.sdk_user_id()), strPb);
+		if (!success)
+		{
+			LOG_ERROR(s_logCategory, "set session data failed.")
+			co_return -1;
+		}
+	}
+	else
+	{
+		success = co_await m_thisServer->getModule<RedisModule>()->SETNX(RD_USER_SESSION_KEY(session.sdk_user_id()), strPb);
+		if (!success)
+		{
+			// very unlikely to fail, because we have check it before by Redis GET
+			// if failed, the client may have logged in to different login servers at the same time
+			LOG_WARN(s_logCategory, "client try to logged in to different login servers at the same time.")
+			co_return -2;
+		}
 	}
 
 	co_return 0;
@@ -292,7 +308,7 @@ async_simple::coro::Lazy<int> ClientToLoginModule::findAndSaveUser(const std::st
 	co_return 0;
 }
 
-async_simple::coro::Lazy<int> ClientToLoginModule::getZoneServer(S2S::S2SZoneServerData& serverData)
+async_simple::coro::Lazy<int> ClientToLoginModule::getSuitableZoneServer(S2S::S2SZoneServerData& serverData)
 {
 	StringScoreVector zoneInfo;
 	bool success = co_await m_thisServer->getModule<RedisModule>()->ZRANGEWITHSCORE(RD_Z_ZONE_LOAD_KEY, 0, 0, zoneInfo);
@@ -311,6 +327,20 @@ async_simple::coro::Lazy<int> ClientToLoginModule::getZoneServer(S2S::S2SZoneSer
 	if (!serverData.ParseFromString(zoneInfo[0].first))
 	{
 		co_return -3;
+	}
+
+	co_return 0;
+}
+
+async_simple::coro::Lazy<int> ClientToLoginModule::isZoneServerAailable(const std::string& appId)
+{
+	StringScoreVector zoneInfo;
+	double score;
+	bool success = co_await m_thisServer->getModule<RedisModule>()->ZSCORE(RD_Z_ZONE_LOAD_KEY, appId, score);
+	if (!success)
+	{
+		LOG_WARN(s_logCategory, "there zone server is not availeble, appid:{}.", appId);
+		co_return -1;
 	}
 
 	co_return 0;
