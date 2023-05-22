@@ -76,12 +76,12 @@ bool ServerBase::start()
 	
 	if (!success)
 	{
-		LOG_INFO(s_logCategory, "server:{}, appId:{} start failed!", getName(), getStrAppId());
+		LOG_INFO(s_logCategory, "server:{}, appId:{} start failed!", getName(), getAppIdStr());
 		stop();
 		return false;
 	}
 
-	LOG_INFO(s_logCategory, "server:{}, appId:{} start success!", getName(), getStrAppId());
+	LOG_INFO(s_logCategory, "server:{}, appId:{} start success!", getName(), getAppIdStr());
 	return true;
 }
 
@@ -125,7 +125,7 @@ bool ServerBase::cancelTimer(uint64_t id)
 
 bool ServerBase::initLog()
 {
-	std::string name = std::string(getName()) + "-" + getStrAppId();
+	std::string name = std::string(getName()) + "-" + getAppIdStr();
 	if (!Log::getInstance().init(name, 1024 * 1024 *8))
 	{
 		return false;
@@ -136,9 +136,9 @@ bool ServerBase::initLog()
 
 bool ServerBase::checkAppid()
 {
-	if (!m_appId.init(getStrAppId()))
+	if (!m_appId.init(getAppIdStr()))
 	{
-		printf("Appid failed:%s, please check your appid!\n", getStrAppId().c_str());
+		printf("Appid failed:%s, please check your appid!\n", getAppIdStr().c_str());
 		return false;
 	}
 
@@ -149,7 +149,7 @@ bool ServerBase::initGid()
 {
 	if (!Gid::initialize(m_appId))
 	{
-		printf("initialize Gid failed:%s, please check your appid!\n", getStrAppId().c_str());
+		printf("initialize Gid failed:%s, please check your appid!\n", getAppIdStr().c_str());
 		return false;
 	}
 

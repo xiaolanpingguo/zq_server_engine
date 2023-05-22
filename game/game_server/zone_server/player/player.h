@@ -7,6 +7,7 @@
 namespace zq {
 
 
+class TcpConnection;
 class Player
 {
 public:
@@ -34,11 +35,15 @@ public:
 		return (T*)(it->second);
 	}
 
-	bool loadFromDB(const S2S::DBPlayer& playerDBData);
-	bool saveToDB(S2S::DBPlayer& playerDBData);
+	bool loadFromDB(const S2S::DBPlayerData& playerDBData);
+	bool saveToDB(S2S::DBPlayerData& playerDBData);
+
+	std::shared_ptr<TcpConnection> getConnection();
+	void setConnection(std::shared_ptr<TcpConnection> conn);
 
 public:
 
+	std::shared_ptr<TcpConnection> m_conection;
 	std::unordered_map<std::string, IPlayerModule*> m_playerModules;
 
 	constexpr static std::string_view s_logCategory = "Player";

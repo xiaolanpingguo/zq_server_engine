@@ -21,19 +21,19 @@ namespace _pb = ::PROTOBUF_NAMESPACE_ID;
 namespace _pbi = _pb::internal;
 
 namespace S2S {
-PROTOBUF_CONSTEXPR DBPlayer::DBPlayer(
+PROTOBUF_CONSTEXPR DBPlayerData::DBPlayerData(
     ::_pbi::ConstantInitialized): _impl_{
     /*decltype(_impl_.player_base_info_)*/nullptr
   , /*decltype(_impl_._cached_size_)*/{}} {}
-struct DBPlayerDefaultTypeInternal {
-  PROTOBUF_CONSTEXPR DBPlayerDefaultTypeInternal()
+struct DBPlayerDataDefaultTypeInternal {
+  PROTOBUF_CONSTEXPR DBPlayerDataDefaultTypeInternal()
       : _instance(::_pbi::ConstantInitialized{}) {}
-  ~DBPlayerDefaultTypeInternal() {}
+  ~DBPlayerDataDefaultTypeInternal() {}
   union {
-    DBPlayer _instance;
+    DBPlayerData _instance;
   };
 };
-PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 DBPlayerDefaultTypeInternal _DBPlayer_default_instance_;
+PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 DBPlayerDataDefaultTypeInternal _DBPlayerData_default_instance_;
 PROTOBUF_CONSTEXPR DBPlayerBaseInfo::DBPlayerBaseInfo(
     ::_pbi::ConstantInitialized): _impl_{
     /*decltype(_impl_.nickname_)*/{&::_pbi::fixed_address_empty_string, ::_pbi::ConstantInitialized{}}
@@ -57,12 +57,12 @@ static constexpr ::_pb::ServiceDescriptor const** file_level_service_descriptors
 
 const uint32_t TableStruct_db_5fplayer_2eproto::offsets[] PROTOBUF_SECTION_VARIABLE(protodesc_cold) = {
   ~0u,  // no _has_bits_
-  PROTOBUF_FIELD_OFFSET(::S2S::DBPlayer, _internal_metadata_),
+  PROTOBUF_FIELD_OFFSET(::S2S::DBPlayerData, _internal_metadata_),
   ~0u,  // no _extensions_
   ~0u,  // no _oneof_case_
   ~0u,  // no _weak_field_map_
   ~0u,  // no _inlined_string_donated_
-  PROTOBUF_FIELD_OFFSET(::S2S::DBPlayer, _impl_.player_base_info_),
+  PROTOBUF_FIELD_OFFSET(::S2S::DBPlayerData, _impl_.player_base_info_),
   ~0u,  // no _has_bits_
   PROTOBUF_FIELD_OFFSET(::S2S::DBPlayerBaseInfo, _internal_metadata_),
   ~0u,  // no _extensions_
@@ -75,25 +75,25 @@ const uint32_t TableStruct_db_5fplayer_2eproto::offsets[] PROTOBUF_SECTION_VARIA
   PROTOBUF_FIELD_OFFSET(::S2S::DBPlayerBaseInfo, _impl_.ip_),
 };
 static const ::_pbi::MigrationSchema schemas[] PROTOBUF_SECTION_VARIABLE(protodesc_cold) = {
-  { 0, -1, -1, sizeof(::S2S::DBPlayer)},
+  { 0, -1, -1, sizeof(::S2S::DBPlayerData)},
   { 7, -1, -1, sizeof(::S2S::DBPlayerBaseInfo)},
 };
 
 static const ::_pb::Message* const file_default_instances[] = {
-  &::S2S::_DBPlayer_default_instance_._instance,
+  &::S2S::_DBPlayerData_default_instance_._instance,
   &::S2S::_DBPlayerBaseInfo_default_instance_._instance,
 };
 
 const char descriptor_table_protodef_db_5fplayer_2eproto[] PROTOBUF_SECTION_VARIABLE(protodesc_cold) =
-  "\n\017db_player.proto\022\003S2S\";\n\010DBPlayer\022/\n\020pl"
-  "ayer_base_info\030\001 \001(\0132\025.S2S.DBPlayerBaseI"
-  "nfo\"M\n\020DBPlayerBaseInfo\022\013\n\003uid\030\001 \001(\003\022\016\n\006"
-  "openid\030\002 \001(\003\022\020\n\010nickname\030\003 \001(\t\022\n\n\002ip\030\004 \001"
-  "(\tb\006proto3"
+  "\n\017db_player.proto\022\003S2S\"\?\n\014DBPlayerData\022/"
+  "\n\020player_base_info\030\001 \001(\0132\025.S2S.DBPlayerB"
+  "aseInfo\"M\n\020DBPlayerBaseInfo\022\013\n\003uid\030\001 \001(\003"
+  "\022\016\n\006openid\030\002 \001(\003\022\020\n\010nickname\030\003 \001(\t\022\n\n\002ip"
+  "\030\004 \001(\tb\006proto3"
   ;
 static ::_pbi::once_flag descriptor_table_db_5fplayer_2eproto_once;
 const ::_pbi::DescriptorTable descriptor_table_db_5fplayer_2eproto = {
-    false, false, 170, descriptor_table_protodef_db_5fplayer_2eproto,
+    false, false, 174, descriptor_table_protodef_db_5fplayer_2eproto,
     "db_player.proto",
     &descriptor_table_db_5fplayer_2eproto_once, nullptr, 0, 2,
     schemas, file_default_instances, TableStruct_db_5fplayer_2eproto::offsets,
@@ -110,24 +110,24 @@ namespace S2S {
 
 // ===================================================================
 
-class DBPlayer::_Internal {
+class DBPlayerData::_Internal {
  public:
-  static const ::S2S::DBPlayerBaseInfo& player_base_info(const DBPlayer* msg);
+  static const ::S2S::DBPlayerBaseInfo& player_base_info(const DBPlayerData* msg);
 };
 
 const ::S2S::DBPlayerBaseInfo&
-DBPlayer::_Internal::player_base_info(const DBPlayer* msg) {
+DBPlayerData::_Internal::player_base_info(const DBPlayerData* msg) {
   return *msg->_impl_.player_base_info_;
 }
-DBPlayer::DBPlayer(::PROTOBUF_NAMESPACE_ID::Arena* arena,
+DBPlayerData::DBPlayerData(::PROTOBUF_NAMESPACE_ID::Arena* arena,
                          bool is_message_owned)
   : ::PROTOBUF_NAMESPACE_ID::Message(arena, is_message_owned) {
   SharedCtor(arena, is_message_owned);
-  // @@protoc_insertion_point(arena_constructor:S2S.DBPlayer)
+  // @@protoc_insertion_point(arena_constructor:S2S.DBPlayerData)
 }
-DBPlayer::DBPlayer(const DBPlayer& from)
+DBPlayerData::DBPlayerData(const DBPlayerData& from)
   : ::PROTOBUF_NAMESPACE_ID::Message() {
-  DBPlayer* const _this = this; (void)_this;
+  DBPlayerData* const _this = this; (void)_this;
   new (&_impl_) Impl_{
       decltype(_impl_.player_base_info_){nullptr}
     , /*decltype(_impl_._cached_size_)*/{}};
@@ -136,10 +136,10 @@ DBPlayer::DBPlayer(const DBPlayer& from)
   if (from._internal_has_player_base_info()) {
     _this->_impl_.player_base_info_ = new ::S2S::DBPlayerBaseInfo(*from._impl_.player_base_info_);
   }
-  // @@protoc_insertion_point(copy_constructor:S2S.DBPlayer)
+  // @@protoc_insertion_point(copy_constructor:S2S.DBPlayerData)
 }
 
-inline void DBPlayer::SharedCtor(
+inline void DBPlayerData::SharedCtor(
     ::_pb::Arena* arena, bool is_message_owned) {
   (void)arena;
   (void)is_message_owned;
@@ -149,8 +149,8 @@ inline void DBPlayer::SharedCtor(
   };
 }
 
-DBPlayer::~DBPlayer() {
-  // @@protoc_insertion_point(destructor:S2S.DBPlayer)
+DBPlayerData::~DBPlayerData() {
+  // @@protoc_insertion_point(destructor:S2S.DBPlayerData)
   if (auto *arena = _internal_metadata_.DeleteReturnArena<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>()) {
   (void)arena;
     return;
@@ -158,17 +158,17 @@ DBPlayer::~DBPlayer() {
   SharedDtor();
 }
 
-inline void DBPlayer::SharedDtor() {
+inline void DBPlayerData::SharedDtor() {
   GOOGLE_DCHECK(GetArenaForAllocation() == nullptr);
   if (this != internal_default_instance()) delete _impl_.player_base_info_;
 }
 
-void DBPlayer::SetCachedSize(int size) const {
+void DBPlayerData::SetCachedSize(int size) const {
   _impl_._cached_size_.Set(size);
 }
 
-void DBPlayer::Clear() {
-// @@protoc_insertion_point(message_clear_start:S2S.DBPlayer)
+void DBPlayerData::Clear() {
+// @@protoc_insertion_point(message_clear_start:S2S.DBPlayerData)
   uint32_t cached_has_bits = 0;
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
@@ -180,7 +180,7 @@ void DBPlayer::Clear() {
   _internal_metadata_.Clear<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
 }
 
-const char* DBPlayer::_InternalParse(const char* ptr, ::_pbi::ParseContext* ctx) {
+const char* DBPlayerData::_InternalParse(const char* ptr, ::_pbi::ParseContext* ctx) {
 #define CHK_(x) if (PROTOBUF_PREDICT_FALSE(!(x))) goto failure
   while (!ctx->Done(&ptr)) {
     uint32_t tag;
@@ -217,9 +217,9 @@ failure:
 #undef CHK_
 }
 
-uint8_t* DBPlayer::_InternalSerialize(
+uint8_t* DBPlayerData::_InternalSerialize(
     uint8_t* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const {
-  // @@protoc_insertion_point(serialize_to_array_start:S2S.DBPlayer)
+  // @@protoc_insertion_point(serialize_to_array_start:S2S.DBPlayerData)
   uint32_t cached_has_bits = 0;
   (void) cached_has_bits;
 
@@ -234,12 +234,12 @@ uint8_t* DBPlayer::_InternalSerialize(
     target = ::_pbi::WireFormat::InternalSerializeUnknownFieldsToArray(
         _internal_metadata_.unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(::PROTOBUF_NAMESPACE_ID::UnknownFieldSet::default_instance), target, stream);
   }
-  // @@protoc_insertion_point(serialize_to_array_end:S2S.DBPlayer)
+  // @@protoc_insertion_point(serialize_to_array_end:S2S.DBPlayerData)
   return target;
 }
 
-size_t DBPlayer::ByteSizeLong() const {
-// @@protoc_insertion_point(message_byte_size_start:S2S.DBPlayer)
+size_t DBPlayerData::ByteSizeLong() const {
+// @@protoc_insertion_point(message_byte_size_start:S2S.DBPlayerData)
   size_t total_size = 0;
 
   uint32_t cached_has_bits = 0;
@@ -256,17 +256,17 @@ size_t DBPlayer::ByteSizeLong() const {
   return MaybeComputeUnknownFieldsSize(total_size, &_impl_._cached_size_);
 }
 
-const ::PROTOBUF_NAMESPACE_ID::Message::ClassData DBPlayer::_class_data_ = {
+const ::PROTOBUF_NAMESPACE_ID::Message::ClassData DBPlayerData::_class_data_ = {
     ::PROTOBUF_NAMESPACE_ID::Message::CopyWithSourceCheck,
-    DBPlayer::MergeImpl
+    DBPlayerData::MergeImpl
 };
-const ::PROTOBUF_NAMESPACE_ID::Message::ClassData*DBPlayer::GetClassData() const { return &_class_data_; }
+const ::PROTOBUF_NAMESPACE_ID::Message::ClassData*DBPlayerData::GetClassData() const { return &_class_data_; }
 
 
-void DBPlayer::MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const ::PROTOBUF_NAMESPACE_ID::Message& from_msg) {
-  auto* const _this = static_cast<DBPlayer*>(&to_msg);
-  auto& from = static_cast<const DBPlayer&>(from_msg);
-  // @@protoc_insertion_point(class_specific_merge_from_start:S2S.DBPlayer)
+void DBPlayerData::MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const ::PROTOBUF_NAMESPACE_ID::Message& from_msg) {
+  auto* const _this = static_cast<DBPlayerData*>(&to_msg);
+  auto& from = static_cast<const DBPlayerData&>(from_msg);
+  // @@protoc_insertion_point(class_specific_merge_from_start:S2S.DBPlayerData)
   GOOGLE_DCHECK_NE(&from, _this);
   uint32_t cached_has_bits = 0;
   (void) cached_has_bits;
@@ -278,24 +278,24 @@ void DBPlayer::MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const ::PROTO
   _this->_internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
 }
 
-void DBPlayer::CopyFrom(const DBPlayer& from) {
-// @@protoc_insertion_point(class_specific_copy_from_start:S2S.DBPlayer)
+void DBPlayerData::CopyFrom(const DBPlayerData& from) {
+// @@protoc_insertion_point(class_specific_copy_from_start:S2S.DBPlayerData)
   if (&from == this) return;
   Clear();
   MergeFrom(from);
 }
 
-bool DBPlayer::IsInitialized() const {
+bool DBPlayerData::IsInitialized() const {
   return true;
 }
 
-void DBPlayer::InternalSwap(DBPlayer* other) {
+void DBPlayerData::InternalSwap(DBPlayerData* other) {
   using std::swap;
   _internal_metadata_.InternalSwap(&other->_internal_metadata_);
   swap(_impl_.player_base_info_, other->_impl_.player_base_info_);
 }
 
-::PROTOBUF_NAMESPACE_ID::Metadata DBPlayer::GetMetadata() const {
+::PROTOBUF_NAMESPACE_ID::Metadata DBPlayerData::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_db_5fplayer_2eproto_getter, &descriptor_table_db_5fplayer_2eproto_once,
       file_level_metadata_db_5fplayer_2eproto[0]);
@@ -617,9 +617,9 @@ void DBPlayerBaseInfo::InternalSwap(DBPlayerBaseInfo* other) {
 // @@protoc_insertion_point(namespace_scope)
 }  // namespace S2S
 PROTOBUF_NAMESPACE_OPEN
-template<> PROTOBUF_NOINLINE ::S2S::DBPlayer*
-Arena::CreateMaybeMessage< ::S2S::DBPlayer >(Arena* arena) {
-  return Arena::CreateMessageInternal< ::S2S::DBPlayer >(arena);
+template<> PROTOBUF_NOINLINE ::S2S::DBPlayerData*
+Arena::CreateMaybeMessage< ::S2S::DBPlayerData >(Arena* arena) {
+  return Arena::CreateMessageInternal< ::S2S::DBPlayerData >(arena);
 }
 template<> PROTOBUF_NOINLINE ::S2S::DBPlayerBaseInfo*
 Arena::CreateMaybeMessage< ::S2S::DBPlayerBaseInfo >(Arena* arena) {

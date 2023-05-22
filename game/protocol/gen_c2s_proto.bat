@@ -3,6 +3,7 @@
 cd c2s
 
 ..\protoc.exe --cpp_out=./ c2s_common.proto
+..\protoc.exe --cpp_out=./ c2s_login.proto
 
 cd..
 

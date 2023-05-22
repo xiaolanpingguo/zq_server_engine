@@ -16,8 +16,8 @@ public:
 	PlayerBaseInfoModule(Player& player);
 	~PlayerBaseInfoModule();
 
-	bool loadFromDB(const S2S::DBPlayer& playerDBData) override;
-	bool saveToDB(S2S::DBPlayer& playerDBData) override;
+	bool loadFromDB(const S2S::DBPlayerData& playerDBData) override;
+	bool saveToDB(S2S::DBPlayerData& playerDBData) override;
 
 public:
 

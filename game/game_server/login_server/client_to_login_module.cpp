@@ -11,9 +11,6 @@
 namespace zq{
 
 
-#define CMD_LOGIN_2_DB_FIND_ACCOUNT_REQ 1
-#define CMD_LOGIN_2_DB_INSERT_ACCOUNT_REQ 2
-
 ClientToLoginModule::ClientToLoginModule(LoginServer* thisServer)
 	:
 		m_thisServer(thisServer)
@@ -117,12 +114,7 @@ async_simple::coro::Lazy<void> ClientToLoginModule::processLogin(TcpConnectionPt
 
 		// check if the user is online
 		S2S::S2SPlayerSessionData sessionData;
-		sessionData.set_sdk_user_id(sdkUserId);
-		sessionData.set_sdk_token(sdkToken);
-		sessionData.set_channel_id(channelId);
-		sessionData.set_login_time(time(nullptr));
-
-		r = co_await findUserSession(sdkUserId, sessionData);
+		r = co_await findUserSession(profileId, sessionData);
 		if (r == 0)
 		{
 			S2S::S2S_ONLINE_STATUS status = sessionData.online_status();
@@ -137,7 +129,6 @@ async_simple::coro::Lazy<void> ClientToLoginModule::processLogin(TcpConnectionPt
 				res.set_profile_id(sessionData.profile_id());
 				res.set_ip(sessionData.ip());
 				res.set_port(sessionData.port());
-				res.set_zone_token(sessionData.login_token());
 			}
 			else
 			{
@@ -145,17 +136,24 @@ async_simple::coro::Lazy<void> ClientToLoginModule::processLogin(TcpConnectionPt
 				sessionData.set_app_id(availableServer.app_id());
 				sessionData.set_ip(availableServer.ip());
 				sessionData.set_port(availableServer.port());
-
 				r = co_await createSeesion(sessionData, true);
 				if (r != 0)
 				{
-					LOG_ERROR(s_logCategory, "createNewSeesion1 failed, user:{}:{}:{}.", sdkUserId, sdkToken, channelId);
+					LOG_ERROR(s_logCategory, "createNewSeesion1 failed, user:{}:{}:{}:{}.", sdkUserId, sdkToken, channelId, profileId);
 					errorCode = C2S::EC_GENERRAL_ERROR;
 				}
 			}
 		}
 		else
 		{
+			sessionData.set_sdk_user_id(sdkUserId);
+			sessionData.set_sdk_token(sdkToken);
+			sessionData.set_channel_id(channelId);
+			sessionData.set_profile_id(profileId);
+			sessionData.set_login_time(time(nullptr));
+			sessionData.set_app_id(availableServer.app_id());
+			sessionData.set_ip(availableServer.ip());
+			sessionData.set_port(availableServer.port());
 			r = co_await createSeesion(sessionData, false);
 			if (r != 0)
 			{
@@ -167,7 +165,6 @@ async_simple::coro::Lazy<void> ClientToLoginModule::processLogin(TcpConnectionPt
 			res.set_profile_id(profileId);
 			res.set_ip(availableServer.ip());
 			res.set_port(availableServer.port());
-			res.set_zone_token(sessionData.login_token());
 		}
 
 		errorCode = C2S::EC_SUCCESS;
@@ -185,10 +182,10 @@ async_simple::coro::Lazy<void> ClientToLoginModule::processLogin(TcpConnectionPt
 	connection->delayClose();
 }
 
-async_simple::coro::Lazy<int> ClientToLoginModule::findUserSession(const std::string& sdkUserId, S2S::S2SPlayerSessionData& sessionData)
+async_simple::coro::Lazy<int> ClientToLoginModule::findUserSession(const std::string& profileId, S2S::S2SPlayerSessionData& sessionData)
 {
 	std::string strPb;
-	bool success = co_await m_thisServer->getModule<RedisModule>()->GET(RD_USER_SESSION_KEY(sdkUserId), strPb);
+	bool success = co_await m_thisServer->getModule<RedisModule>()->GET(RD_USER_SESSION_KEY(profileId), strPb);
 	if (!success)
 	{
 		co_return -1;
@@ -205,9 +202,9 @@ async_simple::coro::Lazy<int> ClientToLoginModule::findUserSession(const std::st
 	co_return 0;
 }
 
-async_simple::coro::Lazy<int> ClientToLoginModule::createSeesion(const S2S::S2SPlayerSessionData& session, bool overWrite)
+async_simple::coro::Lazy<int> ClientToLoginModule::createSeesion(const S2S::S2SPlayerSessionData& session, bool overwrite)
 {
-	if (session.sdk_user_id().empty() || session.sdk_token().empty())
+	if (session.profile_id().empty() || session.sdk_user_id().empty() || session.sdk_token().empty())
 	{
 		co_return -1;
 	}
@@ -220,9 +217,9 @@ async_simple::coro::Lazy<int> ClientToLoginModule::createSeesion(const S2S::S2SP
 	}
 
 	bool success = false;
-	if (overWrite)
+	if (overwrite)
 	{
-		success = co_await m_thisServer->getModule<RedisModule>()->SET(RD_USER_SESSION_KEY(session.sdk_user_id()), strPb);
+		success = co_await m_thisServer->getModule<RedisModule>()->SET(RD_USER_SESSION_KEY(session.profile_id()), strPb);
 		if (!success)
 		{
 			LOG_ERROR(s_logCategory, "set session data failed.")
@@ -231,7 +228,7 @@ async_simple::coro::Lazy<int> ClientToLoginModule::createSeesion(const S2S::S2SP
 	}
 	else
 	{
-		success = co_await m_thisServer->getModule<RedisModule>()->SETNX(RD_USER_SESSION_KEY(session.sdk_user_id()), strPb);
+		success = co_await m_thisServer->getModule<RedisModule>()->SETNX(RD_USER_SESSION_KEY(session.profile_id()), strPb);
 		if (!success)
 		{
 			// very unlikely to fail, because we have check it before by Redis GET
@@ -269,13 +266,13 @@ async_simple::coro::Lazy<int> ClientToLoginModule::findAndSaveUser(const std::st
 	// we got a new user, save this account data
 	if (result->foundResult.empty())
 	{
-		std::string profileId = Gid::genGid();
+		std::string newProfileId = Gid::genGid();
 		BsonObjectPtr selector = std::make_shared<BsonObject>();
 		selector->appendString(ACCOUNT_KEY_SDK_USER_ID, sdkUserId);
 		BsonObjectPtr updator = std::make_shared<BsonObject>();
 		updator->appendString(ACCOUNT_KEY_SDK_USER_ID, sdkUserId);
 		updator->appendInt32(ACCOUNT_KEY_SDK_CHANNEL_ID, channelId);
-		updator->appendString(ACCOUNT_KEY_PROFILE_ID, profileId);
+		updator->appendString(ACCOUNT_KEY_PROFILE_ID, newProfileId);
 		MongoResultPtr saveResult = co_await m_thisServer->getModule<MongoModule>()->saveIfNotExist(DB_NAME, COL_ACCOUNT, selector, updator);
 		if (!saveResult->success)
 		{
@@ -289,9 +286,9 @@ async_simple::coro::Lazy<int> ClientToLoginModule::findAndSaveUser(const std::st
 		}
 
 		profileId = saveResult->foundResult[0]->getString(ACCOUNT_KEY_PROFILE_ID);
-		if (profileId.empty())
+		if (profileId.empty() || profileId != newProfileId)
 		{
-			LOG_ERROR(s_logCategory, "user profileid is empty! user:{}:{}:{}.", sdkUserId, sdkToken, channelId);
+			LOG_ERROR(s_logCategory, "user profileid is empty! user:{}:{}:{}:{}:{}", sdkUserId, sdkToken, channelId, profileId, newProfileId);
 			co_return -1;
 		}
 	}
@@ -346,28 +343,18 @@ async_simple::coro::Lazy<int> ClientToLoginModule::isZoneServerAailable(const st
 	co_return 0;
 }
 
-async_simple::coro::Lazy<int> ClientToLoginModule::deleteSession(const std::string& sdkUserId)
+async_simple::coro::Lazy<int> ClientToLoginModule::deleteSession(const std::string& profileId)
 {
-	int num = co_await m_thisServer->getModule<RedisModule>()->DEL(RD_USER_SESSION_KEY(sdkUserId));
+	int num = co_await m_thisServer->getModule<RedisModule>()->DEL(RD_USER_SESSION_KEY(profileId));
 	if (num == 0)
 	{
-		LOG_ERROR(s_logCategory, "deleteSession failed:{}.", sdkUserId);
+		LOG_ERROR(s_logCategory, "deleteSession failed:{}.", profileId);
 		co_return -1;
 	}
 
 	co_return 0;
 }
 
-std::shared_ptr<Session> ClientToLoginModule::findSession(const std::string& sdkUserId)
-{
-	auto it = m_sessions.find(sdkUserId);
-	if (it != m_sessions.end())
-	{
-		return it->second;
-	}
-
-	return nullptr;
-}
 
 
 }

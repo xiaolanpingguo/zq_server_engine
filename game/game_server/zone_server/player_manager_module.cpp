@@ -24,13 +24,24 @@ PlayerManagerModule::~PlayerManagerModule()
 	}
 }
 
+Player* PlayerManagerModule::findPlayer(std::string profileId)
+{
+	auto it = m_players.find(profileId);
+	if (it != m_players.end())
+	{
+		return it->second;
+	}
+
+	return nullptr;
+}
+
 bool PlayerManagerModule::saveToDB()
 {
 	for (const auto& it : m_players)
 	{
 		BsonObject bsonObj;
 
-		S2S::DBPlayer playerDBData;
+		S2S::DBPlayerData playerDBData;
 		if (!it.second->saveToDB(playerDBData))
 		{
 			LOG_ERROR(s_logCategory, "save player db data error:");

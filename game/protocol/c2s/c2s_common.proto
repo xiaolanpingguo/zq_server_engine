@@ -25,7 +25,10 @@ enum C2S_ERROR_CODE
 	EC_SERVER_NOT_READY = 103;
 	EC_INVALID_PARAMETER = 104;
 	EC_SERVER_BUSY = 105;
+	
+	// login
 	EC_LOGIN_IN_PROGRESS = 106;
+	EC_LOGIN_SESSION_HAS_EXPIRED = 107;
 }
 
 
@@ -33,35 +36,6 @@ message C2SHeartBeat
 {
 	int32 state = 1;
 }
-
-message C2SLoginReq
-{
-	string sdk_user_id = 1;
-	string sdk_token = 2;
-	int32 channel_id = 3;
-}
-
-message C2SLoginRes
-{
-	int32 error_code = 1;
-	string zone_token = 2;
-	string ip = 3;
-	int32 port = 4;
-	string profile_id = 5;
-}
-
-
-message C2SLoginZoneReq
-{
-	string user_id = 1;
-	string zone_token = 2;
-}
-
-message C2SLoginZoneRes
-{
-	C2S_ERROR_CODE error_code = 1;
-}
-
 
 
 

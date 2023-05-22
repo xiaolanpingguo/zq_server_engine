@@ -45,39 +45,39 @@ struct TableStruct_db_5fplayer_2eproto {
 };
 extern const ::PROTOBUF_NAMESPACE_ID::internal::DescriptorTable descriptor_table_db_5fplayer_2eproto;
 namespace S2S {
-class DBPlayer;
-struct DBPlayerDefaultTypeInternal;
-extern DBPlayerDefaultTypeInternal _DBPlayer_default_instance_;
 class DBPlayerBaseInfo;
 struct DBPlayerBaseInfoDefaultTypeInternal;
 extern DBPlayerBaseInfoDefaultTypeInternal _DBPlayerBaseInfo_default_instance_;
+class DBPlayerData;
+struct DBPlayerDataDefaultTypeInternal;
+extern DBPlayerDataDefaultTypeInternal _DBPlayerData_default_instance_;
 }  // namespace S2S
 PROTOBUF_NAMESPACE_OPEN
-template<> ::S2S::DBPlayer* Arena::CreateMaybeMessage<::S2S::DBPlayer>(Arena*);
 template<> ::S2S::DBPlayerBaseInfo* Arena::CreateMaybeMessage<::S2S::DBPlayerBaseInfo>(Arena*);
+template<> ::S2S::DBPlayerData* Arena::CreateMaybeMessage<::S2S::DBPlayerData>(Arena*);
 PROTOBUF_NAMESPACE_CLOSE
 namespace S2S {
 
 // ===================================================================
 
-class DBPlayer final :
-    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:S2S.DBPlayer) */ {
+class DBPlayerData final :
+    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:S2S.DBPlayerData) */ {
  public:
-  inline DBPlayer() : DBPlayer(nullptr) {}
-  ~DBPlayer() override;
-  explicit PROTOBUF_CONSTEXPR DBPlayer(::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized);
+  inline DBPlayerData() : DBPlayerData(nullptr) {}
+  ~DBPlayerData() override;
+  explicit PROTOBUF_CONSTEXPR DBPlayerData(::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized);
 
-  DBPlayer(const DBPlayer& from);
-  DBPlayer(DBPlayer&& from) noexcept
-    : DBPlayer() {
+  DBPlayerData(const DBPlayerData& from);
+  DBPlayerData(DBPlayerData&& from) noexcept
+    : DBPlayerData() {
     *this = ::std::move(from);
   }
 
-  inline DBPlayer& operator=(const DBPlayer& from) {
+  inline DBPlayerData& operator=(const DBPlayerData& from) {
     CopyFrom(from);
     return *this;
   }
-  inline DBPlayer& operator=(DBPlayer&& from) noexcept {
+  inline DBPlayerData& operator=(DBPlayerData&& from) noexcept {
     if (this == &from) return *this;
     if (GetOwningArena() == from.GetOwningArena()
   #ifdef PROTOBUF_FORCE_COPY_IN_MOVE
@@ -100,20 +100,20 @@ class DBPlayer final :
   static const ::PROTOBUF_NAMESPACE_ID::Reflection* GetReflection() {
     return default_instance().GetMetadata().reflection;
   }
-  static const DBPlayer& default_instance() {
+  static const DBPlayerData& default_instance() {
     return *internal_default_instance();
   }
-  static inline const DBPlayer* internal_default_instance() {
-    return reinterpret_cast<const DBPlayer*>(
-               &_DBPlayer_default_instance_);
+  static inline const DBPlayerData* internal_default_instance() {
+    return reinterpret_cast<const DBPlayerData*>(
+               &_DBPlayerData_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
     0;
 
-  friend void swap(DBPlayer& a, DBPlayer& b) {
+  friend void swap(DBPlayerData& a, DBPlayerData& b) {
     a.Swap(&b);
   }
-  inline void Swap(DBPlayer* other) {
+  inline void Swap(DBPlayerData* other) {
     if (other == this) return;
   #ifdef PROTOBUF_FORCE_COPY_IN_SWAP
     if (GetOwningArena() != nullptr &&
@@ -126,7 +126,7 @@ class DBPlayer final :
       ::PROTOBUF_NAMESPACE_ID::internal::GenericSwap(this, other);
     }
   }
-  void UnsafeArenaSwap(DBPlayer* other) {
+  void UnsafeArenaSwap(DBPlayerData* other) {
     if (other == this) return;
     GOOGLE_DCHECK(GetOwningArena() == other->GetOwningArena());
     InternalSwap(other);
@@ -134,14 +134,14 @@ class DBPlayer final :
 
   // implements Message ----------------------------------------------
 
-  DBPlayer* New(::PROTOBUF_NAMESPACE_ID::Arena* arena = nullptr) const final {
-    return CreateMaybeMessage<DBPlayer>(arena);
+  DBPlayerData* New(::PROTOBUF_NAMESPACE_ID::Arena* arena = nullptr) const final {
+    return CreateMaybeMessage<DBPlayerData>(arena);
   }
   using ::PROTOBUF_NAMESPACE_ID::Message::CopyFrom;
-  void CopyFrom(const DBPlayer& from);
+  void CopyFrom(const DBPlayerData& from);
   using ::PROTOBUF_NAMESPACE_ID::Message::MergeFrom;
-  void MergeFrom( const DBPlayer& from) {
-    DBPlayer::MergeImpl(*this, from);
+  void MergeFrom( const DBPlayerData& from) {
+    DBPlayerData::MergeImpl(*this, from);
   }
   private:
   static void MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const ::PROTOBUF_NAMESPACE_ID::Message& from_msg);
@@ -159,15 +159,15 @@ class DBPlayer final :
   void SharedCtor(::PROTOBUF_NAMESPACE_ID::Arena* arena, bool is_message_owned);
   void SharedDtor();
   void SetCachedSize(int size) const final;
-  void InternalSwap(DBPlayer* other);
+  void InternalSwap(DBPlayerData* other);
 
   private:
   friend class ::PROTOBUF_NAMESPACE_ID::internal::AnyMetadata;
   static ::PROTOBUF_NAMESPACE_ID::StringPiece FullMessageName() {
-    return "S2S.DBPlayer";
+    return "S2S.DBPlayerData";
   }
   protected:
-  explicit DBPlayer(::PROTOBUF_NAMESPACE_ID::Arena* arena,
+  explicit DBPlayerData(::PROTOBUF_NAMESPACE_ID::Arena* arena,
                        bool is_message_owned = false);
   public:
 
@@ -201,7 +201,7 @@ class DBPlayer final :
       ::S2S::DBPlayerBaseInfo* player_base_info);
   ::S2S::DBPlayerBaseInfo* unsafe_arena_release_player_base_info();
 
-  // @@protoc_insertion_point(class_scope:S2S.DBPlayer)
+  // @@protoc_insertion_point(class_scope:S2S.DBPlayerData)
  private:
   class _Internal;
 
@@ -415,31 +415,31 @@ class DBPlayerBaseInfo final :
   #pragma GCC diagnostic push
   #pragma GCC diagnostic ignored "-Wstrict-aliasing"
 #endif  // __GNUC__
-// DBPlayer
+// DBPlayerData
 
 // .S2S.DBPlayerBaseInfo player_base_info = 1;
-inline bool DBPlayer::_internal_has_player_base_info() const {
+inline bool DBPlayerData::_internal_has_player_base_info() const {
   return this != internal_default_instance() && _impl_.player_base_info_ != nullptr;
 }
-inline bool DBPlayer::has_player_base_info() const {
+inline bool DBPlayerData::has_player_base_info() const {
   return _internal_has_player_base_info();
 }
-inline void DBPlayer::clear_player_base_info() {
+inline void DBPlayerData::clear_player_base_info() {
   if (GetArenaForAllocation() == nullptr && _impl_.player_base_info_ != nullptr) {
     delete _impl_.player_base_info_;
   }
   _impl_.player_base_info_ = nullptr;
 }
-inline const ::S2S::DBPlayerBaseInfo& DBPlayer::_internal_player_base_info() const {
+inline const ::S2S::DBPlayerBaseInfo& DBPlayerData::_internal_player_base_info() const {
   const ::S2S::DBPlayerBaseInfo* p = _impl_.player_base_info_;
   return p != nullptr ? *p : reinterpret_cast<const ::S2S::DBPlayerBaseInfo&>(
       ::S2S::_DBPlayerBaseInfo_default_instance_);
 }
-inline const ::S2S::DBPlayerBaseInfo& DBPlayer::player_base_info() const {
-  // @@protoc_insertion_point(field_get:S2S.DBPlayer.player_base_info)
+inline const ::S2S::DBPlayerBaseInfo& DBPlayerData::player_base_info() const {
+  // @@protoc_insertion_point(field_get:S2S.DBPlayerData.player_base_info)
   return _internal_player_base_info();
 }
-inline void DBPlayer::unsafe_arena_set_allocated_player_base_info(
+inline void DBPlayerData::unsafe_arena_set_allocated_player_base_info(
     ::S2S::DBPlayerBaseInfo* player_base_info) {
   if (GetArenaForAllocation() == nullptr) {
     delete reinterpret_cast<::PROTOBUF_NAMESPACE_ID::MessageLite*>(_impl_.player_base_info_);
@@ -450,9 +450,9 @@ inline void DBPlayer::unsafe_arena_set_allocated_player_base_info(
   } else {
     
   }
-  // @@protoc_insertion_point(field_unsafe_arena_set_allocated:S2S.DBPlayer.player_base_info)
+  // @@protoc_insertion_point(field_unsafe_arena_set_allocated:S2S.DBPlayerData.player_base_info)
 }
-inline ::S2S::DBPlayerBaseInfo* DBPlayer::release_player_base_info() {
+inline ::S2S::DBPlayerBaseInfo* DBPlayerData::release_player_base_info() {
   
   ::S2S::DBPlayerBaseInfo* temp = _impl_.player_base_info_;
   _impl_.player_base_info_ = nullptr;
@@ -467,14 +467,14 @@ inline ::S2S::DBPlayerBaseInfo* DBPlayer::release_player_base_info() {
 #endif  // !PROTOBUF_FORCE_COPY_IN_RELEASE
   return temp;
 }
-inline ::S2S::DBPlayerBaseInfo* DBPlayer::unsafe_arena_release_player_base_info() {
-  // @@protoc_insertion_point(field_release:S2S.DBPlayer.player_base_info)
+inline ::S2S::DBPlayerBaseInfo* DBPlayerData::unsafe_arena_release_player_base_info() {
+  // @@protoc_insertion_point(field_release:S2S.DBPlayerData.player_base_info)
   
   ::S2S::DBPlayerBaseInfo* temp = _impl_.player_base_info_;
   _impl_.player_base_info_ = nullptr;
   return temp;
 }
-inline ::S2S::DBPlayerBaseInfo* DBPlayer::_internal_mutable_player_base_info() {
+inline ::S2S::DBPlayerBaseInfo* DBPlayerData::_internal_mutable_player_base_info() {
   
   if (_impl_.player_base_info_ == nullptr) {
     auto* p = CreateMaybeMessage<::S2S::DBPlayerBaseInfo>(GetArenaForAllocation());
@@ -482,12 +482,12 @@ inline ::S2S::DBPlayerBaseInfo* DBPlayer::_internal_mutable_player_base_info() {
   }
   return _impl_.player_base_info_;
 }
-inline ::S2S::DBPlayerBaseInfo* DBPlayer::mutable_player_base_info() {
+inline ::S2S::DBPlayerBaseInfo* DBPlayerData::mutable_player_base_info() {
   ::S2S::DBPlayerBaseInfo* _msg = _internal_mutable_player_base_info();
-  // @@protoc_insertion_point(field_mutable:S2S.DBPlayer.player_base_info)
+  // @@protoc_insertion_point(field_mutable:S2S.DBPlayerData.player_base_info)
   return _msg;
 }
-inline void DBPlayer::set_allocated_player_base_info(::S2S::DBPlayerBaseInfo* player_base_info) {
+inline void DBPlayerData::set_allocated_player_base_info(::S2S::DBPlayerBaseInfo* player_base_info) {
   ::PROTOBUF_NAMESPACE_ID::Arena* message_arena = GetArenaForAllocation();
   if (message_arena == nullptr) {
     delete _impl_.player_base_info_;
@@ -504,7 +504,7 @@ inline void DBPlayer::set_allocated_player_base_info(::S2S::DBPlayerBaseInfo* pl
     
   }
   _impl_.player_base_info_ = player_base_info;
-  // @@protoc_insertion_point(field_set_allocated:S2S.DBPlayer.player_base_info)
+  // @@protoc_insertion_point(field_set_allocated:S2S.DBPlayerData.player_base_info)
 }
 
 // -------------------------------------------------------------------

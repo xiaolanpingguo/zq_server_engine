@@ -15,14 +15,14 @@ PlayerOperatorModule::~PlayerOperatorModule()
 {
 }
 
-bool PlayerOperatorModule::loadFromDB(const S2S::DBPlayer& playerDBData)
+bool PlayerOperatorModule::loadFromDB(const S2S::DBPlayerData& playerDBData)
 {
 	PlayerBaseInfoModule* m = m_player.getModule<PlayerBaseInfoModule>();
 
 	return true;
 }
 
-bool PlayerOperatorModule::saveToDB(S2S::DBPlayer& playerDBData)
+bool PlayerOperatorModule::saveToDB(S2S::DBPlayerData& playerDBData)
 {
 
 	return true;

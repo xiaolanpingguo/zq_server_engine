@@ -21,7 +21,7 @@ namespace zq{
 
 // player
 #define COL_PLAYER "player"
-#define PLAYER_KEY_INDEX "user_id"
+#define PLAYER_KEY_PROFILE_ID "profile_id"
 #define PLAYER_KEY_SVRID "svr_id"
 #define PALYER_KEY_BIN "bin"
 

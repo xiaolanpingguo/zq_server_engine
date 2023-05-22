@@ -14,7 +14,7 @@ PlayerBaseInfoModule::~PlayerBaseInfoModule()
 {
 }
 
-bool PlayerBaseInfoModule::loadFromDB(const S2S::DBPlayer& playerDBData)
+bool PlayerBaseInfoModule::loadFromDB(const S2S::DBPlayerData& playerDBData)
 {
 	const S2S::DBPlayerBaseInfo& baseInfo = playerDBData.player_base_info();
 	uint64_t uid = baseInfo.uid();
@@ -25,7 +25,7 @@ bool PlayerBaseInfoModule::loadFromDB(const S2S::DBPlayer& playerDBData)
 	return true;
 }
 
-bool PlayerBaseInfoModule::saveToDB(S2S::DBPlayer& playerDBData)
+bool PlayerBaseInfoModule::saveToDB(S2S::DBPlayerData& playerDBData)
 {
 	S2S::DBPlayerBaseInfo* baseInfo = playerDBData.mutable_player_base_info();
 	baseInfo->set_uid(1);

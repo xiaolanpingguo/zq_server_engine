@@ -58,7 +58,7 @@ private:
 	virtual void stop();
 	virtual bool registerServerModules() = 0;
 	virtual bool readServerConfig() = 0;
-	virtual const std::string& getStrAppId() = 0;
+	virtual const std::string& getAppIdStr() = 0;
 	virtual std::string_view getName() = 0;
 
 	bool checkAppid();

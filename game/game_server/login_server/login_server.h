@@ -34,7 +34,7 @@ public:
 	~LoginServer();
 
 public:
-	const std::string& getStrAppId() override { return m_serverConfg.appId; }
+	const std::string& getAppIdStr() override { return m_serverConfg.appId; }
 	const LoginServerConfig& getConfig() { return m_serverConfg; }
 
 private:

@@ -18,6 +18,8 @@ public:
 	PlayerManagerModule(ZoneServer* thisServer);
 	~PlayerManagerModule();
 
+	Player* findPlayer(std::string profileId);
+
 private:
 	bool saveToDB();
 
