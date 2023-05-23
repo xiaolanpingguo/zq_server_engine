@@ -7,6 +7,13 @@
 namespace zq {
 
 
+struct SDKAccountInfo
+{
+	std::string sdkUserId;
+	std::string sdkToken;
+	uint32_t channelId;
+};
+
 class TcpConnection;
 class Player
 {
@@ -35,16 +42,25 @@ public:
 		return (T*)(it->second);
 	}
 
-	bool loadFromDB(const S2S::DBPlayerData& playerDBData);
-	bool saveToDB(S2S::DBPlayerData& playerDBData);
+	bool loadFromDB(const S2S::DBPlayerData& dbPlayerData);
+	bool saveToDB(S2S::DBPlayerData& dbPlayerData);
 
 	std::shared_ptr<TcpConnection> getConnection();
 	void setConnection(std::shared_ptr<TcpConnection> conn);
+
+	void setProfileId(const std::string& v) { m_profileId = v; }
+	const std::string& getProfileId() const { return m_profileId; }
+
+	void setSDKAccountInfo(const SDKAccountInfo& v) { m_sdkAccountInfo = v; }
+	const SDKAccountInfo& getSDKAccountInfo() const { return m_sdkAccountInfo; }
 
 public:
 
 	std::shared_ptr<TcpConnection> m_conection;
 	std::unordered_map<std::string, IPlayerModule*> m_playerModules;
+
+	std::string m_profileId;
+	SDKAccountInfo m_sdkAccountInfo;
 
 	constexpr static std::string_view s_logCategory = "Player";
 };

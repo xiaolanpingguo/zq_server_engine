@@ -104,32 +104,36 @@ async_simple::coro::Lazy<void> ClientToZoneModule::processLogin(TcpConnectionPtr
 		if (player != nullptr)
 		{
 			// the player is online, then kickout old player
-			kickoutPlayer(player);
-
-			// set new player, actually we just only use new conntection instead of old onnection
-			player->setConnection(connection);
-		}
-		else
-		{
-			// create a new player
-			player = new Player();
-			player->setConnection(connection);
-
-			// get playey db data
-			BsonObjectPtr result = nullptr;
-			r = co_await getPlayerDBData(profileId, result);
-			if (r == 0)
+			if (player->getConnection() != connection)
 			{
-				std::string playerBin = result->getString(PALYER_KEY_BIN);
-				S2S::DBPlayerData dbPlayerData;
-				if (!dbPlayerData.ParseFromString(playerBin))
-				{
-					errorCode = C2S::EC_GENERRAL_ERROR;
-					break;
-				}
+				kickoutPlayer(player);
+
+				// set new player, actually we just only use new conntection instead of old onnection
+				player->setConnection(connection);
+				errorCode = C2S::EC_SUCCESS;
+				break;
 			}
+			else
+			{
+				// repeat login
+				errorCode = C2S::EC_LOGIN_IN_PROGRESS;
+			}
+
+			break;
 		}
 
+		SDKAccountInfo sdkInfo;
+		sdkInfo.sdkUserId = sessionData.sdk_user_id();
+		sdkInfo.sdkToken = sessionData.sdk_token();
+		sdkInfo.channelId = sessionData.channel_id();
+		r = co_await m_thisServer->getModule<PlayerManagerModule>()->onPlayerLogin(profileId, sdkInfo, connection);
+		if (r != C2S::EC_SUCCESS)
+		{
+			LOG_ERROR(s_logCategory, "on player login failed:{}.", r);
+			errorCode = (C2S::C2S_ERROR_CODE)r;
+			break;
+		}
+		
 		errorCode = C2S::EC_SUCCESS;
 	}
 	while (0);

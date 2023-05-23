@@ -36,10 +36,12 @@ struct DBPlayerDataDefaultTypeInternal {
 PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 DBPlayerDataDefaultTypeInternal _DBPlayerData_default_instance_;
 PROTOBUF_CONSTEXPR DBPlayerBaseInfo::DBPlayerBaseInfo(
     ::_pbi::ConstantInitialized): _impl_{
-    /*decltype(_impl_.nickname_)*/{&::_pbi::fixed_address_empty_string, ::_pbi::ConstantInitialized{}}
+    /*decltype(_impl_.profile_id_)*/{&::_pbi::fixed_address_empty_string, ::_pbi::ConstantInitialized{}}
+  , /*decltype(_impl_.sdk_user_id_)*/{&::_pbi::fixed_address_empty_string, ::_pbi::ConstantInitialized{}}
+  , /*decltype(_impl_.sdk_token_)*/{&::_pbi::fixed_address_empty_string, ::_pbi::ConstantInitialized{}}
+  , /*decltype(_impl_.nickname_)*/{&::_pbi::fixed_address_empty_string, ::_pbi::ConstantInitialized{}}
   , /*decltype(_impl_.ip_)*/{&::_pbi::fixed_address_empty_string, ::_pbi::ConstantInitialized{}}
-  , /*decltype(_impl_.uid_)*/int64_t{0}
-  , /*decltype(_impl_.openid_)*/int64_t{0}
+  , /*decltype(_impl_.channel_id_)*/0
   , /*decltype(_impl_._cached_size_)*/{}} {}
 struct DBPlayerBaseInfoDefaultTypeInternal {
   PROTOBUF_CONSTEXPR DBPlayerBaseInfoDefaultTypeInternal()
@@ -69,8 +71,10 @@ const uint32_t TableStruct_db_5fplayer_2eproto::offsets[] PROTOBUF_SECTION_VARIA
   ~0u,  // no _oneof_case_
   ~0u,  // no _weak_field_map_
   ~0u,  // no _inlined_string_donated_
-  PROTOBUF_FIELD_OFFSET(::S2S::DBPlayerBaseInfo, _impl_.uid_),
-  PROTOBUF_FIELD_OFFSET(::S2S::DBPlayerBaseInfo, _impl_.openid_),
+  PROTOBUF_FIELD_OFFSET(::S2S::DBPlayerBaseInfo, _impl_.profile_id_),
+  PROTOBUF_FIELD_OFFSET(::S2S::DBPlayerBaseInfo, _impl_.sdk_user_id_),
+  PROTOBUF_FIELD_OFFSET(::S2S::DBPlayerBaseInfo, _impl_.sdk_token_),
+  PROTOBUF_FIELD_OFFSET(::S2S::DBPlayerBaseInfo, _impl_.channel_id_),
   PROTOBUF_FIELD_OFFSET(::S2S::DBPlayerBaseInfo, _impl_.nickname_),
   PROTOBUF_FIELD_OFFSET(::S2S::DBPlayerBaseInfo, _impl_.ip_),
 };
@@ -87,13 +91,14 @@ static const ::_pb::Message* const file_default_instances[] = {
 const char descriptor_table_protodef_db_5fplayer_2eproto[] PROTOBUF_SECTION_VARIABLE(protodesc_cold) =
   "\n\017db_player.proto\022\003S2S\"\?\n\014DBPlayerData\022/"
   "\n\020player_base_info\030\001 \001(\0132\025.S2S.DBPlayerB"
-  "aseInfo\"M\n\020DBPlayerBaseInfo\022\013\n\003uid\030\001 \001(\003"
-  "\022\016\n\006openid\030\002 \001(\003\022\020\n\010nickname\030\003 \001(\t\022\n\n\002ip"
-  "\030\004 \001(\tb\006proto3"
+  "aseInfo\"\200\001\n\020DBPlayerBaseInfo\022\022\n\nprofile_"
+  "id\030\001 \001(\t\022\023\n\013sdk_user_id\030\002 \001(\t\022\021\n\tsdk_tok"
+  "en\030\003 \001(\t\022\022\n\nchannel_id\030\004 \001(\005\022\020\n\010nickname"
+  "\030\005 \001(\t\022\n\n\002ip\030\006 \001(\tb\006proto3"
   ;
 static ::_pbi::once_flag descriptor_table_db_5fplayer_2eproto_once;
 const ::_pbi::DescriptorTable descriptor_table_db_5fplayer_2eproto = {
-    false, false, 174, descriptor_table_protodef_db_5fplayer_2eproto,
+    false, false, 226, descriptor_table_protodef_db_5fplayer_2eproto,
     "db_player.proto",
     &descriptor_table_db_5fplayer_2eproto_once, nullptr, 0, 2,
     schemas, file_default_instances, TableStruct_db_5fplayer_2eproto::offsets,
@@ -317,13 +322,39 @@ DBPlayerBaseInfo::DBPlayerBaseInfo(const DBPlayerBaseInfo& from)
   : ::PROTOBUF_NAMESPACE_ID::Message() {
   DBPlayerBaseInfo* const _this = this; (void)_this;
   new (&_impl_) Impl_{
-      decltype(_impl_.nickname_){}
+      decltype(_impl_.profile_id_){}
+    , decltype(_impl_.sdk_user_id_){}
+    , decltype(_impl_.sdk_token_){}
+    , decltype(_impl_.nickname_){}
     , decltype(_impl_.ip_){}
-    , decltype(_impl_.uid_){}
-    , decltype(_impl_.openid_){}
+    , decltype(_impl_.channel_id_){}
     , /*decltype(_impl_._cached_size_)*/{}};
 
   _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
+  _impl_.profile_id_.InitDefault();
+  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+    _impl_.profile_id_.Set("", GetArenaForAllocation());
+  #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  if (!from._internal_profile_id().empty()) {
+    _this->_impl_.profile_id_.Set(from._internal_profile_id(), 
+      _this->GetArenaForAllocation());
+  }
+  _impl_.sdk_user_id_.InitDefault();
+  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+    _impl_.sdk_user_id_.Set("", GetArenaForAllocation());
+  #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  if (!from._internal_sdk_user_id().empty()) {
+    _this->_impl_.sdk_user_id_.Set(from._internal_sdk_user_id(), 
+      _this->GetArenaForAllocation());
+  }
+  _impl_.sdk_token_.InitDefault();
+  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+    _impl_.sdk_token_.Set("", GetArenaForAllocation());
+  #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  if (!from._internal_sdk_token().empty()) {
+    _this->_impl_.sdk_token_.Set(from._internal_sdk_token(), 
+      _this->GetArenaForAllocation());
+  }
   _impl_.nickname_.InitDefault();
   #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
     _impl_.nickname_.Set("", GetArenaForAllocation());
@@ -340,9 +371,7 @@ DBPlayerBaseInfo::DBPlayerBaseInfo(const DBPlayerBaseInfo& from)
     _this->_impl_.ip_.Set(from._internal_ip(), 
       _this->GetArenaForAllocation());
   }
-  ::memcpy(&_impl_.uid_, &from._impl_.uid_,
-    static_cast<size_t>(reinterpret_cast<char*>(&_impl_.openid_) -
-    reinterpret_cast<char*>(&_impl_.uid_)) + sizeof(_impl_.openid_));
+  _this->_impl_.channel_id_ = from._impl_.channel_id_;
   // @@protoc_insertion_point(copy_constructor:S2S.DBPlayerBaseInfo)
 }
 
@@ -351,12 +380,26 @@ inline void DBPlayerBaseInfo::SharedCtor(
   (void)arena;
   (void)is_message_owned;
   new (&_impl_) Impl_{
-      decltype(_impl_.nickname_){}
+      decltype(_impl_.profile_id_){}
+    , decltype(_impl_.sdk_user_id_){}
+    , decltype(_impl_.sdk_token_){}
+    , decltype(_impl_.nickname_){}
     , decltype(_impl_.ip_){}
-    , decltype(_impl_.uid_){int64_t{0}}
-    , decltype(_impl_.openid_){int64_t{0}}
+    , decltype(_impl_.channel_id_){0}
     , /*decltype(_impl_._cached_size_)*/{}
   };
+  _impl_.profile_id_.InitDefault();
+  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+    _impl_.profile_id_.Set("", GetArenaForAllocation());
+  #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  _impl_.sdk_user_id_.InitDefault();
+  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+    _impl_.sdk_user_id_.Set("", GetArenaForAllocation());
+  #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  _impl_.sdk_token_.InitDefault();
+  #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+    _impl_.sdk_token_.Set("", GetArenaForAllocation());
+  #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
   _impl_.nickname_.InitDefault();
   #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
     _impl_.nickname_.Set("", GetArenaForAllocation());
@@ -378,6 +421,9 @@ DBPlayerBaseInfo::~DBPlayerBaseInfo() {
 
 inline void DBPlayerBaseInfo::SharedDtor() {
   GOOGLE_DCHECK(GetArenaForAllocation() == nullptr);
+  _impl_.profile_id_.Destroy();
+  _impl_.sdk_user_id_.Destroy();
+  _impl_.sdk_token_.Destroy();
   _impl_.nickname_.Destroy();
   _impl_.ip_.Destroy();
 }
@@ -392,11 +438,12 @@ void DBPlayerBaseInfo::Clear() {
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
 
+  _impl_.profile_id_.ClearToEmpty();
+  _impl_.sdk_user_id_.ClearToEmpty();
+  _impl_.sdk_token_.ClearToEmpty();
   _impl_.nickname_.ClearToEmpty();
   _impl_.ip_.ClearToEmpty();
-  ::memset(&_impl_.uid_, 0, static_cast<size_t>(
-      reinterpret_cast<char*>(&_impl_.openid_) -
-      reinterpret_cast<char*>(&_impl_.uid_)) + sizeof(_impl_.openid_));
+  _impl_.channel_id_ = 0;
   _internal_metadata_.Clear<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
 }
 
@@ -406,25 +453,47 @@ const char* DBPlayerBaseInfo::_InternalParse(const char* ptr, ::_pbi::ParseConte
     uint32_t tag;
     ptr = ::_pbi::ReadTag(ptr, &tag);
     switch (tag >> 3) {
-      // int64 uid = 1;
+      // string profile_id = 1;
       case 1:
-        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 8)) {
-          _impl_.uid_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint64(&ptr);
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 10)) {
+          auto str = _internal_mutable_profile_id();
+          ptr = ::_pbi::InlineGreedyStringParser(str, ptr, ctx);
           CHK_(ptr);
+          CHK_(::_pbi::VerifyUTF8(str, "S2S.DBPlayerBaseInfo.profile_id"));
         } else
           goto handle_unusual;
         continue;
-      // int64 openid = 2;
+      // string sdk_user_id = 2;
       case 2:
-        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 16)) {
-          _impl_.openid_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint64(&ptr);
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 18)) {
+          auto str = _internal_mutable_sdk_user_id();
+          ptr = ::_pbi::InlineGreedyStringParser(str, ptr, ctx);
           CHK_(ptr);
+          CHK_(::_pbi::VerifyUTF8(str, "S2S.DBPlayerBaseInfo.sdk_user_id"));
         } else
           goto handle_unusual;
         continue;
-      // string nickname = 3;
+      // string sdk_token = 3;
       case 3:
         if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 26)) {
+          auto str = _internal_mutable_sdk_token();
+          ptr = ::_pbi::InlineGreedyStringParser(str, ptr, ctx);
+          CHK_(ptr);
+          CHK_(::_pbi::VerifyUTF8(str, "S2S.DBPlayerBaseInfo.sdk_token"));
+        } else
+          goto handle_unusual;
+        continue;
+      // int32 channel_id = 4;
+      case 4:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 32)) {
+          _impl_.channel_id_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint32(&ptr);
+          CHK_(ptr);
+        } else
+          goto handle_unusual;
+        continue;
+      // string nickname = 5;
+      case 5:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 42)) {
           auto str = _internal_mutable_nickname();
           ptr = ::_pbi::InlineGreedyStringParser(str, ptr, ctx);
           CHK_(ptr);
@@ -432,9 +501,9 @@ const char* DBPlayerBaseInfo::_InternalParse(const char* ptr, ::_pbi::ParseConte
         } else
           goto handle_unusual;
         continue;
-      // string ip = 4;
-      case 4:
-        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 34)) {
+      // string ip = 6;
+      case 6:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 50)) {
           auto str = _internal_mutable_ip();
           ptr = ::_pbi::InlineGreedyStringParser(str, ptr, ctx);
           CHK_(ptr);
@@ -471,36 +540,60 @@ uint8_t* DBPlayerBaseInfo::_InternalSerialize(
   uint32_t cached_has_bits = 0;
   (void) cached_has_bits;
 
-  // int64 uid = 1;
-  if (this->_internal_uid() != 0) {
-    target = stream->EnsureSpace(target);
-    target = ::_pbi::WireFormatLite::WriteInt64ToArray(1, this->_internal_uid(), target);
+  // string profile_id = 1;
+  if (!this->_internal_profile_id().empty()) {
+    ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::VerifyUtf8String(
+      this->_internal_profile_id().data(), static_cast<int>(this->_internal_profile_id().length()),
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::SERIALIZE,
+      "S2S.DBPlayerBaseInfo.profile_id");
+    target = stream->WriteStringMaybeAliased(
+        1, this->_internal_profile_id(), target);
   }
 
-  // int64 openid = 2;
-  if (this->_internal_openid() != 0) {
-    target = stream->EnsureSpace(target);
-    target = ::_pbi::WireFormatLite::WriteInt64ToArray(2, this->_internal_openid(), target);
+  // string sdk_user_id = 2;
+  if (!this->_internal_sdk_user_id().empty()) {
+    ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::VerifyUtf8String(
+      this->_internal_sdk_user_id().data(), static_cast<int>(this->_internal_sdk_user_id().length()),
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::SERIALIZE,
+      "S2S.DBPlayerBaseInfo.sdk_user_id");
+    target = stream->WriteStringMaybeAliased(
+        2, this->_internal_sdk_user_id(), target);
   }
 
-  // string nickname = 3;
+  // string sdk_token = 3;
+  if (!this->_internal_sdk_token().empty()) {
+    ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::VerifyUtf8String(
+      this->_internal_sdk_token().data(), static_cast<int>(this->_internal_sdk_token().length()),
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::SERIALIZE,
+      "S2S.DBPlayerBaseInfo.sdk_token");
+    target = stream->WriteStringMaybeAliased(
+        3, this->_internal_sdk_token(), target);
+  }
+
+  // int32 channel_id = 4;
+  if (this->_internal_channel_id() != 0) {
+    target = stream->EnsureSpace(target);
+    target = ::_pbi::WireFormatLite::WriteInt32ToArray(4, this->_internal_channel_id(), target);
+  }
+
+  // string nickname = 5;
   if (!this->_internal_nickname().empty()) {
     ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::VerifyUtf8String(
       this->_internal_nickname().data(), static_cast<int>(this->_internal_nickname().length()),
       ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::SERIALIZE,
       "S2S.DBPlayerBaseInfo.nickname");
     target = stream->WriteStringMaybeAliased(
-        3, this->_internal_nickname(), target);
+        5, this->_internal_nickname(), target);
   }
 
-  // string ip = 4;
+  // string ip = 6;
   if (!this->_internal_ip().empty()) {
     ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::VerifyUtf8String(
       this->_internal_ip().data(), static_cast<int>(this->_internal_ip().length()),
       ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::SERIALIZE,
       "S2S.DBPlayerBaseInfo.ip");
     target = stream->WriteStringMaybeAliased(
-        4, this->_internal_ip(), target);
+        6, this->_internal_ip(), target);
   }
 
   if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
@@ -519,28 +612,44 @@ size_t DBPlayerBaseInfo::ByteSizeLong() const {
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
 
-  // string nickname = 3;
+  // string profile_id = 1;
+  if (!this->_internal_profile_id().empty()) {
+    total_size += 1 +
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::StringSize(
+        this->_internal_profile_id());
+  }
+
+  // string sdk_user_id = 2;
+  if (!this->_internal_sdk_user_id().empty()) {
+    total_size += 1 +
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::StringSize(
+        this->_internal_sdk_user_id());
+  }
+
+  // string sdk_token = 3;
+  if (!this->_internal_sdk_token().empty()) {
+    total_size += 1 +
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::StringSize(
+        this->_internal_sdk_token());
+  }
+
+  // string nickname = 5;
   if (!this->_internal_nickname().empty()) {
     total_size += 1 +
       ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::StringSize(
         this->_internal_nickname());
   }
 
-  // string ip = 4;
+  // string ip = 6;
   if (!this->_internal_ip().empty()) {
     total_size += 1 +
       ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::StringSize(
         this->_internal_ip());
   }
 
-  // int64 uid = 1;
-  if (this->_internal_uid() != 0) {
-    total_size += ::_pbi::WireFormatLite::Int64SizePlusOne(this->_internal_uid());
-  }
-
-  // int64 openid = 2;
-  if (this->_internal_openid() != 0) {
-    total_size += ::_pbi::WireFormatLite::Int64SizePlusOne(this->_internal_openid());
+  // int32 channel_id = 4;
+  if (this->_internal_channel_id() != 0) {
+    total_size += ::_pbi::WireFormatLite::Int32SizePlusOne(this->_internal_channel_id());
   }
 
   return MaybeComputeUnknownFieldsSize(total_size, &_impl_._cached_size_);
@@ -561,17 +670,23 @@ void DBPlayerBaseInfo::MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const
   uint32_t cached_has_bits = 0;
   (void) cached_has_bits;
 
+  if (!from._internal_profile_id().empty()) {
+    _this->_internal_set_profile_id(from._internal_profile_id());
+  }
+  if (!from._internal_sdk_user_id().empty()) {
+    _this->_internal_set_sdk_user_id(from._internal_sdk_user_id());
+  }
+  if (!from._internal_sdk_token().empty()) {
+    _this->_internal_set_sdk_token(from._internal_sdk_token());
+  }
   if (!from._internal_nickname().empty()) {
     _this->_internal_set_nickname(from._internal_nickname());
   }
   if (!from._internal_ip().empty()) {
     _this->_internal_set_ip(from._internal_ip());
   }
-  if (from._internal_uid() != 0) {
-    _this->_internal_set_uid(from._internal_uid());
-  }
-  if (from._internal_openid() != 0) {
-    _this->_internal_set_openid(from._internal_openid());
+  if (from._internal_channel_id() != 0) {
+    _this->_internal_set_channel_id(from._internal_channel_id());
   }
   _this->_internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
 }
@@ -593,6 +708,18 @@ void DBPlayerBaseInfo::InternalSwap(DBPlayerBaseInfo* other) {
   auto* rhs_arena = other->GetArenaForAllocation();
   _internal_metadata_.InternalSwap(&other->_internal_metadata_);
   ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::InternalSwap(
+      &_impl_.profile_id_, lhs_arena,
+      &other->_impl_.profile_id_, rhs_arena
+  );
+  ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::InternalSwap(
+      &_impl_.sdk_user_id_, lhs_arena,
+      &other->_impl_.sdk_user_id_, rhs_arena
+  );
+  ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::InternalSwap(
+      &_impl_.sdk_token_, lhs_arena,
+      &other->_impl_.sdk_token_, rhs_arena
+  );
+  ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr::InternalSwap(
       &_impl_.nickname_, lhs_arena,
       &other->_impl_.nickname_, rhs_arena
   );
@@ -600,12 +727,7 @@ void DBPlayerBaseInfo::InternalSwap(DBPlayerBaseInfo* other) {
       &_impl_.ip_, lhs_arena,
       &other->_impl_.ip_, rhs_arena
   );
-  ::PROTOBUF_NAMESPACE_ID::internal::memswap<
-      PROTOBUF_FIELD_OFFSET(DBPlayerBaseInfo, _impl_.openid_)
-      + sizeof(DBPlayerBaseInfo::_impl_.openid_)
-      - PROTOBUF_FIELD_OFFSET(DBPlayerBaseInfo, _impl_.uid_)>(
-          reinterpret_cast<char*>(&_impl_.uid_),
-          reinterpret_cast<char*>(&other->_impl_.uid_));
+  swap(_impl_.channel_id_, other->_impl_.channel_id_);
 }
 
 ::PROTOBUF_NAMESPACE_ID::Metadata DBPlayerBaseInfo::GetMetadata() const {

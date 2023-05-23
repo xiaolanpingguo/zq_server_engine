@@ -23,11 +23,11 @@ Player::~Player()
 	}
 }
 
-bool Player::loadFromDB(const S2S::DBPlayerData& playerDBData)
+bool Player::loadFromDB(const S2S::DBPlayerData& dbPlayerData)
 {
 	for (const auto& m : m_playerModules)
 	{
-		if (!m.second->loadFromDB(playerDBData))
+		if (!m.second->loadFromDB(dbPlayerData))
 		{
 			return false;
 		}
@@ -36,11 +36,11 @@ bool Player::loadFromDB(const S2S::DBPlayerData& playerDBData)
 	return true;
 }
 
-bool Player::saveToDB(S2S::DBPlayerData& playerDBData)
+bool Player::saveToDB(S2S::DBPlayerData& dbPlayerData)
 {
 	for (const auto& m : m_playerModules)
 	{
-		if (!m.second->saveToDB(playerDBData))
+		if (!m.second->saveToDB(dbPlayerData))
 		{
 			return false;
 		}

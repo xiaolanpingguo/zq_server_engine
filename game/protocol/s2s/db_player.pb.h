@@ -338,12 +338,56 @@ class DBPlayerBaseInfo final :
   // accessors -------------------------------------------------------
 
   enum : int {
-    kNicknameFieldNumber = 3,
-    kIpFieldNumber = 4,
-    kUidFieldNumber = 1,
-    kOpenidFieldNumber = 2,
+    kProfileIdFieldNumber = 1,
+    kSdkUserIdFieldNumber = 2,
+    kSdkTokenFieldNumber = 3,
+    kNicknameFieldNumber = 5,
+    kIpFieldNumber = 6,
+    kChannelIdFieldNumber = 4,
   };
-  // string nickname = 3;
+  // string profile_id = 1;
+  void clear_profile_id();
+  const std::string& profile_id() const;
+  template <typename ArgT0 = const std::string&, typename... ArgT>
+  void set_profile_id(ArgT0&& arg0, ArgT... args);
+  std::string* mutable_profile_id();
+  PROTOBUF_NODISCARD std::string* release_profile_id();
+  void set_allocated_profile_id(std::string* profile_id);
+  private:
+  const std::string& _internal_profile_id() const;
+  inline PROTOBUF_ALWAYS_INLINE void _internal_set_profile_id(const std::string& value);
+  std::string* _internal_mutable_profile_id();
+  public:
+
+  // string sdk_user_id = 2;
+  void clear_sdk_user_id();
+  const std::string& sdk_user_id() const;
+  template <typename ArgT0 = const std::string&, typename... ArgT>
+  void set_sdk_user_id(ArgT0&& arg0, ArgT... args);
+  std::string* mutable_sdk_user_id();
+  PROTOBUF_NODISCARD std::string* release_sdk_user_id();
+  void set_allocated_sdk_user_id(std::string* sdk_user_id);
+  private:
+  const std::string& _internal_sdk_user_id() const;
+  inline PROTOBUF_ALWAYS_INLINE void _internal_set_sdk_user_id(const std::string& value);
+  std::string* _internal_mutable_sdk_user_id();
+  public:
+
+  // string sdk_token = 3;
+  void clear_sdk_token();
+  const std::string& sdk_token() const;
+  template <typename ArgT0 = const std::string&, typename... ArgT>
+  void set_sdk_token(ArgT0&& arg0, ArgT... args);
+  std::string* mutable_sdk_token();
+  PROTOBUF_NODISCARD std::string* release_sdk_token();
+  void set_allocated_sdk_token(std::string* sdk_token);
+  private:
+  const std::string& _internal_sdk_token() const;
+  inline PROTOBUF_ALWAYS_INLINE void _internal_set_sdk_token(const std::string& value);
+  std::string* _internal_mutable_sdk_token();
+  public:
+
+  // string nickname = 5;
   void clear_nickname();
   const std::string& nickname() const;
   template <typename ArgT0 = const std::string&, typename... ArgT>
@@ -357,7 +401,7 @@ class DBPlayerBaseInfo final :
   std::string* _internal_mutable_nickname();
   public:
 
-  // string ip = 4;
+  // string ip = 6;
   void clear_ip();
   const std::string& ip() const;
   template <typename ArgT0 = const std::string&, typename... ArgT>
@@ -371,22 +415,13 @@ class DBPlayerBaseInfo final :
   std::string* _internal_mutable_ip();
   public:
 
-  // int64 uid = 1;
-  void clear_uid();
-  int64_t uid() const;
-  void set_uid(int64_t value);
+  // int32 channel_id = 4;
+  void clear_channel_id();
+  int32_t channel_id() const;
+  void set_channel_id(int32_t value);
   private:
-  int64_t _internal_uid() const;
-  void _internal_set_uid(int64_t value);
-  public:
-
-  // int64 openid = 2;
-  void clear_openid();
-  int64_t openid() const;
-  void set_openid(int64_t value);
-  private:
-  int64_t _internal_openid() const;
-  void _internal_set_openid(int64_t value);
+  int32_t _internal_channel_id() const;
+  void _internal_set_channel_id(int32_t value);
   public:
 
   // @@protoc_insertion_point(class_scope:S2S.DBPlayerBaseInfo)
@@ -397,10 +432,12 @@ class DBPlayerBaseInfo final :
   typedef void InternalArenaConstructable_;
   typedef void DestructorSkippable_;
   struct Impl_ {
+    ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr profile_id_;
+    ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr sdk_user_id_;
+    ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr sdk_token_;
     ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr nickname_;
     ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr ip_;
-    int64_t uid_;
-    int64_t openid_;
+    int32_t channel_id_;
     mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
   };
   union { Impl_ _impl_; };
@@ -511,47 +548,177 @@ inline void DBPlayerData::set_allocated_player_base_info(::S2S::DBPlayerBaseInfo
 
 // DBPlayerBaseInfo
 
-// int64 uid = 1;
-inline void DBPlayerBaseInfo::clear_uid() {
-  _impl_.uid_ = int64_t{0};
+// string profile_id = 1;
+inline void DBPlayerBaseInfo::clear_profile_id() {
+  _impl_.profile_id_.ClearToEmpty();
 }
-inline int64_t DBPlayerBaseInfo::_internal_uid() const {
-  return _impl_.uid_;
+inline const std::string& DBPlayerBaseInfo::profile_id() const {
+  // @@protoc_insertion_point(field_get:S2S.DBPlayerBaseInfo.profile_id)
+  return _internal_profile_id();
 }
-inline int64_t DBPlayerBaseInfo::uid() const {
-  // @@protoc_insertion_point(field_get:S2S.DBPlayerBaseInfo.uid)
-  return _internal_uid();
+template <typename ArgT0, typename... ArgT>
+inline PROTOBUF_ALWAYS_INLINE
+void DBPlayerBaseInfo::set_profile_id(ArgT0&& arg0, ArgT... args) {
+ 
+ _impl_.profile_id_.Set(static_cast<ArgT0 &&>(arg0), args..., GetArenaForAllocation());
+  // @@protoc_insertion_point(field_set:S2S.DBPlayerBaseInfo.profile_id)
 }
-inline void DBPlayerBaseInfo::_internal_set_uid(int64_t value) {
+inline std::string* DBPlayerBaseInfo::mutable_profile_id() {
+  std::string* _s = _internal_mutable_profile_id();
+  // @@protoc_insertion_point(field_mutable:S2S.DBPlayerBaseInfo.profile_id)
+  return _s;
+}
+inline const std::string& DBPlayerBaseInfo::_internal_profile_id() const {
+  return _impl_.profile_id_.Get();
+}
+inline void DBPlayerBaseInfo::_internal_set_profile_id(const std::string& value) {
   
-  _impl_.uid_ = value;
+  _impl_.profile_id_.Set(value, GetArenaForAllocation());
 }
-inline void DBPlayerBaseInfo::set_uid(int64_t value) {
-  _internal_set_uid(value);
-  // @@protoc_insertion_point(field_set:S2S.DBPlayerBaseInfo.uid)
+inline std::string* DBPlayerBaseInfo::_internal_mutable_profile_id() {
+  
+  return _impl_.profile_id_.Mutable(GetArenaForAllocation());
+}
+inline std::string* DBPlayerBaseInfo::release_profile_id() {
+  // @@protoc_insertion_point(field_release:S2S.DBPlayerBaseInfo.profile_id)
+  return _impl_.profile_id_.Release();
+}
+inline void DBPlayerBaseInfo::set_allocated_profile_id(std::string* profile_id) {
+  if (profile_id != nullptr) {
+    
+  } else {
+    
+  }
+  _impl_.profile_id_.SetAllocated(profile_id, GetArenaForAllocation());
+#ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  if (_impl_.profile_id_.IsDefault()) {
+    _impl_.profile_id_.Set("", GetArenaForAllocation());
+  }
+#endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  // @@protoc_insertion_point(field_set_allocated:S2S.DBPlayerBaseInfo.profile_id)
 }
 
-// int64 openid = 2;
-inline void DBPlayerBaseInfo::clear_openid() {
-  _impl_.openid_ = int64_t{0};
+// string sdk_user_id = 2;
+inline void DBPlayerBaseInfo::clear_sdk_user_id() {
+  _impl_.sdk_user_id_.ClearToEmpty();
 }
-inline int64_t DBPlayerBaseInfo::_internal_openid() const {
-  return _impl_.openid_;
+inline const std::string& DBPlayerBaseInfo::sdk_user_id() const {
+  // @@protoc_insertion_point(field_get:S2S.DBPlayerBaseInfo.sdk_user_id)
+  return _internal_sdk_user_id();
 }
-inline int64_t DBPlayerBaseInfo::openid() const {
-  // @@protoc_insertion_point(field_get:S2S.DBPlayerBaseInfo.openid)
-  return _internal_openid();
+template <typename ArgT0, typename... ArgT>
+inline PROTOBUF_ALWAYS_INLINE
+void DBPlayerBaseInfo::set_sdk_user_id(ArgT0&& arg0, ArgT... args) {
+ 
+ _impl_.sdk_user_id_.Set(static_cast<ArgT0 &&>(arg0), args..., GetArenaForAllocation());
+  // @@protoc_insertion_point(field_set:S2S.DBPlayerBaseInfo.sdk_user_id)
 }
-inline void DBPlayerBaseInfo::_internal_set_openid(int64_t value) {
+inline std::string* DBPlayerBaseInfo::mutable_sdk_user_id() {
+  std::string* _s = _internal_mutable_sdk_user_id();
+  // @@protoc_insertion_point(field_mutable:S2S.DBPlayerBaseInfo.sdk_user_id)
+  return _s;
+}
+inline const std::string& DBPlayerBaseInfo::_internal_sdk_user_id() const {
+  return _impl_.sdk_user_id_.Get();
+}
+inline void DBPlayerBaseInfo::_internal_set_sdk_user_id(const std::string& value) {
   
-  _impl_.openid_ = value;
+  _impl_.sdk_user_id_.Set(value, GetArenaForAllocation());
 }
-inline void DBPlayerBaseInfo::set_openid(int64_t value) {
-  _internal_set_openid(value);
-  // @@protoc_insertion_point(field_set:S2S.DBPlayerBaseInfo.openid)
+inline std::string* DBPlayerBaseInfo::_internal_mutable_sdk_user_id() {
+  
+  return _impl_.sdk_user_id_.Mutable(GetArenaForAllocation());
+}
+inline std::string* DBPlayerBaseInfo::release_sdk_user_id() {
+  // @@protoc_insertion_point(field_release:S2S.DBPlayerBaseInfo.sdk_user_id)
+  return _impl_.sdk_user_id_.Release();
+}
+inline void DBPlayerBaseInfo::set_allocated_sdk_user_id(std::string* sdk_user_id) {
+  if (sdk_user_id != nullptr) {
+    
+  } else {
+    
+  }
+  _impl_.sdk_user_id_.SetAllocated(sdk_user_id, GetArenaForAllocation());
+#ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  if (_impl_.sdk_user_id_.IsDefault()) {
+    _impl_.sdk_user_id_.Set("", GetArenaForAllocation());
+  }
+#endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  // @@protoc_insertion_point(field_set_allocated:S2S.DBPlayerBaseInfo.sdk_user_id)
 }
 
-// string nickname = 3;
+// string sdk_token = 3;
+inline void DBPlayerBaseInfo::clear_sdk_token() {
+  _impl_.sdk_token_.ClearToEmpty();
+}
+inline const std::string& DBPlayerBaseInfo::sdk_token() const {
+  // @@protoc_insertion_point(field_get:S2S.DBPlayerBaseInfo.sdk_token)
+  return _internal_sdk_token();
+}
+template <typename ArgT0, typename... ArgT>
+inline PROTOBUF_ALWAYS_INLINE
+void DBPlayerBaseInfo::set_sdk_token(ArgT0&& arg0, ArgT... args) {
+ 
+ _impl_.sdk_token_.Set(static_cast<ArgT0 &&>(arg0), args..., GetArenaForAllocation());
+  // @@protoc_insertion_point(field_set:S2S.DBPlayerBaseInfo.sdk_token)
+}
+inline std::string* DBPlayerBaseInfo::mutable_sdk_token() {
+  std::string* _s = _internal_mutable_sdk_token();
+  // @@protoc_insertion_point(field_mutable:S2S.DBPlayerBaseInfo.sdk_token)
+  return _s;
+}
+inline const std::string& DBPlayerBaseInfo::_internal_sdk_token() const {
+  return _impl_.sdk_token_.Get();
+}
+inline void DBPlayerBaseInfo::_internal_set_sdk_token(const std::string& value) {
+  
+  _impl_.sdk_token_.Set(value, GetArenaForAllocation());
+}
+inline std::string* DBPlayerBaseInfo::_internal_mutable_sdk_token() {
+  
+  return _impl_.sdk_token_.Mutable(GetArenaForAllocation());
+}
+inline std::string* DBPlayerBaseInfo::release_sdk_token() {
+  // @@protoc_insertion_point(field_release:S2S.DBPlayerBaseInfo.sdk_token)
+  return _impl_.sdk_token_.Release();
+}
+inline void DBPlayerBaseInfo::set_allocated_sdk_token(std::string* sdk_token) {
+  if (sdk_token != nullptr) {
+    
+  } else {
+    
+  }
+  _impl_.sdk_token_.SetAllocated(sdk_token, GetArenaForAllocation());
+#ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  if (_impl_.sdk_token_.IsDefault()) {
+    _impl_.sdk_token_.Set("", GetArenaForAllocation());
+  }
+#endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  // @@protoc_insertion_point(field_set_allocated:S2S.DBPlayerBaseInfo.sdk_token)
+}
+
+// int32 channel_id = 4;
+inline void DBPlayerBaseInfo::clear_channel_id() {
+  _impl_.channel_id_ = 0;
+}
+inline int32_t DBPlayerBaseInfo::_internal_channel_id() const {
+  return _impl_.channel_id_;
+}
+inline int32_t DBPlayerBaseInfo::channel_id() const {
+  // @@protoc_insertion_point(field_get:S2S.DBPlayerBaseInfo.channel_id)
+  return _internal_channel_id();
+}
+inline void DBPlayerBaseInfo::_internal_set_channel_id(int32_t value) {
+  
+  _impl_.channel_id_ = value;
+}
+inline void DBPlayerBaseInfo::set_channel_id(int32_t value) {
+  _internal_set_channel_id(value);
+  // @@protoc_insertion_point(field_set:S2S.DBPlayerBaseInfo.channel_id)
+}
+
+// string nickname = 5;
 inline void DBPlayerBaseInfo::clear_nickname() {
   _impl_.nickname_.ClearToEmpty();
 }
@@ -601,7 +768,7 @@ inline void DBPlayerBaseInfo::set_allocated_nickname(std::string* nickname) {
   // @@protoc_insertion_point(field_set_allocated:S2S.DBPlayerBaseInfo.nickname)
 }
 
-// string ip = 4;
+// string ip = 6;
 inline void DBPlayerBaseInfo::clear_ip() {
   _impl_.ip_.ClearToEmpty();
 }

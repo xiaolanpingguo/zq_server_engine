@@ -14,8 +14,8 @@ public:
 	PlayerOperatorModule(Player& player);
 	~PlayerOperatorModule();
 
-	bool loadFromDB(const S2S::DBPlayerData& playerDBData) override;
-	bool saveToDB(S2S::DBPlayerData& playerDBData) override;
+	bool loadFromDB(const S2S::DBPlayerData& dbPlayerData) override;
+	bool saveToDB(S2S::DBPlayerData& dbPlayerData) override;
 
 public:
 	Player& m_player;
