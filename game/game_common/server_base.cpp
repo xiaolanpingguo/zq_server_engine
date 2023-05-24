@@ -13,6 +13,7 @@ ServerBase::ServerBase(int argc, char* argv[])
 		m_ioContext(),
 		m_work(m_ioContext),
 		m_signals(m_ioContext),
+		m_stop(false),
 		m_timer(std::make_unique<Timer>(m_ioContext))
 {
 	std::string fileName;
@@ -87,15 +88,43 @@ bool ServerBase::start()
 
 void ServerBase::run()
 {
-	addTimer(std::chrono::milliseconds(1), std::bind(&ServerBase::update, this, std::placeholders::_1));
-	m_ioContext.run();
+	try
+	{
+		static const std::chrono::steady_clock::time_point applicationStartTime = std::chrono::steady_clock::now();
+		static uint64_t lastTime = std::chrono::duration_cast<std::chrono::microseconds>(std::chrono::steady_clock::now() - applicationStartTime).count();
+		while (!m_stop)
+		{
+			uint64_t now = std::chrono::duration_cast<std::chrono::microseconds>(std::chrono::steady_clock::now() - applicationStartTime).count();
+			uint64_t delta = (now >= lastTime) ? (now - lastTime) : 0;
+
+			m_ioContext.poll_one();
+			update(delta);
+
+			lastTime = now;
+		}
+	}
+	catch (const std::exception& e)
+	{
+		LOG_ERROR(s_logCategory, "!!!exception occurred, server:{}, appId:{}, e:{}", getName(), getAppIdStr(), e.what());
+	}
+
+	stop();
+}
+
+void ServerBase::shutdown()
+{
+	m_stop = true;
 }
 
 void ServerBase::stop()
 {
-	if (!m_ioContext.stopped())
+	LOG_INFO(s_logCategory, "server:{}, appId:{} will to stop...", getName(), getAppIdStr());
+
+	if (m_timer != nullptr)
 	{
-		m_ioContext.stop();
+		m_timer->stop();
+		m_timer = nullptr;
+		LOG_INFO(s_logCategory, "timer has stopped");
 	}
 
 	for (auto& it : m_modules)
@@ -105,11 +134,19 @@ void ServerBase::stop()
 			LOG_ERROR(s_logCategory, "module:{} finalize failed, name:{}", it.first);
 		}
 
+		LOG_INFO(s_logCategory, "module: {}, has stopped", it.first);
 		delete it.second;
 		it.second = nullptr;
 	}
 
 	m_modules.clear();
+
+	if (!m_ioContext.stopped())
+	{
+		m_ioContext.stop();
+	}
+	LOG_INFO(s_logCategory, "io service has stopped");
+
 	Log::getInstance().finalize();
 }
 
@@ -165,16 +202,18 @@ bool ServerBase::initModules()
 			LOG_ERROR(s_logCategory, "init module failed, name:{}", it.first);
 			return false;
 		}
+
+		LOG_INFO(s_logCategory, "init module: {}..", it.first);
 	}
 
 	return true;
 }
 
-void ServerBase::update(void* userData)
+void ServerBase::update(uint64_t delta)
 {
 	for (const auto& it : m_modules)
 	{
-		it.second->update();
+		it.second->update(delta);
 	}
 }
 

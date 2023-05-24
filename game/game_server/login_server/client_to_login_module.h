@@ -30,6 +30,7 @@ private:
 	void onClientConnected(TcpConnectionPtr connection);
 	void onClientDisconnected(TcpConnectionPtr connection);
 	void onClientDataReceived(TcpConnectionPtr connection, uint16_t msgId, const void* data, size_t len);
+	void onServerRegisterSuccess();
 
 private:
 	void onC2SHeatBeatReq(TcpConnectionPtr connection, const C2S::C2SHeartBeat& msg);

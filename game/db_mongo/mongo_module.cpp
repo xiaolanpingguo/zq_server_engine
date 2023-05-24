@@ -48,7 +48,7 @@ bool MongoModule::init()
 	return true;
 }
 
-bool MongoModule::update()
+bool MongoModule::update(uint64_t delta)
 {
 	processCallbacks();
 	return true;

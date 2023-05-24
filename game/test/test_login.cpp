@@ -1,6 +1,6 @@
 #include "test.h"
 #include "network/tcp_client.hpp"
-#include "protocol/c2s/c2s_common.pb.h"
+#include "protocol/c2s/c2s_login.pb.h"
 #include "protocol/s2s/s2s_global_data.pb.h"
 #include "game_common/message_helper.hpp"
 using namespace zq;
@@ -61,13 +61,12 @@ public:
 	void onC2SLoginRes(TcpConnectionPtr connection, const C2S::C2SLoginRes& res)
 	{
 		int errorCode = res.error_code();
-		std::string zoneToken = res.zone_token();
 		std::string ip = res.ip();
 		int port = res.port();
 		std::string profileId = res.profile_id();
 
 		LOG_INFO(s_logCategory, "onC2SLoginRes, errorCode:{},zoneToken:{},ip:{},port:{},profileId:{}",
-				errorCode, zoneToken, ip, port, profileId);
+				errorCode, ip, port, profileId);
 	}
 
 private:

@@ -21,6 +21,8 @@ public:
 	uint64_t addTimer(std::chrono::steady_clock::duration interval, const std::function<void(void*)>& fn, bool runOnce = false);
 	bool cancelTimer(uint64_t id);
 
+	void stop();
+
 private:
 
 	void timerCallback(std::shared_ptr<asio::steady_timer> timer, std::shared_ptr <TimerData> timerData);

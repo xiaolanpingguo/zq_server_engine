@@ -21,15 +21,16 @@ public:
 	using DisconnectFromServerCallbackT = typename ConnectionT::DisconnectFromServerCallbackT;
 	using DataReceivedCallbackT = typename ConnectionT::DataReceivedCallbackT;
 
-    TcpClient(asio::io_context& ioContext, const std::string& host, uint16_t port, int connectTimeoutMs = 5000) 
+    TcpClient(asio::io_context& ioContext, const std::string& host, uint16_t port, int connectTimeoutMs = 3000, int reconnectSecondsInterval = 5)
 		:
 			m_ioContext(ioContext),
 			m_socket(m_ioContext),
 			m_resolver(m_ioContext),
+			m_reconnectTimer(m_ioContext),
 			m_host(host),
 			m_port(port),
 			m_connectTimeoutMs(connectTimeoutMs),
-			m_retryCount(3)
+			m_reconnectSecondsInterval(reconnectSecondsInterval)
 	{
     }
 
@@ -57,6 +58,8 @@ public:
 							asio::error_code ignore;
 							timer->cancel(ignore);
 						}
+
+						reconnect();
 						return;
 					}
 
@@ -74,7 +77,7 @@ public:
 
 							std::shared_ptr<ConnectionT> conn = std::make_shared<ConnectionT>(m_ioContext, std::move(m_socket), 0, true);
 							conn->setConnectToServerCb(m_onConnectToServer);
-							conn->setDisconnectFromServerCb(m_onDisconnectFromServer);
+							conn->setDisconnectFromServerCb(std::bind(&TcpClient::onDisconnectedFromServer, this->shared_from_this(), std::placeholders::_1));
 							conn->setDataReceivedCb(m_onDataReceived);
 							conn->start();
 						}
@@ -94,17 +97,7 @@ public:
 								m_onConnectToServer(nullptr, fmt::format("connecte {}:{} failed, error msg:{}!", m_host, m_port, ec ? ec.message() : "unkown error."));
 							}
 
-							if (m_retryCount <= 0)
-							{
-								return;
-							}
-
-							if (m_retryCount > 0)
-							{
-								m_retryCount--;
-							}
-
-							asyncConnect();
+							reconnect();
 						}
 					});
 				});
@@ -144,17 +137,37 @@ private:
 		LOG_ERROR(s_logCategory, "connect to server timout...");
 	}
 
+	void reconnect()
+	{
+		asio::error_code ignore;
+		m_reconnectTimer.cancel(ignore);
+		m_reconnectTimer.expires_after(std::chrono::seconds(m_reconnectSecondsInterval));
+		m_reconnectTimer.async_wait(std::bind(&TcpClient::asyncConnect, this->shared_from_this()));
+		LOG_ERROR(s_logCategory, "will to reconnecte to {}:{} in {} seconds later", m_host, m_port, m_reconnectSecondsInterval);
+	}
+
+	void onDisconnectedFromServer(std::shared_ptr<ConnectionT> connection)
+	{
+		if (m_onDisconnectFromServer)
+		{
+			m_onDisconnectFromServer(connection);
+		}
+
+		reconnect();
+	}
+
 private:
 
 	asio::io_context& m_ioContext;
 	asio::ip::tcp::socket m_socket;
 	asio::ip::tcp::resolver m_resolver;
+	asio::steady_timer m_reconnectTimer;
 
 	std::string m_host;
 	uint16_t m_port;
 
 	int m_connectTimeoutMs;
-	int m_retryCount;
+	int m_reconnectSecondsInterval;
 
 	ConnectToServerCallbackT m_onConnectToServer;
 	DisconnectFromServerCallbackT m_onDisconnectFromServer;

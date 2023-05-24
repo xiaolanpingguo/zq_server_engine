@@ -53,7 +53,7 @@ public:
 
 public:
 	bool init() override;
-	bool update() override;
+	bool update(uint64_t delta) override;
 	bool finalize() override;
 
 	RedisResultPtr exeCmd(RedisClient& client, const std::string& cmd);

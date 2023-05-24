@@ -127,13 +127,13 @@ public:
 		std::string str;
 		if (level <= LogLevel::Info)
 		{
-			//str = std::vformat("[{}][{}][{}]: ", std::make_format_args(category, toStringLvel(level), strTime));
-			str = fmt::format("[{}][{}][{}]: ", category, toStringLvel(level), strTime);
+			//str = std::vformat("{}-[{}][{}]: ", std::make_format_args(strTime, category, toStringLvel(level)));
+			str = fmt::format("{}-[{}][{}]: ", strTime, category, toStringLvel(level));
 		}
 		else
 		{
-			//str = std::vformat("[{}][{}][{}:{}:{}()-{}]: ", std::make_format_args(category, toStringLvel(level), file, line, fun, strTime));
-			str = fmt::format("[{}][{}][{}:{}:{}()-{}]: ", category, toStringLvel(level), file, line, fun, strTime);
+			//str = std::vformat("{}-[{}][{}][{}:{}:{}]: ", std::make_format_args(strTime, category, toStringLvel(level), file, line, fun));
+			str = fmt::format("{}-[{}][{}][{}:{}:{}]: ", strTime, category, toStringLvel(level), file, line, fun);
 		}
 		//str += std::vformat(fmt, std::make_format_args(std::forward<Args>(args)...));
 		str += fmt::format(fmt, std::forward<Args>(args)...);
@@ -283,15 +283,15 @@ private:
 		switch (lv)
 		{
 			case LogLevel::Error:
-				return "| ERROR |";
+				return "ERROR";
 			case LogLevel::Warn:
-				return "| WARN |";
+				return "WARN";
 			case LogLevel::Info:
-				return "| INFO |";
+				return "INFO";
 			case LogLevel::Debug:
-				return "| DEBUG |";
+				return "DEBUG";
 			default:
-				return "| NULL |";
+				return "NULL";
 		}
 	}
 

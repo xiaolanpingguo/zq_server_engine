@@ -73,7 +73,7 @@ public:
 		}
 	}
 
-	bool isOpen() { return !m_closed && m_socket.is_open(); }
+	bool isOpen() { return !m_closed && !m_delayClose && m_socket.is_open(); }
 
 	void close()
 	{
@@ -86,11 +86,11 @@ public:
 
 		if (m_isClient)
 		{
-			onDisconnectFromServer();
+			this->onDisconnectFromServer();
 		}
 		else
 		{
-			onClientDisconnect();
+			this->onClientDisconnect();
 		}
 
 		asio::error_code ec;

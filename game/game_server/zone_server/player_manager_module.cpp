@@ -25,7 +25,7 @@ bool PlayerManagerModule::init()
 	return true;
 }
 
-bool PlayerManagerModule::update()
+bool PlayerManagerModule::update(uint64_t delta)
 {
 	return true;
 }

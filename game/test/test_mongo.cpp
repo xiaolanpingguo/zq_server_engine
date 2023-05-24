@@ -178,7 +178,7 @@ bool testMongo()
 
 	while (1)
 	{
-		m.update();
+		m.update(0);
 	}
 
 	return true;

@@ -90,7 +90,7 @@ bool RedisModule::init()
 	return true;
 }
 
-bool RedisModule::update()
+bool RedisModule::update(uint64_t delta)
 {
 	processCallbacks();
 	return true;

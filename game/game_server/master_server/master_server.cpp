@@ -1,5 +1,6 @@
 #include "game_server/master_server/master_server.h"
 #include "game_server/master_server/internal_server_module.h"
+#include "game_common/command_module.h"
 #include <nlohmann-json/json.hpp>
 
 
@@ -20,8 +21,9 @@ MasterServer::~MasterServer()
 
 bool MasterServer::registerServerModules()
 {
-	bool r = registerModule<InternalServerModule>(this);
-	return r;
+	registerModule<CommandModule>();
+	registerModule<InternalServerModule>(this);
+	return true;
 }
 
 bool MasterServer::readServerConfig()

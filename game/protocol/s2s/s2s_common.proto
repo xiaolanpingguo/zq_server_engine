@@ -28,18 +28,16 @@ enum S2S_MSG_ID
 
 message S2SHeartBeat
 {
-	int32 server_type = 1; 
-	int32 server_id = 2; 
-	int32 state = 3;
+	string app_id = 1; 
+	int32 state = 2;
 }
 
 
 message ServerInfo
 {
-	int32 server_type = 1; 
-	int32 server_id = 2; 
-	int32 port = 3; 
-	string ip = 4;
+	string app_id = 1; 
+	string internal_ip = 2;
+	int32 internal_port = 3; 
 }
 
 message S2SServerRegisterReq
@@ -50,7 +48,6 @@ message S2SServerRegisterReq
 message S2SServerRegisterRes
 {
 	bool success = 1;
-	string error_msg = 2;
 }
 
 

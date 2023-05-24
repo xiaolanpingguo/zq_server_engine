@@ -24,6 +24,7 @@ public:
 
 	bool start();
 	void run();
+	void shutdown();
 
 	uint64_t addTimer(std::chrono::steady_clock::duration interval, const std::function<void(void*)>& fn, bool runOnce = false);
 	bool cancelTimer(uint64_t id);
@@ -69,7 +70,7 @@ private:
 
 	void signalHandler(std::error_code ec, int signo);
 
-	void update(void* userData);
+	void update(uint64_t delta);
 
 protected:
 
@@ -79,6 +80,7 @@ protected:
 	asio::io_context m_ioContext;
 	asio::io_context::work m_work;
 	asio::signal_set m_signals;
+	bool m_stop;
 
 	std::unique_ptr<Timer> m_timer;
 	std::unordered_map<std::string, IModule*> m_modules;

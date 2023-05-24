@@ -65,7 +65,7 @@ inline std::string_view stringConvert(const std::string_view& s)
 e. split("aa/bb/cc","/")
 */
 template <class T>
-std::vector<T> split(const std::string_view& src, const std::string_view& sep)
+std::vector<T> split(std::string_view src, std::string_view sep)
 {
 	std::vector<T> r;
 	std::string_view::const_iterator b = src.begin();

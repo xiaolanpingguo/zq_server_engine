@@ -23,6 +23,8 @@ public:
 	bool init() override;
 	bool finalize() override;
 
+	void registerSuccessCallback(const std::function<void()>& cb) { m_registerSuccessCb = cb; }
+
 private:
 	void onConnectToServerCallback(TcpConnectionPtr connection, const std::string& errorMsg);
 	void onDisconnectedFromServer(TcpConnectionPtr connection);
@@ -31,14 +33,14 @@ private:
 private:
 	void onS2SServerRegisterRes(TcpConnectionPtr connection, const S2S::S2SServerRegisterRes& msg);
 
-	async_simple::coro::Lazy<bool> testFun1();
-
 private:
 	ZoneServer* m_thisServer;
 	std::shared_ptr<TcpClient<TcpConnection>> m_tcpClient;
+	TcpConnectionPtr m_masterConnection;
 	CoroutineConnectionPtr m_coConnection;
+	std::function<void()> m_registerSuccessCb;
 
-	constexpr static std::string_view s_logCategory = "WorldToMasterModule";
+	constexpr static std::string_view s_logCategory = "ZoneToMasterModule";
 };
 
 } //namespace zq

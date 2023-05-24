@@ -34,7 +34,7 @@ public:
 
 public:
 	bool init() override;
-	bool update() override;
+	bool update(uint64_t delta) override;
 	bool finalize() override;
 
 	async_simple::coro::Lazy<MongoResultPtr> insert(const std::string& dbName, const std::string& collectionName, BsonObjectPtr insertor);

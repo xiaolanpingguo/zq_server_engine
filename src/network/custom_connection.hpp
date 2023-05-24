@@ -145,7 +145,7 @@ private:
 
 	MessageBuffer m_readBuffer;
 
-	constexpr static std::string_view s_logCategory = "SocketConnection";
+	constexpr static std::string_view s_logCategory = "CustomConnection";
 };
 
 }

@@ -227,29 +227,24 @@ class S2SHeartBeat final :
   // accessors -------------------------------------------------------
 
   enum : int {
-    kServerTypeFieldNumber = 1,
-    kServerIdFieldNumber = 2,
-    kStateFieldNumber = 3,
+    kAppIdFieldNumber = 1,
+    kStateFieldNumber = 2,
   };
-  // int32 server_type = 1;
-  void clear_server_type();
-  int32_t server_type() const;
-  void set_server_type(int32_t value);
+  // string app_id = 1;
+  void clear_app_id();
+  const std::string& app_id() const;
+  template <typename ArgT0 = const std::string&, typename... ArgT>
+  void set_app_id(ArgT0&& arg0, ArgT... args);
+  std::string* mutable_app_id();
+  PROTOBUF_NODISCARD std::string* release_app_id();
+  void set_allocated_app_id(std::string* app_id);
   private:
-  int32_t _internal_server_type() const;
-  void _internal_set_server_type(int32_t value);
+  const std::string& _internal_app_id() const;
+  inline PROTOBUF_ALWAYS_INLINE void _internal_set_app_id(const std::string& value);
+  std::string* _internal_mutable_app_id();
   public:
 
-  // int32 server_id = 2;
-  void clear_server_id();
-  int32_t server_id() const;
-  void set_server_id(int32_t value);
-  private:
-  int32_t _internal_server_id() const;
-  void _internal_set_server_id(int32_t value);
-  public:
-
-  // int32 state = 3;
+  // int32 state = 2;
   void clear_state();
   int32_t state() const;
   void set_state(int32_t value);
@@ -266,8 +261,7 @@ class S2SHeartBeat final :
   typedef void InternalArenaConstructable_;
   typedef void DestructorSkippable_;
   struct Impl_ {
-    int32_t server_type_;
-    int32_t server_id_;
+    ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr app_id_;
     int32_t state_;
     mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
   };
@@ -397,50 +391,45 @@ class ServerInfo final :
   // accessors -------------------------------------------------------
 
   enum : int {
-    kIpFieldNumber = 4,
-    kServerTypeFieldNumber = 1,
-    kServerIdFieldNumber = 2,
-    kPortFieldNumber = 3,
+    kAppIdFieldNumber = 1,
+    kInternalIpFieldNumber = 2,
+    kInternalPortFieldNumber = 3,
   };
-  // string ip = 4;
-  void clear_ip();
-  const std::string& ip() const;
+  // string app_id = 1;
+  void clear_app_id();
+  const std::string& app_id() const;
   template <typename ArgT0 = const std::string&, typename... ArgT>
-  void set_ip(ArgT0&& arg0, ArgT... args);
-  std::string* mutable_ip();
-  PROTOBUF_NODISCARD std::string* release_ip();
-  void set_allocated_ip(std::string* ip);
+  void set_app_id(ArgT0&& arg0, ArgT... args);
+  std::string* mutable_app_id();
+  PROTOBUF_NODISCARD std::string* release_app_id();
+  void set_allocated_app_id(std::string* app_id);
   private:
-  const std::string& _internal_ip() const;
-  inline PROTOBUF_ALWAYS_INLINE void _internal_set_ip(const std::string& value);
-  std::string* _internal_mutable_ip();
+  const std::string& _internal_app_id() const;
+  inline PROTOBUF_ALWAYS_INLINE void _internal_set_app_id(const std::string& value);
+  std::string* _internal_mutable_app_id();
   public:
 
-  // int32 server_type = 1;
-  void clear_server_type();
-  int32_t server_type() const;
-  void set_server_type(int32_t value);
+  // string internal_ip = 2;
+  void clear_internal_ip();
+  const std::string& internal_ip() const;
+  template <typename ArgT0 = const std::string&, typename... ArgT>
+  void set_internal_ip(ArgT0&& arg0, ArgT... args);
+  std::string* mutable_internal_ip();
+  PROTOBUF_NODISCARD std::string* release_internal_ip();
+  void set_allocated_internal_ip(std::string* internal_ip);
   private:
-  int32_t _internal_server_type() const;
-  void _internal_set_server_type(int32_t value);
+  const std::string& _internal_internal_ip() const;
+  inline PROTOBUF_ALWAYS_INLINE void _internal_set_internal_ip(const std::string& value);
+  std::string* _internal_mutable_internal_ip();
   public:
 
-  // int32 server_id = 2;
-  void clear_server_id();
-  int32_t server_id() const;
-  void set_server_id(int32_t value);
+  // int32 internal_port = 3;
+  void clear_internal_port();
+  int32_t internal_port() const;
+  void set_internal_port(int32_t value);
   private:
-  int32_t _internal_server_id() const;
-  void _internal_set_server_id(int32_t value);
-  public:
-
-  // int32 port = 3;
-  void clear_port();
-  int32_t port() const;
-  void set_port(int32_t value);
-  private:
-  int32_t _internal_port() const;
-  void _internal_set_port(int32_t value);
+  int32_t _internal_internal_port() const;
+  void _internal_set_internal_port(int32_t value);
   public:
 
   // @@protoc_insertion_point(class_scope:S2S.ServerInfo)
@@ -451,10 +440,9 @@ class ServerInfo final :
   typedef void InternalArenaConstructable_;
   typedef void DestructorSkippable_;
   struct Impl_ {
-    ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr ip_;
-    int32_t server_type_;
-    int32_t server_id_;
-    int32_t port_;
+    ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr app_id_;
+    ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr internal_ip_;
+    int32_t internal_port_;
     mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
   };
   union { Impl_ _impl_; };
@@ -740,23 +728,8 @@ class S2SServerRegisterRes final :
   // accessors -------------------------------------------------------
 
   enum : int {
-    kErrorMsgFieldNumber = 2,
     kSuccessFieldNumber = 1,
   };
-  // string error_msg = 2;
-  void clear_error_msg();
-  const std::string& error_msg() const;
-  template <typename ArgT0 = const std::string&, typename... ArgT>
-  void set_error_msg(ArgT0&& arg0, ArgT... args);
-  std::string* mutable_error_msg();
-  PROTOBUF_NODISCARD std::string* release_error_msg();
-  void set_allocated_error_msg(std::string* error_msg);
-  private:
-  const std::string& _internal_error_msg() const;
-  inline PROTOBUF_ALWAYS_INLINE void _internal_set_error_msg(const std::string& value);
-  std::string* _internal_mutable_error_msg();
-  public:
-
   // bool success = 1;
   void clear_success();
   bool success() const;
@@ -774,7 +747,6 @@ class S2SServerRegisterRes final :
   typedef void InternalArenaConstructable_;
   typedef void DestructorSkippable_;
   struct Impl_ {
-    ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr error_msg_;
     bool success_;
     mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
   };
@@ -792,47 +764,57 @@ class S2SServerRegisterRes final :
 #endif  // __GNUC__
 // S2SHeartBeat
 
-// int32 server_type = 1;
-inline void S2SHeartBeat::clear_server_type() {
-  _impl_.server_type_ = 0;
+// string app_id = 1;
+inline void S2SHeartBeat::clear_app_id() {
+  _impl_.app_id_.ClearToEmpty();
 }
-inline int32_t S2SHeartBeat::_internal_server_type() const {
-  return _impl_.server_type_;
+inline const std::string& S2SHeartBeat::app_id() const {
+  // @@protoc_insertion_point(field_get:S2S.S2SHeartBeat.app_id)
+  return _internal_app_id();
 }
-inline int32_t S2SHeartBeat::server_type() const {
-  // @@protoc_insertion_point(field_get:S2S.S2SHeartBeat.server_type)
-  return _internal_server_type();
+template <typename ArgT0, typename... ArgT>
+inline PROTOBUF_ALWAYS_INLINE
+void S2SHeartBeat::set_app_id(ArgT0&& arg0, ArgT... args) {
+ 
+ _impl_.app_id_.Set(static_cast<ArgT0 &&>(arg0), args..., GetArenaForAllocation());
+  // @@protoc_insertion_point(field_set:S2S.S2SHeartBeat.app_id)
 }
-inline void S2SHeartBeat::_internal_set_server_type(int32_t value) {
+inline std::string* S2SHeartBeat::mutable_app_id() {
+  std::string* _s = _internal_mutable_app_id();
+  // @@protoc_insertion_point(field_mutable:S2S.S2SHeartBeat.app_id)
+  return _s;
+}
+inline const std::string& S2SHeartBeat::_internal_app_id() const {
+  return _impl_.app_id_.Get();
+}
+inline void S2SHeartBeat::_internal_set_app_id(const std::string& value) {
   
-  _impl_.server_type_ = value;
+  _impl_.app_id_.Set(value, GetArenaForAllocation());
 }
-inline void S2SHeartBeat::set_server_type(int32_t value) {
-  _internal_set_server_type(value);
-  // @@protoc_insertion_point(field_set:S2S.S2SHeartBeat.server_type)
+inline std::string* S2SHeartBeat::_internal_mutable_app_id() {
+  
+  return _impl_.app_id_.Mutable(GetArenaForAllocation());
+}
+inline std::string* S2SHeartBeat::release_app_id() {
+  // @@protoc_insertion_point(field_release:S2S.S2SHeartBeat.app_id)
+  return _impl_.app_id_.Release();
+}
+inline void S2SHeartBeat::set_allocated_app_id(std::string* app_id) {
+  if (app_id != nullptr) {
+    
+  } else {
+    
+  }
+  _impl_.app_id_.SetAllocated(app_id, GetArenaForAllocation());
+#ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  if (_impl_.app_id_.IsDefault()) {
+    _impl_.app_id_.Set("", GetArenaForAllocation());
+  }
+#endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  // @@protoc_insertion_point(field_set_allocated:S2S.S2SHeartBeat.app_id)
 }
 
-// int32 server_id = 2;
-inline void S2SHeartBeat::clear_server_id() {
-  _impl_.server_id_ = 0;
-}
-inline int32_t S2SHeartBeat::_internal_server_id() const {
-  return _impl_.server_id_;
-}
-inline int32_t S2SHeartBeat::server_id() const {
-  // @@protoc_insertion_point(field_get:S2S.S2SHeartBeat.server_id)
-  return _internal_server_id();
-}
-inline void S2SHeartBeat::_internal_set_server_id(int32_t value) {
-  
-  _impl_.server_id_ = value;
-}
-inline void S2SHeartBeat::set_server_id(int32_t value) {
-  _internal_set_server_id(value);
-  // @@protoc_insertion_point(field_set:S2S.S2SHeartBeat.server_id)
-}
-
-// int32 state = 3;
+// int32 state = 2;
 inline void S2SHeartBeat::clear_state() {
   _impl_.state_ = 0;
 }
@@ -856,114 +838,124 @@ inline void S2SHeartBeat::set_state(int32_t value) {
 
 // ServerInfo
 
-// int32 server_type = 1;
-inline void ServerInfo::clear_server_type() {
-  _impl_.server_type_ = 0;
+// string app_id = 1;
+inline void ServerInfo::clear_app_id() {
+  _impl_.app_id_.ClearToEmpty();
 }
-inline int32_t ServerInfo::_internal_server_type() const {
-  return _impl_.server_type_;
-}
-inline int32_t ServerInfo::server_type() const {
-  // @@protoc_insertion_point(field_get:S2S.ServerInfo.server_type)
-  return _internal_server_type();
-}
-inline void ServerInfo::_internal_set_server_type(int32_t value) {
-  
-  _impl_.server_type_ = value;
-}
-inline void ServerInfo::set_server_type(int32_t value) {
-  _internal_set_server_type(value);
-  // @@protoc_insertion_point(field_set:S2S.ServerInfo.server_type)
-}
-
-// int32 server_id = 2;
-inline void ServerInfo::clear_server_id() {
-  _impl_.server_id_ = 0;
-}
-inline int32_t ServerInfo::_internal_server_id() const {
-  return _impl_.server_id_;
-}
-inline int32_t ServerInfo::server_id() const {
-  // @@protoc_insertion_point(field_get:S2S.ServerInfo.server_id)
-  return _internal_server_id();
-}
-inline void ServerInfo::_internal_set_server_id(int32_t value) {
-  
-  _impl_.server_id_ = value;
-}
-inline void ServerInfo::set_server_id(int32_t value) {
-  _internal_set_server_id(value);
-  // @@protoc_insertion_point(field_set:S2S.ServerInfo.server_id)
-}
-
-// int32 port = 3;
-inline void ServerInfo::clear_port() {
-  _impl_.port_ = 0;
-}
-inline int32_t ServerInfo::_internal_port() const {
-  return _impl_.port_;
-}
-inline int32_t ServerInfo::port() const {
-  // @@protoc_insertion_point(field_get:S2S.ServerInfo.port)
-  return _internal_port();
-}
-inline void ServerInfo::_internal_set_port(int32_t value) {
-  
-  _impl_.port_ = value;
-}
-inline void ServerInfo::set_port(int32_t value) {
-  _internal_set_port(value);
-  // @@protoc_insertion_point(field_set:S2S.ServerInfo.port)
-}
-
-// string ip = 4;
-inline void ServerInfo::clear_ip() {
-  _impl_.ip_.ClearToEmpty();
-}
-inline const std::string& ServerInfo::ip() const {
-  // @@protoc_insertion_point(field_get:S2S.ServerInfo.ip)
-  return _internal_ip();
+inline const std::string& ServerInfo::app_id() const {
+  // @@protoc_insertion_point(field_get:S2S.ServerInfo.app_id)
+  return _internal_app_id();
 }
 template <typename ArgT0, typename... ArgT>
 inline PROTOBUF_ALWAYS_INLINE
-void ServerInfo::set_ip(ArgT0&& arg0, ArgT... args) {
+void ServerInfo::set_app_id(ArgT0&& arg0, ArgT... args) {
  
- _impl_.ip_.Set(static_cast<ArgT0 &&>(arg0), args..., GetArenaForAllocation());
-  // @@protoc_insertion_point(field_set:S2S.ServerInfo.ip)
+ _impl_.app_id_.Set(static_cast<ArgT0 &&>(arg0), args..., GetArenaForAllocation());
+  // @@protoc_insertion_point(field_set:S2S.ServerInfo.app_id)
 }
-inline std::string* ServerInfo::mutable_ip() {
-  std::string* _s = _internal_mutable_ip();
-  // @@protoc_insertion_point(field_mutable:S2S.ServerInfo.ip)
+inline std::string* ServerInfo::mutable_app_id() {
+  std::string* _s = _internal_mutable_app_id();
+  // @@protoc_insertion_point(field_mutable:S2S.ServerInfo.app_id)
   return _s;
 }
-inline const std::string& ServerInfo::_internal_ip() const {
-  return _impl_.ip_.Get();
+inline const std::string& ServerInfo::_internal_app_id() const {
+  return _impl_.app_id_.Get();
 }
-inline void ServerInfo::_internal_set_ip(const std::string& value) {
+inline void ServerInfo::_internal_set_app_id(const std::string& value) {
   
-  _impl_.ip_.Set(value, GetArenaForAllocation());
+  _impl_.app_id_.Set(value, GetArenaForAllocation());
 }
-inline std::string* ServerInfo::_internal_mutable_ip() {
+inline std::string* ServerInfo::_internal_mutable_app_id() {
   
-  return _impl_.ip_.Mutable(GetArenaForAllocation());
+  return _impl_.app_id_.Mutable(GetArenaForAllocation());
 }
-inline std::string* ServerInfo::release_ip() {
-  // @@protoc_insertion_point(field_release:S2S.ServerInfo.ip)
-  return _impl_.ip_.Release();
+inline std::string* ServerInfo::release_app_id() {
+  // @@protoc_insertion_point(field_release:S2S.ServerInfo.app_id)
+  return _impl_.app_id_.Release();
 }
-inline void ServerInfo::set_allocated_ip(std::string* ip) {
-  if (ip != nullptr) {
+inline void ServerInfo::set_allocated_app_id(std::string* app_id) {
+  if (app_id != nullptr) {
     
   } else {
     
   }
-  _impl_.ip_.SetAllocated(ip, GetArenaForAllocation());
+  _impl_.app_id_.SetAllocated(app_id, GetArenaForAllocation());
 #ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
-  if (_impl_.ip_.IsDefault()) {
-    _impl_.ip_.Set("", GetArenaForAllocation());
+  if (_impl_.app_id_.IsDefault()) {
+    _impl_.app_id_.Set("", GetArenaForAllocation());
   }
 #endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
-  // @@protoc_insertion_point(field_set_allocated:S2S.ServerInfo.ip)
+  // @@protoc_insertion_point(field_set_allocated:S2S.ServerInfo.app_id)
+}
+
+// string internal_ip = 2;
+inline void ServerInfo::clear_internal_ip() {
+  _impl_.internal_ip_.ClearToEmpty();
+}
+inline const std::string& ServerInfo::internal_ip() const {
+  // @@protoc_insertion_point(field_get:S2S.ServerInfo.internal_ip)
+  return _internal_internal_ip();
+}
+template <typename ArgT0, typename... ArgT>
+inline PROTOBUF_ALWAYS_INLINE
+void ServerInfo::set_internal_ip(ArgT0&& arg0, ArgT... args) {
+ 
+ _impl_.internal_ip_.Set(static_cast<ArgT0 &&>(arg0), args..., GetArenaForAllocation());
+  // @@protoc_insertion_point(field_set:S2S.ServerInfo.internal_ip)
+}
+inline std::string* ServerInfo::mutable_internal_ip() {
+  std::string* _s = _internal_mutable_internal_ip();
+  // @@protoc_insertion_point(field_mutable:S2S.ServerInfo.internal_ip)
+  return _s;
+}
+inline const std::string& ServerInfo::_internal_internal_ip() const {
+  return _impl_.internal_ip_.Get();
+}
+inline void ServerInfo::_internal_set_internal_ip(const std::string& value) {
+  
+  _impl_.internal_ip_.Set(value, GetArenaForAllocation());
+}
+inline std::string* ServerInfo::_internal_mutable_internal_ip() {
+  
+  return _impl_.internal_ip_.Mutable(GetArenaForAllocation());
+}
+inline std::string* ServerInfo::release_internal_ip() {
+  // @@protoc_insertion_point(field_release:S2S.ServerInfo.internal_ip)
+  return _impl_.internal_ip_.Release();
+}
+inline void ServerInfo::set_allocated_internal_ip(std::string* internal_ip) {
+  if (internal_ip != nullptr) {
+    
+  } else {
+    
+  }
+  _impl_.internal_ip_.SetAllocated(internal_ip, GetArenaForAllocation());
+#ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  if (_impl_.internal_ip_.IsDefault()) {
+    _impl_.internal_ip_.Set("", GetArenaForAllocation());
+  }
+#endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
+  // @@protoc_insertion_point(field_set_allocated:S2S.ServerInfo.internal_ip)
+}
+
+// int32 internal_port = 3;
+inline void ServerInfo::clear_internal_port() {
+  _impl_.internal_port_ = 0;
+}
+inline int32_t ServerInfo::_internal_internal_port() const {
+  return _impl_.internal_port_;
+}
+inline int32_t ServerInfo::internal_port() const {
+  // @@protoc_insertion_point(field_get:S2S.ServerInfo.internal_port)
+  return _internal_internal_port();
+}
+inline void ServerInfo::_internal_set_internal_port(int32_t value) {
+  
+  _impl_.internal_port_ = value;
+}
+inline void ServerInfo::set_internal_port(int32_t value) {
+  _internal_set_internal_port(value);
+  // @@protoc_insertion_point(field_set:S2S.ServerInfo.internal_port)
 }
 
 // -------------------------------------------------------------------
@@ -1082,56 +1074,6 @@ inline void S2SServerRegisterRes::_internal_set_success(bool value) {
 inline void S2SServerRegisterRes::set_success(bool value) {
   _internal_set_success(value);
   // @@protoc_insertion_point(field_set:S2S.S2SServerRegisterRes.success)
-}
-
-// string error_msg = 2;
-inline void S2SServerRegisterRes::clear_error_msg() {
-  _impl_.error_msg_.ClearToEmpty();
-}
-inline const std::string& S2SServerRegisterRes::error_msg() const {
-  // @@protoc_insertion_point(field_get:S2S.S2SServerRegisterRes.error_msg)
-  return _internal_error_msg();
-}
-template <typename ArgT0, typename... ArgT>
-inline PROTOBUF_ALWAYS_INLINE
-void S2SServerRegisterRes::set_error_msg(ArgT0&& arg0, ArgT... args) {
- 
- _impl_.error_msg_.Set(static_cast<ArgT0 &&>(arg0), args..., GetArenaForAllocation());
-  // @@protoc_insertion_point(field_set:S2S.S2SServerRegisterRes.error_msg)
-}
-inline std::string* S2SServerRegisterRes::mutable_error_msg() {
-  std::string* _s = _internal_mutable_error_msg();
-  // @@protoc_insertion_point(field_mutable:S2S.S2SServerRegisterRes.error_msg)
-  return _s;
-}
-inline const std::string& S2SServerRegisterRes::_internal_error_msg() const {
-  return _impl_.error_msg_.Get();
-}
-inline void S2SServerRegisterRes::_internal_set_error_msg(const std::string& value) {
-  
-  _impl_.error_msg_.Set(value, GetArenaForAllocation());
-}
-inline std::string* S2SServerRegisterRes::_internal_mutable_error_msg() {
-  
-  return _impl_.error_msg_.Mutable(GetArenaForAllocation());
-}
-inline std::string* S2SServerRegisterRes::release_error_msg() {
-  // @@protoc_insertion_point(field_release:S2S.S2SServerRegisterRes.error_msg)
-  return _impl_.error_msg_.Release();
-}
-inline void S2SServerRegisterRes::set_allocated_error_msg(std::string* error_msg) {
-  if (error_msg != nullptr) {
-    
-  } else {
-    
-  }
-  _impl_.error_msg_.SetAllocated(error_msg, GetArenaForAllocation());
-#ifdef PROTOBUF_FORCE_COPY_DEFAULT_STRING
-  if (_impl_.error_msg_.IsDefault()) {
-    _impl_.error_msg_.Set("", GetArenaForAllocation());
-  }
-#endif // PROTOBUF_FORCE_COPY_DEFAULT_STRING
-  // @@protoc_insertion_point(field_set_allocated:S2S.S2SServerRegisterRes.error_msg)
 }
 
 #ifdef __GNUC__

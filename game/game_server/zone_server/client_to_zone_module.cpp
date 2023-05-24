@@ -1,4 +1,5 @@
 #include "game_server/zone_server/client_to_zone_module.h"
+#include "game_server/zone_server/zone_to_master_module.h"
 #include "game_common/message_helper.hpp"
 #include "game_server/zone_server/zone_server.h"
 #include "game_common/game_db_def.hpp"
@@ -29,15 +30,12 @@ bool ClientToZoneModule::init()
 	messagehelper.registerHandler<&ClientToZoneModule::onC2SHeatBeatReq>(this, C2S::MSG_ID_HEARTBEAT);
 	messagehelper.registerHandler<&ClientToZoneModule::onC2SClientLoginReq>(this, C2S::MSG_ID_LOGIN_ZONE_REQ);
 
+	m_thisServer->getModule<ZoneToMasterModule>()->registerSuccessCallback(std::bind(&ClientToZoneModule::onServerRegisterSuccess, this));
+
 	m_tcpServer = std::make_unique<TcpServer<TcpConnection>>(m_thisServer->getIoContext(), m_thisServer->getConfig().externalIp, m_thisServer->getConfig().externalPort);
 	m_tcpServer->setClientConnectedCb(std::bind(&ClientToZoneModule::onClientConnected, this, _1));
 	m_tcpServer->setClientDisconnectedCb(std::bind(&ClientToZoneModule::onClientDisconnected, this, _1));
 	m_tcpServer->setClientDataReceivedCb(std::bind(&ClientToZoneModule::onClientDataReceived, this, _1, _2, _3, _4));
-	if (!m_tcpServer->start())
-	{
-		LOG_ERROR(s_logCategory, "tcp server start failed!");
-		return false;
-	}
 
 	return true;
 }
@@ -59,6 +57,15 @@ void ClientToZoneModule::onClientDisconnected(TcpConnectionPtr connection)
 
 void ClientToZoneModule::onClientDataReceived(TcpConnectionPtr connection, uint16_t msgId, const void* data, uint32_t len)
 {
+}
+
+void ClientToZoneModule::onServerRegisterSuccess()
+{
+	if (!m_tcpServer->start())
+	{
+		LOG_ERROR(s_logCategory, "tcp server start failed!");
+		m_thisServer->shutdown();
+	}
 }
 
 void ClientToZoneModule::onC2SHeatBeatReq(TcpConnectionPtr connection, const C2S::C2SHeartBeat& msg)

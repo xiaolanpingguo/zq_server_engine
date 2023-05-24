@@ -8,7 +8,8 @@ namespace zq
 
 LoginToMasterModule::LoginToMasterModule(LoginServer* thisServer) :
 		m_thisServer(thisServer),
-		m_tcpClient(nullptr)
+		m_tcpClient(nullptr),
+		m_masterConnection(nullptr)
 {
 }
 
@@ -34,6 +35,12 @@ bool LoginToMasterModule::init()
 
 bool LoginToMasterModule::finalize()
 {
+	if (m_masterConnection)
+	{
+		m_masterConnection->close();
+		m_masterConnection = nullptr;
+	}
+
 	return true;
 }
 
@@ -46,14 +53,21 @@ void LoginToMasterModule::onConnectToServerCallback(TcpConnectionPtr connection,
 	}
 
 	LOG_INFO(s_logCategory, "connect to master server success!");
+
+	if (m_masterConnection)
+	{
+		m_masterConnection->close();
+		m_masterConnection = nullptr;
+	}
+
+	m_masterConnection = connection;
 	
 	S2S::S2SServerRegisterReq s2sPackage;
 	S2S::ServerInfo* serverInfo = s2sPackage.mutable_server_info();
-	serverInfo->set_server_type(100);
-	serverInfo->set_server_id(101);
-	serverInfo->set_ip("1234");
-	serverInfo->set_port(88);
-	MessageHelper::getInstance().sendPacket(connection, S2S::MSG_ID_SERVER_REGSTER_REQ, s2sPackage);
+	serverInfo->set_app_id(m_thisServer->getAppIdStr());
+	serverInfo->set_internal_ip(m_thisServer->getConfig().internalIp);
+	serverInfo->set_internal_port(m_thisServer->getConfig().internalPort);
+	MessageHelper::getInstance().sendPacket(m_masterConnection, S2S::MSG_ID_SERVER_REGSTER_REQ, s2sPackage);
 }
 
 void LoginToMasterModule::onDisconnectedFromServer(TcpConnectionPtr connection)
@@ -73,7 +87,15 @@ void fun11(TcpConnectionPtr connection, const S2S::S2SServerRegisterRes& res)
 
 void LoginToMasterModule::onS2SServerRegisterRes(TcpConnectionPtr connection, const S2S::S2SServerRegisterRes& res)
 {
-	LOG_INFO(s_logCategory, "onS2SServerRegisterRes, success:{}, error:{}", res.success(), res.error_msg());
+	if (res.success() && m_registerSuccessCb)
+	{
+		LOG_INFO(s_logCategory, "register to master success!");
+		m_registerSuccessCb();
+	}
+	else
+	{
+		LOG_ERROR(s_logCategory, "register to master failed, please check your appid!");
+	}
 }
 
 

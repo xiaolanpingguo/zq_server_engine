@@ -1,6 +1,9 @@
 #pragma once
 
 
+#include <stdint.h>
+
+
 namespace zq {
 
 
@@ -17,7 +20,7 @@ public:
 		return true;
 	}
 
-	virtual bool update()
+	virtual bool update(uint64_t delta)
 	{
 		return true;
 	}

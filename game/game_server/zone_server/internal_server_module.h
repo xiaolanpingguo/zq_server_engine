@@ -33,7 +33,7 @@ private:
 	ZoneServer* m_thisServer;
 	std::unique_ptr<TcpServer<TcpConnection>> m_tcpServer;
 
-	constexpr static std::string_view s_logCategory = "NetworkServerModule";
+	constexpr static std::string_view s_logCategory = "InternalServerModule";
 };
 
 }

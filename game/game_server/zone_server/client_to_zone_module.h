@@ -31,6 +31,7 @@ private:
 	void onClientConnected(TcpConnectionPtr connection);
 	void onClientDisconnected(TcpConnectionPtr connection);
 	void onClientDataReceived(TcpConnectionPtr connection, uint16_t msgId, const void* data, uint32_t len);
+	void onServerRegisterSuccess();
 
 private:
 	void onC2SHeatBeatReq(TcpConnectionPtr connection, const C2S::C2SHeartBeat& msg);
@@ -47,7 +48,7 @@ private:
 	ZoneServer* m_thisServer;
 	std::unique_ptr<TcpServer<TcpConnection>> m_tcpServer;
 
-	constexpr static std::string_view s_logCategory = "NetworkServerModule";
+	constexpr static std::string_view s_logCategory = "ClientToZoneModule";
 };
 
 }

@@ -22,6 +22,8 @@ public:
 	bool init() override;
 	bool finalize() override;
 
+	void registerSuccessCallback(const std::function<void()>& cb) { m_registerSuccessCb = cb; }
+
 private:
 	void onConnectToServerCallback(TcpConnectionPtr connection, const std::string& errorMsg);
 	void onDisconnectedFromServer(TcpConnectionPtr connection);
@@ -33,6 +35,9 @@ private:
 private:
 	LoginServer* m_thisServer;
 	std::shared_ptr<TcpClient<TcpConnection>> m_tcpClient;
+	TcpConnectionPtr m_masterConnection;
+
+	std::function<void()> m_registerSuccessCb;
 
 	constexpr static std::string_view s_logCategory = "WorldToMasterModule";
 };

@@ -23,7 +23,7 @@ public:
 	~PlayerManagerModule();
 
 	bool init() override;
-	bool update() override;
+	bool update(uint64_t delta) override;
 	bool finalize() override;
 
 	Player* findPlayer(std::string profileId);

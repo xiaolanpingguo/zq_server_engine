@@ -1,4 +1,5 @@
 #include "game_server/login_server/client_to_login_module.h"
+#include "game_server/login_server/login_to_master_module.h"
 #include "game_common/message_helper.hpp"
 #include "game_server/login_server/login_server.h"
 #include "game_common/game_db_def.hpp"
@@ -31,15 +32,12 @@ bool ClientToLoginModule::init()
 	messagehelper.registerHandler<&ClientToLoginModule::onC2SHeatBeatReq>(this, C2S::MSG_ID_HEARTBEAT);
 	messagehelper.registerHandler<&ClientToLoginModule::onC2SClientLoginReq>(this, C2S::MSG_ID_LOGIN_REQ);
 
-	m_tcpServer = std::make_unique<TcpServer<TcpConnection>>(m_thisServer->getIoContext(), m_thisServer->getConfig().internalIp, m_thisServer->getConfig().internalPort);
+	m_thisServer->getModule<LoginToMasterModule>()->registerSuccessCallback(std::bind(&ClientToLoginModule::onServerRegisterSuccess, this));
+
+	m_tcpServer = std::make_unique<TcpServer<TcpConnection>>(m_thisServer->getIoContext(), m_thisServer->getConfig().externalIp, m_thisServer->getConfig().externalPort);
 	m_tcpServer->setClientConnectedCb(std::bind(&ClientToLoginModule::onClientConnected, this, _1));
 	m_tcpServer->setClientDisconnectedCb(std::bind(&ClientToLoginModule::onClientDisconnected, this, _1));
 	m_tcpServer->setClientDataReceivedCb(std::bind(&ClientToLoginModule::onClientDataReceived, this, _1, _2, _3, _4));
-	if (!m_tcpServer->start())
-	{
-		LOG_ERROR(s_logCategory, "tcp server start failed!");
-		return false;
-	}
 
 	return true;
 }
@@ -63,6 +61,15 @@ void ClientToLoginModule::onClientDataReceived(TcpConnectionPtr connection, uint
 {
 	LOG_INFO(s_logCategory, "onClientDataReceived, msgid:{}, len:{}", msgId, len);
 	MessageHelper::getInstance().dispatch(connection, msgId, (const char*)data, (uint32_t)len);
+}
+
+void ClientToLoginModule::onServerRegisterSuccess()
+{
+	if (!m_tcpServer->start())
+	{
+		LOG_ERROR(s_logCategory, "tcp server start failed!");
+		m_thisServer->shutdown();
+	}
 }
 
 void ClientToLoginModule::onC2SHeatBeatReq(TcpConnectionPtr connection, const C2S::C2SHeartBeat& msg)

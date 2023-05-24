@@ -1,6 +1,7 @@
 #include "game_server/zone_server/zone_server.h"
 #include "game_server/zone_server/zone_to_master_module.h"
 #include "game_server/zone_server/internal_server_module.h"
+#include "game_server/zone_server/client_to_zone_module.h"
 #include "game_server/zone_server/player_manager_module.h"
 #include "db_mongo/mongo_module.h"
 #include "game_common/game_db_def.hpp"
@@ -36,8 +37,9 @@ bool ZoneServer::registerServerModules()
 
 	registerModule<ZoneToMasterModule>(this);
 	registerModule<InternalServerModule>(this);
+	registerModule<ClientToZoneModule>(this);
 	registerModule<PlayerManagerModule>(this);
-	registerModule<MongoModule>(m_serverConfg.mongoUser, m_serverConfg.mongoPwd, m_serverConfg.mongoHost, m_serverConfg.mongoPort, collections);
+	//registerModule<MongoModule>(m_serverConfg.mongoUser, m_serverConfg.mongoPwd, m_serverConfg.mongoHost, m_serverConfg.mongoPort, collections);
 	return true;
 }
 

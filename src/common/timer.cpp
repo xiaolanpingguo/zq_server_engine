@@ -26,6 +26,17 @@ Timer::~Timer()
 
 }
 
+void Timer::stop()
+{
+	for (auto& e : m_timers)
+	{
+		e.second->cancel();
+		e.second = nullptr;
+	}
+
+	m_timers.clear();
+}
+
 uint64_t Timer::addTimer(std::chrono::steady_clock::duration interval, const std::function<void(void*)>& fn, bool runOnce)
 {
 	std::shared_ptr<TimerData> data = std::make_shared<TimerData>();

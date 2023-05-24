@@ -114,7 +114,7 @@ protected:
 				{
 					if (ec || !m_socket.is_open())
 					{
-						LOG_INFO("read header error: host:{}:{}, error:{}", m_host, m_port, ec.message())
+						LOG_INFO(s_logCategory, "read header error: host:{}:{}, error:{}", m_host, m_port, ec.message())
 						close();
 						return;
 					}
@@ -122,7 +122,7 @@ protected:
 					Header* header = (Header*)(m_head);
 					if (header->bodyLen == 0 || header->bodyLen > g_maxPacketLenth)
 					{
-						LOG_INFO("read header error, body lenth exceeded limit: host:{}:{}, m_headerLength:{}", m_host, m_port, header->bodyLen)
+						LOG_INFO(s_logCategory, "read header error, body lenth exceeded limit: host:{}:{}, m_headerLength:{}", m_host, m_port, header->bodyLen)
 						close();
 						return;
 					}
@@ -143,7 +143,7 @@ protected:
 				{
 					if (ec || !m_socket.is_open())
 					{
-						LOG_INFO("read body error: host:{}:{}, error:{}", m_host, m_port, ec.message())
+						LOG_INFO(s_logCategory, "read body error: host:{}:{}, error:{}", m_host, m_port, ec.message())
 						close();
 						return;
 					}
