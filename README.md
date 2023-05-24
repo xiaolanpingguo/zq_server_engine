@@ -39,5 +39,8 @@ Linux:
    2: build project:
 	1: clone project
 	
-	2: run ./make.sh
+	2: make thirdparty lib:
+	    enter zq_server_engine\thirdparty, run ./make_all.sh
+	    
+	3: make project:  run ./make.sh on root dir
 
