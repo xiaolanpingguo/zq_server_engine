@@ -17,7 +17,7 @@ link_directories(
 	${SolutionDir}/thirdparty/hiredis-1.1.0/win-install/lib
 	)
 	
-set(GAME_COMM_LINK_LIB s2s_protocol game_common libprotobufd bson-1.0 mongoc-1.0 hiredis_staticd)
+set(GAME_COMM_LINK_LIB game_common s2s_protocol libprotobufd bson-1.0 mongoc-1.0 hiredis_staticd)
 
 install(FILES  
 ${SolutionDir}/thirdparty/mongo-c-driver-1.23.3/win-install/bin/bson-1.0.dll
@@ -39,7 +39,7 @@ link_directories(
 	${SolutionDir}/thirdparty/hiredis-1.1.0/linux-install/lib
 	)
 	
-set(GAME_COMM_LINK_LIB s2s_protocol game_common protobuf bson-1.0 mongoc-1.0 hiredis)
+set(GAME_COMM_LINK_LIB game_common s2s_protocol protobuf bson-1.0 mongoc-1.0 hiredis)
 
 # for mongo runtime
 install(FILES  

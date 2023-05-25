@@ -109,7 +109,9 @@ bool CommandModule::finalize()
 	m_queue.stopWait();
 	if (m_thread)
 	{
+#if defined(PLATFORM_WIN)
 		shutdownCLIThread(*m_thread);
+#endif
 		m_thread->join();
 	}
 
@@ -173,7 +175,6 @@ void CommandModule::processCmd()
 
 void CommandModule::cmdThrad()
 {
-	static char buf[64] = { 0 };
 	while (!m_threadStop)
 	{
 		fflush(stdout);

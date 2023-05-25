@@ -11,15 +11,7 @@ deb http://mirrors.aliyun.com/ubuntu/ jammy-security main restricted universe mu
 deb http://mirrors.aliyun.com/ubuntu/ jammy-updates main restricted universe multiverse
 deb http://mirrors.aliyun.com/ubuntu/ jammy-backports main restricted universe multiverse
 
-sudo apt update
-sudo apt upgrade
-sudo apt install net-tools
-sudo apt-get install -y gcc
-sudo apt-get install -y g++
-sudo apt-get install -y cmake
-sudo apt-get install cmake 
-sudo apt-get install libssl-dev 
-sudo apt-get install libsasl2-dev
+sudo apt update && sudo apt upgrade && sudo apt-get install net-tools && sudo apt-get install -y gcc && sudo apt-get install -y g++ && sudo apt-get install -y cmake && sudo apt-get install -y libssl-dev && sudo apt-get install -y libsasl2-dev
 
 # setup redis   you can use redis-windows for development: https://github.com/tporadowski/redis/releases 
 curl -fsSL https://packages.redis.io/gpg | sudo gpg --dearmor -o /usr/share/keyrings/redis-archive-keyring.gpg
@@ -35,3 +27,14 @@ sudo apt-get install redis
 # setup redis cluster
 #redis-cli -h 192.168.0.109 -p 7001
 #redis-cli --cluster create 192.168.0.109:7001 192.168.0.109:7002 192.168.0.109:7003
+
+
+# git
+#git config --global user.name "your user name"
+#git config --global user.email "your user email"
+# ssh
+# ssh-keygen -t rsa -C "your git user name"
+# go github-> Settings -> SSH and GPG keys ->New SSH key, copy your ssh id_rsa.pub text content just genrated to this
+# check if ok: ssh -T git@github.com
+# then go Settings->develop setting->personal access token->generate new token, then remember save the token after the token generated!!!
+# now you can use git push/pull, you will promote to input username, and password,  we use the token instead of password
