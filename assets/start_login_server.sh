@@ -1,1 +1,1 @@
-./login_server -cfg=login_server_1.json
+./login_server cmd=start cfg=login_server_1.json

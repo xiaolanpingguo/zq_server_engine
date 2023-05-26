@@ -11,23 +11,23 @@ namespace zq
     class File
     {
     public:
-        static std::string readAll(const std::string& path, std::ios::openmode Mode = std::ios::binary | std::ios::in)
+		static bool read(const std::string& path, std::string& content, std::ios::openmode Mode = std::ios::binary | std::ios::in)
         {
             std::fstream is(path, Mode);
-            if (is.is_open())
+            if (!is.is_open())
             {
-                // get length of file:
-                is.seekg(0, is.end);
-                size_t length = static_cast<size_t>(is.tellg());
-                is.seekg(0, is.beg);
-
-                std::string tmp;
-                tmp.resize(length);
-                is.read(&tmp.front(), length);
-                is.close();
-                return tmp;
+				return false;
             }
-            return std::string();
+
+            is.seekg(0, is.end);
+            size_t length = static_cast<size_t>(is.tellg());
+            is.seekg(0, is.beg);
+
+            content.clear();
+			content.resize(length);
+			is.read(&content.front(), length);
+            is.close();
+            return true;
         }
 
         static bool write(const std::string& path, const std::string& content, std::ios::openmode Mode = std::ios::out)

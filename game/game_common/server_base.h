@@ -6,7 +6,7 @@
 #include "game_common/i_module.hpp"
 #include "game_common/appid.h"
 
-#include <asio/signal_set.hpp>
+#include <asio/io_context.hpp>
 
 
 namespace zq {
@@ -62,24 +62,26 @@ private:
 	virtual const std::string& getAppIdStr() = 0;
 	virtual std::string_view getName() = 0;
 
+	bool processCmd(const std::string& cmd);
+	bool daemonLaunch();
 	bool checkAppid();
 	bool initGid();
 	bool initLog();
-	void registerSignal();
+	bool installSignals();
 	bool initModules();
 
-	void signalHandler(std::error_code ec, int signo);
+	std::string getCommandArg(std::string_view str);
+	void signalHandler(int signo);
 
 	void update(uint64_t delta);
 
 protected:
 
+	std::vector<std::string> m_args;
 	std::string m_configName;
 	AppId m_appId;
 
 	asio::io_context m_ioContext;
-	asio::io_context::work m_work;
-	asio::signal_set m_signals;
 	bool m_stop;
 
 	std::unique_ptr<Timer> m_timer;

@@ -1,1 +1,1 @@
-master_server.exe -cfg=master_server_1.json
+master_server.exe cmd=start cfg=master_server_1.json

@@ -1,1 +1,1 @@
-login_server.exe -cfg=login_server_1.json
+login_server.exe cmd=start cfg=login_server_1.json

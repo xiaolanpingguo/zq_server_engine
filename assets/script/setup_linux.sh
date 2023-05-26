@@ -13,6 +13,10 @@ deb http://mirrors.aliyun.com/ubuntu/ jammy-backports main restricted universe m
 
 sudo apt update && sudo apt upgrade && sudo apt-get install net-tools && sudo apt-get install -y gcc && sudo apt-get install -y g++ && sudo apt-get install -y cmake && sudo apt-get install -y libssl-dev && sudo apt-get install -y libsasl2-dev
 
+# fd limits
+# sudo echo "ulimit -n 10240" >> /home/"your user"/ .bash_profile 
+# ulimit -n
+
 # setup redis   you can use redis-windows for development: https://github.com/tporadowski/redis/releases 
 curl -fsSL https://packages.redis.io/gpg | sudo gpg --dearmor -o /usr/share/keyrings/redis-archive-keyring.gpg
 echo "deb [signed-by=/usr/share/keyrings/redis-archive-keyring.gpg] https://packages.redis.io/deb $(lsb_release -cs) main" | sudo tee /etc/apt/sources.list.d/redis.list

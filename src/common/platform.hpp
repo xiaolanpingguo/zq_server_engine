@@ -25,8 +25,8 @@
 #define PLATFORM_INTEL
 #endif
 #elif defined( __APPLE_CC__ )
-#ifndef LATFORM_APPLE
-#define LATFORM_APPLE
+#ifndef PLATFORM_APPLE
+#define PLATFORM_APPLE
 #endif
 #else
 #ifndef PLATFORM_LINUX

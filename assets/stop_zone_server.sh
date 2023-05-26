@@ -1,0 +1,1 @@
+./master_server cmd=stop cfg=zone_server_1.json

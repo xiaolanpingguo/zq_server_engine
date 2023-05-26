@@ -336,7 +336,7 @@ int RedisModule::getRedisClusterInfo()
 						continue;
 					}
 
-					for (int k = 0; k < ele->elements; k++)
+					for (int k = 0; k < (int)ele->elements; k++)
 					{
 						redisReply* slots = ele->element[k];
 						if (slots == nullptr)
@@ -361,7 +361,7 @@ int RedisModule::getRedisClusterInfo()
 						continue;
 					}
 
-					for (int k = 0; k < ele->elements; ++k)
+					for (int k = 0; k < (int)ele->elements; ++k)
 					{
 						RedisClusterNode node;
 
@@ -371,7 +371,7 @@ int RedisModule::getRedisClusterInfo()
 							continue;
 						}
 
-						for (int x = 0; x < nodesEle->elements; x += 2)
+						for (int x = 0; x < (int)nodesEle->elements; x += 2)
 						{
 							redisReply* key = nodesEle->element[x];
 							redisReply* value = nodesEle->element[x + 1];
@@ -501,7 +501,7 @@ void RedisModule::keepAlive()
 
 	if (!m_clusterEnabled)
 	{
-		if (now - m_redisClient.lastActiveTime < m_pingCheckInterval)
+		if (now - m_redisClient.lastActiveTime < (uint64_t)m_pingCheckInterval)
 		{
 			return;
 		}
@@ -541,7 +541,7 @@ void RedisModule::keepAlive()
 			{
 				RedisClusterNode& node = shard.nodes[j];
 
-				if (now - node.client.lastActiveTime < m_pingCheckInterval)
+				if (now - node.client.lastActiveTime < (uint64_t)m_pingCheckInterval)
 				{
 					continue;
 				}

@@ -1,1 +1,1 @@
-zone_server.exe -cfg=zone_server_1.json
+zone_server.exe cmd=start cfg=zone_server_1.json
